@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 import {ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
-  selector: 'app-menu',
+  selector: 'app-main',
   standalone: true,
   imports: [MatSidenavModule, 
     MatToolbarModule,
@@ -21,10 +21,10 @@ import {ToolbarComponent } from '../toolbar/toolbar.component';
     MatListModule, 
     RouterModule,
     ToolbarComponent],
-  templateUrl: './menu.component.html',
-  styleUrl: './menu.component.scss'
+  templateUrl: './main.component.html',
+  styleUrl: './main.component.scss'
 })
-export class MenuComponent implements OnDestroy {
+export class MainComponent implements OnDestroy {
   private subscription: Subscription;
 //  @ViewChild('drawer') drawer!: MatDrawer;
   @ViewChild('snav') snav!: MatSidenavModule;

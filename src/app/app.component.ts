@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
 import {ToolbarComponent } from './toolbar/toolbar.component';
-import {MenuComponent} from './menu/menu.component';
+import {MainComponent} from './main/main.component';
 
 
 @Component({
@@ -12,7 +12,7 @@ import {MenuComponent} from './menu/menu.component';
   imports: [CommonModule, 
     RouterOutlet, 
     ToolbarComponent,  
-    MenuComponent],
+    MainComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
