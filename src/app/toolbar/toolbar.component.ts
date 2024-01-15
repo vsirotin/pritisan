@@ -16,7 +16,7 @@ import {CommunicatorService} from './service/communicator.service'
 export class ToolbarComponent{
   constructor(private communicatorService: CommunicatorService){} 
 
-  title = 'PriTiSAn!';
+  title = 'PriTiSAn';
 
   onClick() {
     this.communicatorService.buttonClicked();

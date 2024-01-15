@@ -36,11 +36,12 @@ export class MainComponent implements OnDestroy {
   mobileQuery!: MediaQueryList;
 
   navItems: Array<NavigationEntry> = [
-    {labelKey: "Capture",  link: "capture", icon: "add"},
-    {labelKey: "Edit",  link: "edit", icon: "add"},
-    {labelKey: "Import-export",  link: "import-export", icon: "add"},
-    {labelKey: "Settings",  link: "settings", icon: "add"},
-    {labelKey: "Info",  link: "info", icon: "add"}
+    {labelKey: "Capture",  link: "capture", icon: "feed"},
+    {labelKey: "Edit",  link: "edit", icon: "edit_square"},
+    {labelKey: "Analysis",  link: "analysis", icon: "area_chart"},
+    {labelKey: "Import-export",  link: "import-export", icon: "app_shortcut"},
+    {labelKey: "Settings",  link: "settings", icon: "settings"},
+    {labelKey: "Info",  link: "info", icon: "help"}
   ];
 
   fillerContent = Array.from(
