@@ -35,7 +35,13 @@ export class MainComponent implements OnDestroy {
 
   mobileQuery!: MediaQueryList;
 
-  fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
+  navItems: Array<NavigationEntry> = [
+    {labelKey: "Capture",  link: "capture", icon: "add"},
+    {labelKey: "Edit",  link: "edit", icon: "add"},
+    {labelKey: "Import-export",  link: "import-export", icon: "add"},
+    {labelKey: "Settings",  link: "settings", icon: "add"},
+    {labelKey: "Info",  link: "info", icon: "add"}
+  ];
 
   fillerContent = Array.from(
     {length: 50},
@@ -73,3 +79,10 @@ export class MainComponent implements OnDestroy {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 }
+
+interface NavigationEntry {
+  labelKey: string;
+  link: string;
+  icon: string;
+}
+

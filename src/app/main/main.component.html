@@ -8,19 +8,16 @@
       <mat-sidenav #snav [opened]="isShowing"[mode]="mobileQuery.matches ? 'over' : 'side'"
                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
           <mat-nav-list>
-            <a mat-list-item [routerLink]="['/capture']">
-              <span matLine>Capture</span>
-              <button mat-icon-button >
-                  <mat-icon>add</mat-icon>
-              </button>
-            </a>
 
-            <a mat-list-item [routerLink]="['/edit']">
-              <span matLine>Edit</span>
-              <button mat-icon-button >
-                  <mat-icon>add</mat-icon>
+            @for (nav of navItems; track nav.link) {
+              <a mat-list-item routerLink="/{{nav.link}}">
+                <span matLine>{{nav.labelKey}}</span>
+                <button mat-icon-button>
+                  <mat-icon iconPositionEnd>{{nav.icon}}</mat-icon>
               </button>
-            </a>
+              </a>
+            }
+
           </mat-nav-list>
       </mat-sidenav>
 
