@@ -10,11 +10,10 @@
           <mat-nav-list>
 
             @for (nav of navItems; track nav.link) {
-              <a mat-list-item routerLink="/{{nav.link}}">
-                <span matLine>{{nav.labelKey}}</span>
-                <button mat-icon-button>
-                  <mat-icon iconPositionEnd>{{nav.icon}}</mat-icon>
-              </button>
+              <a mat-list-item routerLink="/{{nav.link}}" (click)="toggleMenu()">
+                  <button mat-icon-button class="custom-button mat-body-1">{{nav.labelKey}}
+                    <mat-icon iconPosition="after">{{nav.icon}}</mat-icon>
+                  </button>
               </a>
             }
 
