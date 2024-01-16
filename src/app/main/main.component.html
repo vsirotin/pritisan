@@ -1,4 +1,4 @@
-  <div class="main-container" [class.example-is-mobile]="mobileQuery.matches">
+  <div class="main-container" [class.my-is-mobile]="mobileQuery.matches">
 
 
     <app-toolbar></app-toolbar>
@@ -12,7 +12,7 @@
             @for (nav of navItems; track nav.link) {
               <a mat-list-item routerLink="/{{nav.link}}" (click)="toggleMenu()">
                   <button mat-icon-button class="custom-button mat-body-1">{{nav.labelKey}}
-                    <mat-icon iconPosition="after">{{nav.icon}}</mat-icon>
+                    <mat-icon color="primary" iconPosition="after">{{nav.icon}}</mat-icon>
                   </button>
               </a>
             }
