@@ -26,7 +26,6 @@ import {ToolbarComponent } from '../toolbar/toolbar.component';
 })
 export class MainComponent implements OnDestroy {
   private subscription: Subscription;
-//  @ViewChild('drawer') drawer!: MatDrawer;
   @ViewChild('snav') snav!: MatSidenavModule;
 
   showFiller = false;
@@ -44,15 +43,6 @@ export class MainComponent implements OnDestroy {
     {labelKey: "Info",  link: "info", icon: "help"}
   ];
 
-  fillerContent = Array.from(
-    {length: 50},
-    () =>
-      `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-       labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-       laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-       voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-       cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
-  );
 
   private _mobileQueryListener!: () => void;
 
@@ -69,9 +59,6 @@ export class MainComponent implements OnDestroy {
 
   toggleMenu() {
     this.isShowing = !this.isShowing
-    if (this.snav) {
-      //  this.snav.toggle();
-    }
   }
 
   ngOnDestroy() {
