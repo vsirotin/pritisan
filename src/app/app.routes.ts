@@ -7,11 +7,11 @@ import {InfoComponent} from './info/info.component'
 import {AnalysisComponent} from './analysis/analysis.component'
 
 export const routes: Routes = [
-    { path: 'edit', component: EditComponent },
-    { path: 'capture', component: CaptureComponent },
-    { path: 'import-export', component: ImportExportComponent },
-    { path: 'settings', component: SettingsComponent },
-    { path: 'info', component: InfoComponent },
-    { path: 'analysis', component: AnalysisComponent },
-    { path: '', component: CaptureComponent },
+    { path: 'edit', component: EditComponent, title: "PriTiSAn: Edit" },
+    { path: 'capture', component: CaptureComponent, title: "PriTiSAn: Capture" },
+    { path: 'import-export', component: ImportExportComponent, title: "PriTiSAn: Import/Export" },
+    { path: 'settings', component: SettingsComponent, title: "PriTiSAn: Settings" },
+    { path: 'info', component: InfoComponent, title: "PriTiSAn: Info" },
+    { path: 'analysis', component: AnalysisComponent, title: "PriTiSAn: Analysis" },
+    { path: '', component: CaptureComponent, title: "PriTiSAn: Capture" },
 ];
