@@ -1,1 +1,62 @@
-<p>settings works!</p>
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>Settings</mat-card-title>
+  </mat-card-header>
+<div class="example-action-buttons">
+    <button mat-button (click)="accordion?.openAll()">Expand All</button>
+    <button mat-button (click)="accordion?.closeAll()">Collapse All</button>
+  </div>
+  <!-- #docregion multi -->
+  <mat-accordion class="example-headers-align" multi>
+  <!-- #enddocregion multi -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>language</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{langOrigin}}<span width = "5px"></span>{{langEn}}       
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-language-selection></app-language-selection>
+  
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>style</mat-icon>
+          Appearence
+        </mat-panel-title>
+        <mat-panel-description>
+          Set appearence options
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+      <mat-form-field>
+        <mat-label>Country</mat-label>
+        <input matInput>
+      </mat-form-field>
+    </mat-expansion-panel>
+  
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>rule_folder</mat-icon>
+          Rules
+        </mat-panel-title>
+        <mat-panel-description>
+          Set rules for automatic data deletion, etc.      
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+      <mat-form-field>
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly>
+      </mat-form-field>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>
