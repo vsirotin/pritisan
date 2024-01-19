@@ -1,0 +1,13 @@
+<mat-radio-group
+  aria-labelledby="example-radio-group-label"
+  class="example-radio-group"
+  [(ngModel)]="selectedLangCode" (change)="onRadioChange()">
+  @for (lang of supportedLanguages; track lang.enName) {
+    <mat-radio-button class="example-radio-button" [value]="lang.ietfTag">
+        {{lang.enName}}
+        <span width="5px" ></span>
+        {{lang.originalName}}
+    </mat-radio-button>
+  }
+</mat-radio-group>
+
