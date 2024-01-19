@@ -63,7 +63,6 @@ export class SettingsComponent implements OnInit  {
 
     if(typeof savedLangEtfTag !== 'string'){
       savedLangEtfTag = navigator.language;
-      console.log('Browser Language:', savedLangEtfTag);
     }
 
     if(!inSupportedLanguages(savedLangEtfTag)){
