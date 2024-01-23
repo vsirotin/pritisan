@@ -8,8 +8,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {LanguageSelectionComponent} from '../language-selection/language-selection.component'
-import {LanguageDescription, LanguageSelectionNotificationService,  inSupportedLanguages} from '../language-selection/language-selection-notification.service';
+import {LanguageSelectionComponent} from '../../services/language-selection/language-selection.component'
+import {LanguageDescription, LanguageSelectionNotificationService,  inSupportedLanguages} from '../../services/language-selection/language-selection-notification.service';
 import {Subscription} from 'rxjs/internal/Subscription';
 
 
