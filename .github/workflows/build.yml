@@ -6,7 +6,7 @@ on:
       - '*' # Deploy on all branches so we can use pull requests to test changes  
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
