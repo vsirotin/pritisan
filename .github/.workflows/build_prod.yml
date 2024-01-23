@@ -3,7 +3,7 @@ name: Build for Production
 on:
   push:
     branches:
-      - main
+        - '*'  # Trigger on each push to any branch
 
 jobs:
   build:
