@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
-import {ToolbarComponent } from './toolbar/toolbar.component';
-import {MainComponent} from './main/main.component';
+import {ToolbarComponent } from '../toolbar/toolbar.component';
+import {MainComponent} from '../main/main.component';
 
 
 @Component({
