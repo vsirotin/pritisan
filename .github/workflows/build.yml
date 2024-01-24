@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build Angular App
-        run: npm run build -- --omit=dev
+        run: npm run build --omit=dev
 
       - name: Run Tests
         run: npm run test-headless  
