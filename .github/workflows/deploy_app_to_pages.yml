@@ -48,10 +48,10 @@ jobs:
       - name: List files
         run: ls -la
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: JamesIves/github-pages-deploy-action@releases/v4
+      - name: Deploy App to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          token: ${{ secrets.ACCESS_TOKEN }}
-          branch: gh_pages
-          folder: . 
+          GITHUB_TOKEN:: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: main
+          FOLDER: dist/pritisan
+          CLEAN: true 
