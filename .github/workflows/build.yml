@@ -34,5 +34,5 @@ jobs:
         run: npm run build --omit=dev
 
       - name: Run Tests
-        run: npm run test-headless  
+        run: npm run test 
 
