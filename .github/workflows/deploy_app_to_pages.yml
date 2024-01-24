@@ -50,4 +50,4 @@ jobs:
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh_pages
-          FOLDER: dist/pritisan  
+          folder: dist/pritisan  
