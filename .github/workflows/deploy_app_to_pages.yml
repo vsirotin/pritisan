@@ -41,13 +41,16 @@ jobs:
     needs: build
     steps:
 
-      - name: List files
-        run: ls -la /home/runner/work/pritisan/
+      - name: List files absolut
+        run: ls -la /home/runner/work/pritisan/pitisan
+
+      - name: Where we are
+        run: pwd  
 
       - name: Deploy App to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           GITHUB_TOKEN: ${{secrets.ACCESS_TOKEN}}
           BRANCH: gh-pages-deploy
-          FOLDER: .
+          FOLDER: dist/
           CLEAN: true 
