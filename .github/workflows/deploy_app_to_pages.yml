@@ -1,10 +1,6 @@
 name: Deploy to GitHub Pages
 
 on:
-  workflow_run:
-    workflows: ["Build and Test App"]
-    types:
-      - completed
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -46,12 +42,12 @@ jobs:
     steps:
 
       - name: List files
-        run: ls -la
+        run: ls -la /home/runner/work/pritisan/pritisan
 
       - name: Deploy App to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          GITHUB_TOKEN:: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: main
+          GITHUB_TOKEN: ${{secrets.ACCESS_TOKEN}}
+          BRANCH: gh-pages-deploy
           FOLDER: dist/pritisan
           CLEAN: true 
