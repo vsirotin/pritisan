@@ -35,6 +35,18 @@ jobs:
 
       - name: Build Angular App
         run: npm run build --omit=dev
+
+      - name: Build Where we are
+        run: pwd  
+
+      - name: Build List files absolut 1
+        run: ls -la /home/runner/work/
+
+      - name: Build List files absolut 2
+        run: ls -la /home/runner/work/pritisan/
+
+      - name: Build List files 
+        run: ls -la 
         
   deploy:  
     runs-on: ubuntu-latest  
@@ -50,7 +62,7 @@ jobs:
       - name: List files absolut 2
         run: ls -la /home/runner/work/pritisan/
 
-      - name: List files absolut 3
+      - name: List files 
         run: ls -la 
 
       - name: Deploy App to GitHub Pages
