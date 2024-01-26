@@ -82,5 +82,19 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           # GitHub token
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
+          # Target repository or organization (defaults to current)
+          target: ${{ github.repository }}
+          # Source directory or file (defaults to root of repository)
+          source: '/home/runner/work/pritisan/pritisan/dist/pritisan/browser'
+          # Branch to push to (defaults to gh-pages)
+          branch: gh-pages
+          # Folder to store artifacts from build (defaults to dist)
+          artifact-folder: '/home/runner/work/pritisan/pritisan/dist/pritisan/browser'
+          # Commit message
+          commit-message: Deploy ${{ github.sha }}
+          # Commit author name
+          committer: GitHub Actions
+          # Commit author email
+          committer_email:
           
