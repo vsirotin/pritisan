@@ -47,30 +47,6 @@ jobs:
       - name: Build Angular App
         run: npm run build --omit=dev
 
-      - name: Build Where we are
-        run: pwd  
-
-      - name: Build List files absolut 1
-        run: ls -la /home/runner/work/
-
-      - name: Build List files absolut 2
-        run: ls -la /home/runner/work/pritisan/
-
-      - name: Build List files 
-        run: ls -la 
-
-      - name: Where we are
-        run: pwd  
-
-      - name: List files absolut 1
-        run: ls -la /home/runner/work/
-
-      - name: List files absolut 2
-        run: ls -la /home/runner/work/pritisan/
-
-      - name: List files in dist
-        run: ls -Rla /home/runner/work/pritisan/pritisan/dist
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -83,18 +59,4 @@ jobs:
         with:
           # GitHub token
           token: ${{ secrets.ACCESS_TOKEN }}
-          # Target repository or organization (defaults to current)
-          target: ${{ github.repository }}
-          # Source directory or file (defaults to root of repository)
-          source: '/home/runner/work/pritisan/pritisan/dist/pritisan/browser'
-          # Branch to push to (defaults to gh-pages)
-          branch: gh-pages
-          # Folder to store artifacts from build (defaults to dist)
-          artifact-folder: '/home/runner/work/pritisan/pritisan/dist/pritisan/browser'
-          # Commit message
-          commit-message: Deploy ${{ github.sha }}
-          # Commit author name
-          committer: GitHub Actions
-          # Commit author email
-          committer_email:
           
