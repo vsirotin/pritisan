@@ -19,6 +19,17 @@ concurrency:
 
 jobs:
   build-deploy:
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
 
     steps:
@@ -57,13 +68,19 @@ jobs:
       - name: List files absolut 2
         run: ls -la /home/runner/work/pritisan/
 
-      - name: List files 
-        run: ls -Rla 
+      - name: List files in dist
+        run: ls -Rla /home/runner/work/pritisan/pritisan/dist
 
-      - name: Deploy App to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          GITHUB_TOKEN: ${{secrets.ACCESS_TOKEN}}
-          BRANCH: gh-pages
-          FOLDER: dist/pritisan/browser
-          CLEAN: true 
+          # Upload entire repository
+          path: '/home/runner/work/pritisan/pritisan/dist/pritisan/browser'   
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          # GitHub token
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
