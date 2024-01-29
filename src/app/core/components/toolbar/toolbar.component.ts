@@ -19,9 +19,7 @@ export class ToolbarComponent{
   title = 'PriTiSAn';
 
   onClick() {
-    this.communicatorService.buttonClicked();
-    console.log("ToolbarComponent.onClick")
-
+    this.communicatorService.buttonClicked()
   }
 
 }
