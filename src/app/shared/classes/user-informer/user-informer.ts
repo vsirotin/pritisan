@@ -1,4 +1,4 @@
-import { Localizer } from '../localization/localizer';
+import { ILocalizer, Localizer } from '../localization/localizer';
 import { Logger } from '../../services/logging/logger';
 import { Subject } from 'rxjs';
 
@@ -8,11 +8,12 @@ import { Subject } from 'rxjs';
 
 export class UserInformer {
 
-  private localizationService: Localizer;
 
+  constructor(private callrerCodeCoordinate: string,  
+    private logger: Logger, 
+    private callee: Subject<Warning|Error>,
+    private localizer: ILocalizer = new Localizer(callrerCodeCoordinate)) { 
 
-  constructor(private callrerCodeCoordinate: string,  private logger: Logger, private callee: Subject<Warning|Error>) { 
-    this.localizationService = new Localizer(callrerCodeCoordinate);
   }
 
   /**
@@ -24,7 +25,7 @@ export class UserInformer {
   warnUser(localWarninId: string = "W01", messageKey: string, message?: string){
     this.logger.warn('warnUser messageKey=' + messageKey + ' messageKey=' + messageKey + ' message=' + message);
     var { source, formattedTimestamp, localizedMessage } = this.prepareProblemProps(messageKey);
-    const warning : Warning = {source, formattedTimestamp, localizedMessage};
+    const warning = new Warning(source, formattedTimestamp, localizedMessage);
     this.callee.next(warning);
   }
 
@@ -34,10 +35,10 @@ export class UserInformer {
    * @param messageKey Key of the message to be localized.
    * @param message Technical message to be logged, but not presented to the user.
    */
-  allertUser(localErrorId: string = "E01", messageKey: string, message?: string){
+  alertUser(localErrorId: string = "E01", messageKey: string, message?: string){
     this.logger.warn('warnUser messageKey=' + messageKey + ' messageKey=' + messageKey + ' message=' + message);
     var { source, formattedTimestamp, localizedMessage } = this.prepareProblemProps(messageKey);
-    const error : Error = {source, formattedTimestamp, localizedMessage};
+    const error = new Error(source, formattedTimestamp, localizedMessage);
     this.callee.next(error);
   }
 
@@ -47,7 +48,7 @@ export class UserInformer {
    * @returns 
    */
   private prepareProblemProps(messageKey: string) {
-    const localizedMessage = this.localizationService.getTranslation(messageKey);
+    const localizedMessage = this.localizer.getTranslation(messageKey);
     let t = new Date();
     let formattedTimestamp = `${t.getFullYear()}-${t.getMonth() + 1}-${t.getDate()} ${t.getHours()}:${t.getMinutes()}:${t.getSeconds()}.${t.getMilliseconds()}`;
     const source = this.callrerCodeCoordinate;
@@ -58,12 +59,25 @@ export class UserInformer {
 /**
  * A problem that can be reported to the user.
  */
-type Problem = {
-  source: string;
-  formattedTimestamp: string;
-  localizedMessage: string;
+class Problem  {
+  constructor(public source: string,
+  public formattedTimestamp: string,
+  public localizedMessage: string){};
 };
 
-export type Warning = Problem;
-export type Error = Problem;
+export class Warning extends Problem {
+    constructor(source: string,
+    formattedTimestamp: string,
+    localizedMessage: string){
+      super(source, formattedTimestamp, localizedMessage);
+    }
+};
+
+export class Error extends Problem {
+  constructor(source: string,
+  formattedTimestamp: string,
+  localizedMessage: string){
+    super(source, formattedTimestamp, localizedMessage);
+  }
+};
 
