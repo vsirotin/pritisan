@@ -8,11 +8,12 @@ import { Subject } from 'rxjs';
 
 export class UserInformer {
 
-
+//TODO
   constructor(private callrerCodeCoordinate: string,  
     private logger: Logger, 
     private callee: Subject<Warning|Error>,
-    private localizer: ILocalizer = new Localizer(callrerCodeCoordinate)) { 
+    private localizer: ILocalizer
+      ) { 
 
   }
 

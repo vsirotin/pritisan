@@ -24,15 +24,10 @@ export class Logger {
    * 2 - Only warning and error messages are logged.
    * 3 - Only error messages are logged.  
    * 4 or greater - No messages are logged.
-   * 
-   * @private
-   * @type {number}
    */
-  private _logLevel: number = 0;
+  private _logLevel: number = 4;
 
-  constructor(@Inject(Number) private logLevel: number = 5) {
-    this._logLevel = logLevel;
-  }
+  constructor() {}
 
   /**
    * Sets the log level.
@@ -55,7 +50,7 @@ export class Logger {
    * 
    * @param {string} message - The message to include in the stack trace.
    */
-  track(message: string) {
+  trace(message: string) {
     if(this._logLevel <= 0)console.trace(message);
   }
 
