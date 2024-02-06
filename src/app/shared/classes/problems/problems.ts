@@ -2,9 +2,12 @@
  * A problem that can be reported to the user.
  */
 class Problem {
-  formattedTimestamp: string = Date.now().toString();
+  formattedTimestamp: string;
   constructor(public source: string,
-    public localizedMessage: string) { };
+    public localizedMessage: string) { 
+      const t = new Date();
+      this.formattedTimestamp =`${t.getFullYear()}-${t.getMonth() + 1}-${t.getDate()} ${t.getHours()}:${t.getMinutes()}:t.getSeconds()`;
+    };
 };
 
 export class Warning extends Problem {

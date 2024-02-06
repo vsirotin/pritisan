@@ -27,7 +27,7 @@ export class UserInformer {
   warnUser(localWarninId: string = "W01", messageKey: string, message?: string){
     this.logger.warn('warnUser messageKey=' + messageKey + ' messageKey=' + messageKey + ' message=' + message);
     var { source, formattedTimestamp, localizedMessage } = this.prepareProblemProps(messageKey);
-    const warning = new Warning(source, formattedTimestamp, localizedMessage);
+    const warning = new Warning(source, localizedMessage as string);
     this.callee.next(warning);
   }
 
@@ -40,7 +40,7 @@ export class UserInformer {
   alertUser(localErrorId: string = "E01", messageKey: string, message?: string){
     this.logger.warn('warnUser messageKey=' + messageKey + ' messageKey=' + messageKey + ' message=' + message);
     var { source, formattedTimestamp, localizedMessage } = this.prepareProblemProps(messageKey);
-    const error = new Error(source, formattedTimestamp, localizedMessage);
+    const error = new Error(source, localizedMessage as string);
     this.callee.next(error);
   }
 
