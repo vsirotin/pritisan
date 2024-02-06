@@ -11,8 +11,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {LanguageSelectionComponent} from '../../services/language-selection/language-selection.component'
 import {LanguageDescription, LanguageSelectionNotificationService,  inSupportedLanguages} from '../../services/language-selection/language-selection-notification.service';
 import {Subscription} from 'rxjs/internal/Subscription';
-import { ILocalizer, Localizer } from '../../../shared/classes/localization/localizer';
-import { Logger } from '../../../shared/services/logging/logger';
+import {ILocalizer, Localizer} from '../../../shared/classes/localization/localizer';
+import {Logger} from '../../../shared/services/logging/logger';
 
 
 /**
@@ -61,7 +61,6 @@ export class SettingsComponent implements OnInit  {
       this.langOrigin = selectedLanguage.originalName;
       this.langEn = selectedLanguage.enName
       this.langEtfTag = selectedLanguage.ietfTag
-      //this.t = this.localizer.getTranslation;
     });
   }
 
@@ -85,7 +84,7 @@ export class SettingsComponent implements OnInit  {
     this.languageSelectionNotificationService.setLanguage(savedLangEtfTag as string)
   }
 
-  t1(key: string): string {
+  t(key: string): string {
     this.logger.trace("Start of SettingsComponent.t");
     return this.localizer.getTranslation(key);
   }

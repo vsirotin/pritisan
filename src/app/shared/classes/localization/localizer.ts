@@ -16,29 +16,29 @@ export class Localizer implements ILocalizer{
 
     const  load = `{
           "settings": "Settings",
-          "other": "Other"
+          "expand_all": "Expand All",
+          "collapse_all": "Collapse All",
+          "language": "Language:",
+          "appearance": "Appearance",
+          "set_options_for_appearance": "Set appearance options",
+          "rules": "Rules",
+          "set_rules": "Set rules for automatic data deletion, etc."
         }`;
-
-    console.log("load=" + load);
 
     this.currentLanguageMap = new Map(Object.entries(JSON.parse(load)));
 
-    console.log("1 this.currentLanguageMap =" + this.currentLanguageMap);   
-
-    let x = this.getTranslation("settings");
-    console.log("3 this.currentLanguageMap =" + this.currentLanguageMap); 
   }
 
   getTranslation(key: string): string {
     this.logger.trace("Start of Localizer.getTranslation");
-    console.log("2 this.currentLanguageMap =" + JSON.stringify(this.currentLanguageMap)); 
 
     let val = this.currentLanguageMap.get(key);
     if (val) {
       return val;
     }
     else {
-      return key;
+      this.logger.warn("Not found value for key " + key);
+      return "NOT FOUND: " + key + " for " + this.currentLanguage;
     }
   }
 }
