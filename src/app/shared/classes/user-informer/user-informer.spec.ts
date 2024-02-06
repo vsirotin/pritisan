@@ -65,6 +65,8 @@ describe('UserInformerService', () => {
 });
 
 class MockLocalizer implements ILocalizer {
+  currentLanguage: string = "en-US";
+  currentLanguageMap: Map<string, string> = new Map<string, string>();
   getTranslation(key: string): string {
     return 't' + key;
   }

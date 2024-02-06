@@ -12,21 +12,7 @@ export class Localizer implements ILocalizer{
     private languageChangeNotificator: | Observable<LanguageDescription> | undefined,
     private logger: Logger) { 
 
-    this.logger.trace("Start of Localizer.constructor");  
-
-    const  load = `{
-          "settings": "Settings",
-          "expand_all": "Expand All",
-          "collapse_all": "Collapse All",
-          "language": "Language:",
-          "appearance": "Appearance",
-          "set_options_for_appearance": "Set appearance options",
-          "rules": "Rules",
-          "set_rules": "Set rules for automatic data deletion, etc."
-        }`;
-
-    this.currentLanguageMap = new Map(Object.entries(JSON.parse(load)));
-
+    this.logger.trace("Start of Localizer.constructor"); 
   }
 
   getTranslation(key: string): string {
@@ -52,6 +38,9 @@ export interface ILocalizer {
    * @param key 
    */
   getTranslation(key: string): string;
+
+  currentLanguage: string ;
+  currentLanguageMap: Map<string, string>;
 }
 
 
