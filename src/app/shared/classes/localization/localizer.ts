@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { LanguageDescription } from "../../../features/services/language-selection/language-selection-notification.service";
+import { ILanguageDescription } from "../../../features/services/language-selection/language-selection-notification.service";
 import { Logger } from "../../services/logging/logger";
 import { Warning } from "../problems/problems";
 
@@ -12,14 +12,14 @@ export class Localizer implements ILocalizer{
 
   constructor(private componentCooordinate: string,
     private componentVersion : number,
-    private languageChangeNotificator: | Observable<LanguageDescription> | undefined,
+    private languageChangeNotificator: | Observable<ILanguageDescription> | undefined,
     private logger: Logger) { 
 
-    this.logger.trace("Start of Localizer.constructor"); 
+    this.logger.debug("Start of Localizer.constructor"); 
   }
 
   getTranslation(key: string): string|Warning {
-    this.logger.trace("Start of Localizer.getTranslation");
+    this.logger.debug("Start of Localizer.getTranslation");
 
     let val = this.currentLanguageMap.get(key);
     if (val) {

@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 
-export interface LanguageDescription {
+export interface ILanguageDescription {
   enName: string,
   originalName: string,
   ietfTag: string
 }
 
-export const SupportedLanguages: Array<LanguageDescription> = [
+export const SupportedLanguages: Array<ILanguageDescription> = [
     {"enName": "Arabic", "originalName": "العربية", "ietfTag": "ar-SA"},
     {"enName": "Bengali", "originalName": "বাংলা", "ietfTag": "bn-BD"},
     {"enName": "Bulgarian", "originalName": "български", "ietfTag": "bg-BG"},
@@ -69,12 +69,12 @@ export class LanguageSelectionNotificationService {
 
   constructor() { }
 
-  private subject = new Subject<LanguageDescription>();
+  private subject = new Subject<ILanguageDescription>();
   selectionChanged$ = this.subject.asObservable();
 
-  selectedLanguage?: LanguageDescription;
+  selectedLanguage?: ILanguageDescription;
 
-  selectionChanged(selectedLanguage: LanguageDescription) {
+  selectionChanged(selectedLanguage: ILanguageDescription) {
     this.subject.next(selectedLanguage);
     this.selectedLanguage = selectedLanguage;
   }

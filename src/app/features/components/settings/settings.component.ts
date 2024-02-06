@@ -9,7 +9,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {LanguageSelectionComponent} from '../../services/language-selection/language-selection.component'
-import {LanguageDescription, LanguageSelectionNotificationService,  inSupportedLanguages} from '../../services/language-selection/language-selection-notification.service';
+import {ILanguageDescription, LanguageSelectionNotificationService,  inSupportedLanguages} from '../../services/language-selection/language-selection-notification.service';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {ILocalizer, Localizer} from '../../../shared/classes/localization/localizer';
 import {Logger} from '../../../shared/services/logging/logger';
@@ -53,7 +53,7 @@ export class SettingsComponent implements OnInit  {
 
   constructor(private languageSelectionNotificationService: LanguageSelectionNotificationService,
     private logger: Logger ) {
-    this.logger.trace("Start of SettingsComponent.constructor");  
+    this.logger.debug("Start of SettingsComponent.constructor");  
 
     this.localizer =  new Localizer("features/components/settings", 
     1, 
@@ -64,7 +64,7 @@ export class SettingsComponent implements OnInit  {
      
     this.subscription = this
       .languageSelectionNotificationService.selectionChanged$
-      .subscribe((selectedLanguage: LanguageDescription) => {
+      .subscribe((selectedLanguage: ILanguageDescription) => {
       this.langOrigin = selectedLanguage.originalName;
       this.langEn = selectedLanguage.enName
       this.langEtfTag = selectedLanguage.ietfTag
@@ -72,12 +72,16 @@ export class SettingsComponent implements OnInit  {
   }
 
   ngOnInit() {
-    this.logger.trace("Start of SettingsComponent.ngOnInit");
+    this.logger.debug("Start of SettingsComponent.ngOnInit");
     this.trySetLanguage();
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
   trySetLanguage() {
-    this.logger.trace("Start of SettingsComponent.trySetLanguage");
+    this.logger.debug("Start of SettingsComponent.trySetLanguage");
     let savedLangEtfTag = localStorage.getItem("langEtfTag")
 
     if(typeof savedLangEtfTag !== 'string'){
@@ -92,7 +96,7 @@ export class SettingsComponent implements OnInit  {
   }
 
   t(key: string, defaultText: string): string {
-    this.logger.trace("Start of SettingsComponent.t");
+    this.logger.debug("Start of SettingsComponent.t");
     const res = this.localizer.getTranslation(key);
     if (typeof res === 'string') {
       return res;

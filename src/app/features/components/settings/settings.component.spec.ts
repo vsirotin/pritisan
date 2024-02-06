@@ -23,11 +23,11 @@ describe('SettingsComponent', () => {
     //fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   }); 
 
-  describe('By start (by Default)...', () => {
+  xdescribe('By start (by Default)...', () => {
 
     it('should have default label', () => {
       fixture.detectChanges();
@@ -36,7 +36,7 @@ describe('SettingsComponent', () => {
       expect(matCardTitleElement.textContent).toEqual('Settings'); 
     });
 
-    xit('should have two buttons with default labels', () => {
+    it('should have two buttons with default labels', () => {
       const expandButton1 = fixture.debugElement.query(By.css('button[mat-button]:nth-child(1)'));
       expect(expandButton1.nativeElement.textContent).toContain('Expand All');
 
@@ -44,7 +44,7 @@ describe('SettingsComponent', () => {
       expect(expandButton2.nativeElement.textContent).toContain('Collapse All');
     });
 
-    xit('should have three sub-components with icons and default labels', () => {
+    it('should have three sub-components with icons and default labels', () => {
       const panelTitles = fixture.debugElement.queryAll(By.css('mat-panel-title'));
       const panelDescriptions = fixture.debugElement.queryAll(By.css('mat-panel-description'));
 

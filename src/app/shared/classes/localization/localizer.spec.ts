@@ -1,20 +1,65 @@
 import { TestBed } from '@angular/core/testing';
 
 import { Localizer } from './localizer';
-import { Observable } from 'rxjs';
-import { LanguageDescription } from '../../../features/services/language-selection/language-selection-notification.service';
+import { Observable, Subscription } from 'rxjs';
+import { ILanguageDescription, LanguageSelectionNotificationService } from '../../../features/services/language-selection/language-selection-notification.service';
 import { Logger } from '../../services/logging/logger';
 
-describe('LocalizationService', () => {
-  let service: Localizer;
+describe('Localizer', () => {
+  let localizer: Localizer;
+  let langDescr: ILanguageDescription;
+  let langSelectNotificationService: LanguageSelectionNotificationService 
 
-  let observable: Observable<LanguageDescription> = new Observable<LanguageDescription>();
 
   beforeEach(() => {
-    service = new Localizer("test", 1, observable, new Logger());
+    let logger = new Logger();
+    logger.setLogLevel(0);
+    langSelectNotificationService = new LanguageSelectionNotificationService();
+    localizer = new Localizer("test", 1, langSelectNotificationService.selectionChanged$, logger);
+
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(localizer).toBeTruthy();
   });
+
+  it('by start has en-US default language', () => {
+    expect(localizer.currentLanguage).toEqual("en-US");
+  });
+
+  describe('after change the language on de-DE', () => {
+    let selectionChanged$: Observable<ILanguageDescription>;
+    let subscription: Subscription;
+    
+    beforeEach(() => {  
+      selectionChanged$ = langSelectNotificationService.selectionChanged$;
+      langDescr = {"enName": "German", "originalName": "Deutsch", "ietfTag": "de-DE"};
+      langSelectNotificationService.selectionChanged(langDescr);
+    });
+
+    afterEach(() => {
+      subscription.unsubscribe();
+    });
+
+    it('the current language should be de-DE', (done) => {
+
+      selectionChanged$ = langSelectNotificationService.selectionChanged$;
+      langDescr = {"enName": "German", "originalName": "Deutsch", "ietfTag": "de-DE"};
+      
+      
+      subscription = selectionChanged$
+      .subscribe((selectedLanguage: ILanguageDescription) => {
+        let x = selectedLanguage.ietfTag;
+        console.error("X=" + x);
+        expect(selectedLanguage.ietfTag).toEqual("de-DE");
+        done();
+      });
+
+      langSelectNotificationService.selectionChanged(langDescr);
+    });    
+  });
+
 });
+
+
+

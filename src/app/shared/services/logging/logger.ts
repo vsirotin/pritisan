@@ -6,7 +6,7 @@ import { Inject } from '@angular/core';
  * It is injectable and provided in the root, meaning it can be used anywhere in the application.
  * 
  * Recommended usage:
- * trace() - Use to technical log. Should be offen called in mostly functions, but rerely switched on in runtime because a lot of output.
+ * debug() - Use to technical log. Should be offen called in mostly functions, but rerely switched on in runtime because a lot of output.
  * log() - Use to log bussiness logic. 
  * warn() - Use to log warnings: unexpected situations, but not errors. After this situation application should work correctly.
  * error() - Use to log errors: unexpected situations, when application can't work correctly.
@@ -46,12 +46,12 @@ export class Logger {
   }
 
   /**
-   * Logs a stack trace to the console.
+   * Logs a stack debug to the console.
    * 
-   * @param {string} message - The message to include in the stack trace.
+   * @param {string} message - The message to include in the stack debug.
    */
-  trace(message: string) {
-    if(this._logLevel <= 0)console.trace(message);
+  debug(message: string) {
+    if(this._logLevel <= 0)console.debug(message);
   }
 
   /**
