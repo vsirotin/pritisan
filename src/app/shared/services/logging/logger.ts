@@ -25,7 +25,7 @@ export class Logger {
    * 3 - Only error messages are logged.  
    * 4 or greater - No messages are logged.
    */
-  private _logLevel: number = 4;
+  private _logLevel: number = 2;
 
   constructor() {}
 
