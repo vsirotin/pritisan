@@ -1,6 +1,7 @@
 import { ILocalizer, Localizer } from '../localization/localizer';
 import { Logger } from '../../services/logging/logger';
 import { Subject } from 'rxjs';
+import { Warning, Error } from '../problems/problems';
 
 /**
  * Provides methods to inform the user about various logging events.
@@ -56,29 +57,4 @@ export class UserInformer {
     return { source, formattedTimestamp, localizedMessage };
   }
 }
-
-/**
- * A problem that can be reported to the user.
- */
-class Problem  {
-  constructor(public source: string,
-  public formattedTimestamp: string,
-  public localizedMessage: string){};
-};
-
-export class Warning extends Problem {
-    constructor(source: string,
-    formattedTimestamp: string,
-    localizedMessage: string){
-      super(source, formattedTimestamp, localizedMessage);
-    }
-};
-
-export class Error extends Problem {
-  constructor(source: string,
-  formattedTimestamp: string,
-  localizedMessage: string){
-    super(source, formattedTimestamp, localizedMessage);
-  }
-};
 

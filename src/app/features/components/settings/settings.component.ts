@@ -91,10 +91,14 @@ export class SettingsComponent implements OnInit  {
     this.languageSelectionNotificationService.setLanguage(savedLangEtfTag as string)
   }
 
-  t(key: string): string {
+  t(key: string, defaultText: string): string {
     this.logger.trace("Start of SettingsComponent.t");
-    return this.localizer.getTranslation(key);
+    const res = this.localizer.getTranslation(key);
+    if (typeof res === 'string') {
+      return res;
+    }
+    else {
+      return defaultText;
+    }
   }
-
-
 }

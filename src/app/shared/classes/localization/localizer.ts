@@ -1,6 +1,9 @@
 import { Observable } from "rxjs";
 import { LanguageDescription } from "../../../features/services/language-selection/language-selection-notification.service";
 import { Logger } from "../../services/logging/logger";
+import { Warning } from "../problems/problems";
+
+const SOURCE_COORDINATE = "SH-CL-LO-LO-";
 
 export class Localizer implements ILocalizer{
 
@@ -15,7 +18,7 @@ export class Localizer implements ILocalizer{
     this.logger.trace("Start of Localizer.constructor"); 
   }
 
-  getTranslation(key: string): string {
+  getTranslation(key: string): string|Warning {
     this.logger.trace("Start of Localizer.getTranslation");
 
     let val = this.currentLanguageMap.get(key);
@@ -24,7 +27,7 @@ export class Localizer implements ILocalizer{
     }
     else {
       this.logger.warn("Not found value for key " + key);
-      return "NOT FOUND: " + key + " for " + this.currentLanguage;
+      return new Warning(SOURCE_COORDINATE + "01", "By translation not found " + key + " for " + this.currentLanguage);
     }
   }
 }
@@ -37,7 +40,7 @@ export interface ILocalizer {
    * Returns the translation of the given key in current language
    * @param key 
    */
-  getTranslation(key: string): string;
+  getTranslation(key: string): string|Warning;
 
   currentLanguage: string ;
   currentLanguageMap: Map<string, string>;

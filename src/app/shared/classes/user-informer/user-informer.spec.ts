@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserInformer, Warning, Error } from './user-informer';
+import { UserInformer } from './user-informer';
+import { Warning, Error } from '../problems/problems';
 import { Subject } from 'rxjs';
 import { Logger } from '../../services/logging/logger';
 import { ILocalizer } from '../localization/localizer';
