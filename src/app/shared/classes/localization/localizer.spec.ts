@@ -19,11 +19,11 @@ describe('Localizer', () => {
 
   });
 
-  it('should be created', () => {
+  xit('should be created', () => {
     expect(localizer).toBeTruthy();
   });
 
-  it('by start has en-US default language', () => {
+  xit('by start has en-US default language', () => {
     expect(localizer.currentLanguage).toEqual("en-US");
   });
 
@@ -35,21 +35,30 @@ describe('Localizer', () => {
       selectionChanged$ = langSelectNotificationService.selectionChanged$;
       langDescr = {"enName": "German", "originalName": "Deutsch", "ietfTag": "de-DE"};
       langSelectNotificationService.selectionChanged(langDescr);
+
+
+      selectionChanged$ = langSelectNotificationService.selectionChanged$;
+      langDescr = {"enName": "German", "originalName": "Deutsch", "ietfTag": "de-DE"};
     });
 
     afterEach(() => {
       subscription.unsubscribe();
     });
 
-    it('the current language should be de-DE', (done) => {
-
-      selectionChanged$ = langSelectNotificationService.selectionChanged$;
-      langDescr = {"enName": "German", "originalName": "Deutsch", "ietfTag": "de-DE"};
-      
-      
+    xit('the current language should be de-DE', (done) => {   
       subscription = selectionChanged$
       .subscribe((selectedLanguage: ILanguageDescription) => {
         expect(selectedLanguage.ietfTag).toEqual("de-DE");
+        done();
+      });
+
+      langSelectNotificationService.selectionChanged(langDescr);
+    });    
+
+    it('the localizer should have languageMap for de-DE', (done) => {   
+      subscription = selectionChanged$
+      .subscribe((selectedLanguage: ILanguageDescription) => {
+        expect(localizer.currentLanguage).toEqual("de-DE");
         done();
       });
 

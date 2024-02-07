@@ -1,4 +1,4 @@
-import {Component, ViewChild, OnInit} from '@angular/core';
+import {Component, ViewChild, OnInit, OnDestroy} from '@angular/core';
 import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
@@ -37,7 +37,7 @@ import {Logger} from '../../../shared/services/logging/logger';
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
-export class SettingsComponent implements OnInit  {
+export class SettingsComponent implements OnInit, OnDestroy  {
   @ViewChild(MatAccordion) accordion?: MatAccordion;
 
   private subscription: Subscription;
@@ -71,6 +71,7 @@ export class SettingsComponent implements OnInit  {
   }
 
   ngOnDestroy() {
+    this.logger.debug("Start of SettingsComponent.ngDestroy");
     this.subscription.unsubscribe();
   }
 

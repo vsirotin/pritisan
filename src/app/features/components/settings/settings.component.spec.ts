@@ -3,14 +3,16 @@ import { SettingsComponent } from './settings.component';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from "@angular/router/testing";
+import { Subscription } from 'rxjs';
 import { Localizer } from '../../../shared/classes/localization/localizer';
 import { Logger } from '../../../shared/services/logging/logger';
 import { LanguageSelectionNotificationService } from '../../services/language-selection/language-selection-notification.service';
 
 describe('SettingsComponent', () => {
-  let logger: Logger = new Logger();
+  const logger: Logger = new Logger();
   logger.setLogLevel(0);
-  let localizer: Localizer = new Localizer("test", 1, new LanguageSelectionNotificationService().selectionChanged$, logger);
+  const langSelectionNotificationSErvice = new LanguageSelectionNotificationService();
+  let localizer: Localizer = new Localizer("test", 1, langSelectionNotificationSErvice.selectionChanged$, logger);
 
   let component: SettingsComponent;
   let fixture: ComponentFixture<SettingsComponent>;
@@ -75,7 +77,9 @@ describe('SettingsComponent', () => {
     });
   });
 
-  xdescribe('After language changing...', () => {
+  describe('After language changing...', () => {
+    let subscription: Subscription;
+    
 
     xit('after lamguage selection should have three sub-components with icons and labels in selected language', () => {
     });
