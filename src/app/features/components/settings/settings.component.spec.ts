@@ -3,7 +3,6 @@ import { SettingsComponent } from './settings.component';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from "@angular/router/testing";
-import { Subscription } from 'rxjs';
 import { Localizer } from '../../../shared/classes/localization/localizer';
 import { Logger } from '../../../shared/services/logging/logger';
 import { LanguageSelectionNotificationService } from '../../services/language-selection/language-selection-notification.service';
@@ -74,14 +73,6 @@ describe('SettingsComponent', () => {
       panelDescriptions.forEach((description, index) => {
         expect(description.nativeElement.textContent.trim()).toContain(expectedDescriptions[index]);
       });
-    });
-  });
-
-  describe('After language changing...', () => {
-    let subscription: Subscription;
-    
-
-    xit('after lamguage selection should have three sub-components with icons and labels in selected language', () => {
     });
   });
 });

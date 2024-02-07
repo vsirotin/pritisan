@@ -29,9 +29,9 @@ describe('Logger', () => {
     expect(service).toBeTruthy();
   });
 
-  it('by default warnings and errors should be logged', () => {
+  it('by default all level should be logged because setting in environment', () => {
     service.log('test');
-    expect(consoleSpyLog).not.toHaveBeenCalledWith('test');
+    expect(consoleSpyLog).toHaveBeenCalledWith('test');
     
     service.warn('test'); 
     expect(consoleSpyWarn).toHaveBeenCalledWith('test');
@@ -40,7 +40,7 @@ describe('Logger', () => {
     expect(consoleSpyError).toHaveBeenCalledWith('test');
 
     service.debug('test');
-    expect(consoleSpydebug).not.toHaveBeenCalledWith('test');
+    expect(consoleSpydebug).toHaveBeenCalledWith('test');
 
   });
 
