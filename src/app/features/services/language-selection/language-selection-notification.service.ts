@@ -52,10 +52,8 @@ export const SupportedLanguages: Array<ILanguageDescription> = [
   ];
 
   export function inSupportedLanguages(ietfTag : string|null|undefined) : boolean {
-    console.log("In inSupportedLanguages ietfTag=" + ietfTag )
     if((ietfTag == null) || (ietfTag == undefined))return false;
     let res = SupportedLanguages.filter((lang) => lang.ietfTag == ietfTag)[0];
-    console.log("In inSupportedLanguages  res=" + res)
     if(res != undefined) return true;
     return false;
   }

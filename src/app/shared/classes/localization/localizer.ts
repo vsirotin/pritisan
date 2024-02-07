@@ -18,17 +18,20 @@ export class Localizer implements ILocalizer{
     this.logger.debug("Start of Localizer.constructor"); 
   }
 
-  getTranslation(key: string): string|Warning {
+  getTranslation(key: string, defaultText: string): string {
     this.logger.debug("Start of Localizer.getTranslation");
 
     let val = this.currentLanguageMap.get(key);
+    let res: string|Warning
     if (val) {
-      return val;
+      res = val;
     }
     else {
       this.logger.warn("Not found value for key " + key);
-      return new Warning(SOURCE_COORDINATE + "01", "By translation not found " + key + " for " + this.currentLanguage);
+      res = defaultText;
     }
+    this.logger.debug("Result of Localizer.getTranslation for key=" + key + " defaultText=" + defaultText + " is:" + res);
+    return res;
   }
 }
 
@@ -40,7 +43,7 @@ export interface ILocalizer {
    * Returns the translation of the given key in current language
    * @param key 
    */
-  getTranslation(key: string): string|Warning;
+  getTranslation(key: string, defaultText: string): string;
 
   currentLanguage: string ;
   currentLanguageMap: Map<string, string>;

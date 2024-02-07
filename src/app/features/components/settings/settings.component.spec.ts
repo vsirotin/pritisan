@@ -5,9 +5,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from "@angular/router/testing";
 import { Localizer } from '../../../shared/classes/localization/localizer';
 import { Logger } from '../../../shared/services/logging/logger';
+import { LanguageSelectionNotificationService } from '../../services/language-selection/language-selection-notification.service';
 
 describe('SettingsComponent', () => {
-  let logger = new Logger();
+  let logger: Logger = new Logger();
+  logger.setLogLevel(0);
+  let localizer: Localizer = new Localizer("test", 1, new LanguageSelectionNotificationService().selectionChanged$, logger);
 
   let component: SettingsComponent;
   let fixture: ComponentFixture<SettingsComponent>;
@@ -15,19 +18,20 @@ describe('SettingsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SettingsComponent, BrowserModule, BrowserAnimationsModule, RouterTestingModule],
+      providers: [{provide: Localizer, useValue: localizer}, {provide: Logger, useValue: logger}]
     })
     .compileComponents();
     
     fixture = TestBed.createComponent(SettingsComponent);
     component = fixture.componentInstance;
-    //fixture.detectChanges();
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   }); 
 
-  xdescribe('By start (by Default)...', () => {
+  describe('By start (by Default)...', () => {
 
     it('should have default label', () => {
       fixture.detectChanges();
@@ -52,21 +56,21 @@ describe('SettingsComponent', () => {
       expect(panelDescriptions.length).toBe(3);
 
       const expectedIconAndTitles = [
-        'language Language', 
-        'palette Appearence', 
+        'language Language:', 
+        'palette Appearance', 
         'rule_folder Rules'];
 
       panelTitles.forEach((title, index) => {
-        expect(title.nativeElement.textContent).toContain(expectedIconAndTitles[index]);
+        expect(title.nativeElement.textContent.trim()).toContain(expectedIconAndTitles[index]);
       });
 
       const expectedDescriptions = [
         'English  English', 
-        'Set appearence options', 
+        'Set appearance options', 
         'Set rules for automatic data deletion, etc.'];
 
       panelDescriptions.forEach((description, index) => {
-        expect(description.nativeElement.textContent).toContain(expectedDescriptions[index]);
+        expect(description.nativeElement.textContent.trim()).toContain(expectedDescriptions[index]);
       });
     });
   });

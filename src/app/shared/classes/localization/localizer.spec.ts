@@ -49,8 +49,6 @@ describe('Localizer', () => {
       
       subscription = selectionChanged$
       .subscribe((selectedLanguage: ILanguageDescription) => {
-        let x = selectedLanguage.ietfTag;
-        console.error("X=" + x);
         expect(selectedLanguage.ietfTag).toEqual("de-DE");
         done();
       });

@@ -13,8 +13,6 @@ import {ILanguageDescription, LanguageSelectionNotificationService,  inSupported
 import {Subscription} from 'rxjs/internal/Subscription';
 import {ILocalizer, Localizer} from '../../../shared/classes/localization/localizer';
 import {Logger} from '../../../shared/services/logging/logger';
-import * as jsonData from '../../../../assets/languages/features/components/settings/en-US.json';
-//import * as jsonData from './en-US.json';
 
 
 
@@ -49,8 +47,6 @@ export class SettingsComponent implements OnInit  {
   langEn: string = ""
   langEtfTag = "" 
 
-  data: any = jsonData
-
   constructor(private languageSelectionNotificationService: LanguageSelectionNotificationService,
     private logger: Logger ) {
     this.logger.debug("Start of SettingsComponent.constructor");  
@@ -60,8 +56,6 @@ export class SettingsComponent implements OnInit  {
     this.languageSelectionNotificationService.selectionChanged$, 
     logger);
 
-    this.localizer.currentLanguageMap = new Map(Object.entries(jsonData));
-     
     this.subscription = this
       .languageSelectionNotificationService.selectionChanged$
       .subscribe((selectedLanguage: ILanguageDescription) => {
@@ -96,13 +90,6 @@ export class SettingsComponent implements OnInit  {
   }
 
   t(key: string, defaultText: string): string {
-    this.logger.debug("Start of SettingsComponent.t");
-    const res = this.localizer.getTranslation(key);
-    if (typeof res === 'string') {
-      return res;
-    }
-    else {
-      return defaultText;
-    }
+    return this.localizer.getTranslation(key, defaultText);
   }
 }
