@@ -1,0 +1,10 @@
+{
+"settings": "تنظیمات",
+ "expand_all": "همه را گسترش بدهید",
+ "collapse_all": "همه را کاهش دهید",
+ "language": "زبان:",
+ "appearance": "ظاهر",
+ "set_options_for_appearance": "تنظیم گزینه های ظاهر",
+ "rules": "قوانین",
+ "set_rules": "تعیین قوانین برای حذف خودکار داده ها و غیره."
+}

@@ -1,0 +1,10 @@
+{
+"settings": "Asetukset",
+ "expand_all": "Laajenna kaikki",
+ "collapse_all": "Kutista kaikki",
+ "language": "Kieli:",
+ "appearance": "Ulkoasu",
+ "set_options_for_appearance": "Aseta ulkoasun asetukset",
+ "rules": "Säännöt",
+ "set_rules": "Aseta säännöt automaattista tietojen poistoa varten jne."
+}

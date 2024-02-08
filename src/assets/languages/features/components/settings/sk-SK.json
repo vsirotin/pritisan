@@ -1,0 +1,10 @@
+{
+"settings": "Nastavenia",
+ "expand_all": "Rozbaliť všetko",
+ "collapse_all": "Zbalit vše",
+ "language": "Jazyk:",
+ "appearance": "Vzhľad",
+ "set_options_for_appearance": "Nastaviť možnosti vzhľadu",
+ "rules": "Pravidlá",
+ "set_rules": "Nastaviť pravidlá pre automatické vymazávanie dát atď."
+}

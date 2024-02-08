@@ -1,0 +1,10 @@
+{
+"settings": "Cài đặt",
+ "expand_all": "Mở rộng tất cả",
+ "collapse_all": "Thu gọn tất cả",
+ "language": "Ngôn ngữ:",
+ "appearance": "Giao diện",
+ "set_options_for_appearance": "Đặt tùy chọn giao diện",
+ "rules": "Quy tắc",
+ "set_rules": "Đặt quy tắc cho việc xóa dữ liệu tự động, v.v."
+}

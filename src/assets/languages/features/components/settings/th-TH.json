@@ -1,0 +1,10 @@
+{
+"settings": "การตั้งค่า",
+ "expand_all": "ขยายทั้งหมด",
+ "collapse_all": "ยุบทั้งหมด",
+ "language": "ภาษา:",
+ "appearance": "ลักษณะ",
+ "set_options_for_appearance": "ตั้งค่าตัวเลือกลักษณะ",
+ "rules": "กฎ",
+ "set_rules": "ตั้งกฎสำหรับการลบข้อมูลโดยอัตโนมัติ เป็นต้น"
+}

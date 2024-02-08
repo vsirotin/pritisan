@@ -1,0 +1,10 @@
+{
+"settings": "Sätted",
+ "expand_all": "Laienda kõik",
+ "collapse_all": "Ahenda kõik",
+ "language": "Keel:",
+ "appearance": "Välimus",
+ "set_options_for_appearance": "Määrake välimuse valikud",
+ "rules": "Reeglid",
+ "set_rules": "Määrake reeglid automaatse andmete kustutamise jms jaoks."
+}

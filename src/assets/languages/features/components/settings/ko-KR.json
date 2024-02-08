@@ -1,0 +1,10 @@
+{
+"settings": "설정",
+ "expand_all": "모두 펼치기",
+ "collapse_all": "모두 접기",
+ "language": "언어:",
+ "appearance": "외관",
+ "set_options_for_appearance": "외관 옵션 설정",
+ "rules": "규칙",
+ "set_rules": "자동 데이터 삭제 등에 대한 규칙 설정."
+}

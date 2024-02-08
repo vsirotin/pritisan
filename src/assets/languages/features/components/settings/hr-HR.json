@@ -1,0 +1,10 @@
+{
+"settings": "Postavke",
+ "expand_all": "Proširi sve",
+ "collapse_all": "Sakrij sve",
+ "language": "Jezik:",
+ "appearance": "Izgled",
+ "set_options_for_appearance": "Postavite opcije za izgled",
+ "rules": "Pravila",
+ "set_rules": "Postavite pravila za automatsko brisanje podataka itd."
+}

@@ -1,0 +1,10 @@
+{
+"settings": "Indstillinger",
+ "expand_all": "Udvid alt",
+ "collapse_all": "Skjul alt",
+ "language": "Sprog:",
+ "appearance": "Udseende",
+ "set_options_for_appearance": "Indstil indstillinger for udseende",
+ "rules": "Regler",
+ "set_rules": "Indstil regler for automatisk sletning af data osv."
+}

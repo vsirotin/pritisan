@@ -1,0 +1,10 @@
+{
+"settings": "设置",
+ "expand_all": "展开全部",
+ "collapse_all": "折叠全部",
+ "language": "语言：",
+ "appearance": "外观",
+ "set_options_for_appearance": "设置外观选项",
+ "rules": "规则",
+ "set_rules": "设置自动删除数据等规则。"
+}
