@@ -37,7 +37,7 @@ export class Localizer implements ILocalizer{
           return;
         }
 
-        let path = "assets/languages/features/components/settings/" +this.currentLanguage + ".json";
+        let path = componentCooordinate +this.currentLanguage + ".json";
         //fetch the language file from path
         fetch(path)
         .then(response => {
@@ -64,7 +64,7 @@ export class Localizer implements ILocalizer{
   }
 
   getTranslation(key: string, defaultText: string): string {
-    this.logger.debug("Start of Localizer.getTranslation for key=" + key + " defaultText=" + defaultText + " currentLanguage=" + this.currentLanguage + " currentLanguageMap=" + JSON.stringify(this.currentLanguageMap));
+    this.logger.debug("Start of Localizer.getTranslation for key=" + key + " defaultText=" + defaultText + " currentLanguage=" + this.currentLanguage);
 
     if(this.currentLanguage === "en-US") {
       this.logger.debug("Language is en-US, no need to fetch the language file");

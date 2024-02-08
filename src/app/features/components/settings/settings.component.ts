@@ -1,5 +1,5 @@
 import {Component, ViewChild, OnInit, OnDestroy} from '@angular/core';
-import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import {MatAccordion, MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -39,6 +39,7 @@ import {Logger} from '../../../shared/services/logging/logger';
 })
 export class SettingsComponent implements OnInit, OnDestroy  {
   @ViewChild(MatAccordion) accordion?: MatAccordion;
+  @ViewChild(MatExpansionPanel) langPanel?: MatExpansionPanel;
 
   private subscription: Subscription;
   private localizer: ILocalizer;
@@ -51,7 +52,7 @@ export class SettingsComponent implements OnInit, OnDestroy  {
     private logger: Logger ) {
     this.logger.debug("Start of SettingsComponent.constructor");  
 
-    this.localizer =  new Localizer("features/components/settings", 
+    this.localizer =  new Localizer("assets/languages/features/components/settings/lang/", 
     1, 
     this.languageSelectionNotificationService.selectionChanged$, 
     logger);
@@ -62,12 +63,23 @@ export class SettingsComponent implements OnInit, OnDestroy  {
       this.langOrigin = selectedLanguage.originalName;
       this.langEn = selectedLanguage.enName
       this.langEtfTag = selectedLanguage.ietfTag
+
+      console.log("3 accordion: ", this.accordion)
+      if (this.accordion) {
+        console.log("Closing all panels");
+        this.accordion.closeAll();
+      }
     });
   }
 
   ngOnInit() {
     this.logger.debug("Start of SettingsComponent.ngOnInit");
     this.trySetLanguage();
+    console.log("accordion: " + this.accordion);
+  }
+
+  ngAfterViewInit() {
+    console.log(" 2 accordion: " + this.accordion);
   }
 
   ngOnDestroy() {
@@ -86,6 +98,7 @@ export class SettingsComponent implements OnInit, OnDestroy  {
     if(!inSupportedLanguages(savedLangEtfTag)){
       savedLangEtfTag = "en-US";
     }
+
 
     this.languageSelectionNotificationService.setLanguage(savedLangEtfTag as string)
   }
