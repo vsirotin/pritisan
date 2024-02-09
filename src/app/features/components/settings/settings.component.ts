@@ -39,7 +39,6 @@ import {Logger} from '../../../shared/services/logging/logger';
 })
 export class SettingsComponent implements OnInit, OnDestroy  {
   @ViewChild(MatAccordion) accordion?: MatAccordion;
-  @ViewChild(MatExpansionPanel) langPanel?: MatExpansionPanel;
 
   private subscription: Subscription;
   private localizer: ILocalizer;
