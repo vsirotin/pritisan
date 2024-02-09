@@ -88,7 +88,7 @@ export class SettingsComponent implements OnInit, OnDestroy  {
 
   trySetLanguage() {
     this.logger.debug("Start of SettingsComponent.trySetLanguage");
-    let savedLangEtfTag = localStorage.getItem("langEtfTag")
+    let savedLangEtfTag = this.localizer.currentLanguage?.ietfTag;
 
     if(typeof savedLangEtfTag !== 'string'){
       savedLangEtfTag = navigator.language;
