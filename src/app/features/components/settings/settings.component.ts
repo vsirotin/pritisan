@@ -14,10 +14,9 @@ import {Subscription} from 'rxjs/internal/Subscription';
 import {ILocalizer, Localizer} from '../../../shared/classes/localization/localizer';
 import {Logger} from '../../../shared/services/logging/logger';
 
-
-
+export const SETTINGS_SOURCE_DIR = "assets/languages/features/components/settings/lang/";
 /**
- * @title Accordion with expand/collapse all toggles
+ * //TODO: Add documentation
  */
 @Component({
   selector: 'app-settings',
@@ -51,7 +50,7 @@ export class SettingsComponent implements OnInit, OnDestroy  {
     private logger: Logger ) {
     this.logger.debug("Start of SettingsComponent.constructor");  
 
-    this.localizer =  new Localizer("assets/languages/features/components/settings/lang/", 
+    this.localizer =  new Localizer(SETTINGS_SOURCE_DIR, 
     1, 
     this.languageSelectionNotificationService.selectionChanged$, 
     logger);
@@ -97,8 +96,6 @@ export class SettingsComponent implements OnInit, OnDestroy  {
     if(!inSupportedLanguages(savedLangEtfTag)){
       savedLangEtfTag = "en-US";
     }
-
-
     this.languageSelectionNotificationService.setLanguage(savedLangEtfTag as string)
   }
 

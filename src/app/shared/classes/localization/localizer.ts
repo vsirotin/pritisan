@@ -26,7 +26,7 @@ export class Localizer implements ILocalizer{
     this.subscription = this
       .languageChangeNotificator
       .subscribe((selectedLanguage: ILanguageDescription) => {
-        this.logger.debug("Start of subscription in Localizer.constructor"); 
+        this.logger.debug("Start of subscription in Localizer.constructor this.currentLanguage=" + this.currentLanguage); 
         this.currentLanguage = selectedLanguage.ietfTag;
         tag = new LanguageIetfTag(this.currentLanguage);
 
