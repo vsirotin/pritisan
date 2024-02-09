@@ -1,8 +1,9 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 
-import { LanguageIetfTag, Localizer } from './localizer';
+import { LanguageData, Localizer } from './localizer';
 import { Observable, Subscription } from 'rxjs';
-import { ILanguageDescription, LanguageSelectionNotificationService } from '../../../features/services/language-selection/language-selection-notification.service';
+import { LanguageSelectionNotificationService } from '../../../features/services/language-selection/language-selection-notification.service';
+import { ILanguageDescription } from './language-description';
 import { Logger } from '../../services/logging/logger';
 import { SETTINGS_SOURCE_DIR } from '../../../features/components/settings/settings.component';
 
@@ -19,16 +20,16 @@ describe('Localizer', () => {
     localizer = new Localizer(SETTINGS_SOURCE_DIR, 1, langSelectNotificationService.selectionChanged$, logger);
   });
 
-  xit('should be created', () => {
+  it('should be created', () => {
     expect(localizer).toBeTruthy();
   });
 
   xit('by start has en-US default language', () => {
-    expect(localizer.currentLanguage).toEqual("en-US");
+    expect(localizer.currentLanguage?.ietfTag).toEqual("en-US");
   });
 
   describe('after change the language on de-DE', () => {
-    let languageChanged$: Observable<LanguageIetfTag>;
+    let languageChanged$: Observable<LanguageData>;
 
     let subscription: Subscription;
     
@@ -43,25 +44,25 @@ describe('Localizer', () => {
 
     it('the selected language should be de-DE', (done) => {   
       subscription = languageChanged$
-      .subscribe((languageTag: LanguageIetfTag) => {
+      .subscribe((languageTag: LanguageData) => {
         expect(languageTag.ietfTag).toEqual("de-DE");
         done();
       });
       langSelectNotificationService.selectionChanged(langDescr);
     });    
 
-    xit('the current language in localizer should be de-DE', (done) => {   
+    it('the current language in localizer should be de-DE', (done) => {   
       subscription = languageChanged$
-      .subscribe((slanguageTag: LanguageIetfTag) => {
-        expect(localizer.currentLanguage).toEqual("de-DE");
+      .subscribe((slanguageTag: LanguageData) => {
+        expect(localizer.currentLanguage?.ietfTag).toEqual("de-DE");
         done();
       });
       langSelectNotificationService.selectionChanged(langDescr);
     });  
 
-    xit('the localizer should have languageMap for de-DE', (done) => {   
+    it('the localizer should have languageMap for de-DE', (done) => {   
       subscription = languageChanged$
-      .subscribe((languageTag: LanguageIetfTag) => {
+      .subscribe((languageTag: LanguageData) => {
         expect(localizer.getTranslation('settings', 'not-exist')).toEqual("Einstellungen");
         done();
       });

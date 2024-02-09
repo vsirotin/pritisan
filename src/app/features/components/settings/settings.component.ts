@@ -9,7 +9,8 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {LanguageSelectionComponent} from '../../services/language-selection/language-selection.component'
-import {ILanguageDescription, LanguageSelectionNotificationService,  inSupportedLanguages} from '../../services/language-selection/language-selection-notification.service';
+import {LanguageSelectionNotificationService} from '../../services/language-selection/language-selection-notification.service';
+import { ILanguageDescription, inSupportedLanguages } from '../../../shared/classes/localization/language-description';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {ILocalizer, Localizer} from '../../../shared/classes/localization/localizer';
 import {Logger} from '../../../shared/services/logging/logger';

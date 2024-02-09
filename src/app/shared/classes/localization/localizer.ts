@@ -1,17 +1,18 @@
 import { Observable, Subject, Subscription } from "rxjs";
-import { ILanguageDescription } from "../../../features/services/language-selection/language-selection-notification.service";
+import { ILanguageDescription } from './language-description';
 import { Logger } from "../../services/logging/logger";
 import { Warning } from "../problems/problems";
 import { OnDestroy, OnInit } from "@angular/core";
 
 const SOURCE_COORDINATE = "SH-CL-LO-LO-";
+const DEFAULT_LANGUAGE = "en-US";
 
 export class Localizer implements ILocalizer{
 
-  currentLanguage: string = "en-US";
+  currentLanguage: LanguageData|undefined = undefined;
   private currentLanguageMap: Map<string, string> = new Map<string, string>();
 
-  private subject = new Subject<LanguageIetfTag>();
+  private subject = new Subject<LanguageData>();
   languageChanged$ = this.subject.asObservable();
 
   private subscription: Subscription;
@@ -21,23 +22,21 @@ export class Localizer implements ILocalizer{
     private languageChangeNotificator: | Observable<ILanguageDescription>,
     private logger: Logger) { 
     this.logger.debug("Start of Localizer.constructor"); 
-    let tag: LanguageIetfTag;
 
     this.subscription = this
       .languageChangeNotificator
       .subscribe((selectedLanguage: ILanguageDescription) => {
         this.logger.debug("Start of subscription in Localizer.constructor this.currentLanguage=" + this.currentLanguage); 
-        this.currentLanguage = selectedLanguage.ietfTag;
-        tag = new LanguageIetfTag(this.currentLanguage);
+        this.currentLanguage = new LanguageData(selectedLanguage.ietfTag);
 
-        if(this.currentLanguage === "en-US") {
+        if(this.currentLanguage?.ietfTag === DEFAULT_LANGUAGE) {
           this.logger.debug("Language is en-US, no need to fetch the language file");
           this.currentLanguageMap = new Map<string, string>();
-          this.subject.next(tag);
+          this.subject.next(this.currentLanguage);
           return;
         }
 
-        let path = componentCooordinate +this.currentLanguage + ".json";
+        let path = componentCooordinate +this.currentLanguage.ietfTag + ".json";
         //fetch the language file from path
         fetch(path)
         .then(response => {
@@ -50,7 +49,9 @@ export class Localizer implements ILocalizer{
           this.logger.debug("Processing of data in subscription in Localizer.constructor data=" + JSON.stringify(data)); 
           this.currentLanguageMap = new Map(Object.entries(data));
 
-          this.subject.next(tag);
+          if (this.currentLanguage) {
+            this.subject.next(this.currentLanguage);
+          }
         })
         .catch(error => {
           this.logger.error('There was a problem with the fetch operation: error=' + error);
@@ -66,7 +67,7 @@ export class Localizer implements ILocalizer{
   getTranslation(key: string, defaultText: string): string {
     this.logger.debug("Start of Localizer.getTranslation for key=" + key + " defaultText=" + defaultText + " currentLanguage=" + this.currentLanguage);
 
-    if(this.currentLanguage === "en-US") {
+    if(this.currentLanguage?.ietfTag === "en-US") {
       this.logger.debug("Language is en-US, no need to fetch the language file");
       return defaultText;
     }
@@ -97,10 +98,11 @@ export interface ILocalizer {
 
   destructor(): void;
 
-  currentLanguage: string ;
+  currentLanguage: LanguageData|undefined;
+
 }
 
-export class LanguageIetfTag {
+export class LanguageData {
   constructor(public ietfTag: string) {}
 }
 

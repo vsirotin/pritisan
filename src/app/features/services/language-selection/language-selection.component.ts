@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import {LanguageSelectionNotificationService} from './language-selection-notification.service'
-import {SupportedLanguages } from './language-selection-notification.service';
+import { SupportedLanguages } from '../../../shared/classes/localization/language-description';
 
 /**
  * @title Accordion with expand/collapse all toggles
