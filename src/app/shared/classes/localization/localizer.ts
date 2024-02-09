@@ -1,15 +1,17 @@
 import { Observable, Subject, Subscription } from "rxjs";
-import { ILanguageDescription } from './language-description';
+import { ILanguageDescription, inSupportedLanguages } from './language-description';
 import { Logger } from "../../services/logging/logger";
 import { Warning } from "../problems/problems";
-import { OnDestroy, OnInit } from "@angular/core";
+import { FasadeDB, IKeyValueDB } from "../db/fasade-db";
 
-const SOURCE_COORDINATE = "SH-CL-LO-LO-";
 const DEFAULT_LANGUAGE = "en-US";
+const KEY_SAVING_LANGUAGE = "currentLanguage";
 
 export class Localizer implements ILocalizer{
 
-  currentLanguage: LanguageData|undefined = undefined;
+
+  dbFasade: IKeyValueDB = new FasadeDB();
+  currentLanguage: LanguageData = this.initDefaultLanguage();
   private currentLanguageMap: Map<string, string> = new Map<string, string>();
 
   private subject = new Subject<LanguageData>();
@@ -26,10 +28,11 @@ export class Localizer implements ILocalizer{
     this.subscription = this
       .languageChangeNotificator
       .subscribe((selectedLanguage: ILanguageDescription) => {
-        this.logger.debug("Start of subscription in Localizer.constructor this.currentLanguage=" + this.currentLanguage); 
+        this.logger.debug("Start of subscription in Localizer.constructor this.currentLanguage=" + this.currentLanguage.ietfTag); 
         this.currentLanguage = new LanguageData(selectedLanguage.ietfTag);
+        this.dbFasade.set(KEY_SAVING_LANGUAGE, this.currentLanguage.ietfTag);
 
-        if(this.currentLanguage?.ietfTag === DEFAULT_LANGUAGE) {
+        if(this.currentLanguage.ietfTag === DEFAULT_LANGUAGE) {
           this.logger.debug("Language is en-US, no need to fetch the language file");
           this.currentLanguageMap = new Map<string, string>();
           this.subject.next(this.currentLanguage);
@@ -67,7 +70,7 @@ export class Localizer implements ILocalizer{
   getTranslation(key: string, defaultText: string): string {
     this.logger.debug("Start of Localizer.getTranslation for key=" + key + " defaultText=" + defaultText + " currentLanguage=" + this.currentLanguage);
 
-    if(this.currentLanguage?.ietfTag === "en-US") {
+    if(this.currentLanguage.ietfTag == DEFAULT_LANGUAGE) {
       this.logger.debug("Language is en-US, no need to fetch the language file");
       return defaultText;
     }
@@ -78,11 +81,27 @@ export class Localizer implements ILocalizer{
       res = val;
     }
     else {
-      this.logger.warn("Not found value for key " + key);
+      this.logger.warn("Not found value for key " + key + "this.currentLanguage.ietfTag=" + this.currentLanguage.ietfTag + " defaultText=" + defaultText);
       res = defaultText;
     }
     this.logger.debug("Result of Localizer.getTranslation for key=" + key + " defaultText=" + defaultText + " is:" + res);
     return res;
+  }
+
+  private initDefaultLanguage(): LanguageData {
+    let savedLangEtfTag = this.dbFasade.get(KEY_SAVING_LANGUAGE);
+    this.logger.debug("Start of Localizer.initDefaultLanguage savedLangEtfTag=" + savedLangEtfTag);
+    if(typeof savedLangEtfTag !== 'string'){
+      this.logger.debug("No saved language, using navigator.language");
+      savedLangEtfTag = navigator.language;
+    }
+
+    if(!inSupportedLanguages(savedLangEtfTag)){
+      savedLangEtfTag = DEFAULT_LANGUAGE;
+      this.logger.warn("Language " + savedLangEtfTag + " is not supported, using default language");
+    }
+    this.logger.log("End of Localizer.initDefaultLanguage savedLangEtfTag=" + savedLangEtfTag);
+    return new LanguageData(savedLangEtfTag);
   }
 }
 
