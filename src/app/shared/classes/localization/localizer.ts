@@ -39,27 +39,32 @@ export class Localizer implements ILocalizer{
           return;
         }
 
-        let path = componentCooordinate +this.currentLanguage.ietfTag + ".json";
-        //fetch the language file from path
-        fetch(path)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status} by fetching from ${path}`);
-          }
-          return response.json();
-        })
-        .then(data => {
-          this.logger.debug("Processing of data in subscription in Localizer.constructor data=" + JSON.stringify(data)); 
-          this.currentLanguageMap = new Map(Object.entries(data));
-
-          if (this.currentLanguage) {
-            this.subject.next(this.currentLanguage);
-          }
-        })
-        .catch(error => {
-          this.logger.error('There was a problem with the fetch operation: error=' + error);
-        });
+        this.loadLanguageMapFromDbOrServer(componentCooordinate);
       }); //end of subscription
+  }
+
+  private loadLanguageMapFromDbOrServer(componentCooordinate: string) {
+    this.logger.debug("Start of Localizer.loadLanguageMapFromDbOrServer componentCooordinate=" + componentCooordinate);
+    let path = componentCooordinate + this.currentLanguage.ietfTag + ".json";
+    //fetch the language file from path
+    fetch(path)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status} by fetching from ${path}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        this.logger.debug("Data loaded from server=" + JSON.stringify(data));
+        this.currentLanguageMap = new Map(Object.entries(data));
+
+        if (this.currentLanguage) {
+          this.subject.next(this.currentLanguage);
+        }
+      })
+      .catch(error => {
+        this.logger.error('There was a problem with the fetch operation: error=' + error);
+      });
   }
 
   destructor() {

@@ -63,7 +63,6 @@ export class SettingsComponent implements OnInit, OnDestroy  {
       this.langEn = selectedLanguage.enName
       this.langEtfTag = selectedLanguage.ietfTag
 
-      console.log("3 accordion: ", this.accordion)
       if (this.accordion) {
         console.log("Closing all panels");
         this.accordion.closeAll();
@@ -74,11 +73,6 @@ export class SettingsComponent implements OnInit, OnDestroy  {
   ngOnInit() {
     this.logger.debug("Start of SettingsComponent.ngOnInit");
     this.trySetLanguage();
-    console.log("accordion: " + this.accordion);
-  }
-
-  ngAfterViewInit() {
-    console.log(" 2 accordion: " + this.accordion);
   }
 
   ngOnDestroy() {

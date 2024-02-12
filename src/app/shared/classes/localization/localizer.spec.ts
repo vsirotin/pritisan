@@ -18,13 +18,18 @@ describe('Localizer', () => {
 
     langSelectNotificationService = new LanguageSelectionNotificationService();
     localizer = new Localizer(SETTINGS_SOURCE_DIR, 1, langSelectNotificationService.selectionChanged$, logger);
+    localStorage.clear();
+  });
+
+  afterEach(() => {
+    localStorage.clear();
   });
 
   it('should be created', () => {
     expect(localizer).toBeTruthy();
   });
 
-  xit('by start has en-US default language', () => {
+  it('by start has en-US default language', () => {
     expect(localizer.currentLanguage?.ietfTag).toEqual("en-US");
   });
 
