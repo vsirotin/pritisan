@@ -1,5 +1,5 @@
-import {Component, ViewChild, OnInit} from '@angular/core';
-import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import {Component, ViewChild, OnInit, OnDestroy} from '@angular/core';
+import {MatAccordion, MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -9,12 +9,15 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {LanguageSelectionComponent} from '../../services/language-selection/language-selection.component'
-import {LanguageDescription, LanguageSelectionNotificationService,  inSupportedLanguages} from '../../services/language-selection/language-selection-notification.service';
+import {LanguageSelectionNotificationService} from '../../services/language-selection/language-selection-notification.service';
+import { ILanguageDescription, inSupportedLanguages } from '../../../shared/classes/localization/language-description';
 import {Subscription} from 'rxjs/internal/Subscription';
+import {ILocalizer, Localizer} from '../../../shared/classes/localization/localizer';
+import {Logger} from '../../../shared/services/logging/logger';
 
-
+export const SETTINGS_SOURCE_DIR = "assets/languages/features/components/settings/lang/";
 /**
- * @title Accordion with expand/collapse all toggles
+ * //TODO: Add documentation
  */
 @Component({
   selector: 'app-settings',
@@ -34,32 +37,52 @@ import {Subscription} from 'rxjs/internal/Subscription';
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
-export class SettingsComponent implements OnInit  {
+export class SettingsComponent implements OnInit, OnDestroy  {
   @ViewChild(MatAccordion) accordion?: MatAccordion;
 
   private subscription: Subscription;
+  private localizer: ILocalizer;
 
   langOrigin: string = ""
   langEn: string = ""
   langEtfTag = "" 
 
-  constructor(private languageSelectionNotificationService: LanguageSelectionNotificationService) {
+  constructor(private languageSelectionNotificationService: LanguageSelectionNotificationService,
+    private logger: Logger ) {
+    this.logger.debug("Start of SettingsComponent.constructor");  
+
+    this.localizer =  new Localizer(SETTINGS_SOURCE_DIR, 
+    1, 
+    this.languageSelectionNotificationService.selectionChanged$, 
+    logger);
+
     this.subscription = this
       .languageSelectionNotificationService.selectionChanged$
-      .subscribe((selectedLanguage: LanguageDescription) => {
+      .subscribe((selectedLanguage: ILanguageDescription) => {
       this.langOrigin = selectedLanguage.originalName;
       this.langEn = selectedLanguage.enName
       this.langEtfTag = selectedLanguage.ietfTag
+
+      if (this.accordion) {
+        console.log("Closing all panels");
+        this.accordion.closeAll();
+      }
     });
   }
 
   ngOnInit() {
+    this.logger.debug("Start of SettingsComponent.ngOnInit");
     this.trySetLanguage();
   }
 
-   trySetLanguage() {
+  ngOnDestroy() {
+    this.logger.debug("Start of SettingsComponent.ngDestroy");
+    this.subscription.unsubscribe();
+  }
 
-    let savedLangEtfTag = localStorage.getItem("langEtfTag")
+  trySetLanguage() {
+    this.logger.debug("Start of SettingsComponent.trySetLanguage");
+    let savedLangEtfTag = this.localizer.currentLanguage?.ietfTag;
 
     if(typeof savedLangEtfTag !== 'string'){
       savedLangEtfTag = navigator.language;
@@ -68,7 +91,10 @@ export class SettingsComponent implements OnInit  {
     if(!inSupportedLanguages(savedLangEtfTag)){
       savedLangEtfTag = "en-US";
     }
-
     this.languageSelectionNotificationService.setLanguage(savedLangEtfTag as string)
+  }
+
+  t(key: string, defaultText: string): string {
+    return this.localizer.getTranslation(key, defaultText);
   }
 }

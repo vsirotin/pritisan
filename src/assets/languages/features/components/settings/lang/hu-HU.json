@@ -1,0 +1,10 @@
+{
+"settings": "Beállítások",
+ "expand_all": "Mindet kinyit",
+ "collapse_all": "Mindet bezár",
+ "language": "Nyelv:",
+ "appearance": "Megjelenés",
+ "set_options_for_appearance": "Megjelenési beállítások beállítása",
+ "rules": "Szabályok",
+ "set_rules": "Szabályok beállítása az automatikus adattörléshez stb."
+}

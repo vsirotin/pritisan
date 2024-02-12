@@ -1,0 +1,10 @@
+{
+"settings": "Configuració",
+ "expand_all": "Expandir tot",
+ "collapse_all": "Col·lapsa tot",
+ "language": "Llengua:",
+ "appearance": "Aspecte",
+ "set_options_for_appearance": "Establir opcions d'aparença",
+ "rules": "Regles",
+ "set_rules": "Establiu regles per a l'eliminació automàtica de dades, etc."
+}

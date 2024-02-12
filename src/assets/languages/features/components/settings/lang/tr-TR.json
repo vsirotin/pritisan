@@ -1,0 +1,10 @@
+{
+"settings": "Ayarlar",
+ "expand_all": "Tümünü genişlet",
+ "collapse_all": "Tümünü daralt",
+ "language": "Dil:",
+ "appearance": "Görünüm",
+ "set_options_for_appearance": "Görünüm seçeneklerini ayarla",
+ "rules": "Kurallar",
+ "set_rules": "Otomatik veri silme vb. için kuralları belirleyin."
+}

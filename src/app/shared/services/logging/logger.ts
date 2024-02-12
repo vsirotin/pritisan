@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Inject } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 
 /**
  * Logger is a service that provides methods for logging messages to the console.
  * It is injectable and provided in the root, meaning it can be used anywhere in the application.
  * 
  * Recommended usage:
- * trace() - Use to technical log. Should be offen called in mostly functions, but rerely switched on in runtime because a lot of output.
+ * debug() - Use to technical log. Should be offen called in mostly functions, but rerely switched on in runtime because a lot of output.
  * log() - Use to log bussiness logic. 
  * warn() - Use to log warnings: unexpected situations, but not errors. After this situation application should work correctly.
  * error() - Use to log errors: unexpected situations, when application can't work correctly.
@@ -24,14 +24,12 @@ export class Logger {
    * 2 - Only warning and error messages are logged.
    * 3 - Only error messages are logged.  
    * 4 or greater - No messages are logged.
-   * 
-   * @private
-   * @type {number}
    */
-  private _logLevel: number = 0;
+  private logLevel: number;
 
-  constructor(@Inject(Number) private logLevel: number = 5) {
-    this._logLevel = logLevel;
+  constructor() {
+    this.logLevel = environment.logLevel;
+    this.log("Logger.constructor: logLevel=" + this.logLevel);
   }
 
   /**
@@ -39,7 +37,7 @@ export class Logger {
    * @param logLevel 
    */
   setLogLevel(logLevel: number) {   
-    this._logLevel = logLevel;
+    this.logLevel = logLevel;
   }
 
   /**
@@ -47,16 +45,16 @@ export class Logger {
    * @returns {number} The current log level.
    */
   getLogLevel(): number { 
-    return this._logLevel;
+    return this.logLevel;
   }
 
   /**
-   * Logs a stack trace to the console.
+   * Logs a stack debug to the console.
    * 
-   * @param {string} message - The message to include in the stack trace.
+   * @param {string} message - The message to include in the stack debug.
    */
-  track(message: string) {
-    if(this._logLevel <= 0)console.trace(message);
+  debug(message: string) {
+    if(this.logLevel <= 0)console.debug(message);
   }
 
   /**
@@ -65,7 +63,7 @@ export class Logger {
    * @param {string} message - The message to log.
    */
   log(message: string) {
-    if(this._logLevel <= 1)console.log(message);
+    if(this.logLevel <= 1)console.log(message);
   }
 
   /**
@@ -74,7 +72,7 @@ export class Logger {
    * @param {string} message - The warning message to log.
    */
   warn(message: string) {
-    if(this._logLevel <= 2)console.warn(message);
+    if(this.logLevel <= 2)console.warn(message);
   }
   
   /**
@@ -83,7 +81,7 @@ export class Logger {
    * @param {string} message - The error message to log.
    */
   error(message: string) {
-    if(this._logLevel <= 3)console.error(message);
+    if(this.logLevel <= 3)console.error(message);
   }
 
 }

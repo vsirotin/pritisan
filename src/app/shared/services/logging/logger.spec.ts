@@ -7,21 +7,21 @@ describe('Logger', () => {
   let consoleSpyLog: jasmine.Spy;
   let consoleSpyWarn: jasmine.Spy;
   let consoleSpyError: jasmine.Spy;
-  let consoleSpyTrace: jasmine.Spy;
+  let consoleSpydebug: jasmine.Spy;
 
   beforeEach(() => {
     service = new Logger();
     consoleSpyLog = spyOn(console, 'log');
     consoleSpyWarn = spyOn(console, 'warn');
     consoleSpyError = spyOn(console, 'error');
-    consoleSpyTrace = spyOn(console, 'trace');
+    consoleSpydebug = spyOn(console, 'debug');
   });
 
   afterEach(() => {
     consoleSpyLog.calls.reset();
     consoleSpyWarn.calls.reset();
     consoleSpyError.calls.reset();
-    consoleSpyTrace.calls.reset();
+    consoleSpydebug.calls.reset();
 
   });
 
@@ -29,18 +29,18 @@ describe('Logger', () => {
     expect(service).toBeTruthy();
   });
 
-  it('by default no levels should be logged', () => {
+  it('by default all level should be logged because setting in environment', () => {
     service.log('test');
-    expect(consoleSpyLog).not.toHaveBeenCalledWith('test');
+    expect(consoleSpyLog).toHaveBeenCalledWith('test');
     
     service.warn('test'); 
-    expect(consoleSpyWarn).not.toHaveBeenCalledWith('test');
+    expect(consoleSpyWarn).toHaveBeenCalledWith('test');
 
     service.error('test');
-    expect(consoleSpyError).not.toHaveBeenCalledWith('test');
+    expect(consoleSpyError).toHaveBeenCalledWith('test');
 
-    service.track('test');
-    expect(consoleSpyTrace).not.toHaveBeenCalledWith('test');
+    service.debug('test');
+    expect(consoleSpydebug).toHaveBeenCalledWith('test');
 
   });
 
@@ -55,8 +55,8 @@ describe('Logger', () => {
     service.error('test');
     expect(consoleSpyError).not.toHaveBeenCalledWith('test');
 
-    service.track('test');
-    expect(consoleSpyTrace).not.toHaveBeenCalledWith('test');
+    service.debug('test');
+    expect(consoleSpydebug).not.toHaveBeenCalledWith('test');
 
   });
 
@@ -71,8 +71,8 @@ describe('Logger', () => {
     service.error('test');
     expect(consoleSpyError).not.toHaveBeenCalledWith('test');
 
-    service.track('test');
-    expect(consoleSpyTrace).not.toHaveBeenCalledWith('test');
+    service.debug('test');
+    expect(consoleSpydebug).not.toHaveBeenCalledWith('test');
 
   });
 
@@ -87,8 +87,8 @@ describe('Logger', () => {
     service.error('test');
     expect(consoleSpyError).toHaveBeenCalledWith('test');
 
-    service.track('test');
-    expect(consoleSpyTrace).toHaveBeenCalledWith('test');
+    service.debug('test');
+    expect(consoleSpydebug).toHaveBeenCalledWith('test');
 
   });
 
@@ -103,16 +103,16 @@ describe('Logger', () => {
     service.error('test');
     expect(consoleSpyError).toHaveBeenCalledWith('test');
 
-    service.track('test');
-    expect(consoleSpyTrace).toHaveBeenCalledWith('test');
+    service.debug('test');
+    expect(consoleSpydebug).toHaveBeenCalledWith('test');
 
   });
 
   it('by level 3  only errors should be logged', () => {
     service.setLogLevel(3);
 
-    service.track('test');
-    expect(consoleSpyTrace).not.toHaveBeenCalledWith('test');
+    service.debug('test');
+    expect(consoleSpydebug).not.toHaveBeenCalledWith('test');
 
     service.log('test');
     expect(consoleSpyLog).not.toHaveBeenCalledWith('test');
@@ -128,8 +128,8 @@ describe('Logger', () => {
   it('by level 2  only errors and warnings should be logged', () => {
     service.setLogLevel(2);
 
-    service.track('test');
-    expect(consoleSpyTrace).not.toHaveBeenCalledWith('test');
+    service.debug('test');
+    expect(consoleSpydebug).not.toHaveBeenCalledWith('test');
 
     service.log('test');
     expect(consoleSpyLog).not.toHaveBeenCalledWith('test');
@@ -145,8 +145,8 @@ describe('Logger', () => {
   it('by level 1  errors, warnings and log should be logged', () => {
     service.setLogLevel(1);
 
-    service.track('test');
-    expect(consoleSpyTrace).not.toHaveBeenCalledWith('test');
+    service.debug('test');
+    expect(consoleSpydebug).not.toHaveBeenCalledWith('test');
 
     service.log('test');
     expect(consoleSpyLog).toHaveBeenCalledWith('test');
@@ -162,8 +162,8 @@ describe('Logger', () => {
   it('by changing in runtime correct behaviour', () => {
     service.setLogLevel(2);
 
-    service.track('test');
-    expect(consoleSpyTrace).not.toHaveBeenCalledWith('test');
+    service.debug('test');
+    expect(consoleSpydebug).not.toHaveBeenCalledWith('test');
 
     service.log('test');
     expect(consoleSpyLog).not.toHaveBeenCalledWith('test');
@@ -178,8 +178,8 @@ describe('Logger', () => {
     expect(currentLevel).toBe(2);
 
     service.setLogLevel(1);
-    service.track('test');
-    expect(consoleSpyTrace).not.toHaveBeenCalledWith('test');
+    service.debug('test');
+    expect(consoleSpydebug).not.toHaveBeenCalledWith('test');
 
     service.log('test');
     expect(consoleSpyLog).toHaveBeenCalledWith('test');

@@ -1,0 +1,10 @@
+{
+"settings": "Nustatymai",
+ "expand_all": "Išskleisti viską",
+ "collapse_all": "Sutraukti viską",
+ "language": "Kalba:",
+ "appearance": "Išvaizda",
+ "set_options_for_appearance": "Nustatyti išvaizdos parinktis",
+ "rules": "Taisyklės",
+ "set_rules": "Nustatykite taisykles automatiniam duomenų trynimui, ir t.t."
+}

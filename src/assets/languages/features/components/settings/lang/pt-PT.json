@@ -1,0 +1,10 @@
+{
+"settings": "Definições",
+ "expand_all": "Expandir tudo",
+ "collapse_all": "Recolher tudo",
+ "language": "Idioma:",
+ "appearance": "Aparência",
+ "set_options_for_appearance": "Definir opções de aparência",
+ "rules": "Regras",
+ "set_rules": "Definir regras para a eliminação automática de dados, etc."
+}

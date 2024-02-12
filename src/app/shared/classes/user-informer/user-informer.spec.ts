@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserInformer, Warning, Error } from './user-informer';
+import { UserInformer } from './user-informer';
+import { Warning, Error } from '../problems/problems';
 import { Subject } from 'rxjs';
 import { Logger } from '../../services/logging/logger';
 import { ILocalizer } from '../localization/localizer';
@@ -14,8 +15,7 @@ describe('UserInformerService', () => {
 
   beforeEach(() => {
     subject = new Subject<Warning|Error>();
-    mockLocalizer = new MockLocalizer();
-    userInformer = new UserInformer("SH-CL-UI", new Logger(), subject, mockLocalizer);
+    userInformer = new UserInformer("SH-CL-UI", new Logger(), subject);
     subjectSpy = spyOn(subject, 'next');
 
     let t = new Date();
@@ -27,9 +27,7 @@ describe('UserInformerService', () => {
   });
 
   it('should call the subject with a warning', () => {
-
-
-    userInformer.warnUser("W001", "key1", "My message");
+    userInformer.warnUser("W001", "My message");
 
     expect(subjectSpy).toHaveBeenCalledTimes(1);
     const mostRecentCall = subjectSpy.calls.mostRecent();
@@ -40,13 +38,12 @@ describe('UserInformerService', () => {
     expect(problem).toBeInstanceOf(Warning);
     const actualWarning: Warning = problem as Warning;
     expect(actualWarning.source).toBe("SH-CL-UI");
-    expect(actualWarning.localizedMessage).toBe("tkey1");
     expect(actualWarning.formattedTimestamp).toContain(timeStampPrefix);
   });
 
   it('should call the subject with a error', () => {
 
-    userInformer.alertUser("W001", "key1", "My message");
+    userInformer.alertUser("W001", "My message");
 
     expect(subjectSpy).toHaveBeenCalledTimes(1);
     const mostRecentCall = subjectSpy.calls.mostRecent();
@@ -57,15 +54,9 @@ describe('UserInformerService', () => {
     expect(problem).toBeInstanceOf(Error);
     const actualWarning: Warning = problem as Warning;
     expect(actualWarning.source).toBe("SH-CL-UI");
-    expect(actualWarning.localizedMessage).toBe("tkey1");
     expect(actualWarning.formattedTimestamp).toContain(timeStampPrefix);
   });
 
   
 });
 
-class MockLocalizer implements ILocalizer {
-  getTranslation(key: string): string {
-    return 't' + key;
-  }
-}

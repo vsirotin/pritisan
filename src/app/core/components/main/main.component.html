@@ -3,8 +3,7 @@
 
     <app-toolbar></app-toolbar>
 
-    <mat-sidenav-container class="main-sidenav-container"
-                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav-container class="main-sidenav-container">
       <mat-sidenav #snav [opened]="isShowing"[mode]="mobileQuery.matches ? 'over' : 'side'"
                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
           <mat-nav-list>

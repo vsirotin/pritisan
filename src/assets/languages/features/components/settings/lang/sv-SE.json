@@ -1,0 +1,10 @@
+{
+"settings": "Inställningar",
+ "expand_all": "Expandera alla",
+ "collapse_all": "Kollapsa alla",
+ "language": "Språk:",
+ "appearance": "Utseende",
+ "set_options_for_appearance": "Ange alternativ för utseende",
+ "rules": "Regler",
+ "set_rules": "Ange regler för automatisk datarensning osv."
+}

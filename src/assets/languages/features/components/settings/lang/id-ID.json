@@ -1,0 +1,10 @@
+{
+"settings": "Pengaturan",
+ "expand_all": "Perluas Semua",
+ "collapse_all": "Tutup Semua",
+ "language": "Bahasa:",
+ "appearance": "Tampilan",
+ "set_options_for_appearance": "Setel opsi tampilan",
+ "rules": "Aturan",
+ "set_rules": "Atur aturan untuk penghapusan data otomatis, dll."
+}

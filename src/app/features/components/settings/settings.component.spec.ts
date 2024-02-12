@@ -3,14 +3,23 @@ import { SettingsComponent } from './settings.component';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from "@angular/router/testing";
+import { Localizer } from '../../../shared/classes/localization/localizer';
+import { Logger } from '../../../shared/services/logging/logger';
+import { LanguageSelectionNotificationService } from '../../services/language-selection/language-selection-notification.service';
 
 describe('SettingsComponent', () => {
+  const logger: Logger = new Logger();
+  logger.setLogLevel(0);
+  const langSelectionNotificationSErvice = new LanguageSelectionNotificationService();
+  let localizer: Localizer = new Localizer("test", 1, langSelectionNotificationSErvice.selectionChanged$, logger);
+
   let component: SettingsComponent;
   let fixture: ComponentFixture<SettingsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SettingsComponent, BrowserModule, BrowserAnimationsModule, RouterTestingModule]
+      imports: [SettingsComponent, BrowserModule, BrowserAnimationsModule, RouterTestingModule],
+      providers: [{provide: Localizer, useValue: localizer}, {provide: Logger, useValue: logger}]
     })
     .compileComponents();
     
@@ -21,11 +30,12 @@ describe('SettingsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
+  }); 
 
   describe('By start (by Default)...', () => {
 
     it('should have default label', () => {
+      fixture.detectChanges();
       const matCardTitleDebugElement = fixture.debugElement.query(By.css('mat-card-title'));
       const matCardTitleElement = matCardTitleDebugElement.nativeElement;
       expect(matCardTitleElement.textContent).toEqual('Settings'); 
@@ -47,28 +57,22 @@ describe('SettingsComponent', () => {
       expect(panelDescriptions.length).toBe(3);
 
       const expectedIconAndTitles = [
-        'language Language', 
-        'palette Appearence', 
+        'language Language:', 
+        'palette Appearance', 
         'rule_folder Rules'];
 
       panelTitles.forEach((title, index) => {
-        expect(title.nativeElement.textContent).toContain(expectedIconAndTitles[index]);
+        expect(title.nativeElement.textContent.trim()).toContain(expectedIconAndTitles[index]);
       });
 
       const expectedDescriptions = [
         'English  English', 
-        'Set appearence options', 
+        'Set appearance options', 
         'Set rules for automatic data deletion, etc.'];
 
       panelDescriptions.forEach((description, index) => {
-        expect(description.nativeElement.textContent).toContain(expectedDescriptions[index]);
+        expect(description.nativeElement.textContent.trim()).toContain(expectedDescriptions[index]);
       });
-    });
-  });
-
-  describe('After language changing...', () => {
-
-    xit('after lamguage selection should have three sub-components with icons and labels in selected language', () => {
     });
   });
 });

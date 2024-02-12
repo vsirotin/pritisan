@@ -1,0 +1,10 @@
+{
+"settings": "الإعدادات",
+ "expand_all": "توسيع الكل",
+ "collapse_all": "طي الكل",
+ "language": "اللغة:",
+ "appearance": "المظهر",
+ "set_options_for_appearance": "تعيين خيارات المظهر",
+ "rules": "القواعد",
+ "set_rules": "تعيين القواعد لحذف البيانات تلقائيًا، إلخ."
+}

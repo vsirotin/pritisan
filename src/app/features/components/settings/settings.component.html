@@ -1,10 +1,10 @@
 <mat-card class="example-card">
   <mat-card-header>
-    <mat-card-title>Settings</mat-card-title>
+    <mat-card-title>{{t('settings', 'Settings')}}</mat-card-title>
   </mat-card-header>
 <div class="example-action-buttons">
-    <button mat-button (click)="accordion?.openAll()">Expand All</button>
-    <button mat-button (click)="accordion?.closeAll()">Collapse All</button>
+    <button mat-button (click)="accordion?.openAll()">{{t('expand_all', 'Expand All')}}</button>
+    <button mat-button (click)="accordion?.closeAll()">{{t('collapse_all', 'Collapse All')}}</button>
   </div>
   <!-- #docregion multi -->
   <mat-accordion class="example-headers-align" multi>
@@ -13,7 +13,7 @@
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon>language</mat-icon>
-            Language:
+          {{t('language', 'Language:')}}
           </mat-panel-title>
         <mat-panel-description>
           <span width = "5px"></span>
@@ -24,15 +24,14 @@
         </mat-expansion-panel-header>
       <app-language-selection></app-language-selection>
     </mat-expansion-panel>
-
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon>palette</mat-icon>
-              Appearence
+            {{t('appearance', 'Appearance')}}
             </mat-panel-title>
           <mat-panel-description>
-            Set appearence options
+            {{t('set_options_for_appearance', 'Set appearance options')}}
         </mat-panel-description>
       </mat-expansion-panel-header>
   
@@ -46,10 +45,10 @@
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon>rule_folder</mat-icon>
-          Rules
+          {{t('rules', 'Rules')}}
         </mat-panel-title>
         <mat-panel-description>
-          Set rules for automatic data deletion, etc.      
+          {{t('set_rules', 'Set rules for automatic data deletion, etc.')}}      
         </mat-panel-description>
       </mat-expansion-panel-header>
   
