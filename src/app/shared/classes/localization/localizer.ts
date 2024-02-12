@@ -2,7 +2,7 @@ import { Observable, Subject, Subscription } from "rxjs";
 import { ILanguageDescription, inSupportedLanguages } from './language-description';
 import { Logger } from "../../services/logging/logger";
 import { Warning } from "../problems/problems";
-import { FasadeDB, IKeyValueDB } from "../db/fasade-db";
+import { DbAgent, IKeyValueDB } from "../db/db-agent";
 
 const DEFAULT_LANGUAGE = "en-US";
 const KEY_SAVING_LANGUAGE = "currentLanguage";
@@ -10,7 +10,7 @@ const KEY_SAVING_LANGUAGE = "currentLanguage";
 export class Localizer implements ILocalizer{
 
 
-  dbFasade: IKeyValueDB = new FasadeDB();
+  dbAgent: IKeyValueDB = new DbAgent();
   currentLanguage: LanguageData = this.initDefaultLanguage();
   private currentLanguageMap: Map<string, string> = new Map<string, string>();
 
@@ -30,41 +30,76 @@ export class Localizer implements ILocalizer{
       .subscribe((selectedLanguage: ILanguageDescription) => {
         this.logger.debug("Start of subscription in Localizer.constructor this.currentLanguage=" + this.currentLanguage.ietfTag); 
         this.currentLanguage = new LanguageData(selectedLanguage.ietfTag);
-        this.dbFasade.set(KEY_SAVING_LANGUAGE, this.currentLanguage.ietfTag);
+        this.dbAgent.set(KEY_SAVING_LANGUAGE, this.currentLanguage.ietfTag);
 
         if(this.currentLanguage.ietfTag === DEFAULT_LANGUAGE) {
-          this.logger.debug("Language is en-US, no need to fetch the language file");
-          this.currentLanguageMap = new Map<string, string>();
-          this.subject.next(this.currentLanguage);
+          this.setDefaultLanguage();
           return;
         }
-
-        this.loadLanguageMapFromDbOrServer(componentCooordinate);
+        this.loadLanguageMap();
       }); //end of subscription
   }
 
-  private loadLanguageMapFromDbOrServer(componentCooordinate: string) {
-    this.logger.debug("Start of Localizer.loadLanguageMapFromDbOrServer componentCooordinate=" + componentCooordinate);
-    let path = componentCooordinate + this.currentLanguage.ietfTag + ".json";
-    //fetch the language file from path
-    fetch(path)
+  private setDefaultLanguage() {
+    this.currentLanguage = new LanguageData(DEFAULT_LANGUAGE);
+    this.logger.debug("Language is en-US, no need to fetch the language file");
+    this.currentLanguageMap = new Map<string, string>();
+    this.subject.next(this.currentLanguage);
+  }
+
+  private loadLanguageMap() {
+    this.logger.debug("Start of Localizer.loadLanguageMap componentCooordinate=" + this.componentCooordinate);
+    let data: Map<string, string>|null = this.loadLanguageMapFromDb();
+
+    if(data != null){
+      this.currentLanguageMap = data;
+    }else {
+      let path = this.componentCooordinate + this.currentLanguage.ietfTag + ".json";
+    //fetch the language map file from path
+     fetch(path)
       .then(response => {
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status} by fetching from ${path}`);
+          this.logger.warn(`HTTP error. Status= ${response.status} by fetching from ${path}`); 
+          this.setDefaultLanguage();
         }
-        return response.json();
+        return response.json(); 
       })
       .then(data => {
         this.logger.debug("Data loaded from server=" + JSON.stringify(data));
-        this.currentLanguageMap = new Map(Object.entries(data));
+        this.currentLanguageMap = new Map<string, string>(Object.entries(data));
+        let key = this.generateKey();
 
-        if (this.currentLanguage) {
-          this.subject.next(this.currentLanguage);
-        }
+        this.dbAgent.set(key, JSON.stringify(data));
+        this.subject.next(this.currentLanguage as LanguageData);
       })
       .catch(error => {
-        this.logger.error('There was a problem with the fetch operation: error=' + error);
+        this.logger.error('There was a problem with the fetch operation: error=' + error);  
+        this.setDefaultLanguage(); 
       });
+    }
+    
+  }
+
+  private loadLanguageMapFromDb(): Map<string, string> | null {
+    this.logger.debug("Start of Localizer.loadLanguageMapFromDb componentCooordinate=" + this.componentCooordinate 
+      + " componentVersion=" + this.componentVersion);
+    
+    let key = this.generateKey();
+
+    let res = this.dbAgent.get(key);
+    this.logger.debug("In Localizer.loadLanguageMapFromDb (1) key=" + key + " res=" + res); 
+    if(res == null) return null;
+
+    const jsonObject = JSON.parse(res);
+    const map = new Map<string, string>(Object.entries(jsonObject));
+    this.logger.debug("In Localizer.loadLanguageMapFromDb (2) map=" + JSON.stringify(Object.fromEntries(map))); 
+    return map;
+  }
+
+  private generateKey(): string {
+    return  this.componentCooordinate.replace("assets/languages/features/", "") 
+              + "-v" + this.componentVersion + "-" 
+              + this.currentLanguage.ietfTag;
   }
 
   destructor() {
@@ -73,28 +108,32 @@ export class Localizer implements ILocalizer{
   }
 
   getTranslation(key: string, defaultText: string): string {
-    this.logger.debug("Start of Localizer.getTranslation for key=" + key + " defaultText=" + defaultText + " currentLanguage=" + this.currentLanguage);
 
+    let res: string  
     if(this.currentLanguage.ietfTag == DEFAULT_LANGUAGE) {
       this.logger.debug("Language is en-US, no need to fetch the language file");
-      return defaultText;
+      res = defaultText;
+    }else {
+      let val = this.currentLanguageMap.get(key);
+   
+      if (val) {
+        res = val;
+      }
+      else {
+        this.logger.warn("Not found value for key=" + key + " this.currentLanguage.ietfTag=" + this.currentLanguage.ietfTag + " defaultText=" + defaultText);
+        res = defaultText;
+      }
     }
 
-    let val = this.currentLanguageMap.get(key);
-    let res: string|Warning
-    if (val) {
-      res = val;
-    }
-    else {
-      this.logger.warn("Not found value for key " + key + "this.currentLanguage.ietfTag=" + this.currentLanguage.ietfTag + " defaultText=" + defaultText);
-      res = defaultText;
-    }
-    this.logger.debug("Result of Localizer.getTranslation for key=" + key + " defaultText=" + defaultText + " is:" + res);
+    this.logger.debug("Result of Localizer.getTranslation for key=" + key 
+      + " defaultText=" + defaultText 
+      + " currentLanguage=" + this.currentLanguage.ietfTag
+      + " res=" + res);
     return res;
   }
 
   private initDefaultLanguage(): LanguageData {
-    let savedLangEtfTag = this.dbFasade.get(KEY_SAVING_LANGUAGE);
+    let savedLangEtfTag = this.dbAgent.get(KEY_SAVING_LANGUAGE);
     this.logger.debug("Start of Localizer.initDefaultLanguage savedLangEtfTag=" + savedLangEtfTag);
     if(typeof savedLangEtfTag !== 'string'){
       this.logger.debug("No saved language, using navigator.language");
@@ -129,6 +168,8 @@ export interface ILocalizer {
 export class LanguageData {
   constructor(public ietfTag: string) {}
 }
+
+
 
 
 

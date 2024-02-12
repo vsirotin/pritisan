@@ -1,4 +1,4 @@
-export class FasadeDB implements IKeyValueDB{
+export class DbAgent implements IKeyValueDB{
     get(key: string): string|null {
         return localStorage.getItem(key);
     }
