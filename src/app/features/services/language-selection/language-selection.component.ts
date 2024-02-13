@@ -20,7 +20,7 @@ import { SupportedLanguages } from '../../../shared/classes/localization/languag
 })
 
 export class LanguageSelectionComponent {
-  selectedLangCode?: string;
+  selectedLangCode: string|null = null;
 
   supportedLanguages = SupportedLanguages;
   
@@ -28,10 +28,9 @@ export class LanguageSelectionComponent {
 
   constructor(private selectedLanguageService: LanguageSelectionNotificationService){}
 
-  onRadioChange() {
+  onRadioChange() { 
     let selLang = SupportedLanguages.filter((lang) => lang.ietfTag == this.selectedLangCode)[0];
     this.selectedLanguageService.selectionChanged(selLang);
-    this.selectedLanguageService.setLanguage(selLang.ietfTag);
   }
 }
 

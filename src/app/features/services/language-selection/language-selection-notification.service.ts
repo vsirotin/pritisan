@@ -21,9 +21,5 @@ export class LanguageSelectionNotificationService {
     this.selectedLanguage = selectedLanguage;
   }
 
-  setLanguage(ietfTag: string) {
-    this.selectedLanguage = SupportedLanguages.filter((lang) => lang.ietfTag == ietfTag)[0];
-    this.subject.next(this.selectedLanguage);
-  }
 }
 

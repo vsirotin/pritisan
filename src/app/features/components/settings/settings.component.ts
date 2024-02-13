@@ -1,19 +1,19 @@
-import {Component, ViewChild, OnInit, OnDestroy} from '@angular/core';
-import {MatAccordion, MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatCardModule} from '@angular/material/card';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {LanguageSelectionComponent} from '../../services/language-selection/language-selection.component'
-import {LanguageSelectionNotificationService} from '../../services/language-selection/language-selection-notification.service';
-import { ILanguageDescription, inSupportedLanguages } from '../../../shared/classes/localization/language-description';
-import {Subscription} from 'rxjs/internal/Subscription';
-import {ILocalizer, Localizer} from '../../../shared/classes/localization/localizer';
-import {Logger} from '../../../shared/services/logging/logger';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { LanguageSelectionComponent } from '../../services/language-selection/language-selection.component'
+import { LanguageSelectionNotificationService } from '../../services/language-selection/language-selection-notification.service';
+import { ILanguageDescription, SupportedLanguages } from '../../../shared/classes/localization/language-description';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { ILocalizer, Localizer } from '../../../shared/classes/localization/localizer';
+import { Logger } from '../../../shared/services/logging/logger';
 
 export const SETTINGS_SOURCE_DIR = "assets/languages/features/components/settings/lang/";
 /**
@@ -37,7 +37,7 @@ export const SETTINGS_SOURCE_DIR = "assets/languages/features/components/setting
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
-export class SettingsComponent implements OnInit, OnDestroy  {
+export class SettingsComponent implements OnDestroy  {
   @ViewChild(MatAccordion) accordion?: MatAccordion;
 
   private subscription: Subscription;
@@ -45,7 +45,7 @@ export class SettingsComponent implements OnInit, OnDestroy  {
 
   langOrigin: string = ""
   langEn: string = ""
-  langEtfTag = "" 
+  langEtfTag: string = "" 
 
   constructor(private languageSelectionNotificationService: LanguageSelectionNotificationService,
     private logger: Logger ) {
@@ -56,43 +56,35 @@ export class SettingsComponent implements OnInit, OnDestroy  {
     this.languageSelectionNotificationService.selectionChanged$, 
     logger);
 
+    this.setLanguageRelatedElements(this.localizer.currentLanguage as ILanguageDescription);
+
     this.subscription = this
       .languageSelectionNotificationService.selectionChanged$
       .subscribe((selectedLanguage: ILanguageDescription) => {
-      this.langOrigin = selectedLanguage.originalName;
-      this.langEn = selectedLanguage.enName
-      this.langEtfTag = selectedLanguage.ietfTag
+      this.setLanguageRelatedElements(selectedLanguage);
 
       if (this.accordion) {
-        console.log("Closing all panels");
         this.accordion.closeAll();
       }
     });
   }
 
-  ngOnInit() {
-    this.logger.debug("Start of SettingsComponent.ngOnInit");
-    this.trySetLanguage();
+  private setLanguageRelatedElements(selectedLanguage: ILanguageDescription) {
+    this.logger.debug("Start of SettingsComponent.setLanguageRelatedElements selectedLanguage=" + JSON.stringify(selectedLanguage));
+    
+    const langDescr = SupportedLanguages.filter((lang) => lang.ietfTag == selectedLanguage.ietfTag)[0];
+    this.langOrigin = langDescr.originalName;
+    this.langEn = langDescr.enName;
+    this.langEtfTag = langDescr.ietfTag;
   }
+
 
   ngOnDestroy() {
     this.logger.debug("Start of SettingsComponent.ngDestroy");
     this.subscription.unsubscribe();
+    this.localizer.destructor();
   }
 
-  trySetLanguage() {
-    this.logger.debug("Start of SettingsComponent.trySetLanguage");
-    let savedLangEtfTag = this.localizer.currentLanguage?.ietfTag;
-
-    if(typeof savedLangEtfTag !== 'string'){
-      savedLangEtfTag = navigator.language;
-    }
-
-    if(!inSupportedLanguages(savedLangEtfTag)){
-      savedLangEtfTag = "en-US";
-    }
-    this.languageSelectionNotificationService.setLanguage(savedLangEtfTag as string)
-  }
 
   t(key: string, defaultText: string): string {
     return this.localizer.getTranslation(key, defaultText);

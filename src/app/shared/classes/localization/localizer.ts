@@ -9,9 +9,8 @@ const KEY_SAVING_LANGUAGE = "currentLanguage";
 
 export class Localizer implements ILocalizer{
 
-
   dbAgent: IKeyValueDB = new DbAgent();
-  currentLanguage: LanguageData = this.initDefaultLanguage();
+  currentLanguage: LanguageData;
   private currentLanguageMap: Map<string, string> = new Map<string, string>();
 
   private subject = new Subject<LanguageData>();
@@ -25,19 +24,44 @@ export class Localizer implements ILocalizer{
     private logger: Logger) { 
     this.logger.debug("Start of Localizer.constructor"); 
 
+    this.currentLanguage = this.initializeLanguage();
+
     this.subscription = this
       .languageChangeNotificator
       .subscribe((selectedLanguage: ILanguageDescription) => {
-        this.logger.debug("Start of subscription in Localizer.constructor this.currentLanguage=" + this.currentLanguage.ietfTag); 
-        this.currentLanguage = new LanguageData(selectedLanguage.ietfTag);
-        this.dbAgent.set(KEY_SAVING_LANGUAGE, this.currentLanguage.ietfTag);
+        this.logger.debug("Start of subscription in Localizer.constructor this.currentLanguage=" 
+        + this.currentLanguage.ietfTag 
+        + " selectedLanguage=" + JSON.stringify(selectedLanguage)); 
 
-        if(this.currentLanguage.ietfTag === DEFAULT_LANGUAGE) {
-          this.setDefaultLanguage();
-          return;
-        }
-        this.loadLanguageMap();
-      }); //end of subscription
+        this.setLanguage(selectedLanguage.ietfTag);
+      });
+  }
+
+  private initializeLanguage(): LanguageData {
+    let savedLangEtfTag = this.dbAgent.get(KEY_SAVING_LANGUAGE);
+    this.logger.debug("In Localizer.constructor  savedLangEtfTag=" + savedLangEtfTag);
+    if (savedLangEtfTag == null) {
+      savedLangEtfTag = navigator.language;
+    }
+
+    if (!inSupportedLanguages(savedLangEtfTag)) {
+      savedLangEtfTag = "en-US";
+    }
+
+    this.setLanguage(savedLangEtfTag);
+    return new LanguageData(savedLangEtfTag);
+  }
+
+  private setLanguage(ietfTag: string) {
+
+    this.currentLanguage = new LanguageData(ietfTag);
+    this.dbAgent.set(KEY_SAVING_LANGUAGE, this.currentLanguage.ietfTag);
+
+    if(this.currentLanguage.ietfTag === DEFAULT_LANGUAGE) {
+      this.setDefaultLanguage();
+      return;
+    }
+    this.loadLanguageMap();
   }
 
   private setDefaultLanguage() {
@@ -67,7 +91,7 @@ export class Localizer implements ILocalizer{
       .then(data => {
         this.logger.debug("Data loaded from server=" + JSON.stringify(data));
         this.currentLanguageMap = new Map<string, string>(Object.entries(data));
-        let key = this.generateKey();
+        let key = this.generateKeyForLoadingLanguageMap();
 
         this.dbAgent.set(key, JSON.stringify(data));
         this.subject.next(this.currentLanguage as LanguageData);
@@ -84,7 +108,7 @@ export class Localizer implements ILocalizer{
     this.logger.debug("Start of Localizer.loadLanguageMapFromDb componentCooordinate=" + this.componentCooordinate 
       + " componentVersion=" + this.componentVersion);
     
-    let key = this.generateKey();
+    let key = this.generateKeyForLoadingLanguageMap();
 
     let res = this.dbAgent.get(key);
     this.logger.debug("In Localizer.loadLanguageMapFromDb (1) key=" + key + " res=" + res); 
@@ -96,7 +120,7 @@ export class Localizer implements ILocalizer{
     return map;
   }
 
-  private generateKey(): string {
+  private generateKeyForLoadingLanguageMap(): string {
     return  this.componentCooordinate.replace("assets/languages/features/", "") 
               + "-v" + this.componentVersion + "-" 
               + this.currentLanguage.ietfTag;
@@ -130,22 +154,6 @@ export class Localizer implements ILocalizer{
       + " currentLanguage=" + this.currentLanguage.ietfTag
       + " res=" + res);
     return res;
-  }
-
-  private initDefaultLanguage(): LanguageData {
-    let savedLangEtfTag = this.dbAgent.get(KEY_SAVING_LANGUAGE);
-    this.logger.debug("Start of Localizer.initDefaultLanguage savedLangEtfTag=" + savedLangEtfTag);
-    if(typeof savedLangEtfTag !== 'string'){
-      this.logger.debug("No saved language, using navigator.language");
-      savedLangEtfTag = navigator.language;
-    }
-
-    if(!inSupportedLanguages(savedLangEtfTag)){
-      savedLangEtfTag = DEFAULT_LANGUAGE;
-      this.logger.warn("Language " + savedLangEtfTag + " is not supported, using default language");
-    }
-    this.logger.log("End of Localizer.initDefaultLanguage savedLangEtfTag=" + savedLangEtfTag);
-    return new LanguageData(savedLangEtfTag);
   }
 }
 
