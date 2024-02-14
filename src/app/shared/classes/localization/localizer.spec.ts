@@ -2,7 +2,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { LanguageData, Localizer } from './localizer';
 import { Observable, Subscription } from 'rxjs';
-import { LanguageSelectionNotificationService } from '../../../features/services/language-selection/language-selection-notification.service';
+import { ILanguageChangeNotificator } from './language-change-notificator';
 import { ILanguageDescription } from './language-description';
 import { Logger } from '../../services/logging/logger';
 import { SETTINGS_SOURCE_DIR } from '../../../features/components/settings/settings.component';
@@ -11,13 +11,13 @@ describe('Localizer', () => {
   let localizer: Localizer;
   let langDescr: ILanguageDescription;
 
-  let langSelectNotificationService: LanguageSelectionNotificationService 
+  let langSelectNotificationService: ILanguageChangeNotificator 
 
   beforeEach(() => {
     let logger = new Logger();
 
-    langSelectNotificationService = new LanguageSelectionNotificationService();
-    localizer = new Localizer(SETTINGS_SOURCE_DIR, 1, langSelectNotificationService.selectionChanged$, logger);
+    localizer = new Localizer(SETTINGS_SOURCE_DIR, 1, logger);
+    langSelectNotificationService = Localizer.languageChangeNotificator;
     localStorage.clear();
   });
 

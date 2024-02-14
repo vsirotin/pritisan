@@ -9,6 +9,8 @@ import { RouterModule, Routes } from '@angular/router';
 import {CommunicatorService} from '../toolbar/service/communicator.service'
 import { Subscription } from 'rxjs';
 import {ToolbarComponent } from '../toolbar/toolbar.component';
+import { Logger } from '../../../shared/services/logging/logger';
+import { ILocalizer , Localizer } from '../../../shared/classes/localization/localizer';
 
 @Component({
   selector: 'app-main',
@@ -44,6 +46,7 @@ export class MainComponent implements OnDestroy {
 
 
   private _mobileQueryListener!: () => void;
+  //localizer: ILocalizer = new Localizer("main", 1, this.languageSelectionNotificationService.selectionChanged$, new Logger());
 
   constructor(private communicatorService: CommunicatorService,
    changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
@@ -65,6 +68,11 @@ export class MainComponent implements OnDestroy {
     this.subscription.unsubscribe();
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
+
+
+  // t(key: string, defaultText: string): string {
+  //   return this.localizer.getTranslation(key, defaultText);
+  // }
 }
 
 interface NavigationEntry {

@@ -3,11 +3,14 @@ import { ILanguageDescription, inSupportedLanguages } from './language-descripti
 import { Logger } from "../../services/logging/logger";
 import { Warning } from "../problems/problems";
 import { DbAgent, IKeyValueDB } from "../db/db-agent";
+import { ILanguageChangeNotificator, LanguageChangeNotificator } from "./language-change-notificator";
 
 const DEFAULT_LANGUAGE = "en-US";
 const KEY_SAVING_LANGUAGE = "currentLanguage";
 
 export class Localizer implements ILocalizer{
+
+  static languageChangeNotificator: ILanguageChangeNotificator = new LanguageChangeNotificator(); 
 
   dbAgent: IKeyValueDB = new DbAgent();
   currentLanguage: LanguageData;
@@ -17,17 +20,18 @@ export class Localizer implements ILocalizer{
   languageChanged$ = this.subject.asObservable();
 
   private subscription: Subscription;
+  private languageChange$: Observable<ILanguageDescription> = Localizer.languageChangeNotificator.selectionChanged$;
 
   constructor(private componentCooordinate: string,
     private componentVersion : number,
-    private languageChangeNotificator: | Observable<ILanguageDescription>,
+
     private logger: Logger) { 
     this.logger.debug("Start of Localizer.constructor"); 
 
     this.currentLanguage = this.initializeLanguage();
 
     this.subscription = this
-      .languageChangeNotificator
+      .languageChange$
       .subscribe((selectedLanguage: ILanguageDescription) => {
         this.logger.debug("Start of subscription in Localizer.constructor this.currentLanguage=" 
         + this.currentLanguage.ietfTag 

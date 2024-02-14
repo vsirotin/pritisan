@@ -1,9 +1,9 @@
-
-import {Component} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {MatRadioModule} from '@angular/material/radio';
-import {LanguageSelectionNotificationService} from './language-selection-notification.service'
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
+import { ILanguageChangeNotificator } from '../../../shared/classes/localization/language-change-notificator'
 import { SupportedLanguages } from '../../../shared/classes/localization/language-description';
+import { Localizer } from '../../../shared/classes/localization/localizer';
 
 /**
  * @title Accordion with expand/collapse all toggles
@@ -20,13 +20,14 @@ import { SupportedLanguages } from '../../../shared/classes/localization/languag
 })
 
 export class LanguageSelectionComponent {
+
+  //Variables used in HTML part of component.
   selectedLangCode: string|null = null;
-
   supportedLanguages = SupportedLanguages;
-  
-  static langEtfTags: string;
 
-  constructor(private selectedLanguageService: LanguageSelectionNotificationService){}
+  private selectedLanguageService: ILanguageChangeNotificator = Localizer.languageChangeNotificator;
+
+  constructor(){}
 
   onRadioChange() { 
     let selLang = SupportedLanguages.filter((lang) => lang.ietfTag == this.selectedLangCode)[0];

@@ -9,7 +9,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LanguageSelectionComponent } from '../../services/language-selection/language-selection.component'
-import { LanguageSelectionNotificationService } from '../../services/language-selection/language-selection-notification.service';
+import { ILanguageChangeNotificator } from '../../../shared/classes/localization/language-change-notificator';
 import { ILanguageDescription, SupportedLanguages } from '../../../shared/classes/localization/language-description';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { ILocalizer, Localizer } from '../../../shared/classes/localization/localizer';
@@ -42,24 +42,22 @@ export class SettingsComponent implements OnDestroy  {
 
   private subscription: Subscription;
   private localizer: ILocalizer;
+  private languageChangeNotificator: ILanguageChangeNotificator = Localizer.languageChangeNotificator;
 
   langOrigin: string = ""
   langEn: string = ""
   langEtfTag: string = "" 
 
-  constructor(private languageSelectionNotificationService: LanguageSelectionNotificationService,
+  constructor(
     private logger: Logger ) {
     this.logger.debug("Start of SettingsComponent.constructor");  
 
-    this.localizer =  new Localizer(SETTINGS_SOURCE_DIR, 
-    1, 
-    this.languageSelectionNotificationService.selectionChanged$, 
-    logger);
+    this.localizer =  new Localizer(SETTINGS_SOURCE_DIR, 1, logger);
 
     this.setLanguageRelatedElements(this.localizer.currentLanguage as ILanguageDescription);
 
     this.subscription = this
-      .languageSelectionNotificationService.selectionChanged$
+      .languageChangeNotificator.selectionChanged$
       .subscribe((selectedLanguage: ILanguageDescription) => {
       this.setLanguageRelatedElements(selectedLanguage);
 
