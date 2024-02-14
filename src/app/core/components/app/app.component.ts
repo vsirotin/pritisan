@@ -16,10 +16,4 @@ import {MainComponent} from '../main/main.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-
-  onItemClicked(item: string) {
-    console.log("Clicked on: ", item);
-    // Implement your logic here
-  }
-}
+export class AppComponent {}

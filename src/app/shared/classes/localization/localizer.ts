@@ -1,11 +1,11 @@
 import { Observable, Subject, Subscription } from "rxjs";
-import { ILanguageDescription, inSupportedLanguages } from './language-description';
+import { ILanguageDescription, inSupportedLanguages, DEFAULT_LANG_TAG } from './language-description';
 import { Logger } from "../../services/logging/logger";
 import { Warning } from "../problems/problems";
 import { DbAgent, IKeyValueDB } from "../db/db-agent";
 import { ILanguageChangeNotificator, LanguageChangeNotificator } from "./language-change-notificator";
 
-const DEFAULT_LANGUAGE = "en-US";
+
 const KEY_SAVING_LANGUAGE = "currentLanguage";
 
 export class Localizer implements ILocalizer{
@@ -49,7 +49,7 @@ export class Localizer implements ILocalizer{
     }
 
     if (!inSupportedLanguages(savedLangEtfTag)) {
-      savedLangEtfTag = "en-US";
+      savedLangEtfTag = DEFAULT_LANG_TAG;
     }
 
     this.setLanguage(savedLangEtfTag);
@@ -61,7 +61,7 @@ export class Localizer implements ILocalizer{
     this.currentLanguage = new LanguageData(ietfTag);
     this.dbAgent.set(KEY_SAVING_LANGUAGE, this.currentLanguage.ietfTag);
 
-    if(this.currentLanguage.ietfTag === DEFAULT_LANGUAGE) {
+    if(this.currentLanguage.ietfTag == DEFAULT_LANG_TAG) {
       this.setDefaultLanguage();
       return;
     }
@@ -69,8 +69,8 @@ export class Localizer implements ILocalizer{
   }
 
   private setDefaultLanguage() {
-    this.currentLanguage = new LanguageData(DEFAULT_LANGUAGE);
-    this.logger.debug("Language is en-US, no need to fetch the language file");
+    this.currentLanguage = new LanguageData(DEFAULT_LANG_TAG);
+    this.logger.debug("Language is DEFAULT_LANG_TAG, no need to fetch the language file");
     this.currentLanguageMap = new Map<string, string>();
     this.subject.next(this.currentLanguage);
   }
@@ -138,8 +138,8 @@ export class Localizer implements ILocalizer{
   getTranslation(key: string, defaultText: string): string {
 
     let res: string  
-    if(this.currentLanguage.ietfTag == DEFAULT_LANGUAGE) {
-      this.logger.debug("Language is en-US, no need to fetch the language file");
+    if(this.currentLanguage.ietfTag == DEFAULT_LANG_TAG) {
+      this.logger.debug("Language is DEFAULT_LANG_TAG, no need to fetch the language file");
       res = defaultText;
     }else {
       let val = this.currentLanguageMap.get(key);

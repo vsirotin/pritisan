@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { ILocalizer, Localizer } from '../../../shared/classes/localization/localizer';
 import { Logger } from '../../../shared/services/logging/logger';
 
-export const SETTINGS_SOURCE_DIR = "assets/languages/features/components/settings/lang/";
+const SETTINGS_SOURCE_DIR = "assets/languages/features/components/settings/lang/";
 /**
  * //TODO: Add documentation
  */

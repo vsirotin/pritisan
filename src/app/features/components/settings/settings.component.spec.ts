@@ -8,8 +8,7 @@ import { Logger } from '../../../shared/services/logging/logger';
 
 describe('SettingsComponent', () => {
   const logger: Logger = new Logger();
-  logger.setLogLevel(0);
-  let localizer: Localizer = new Localizer("test", 1, logger);
+  const localizer: Localizer = new Localizer("test", 1, logger);
 
   let component: SettingsComponent;
   let fixture: ComponentFixture<SettingsComponent>;
