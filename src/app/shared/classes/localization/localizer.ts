@@ -93,8 +93,9 @@ export class Localizer implements ILocalizer{
         return response.json(); 
       })
       .then(data => {
-        this.logger.debug("Data loaded from server=" + JSON.stringify(data));
+        this.logger.debug("Localizer.loadLanguageMap: Data loaded from server=" + JSON.stringify(data));
         this.currentLanguageMap = new Map<string, string>(Object.entries(data));
+        
         let key = this.generateKeyForLoadingLanguageMap();
 
         this.dbAgent.set(key, JSON.stringify(data));

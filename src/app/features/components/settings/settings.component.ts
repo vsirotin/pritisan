@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { ILocalizer, Localizer } from '../../../shared/classes/localization/localizer';
 import { Logger } from '../../../shared/services/logging/logger';
 
-const SETTINGS_SOURCE_DIR = "assets/languages/features/components/settings/lang/";
+export const SETTINGS_SOURCE_DIR = "assets/languages/features/components/settings/lang/";
 /**
  * //TODO: Add documentation
  */
@@ -41,7 +41,7 @@ export class SettingsComponent implements OnDestroy  {
   @ViewChild(MatAccordion) accordion?: MatAccordion;
 
   private subscription: Subscription;
-  private localizer: ILocalizer;
+  readonly localizer: Localizer;
   private languageChangeNotificator: ILanguageChangeNotificator = Localizer.languageChangeNotificator;
 
   langOrigin: string = ""
