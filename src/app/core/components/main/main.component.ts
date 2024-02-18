@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -29,7 +29,7 @@ export const MAIN_SOURCE_DIR = "assets/languages/core/components/main/lang/";
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
-export class MainComponent implements OnDestroy {
+export class MainComponent implements OnInit, OnDestroy {
   @ViewChild('snav') snav!: MatSidenavModule;
 
   private subscriptionBtnClicked: Subscription;
@@ -41,21 +41,18 @@ export class MainComponent implements OnDestroy {
 
   mobileQuery!: MediaQueryList;
 
-  navItemsDefault: Array<NavigationEntry> = [
+  readonly navItemsDefault: Array<NavigationEntry> = [
     {id: "capture", label: "Capture",  link: "capture", icon: "feed"},
     {id: "edit", label: "Edit",  link: "edit", icon: "edit_square"},
     {id: "analysis", label: "Analysis",  link: "analysis", icon: "area_chart"},
-    {id: "import_export", label: "Import/export",  link: "import-export", icon: "app_shortcut"},
+    {id: "import_export", label: "Import/Export",  link: "import-export", icon: "app_shortcut"},
     {id: "settings", label: "Settings",  link: "settings", icon: "settings"},
     {id: "info", label: "Info",  link: "info", icon: "help"}
   ];
 
-  navItems: Array<NavigationEntry> = this.navItemsDefault;
-
-
   private _mobileQueryListener!: () => void;
-  localizer: ILocalizer = new Localizer(MAIN_SOURCE_DIR, 1, new Logger());
-  private languageChangeNotificator: ILanguageChangeNotificator = Localizer.languageChangeNotificator;
+  localizer: Localizer = new Localizer(MAIN_SOURCE_DIR, 1, new Logger());
+  languageChangeNotificator: ILanguageChangeNotificator = Localizer.languageChangeNotificator;
 
   constructor(private communicatorService: CommunicatorService,
    changeDetectorRef: ChangeDetectorRef, 
@@ -73,11 +70,10 @@ export class MainComponent implements OnDestroy {
     .languageChangeNotificator.selectionChanged$
     .subscribe((selectedLanguage: ILanguageDescription) => {
       this.logger.debug("Start of MainComponent.subscriptionLangChanged selectedLanguage=" + JSON.stringify(selectedLanguage));
-      this.resetNavItems(selectedLanguage.ietfTag);  
-       this.cdr.detectChanges();
+      this.logger.debug("MainComponent.subscriptionLangChanged after resetNavItems");
+      this.cdr.detectChanges();
+      this.logger.debug("MainComponent.subscriptionLangChanged completed");
     }); 
-
-    this.resetNavItems(this.localizer.currentLanguage?.ietfTag);
 
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -85,15 +81,28 @@ export class MainComponent implements OnDestroy {
     this.logger.debug("End of MainComponent.constructor"); 
   }
 
-  private resetNavItems(selectedLangIetfTag: string|undefined){
-    this.logger.debug("Start of MainComponent.resetNavItems selectedLangIetfTag=" + selectedLangIetfTag);
-    if((selectedLangIetfTag == null) || (selectedLangIetfTag == DEFAULT_LANG_TAG)){
-      this.navItems = this.navItemsDefault;
-      return
-    }
-    this.navItems.forEach((item) => {
-      item.label = this.localizer.getTranslation(item.id, item.label);
-    });  
+  async ngOnInit() {
+    this.logger.debug("Start of MainComponent.ngOnInit");
+    await this.localizer.initializeLanguage();
+    this.logger.debug("End of MainComponent.ngOnInit");
+  }
+
+  // private async resetNavItems(selectedLangIetfTag: string){
+  //   this.logger.debug("Start of MainComponent.resetNavItems selectedLangIetfTag=" + selectedLangIetfTag);
+  //   if(selectedLangIetfTag == DEFAULT_LANG_TAG){
+  //     this.logger.debug("MainComponent.resetNavItems selectedLangIetfTag == DEFAULT_LANG_TAG : make a deep copy of navItemsDefault and assign it to navItems");
+  //     this.navItems =  deepCopyArray<NavigationEntry>(this.navItemsDefault);
+  //     return
+  //   }
+  //   this.logger.debug("MainComponent.resetNavItems using translations");
+  //   this.navItems.forEach((item) => {
+  //       item.label = this.localizer.getTranslation(item.id, item.label);
+  //   });
+  // }
+
+  t(id: string) {
+    const defaultLabel = this.navItemsDefault.find(item => item.id === id)?.label || id;
+    return this.localizer.getTranslation(id, defaultLabel);
   }
 
   toggleMenu() {
@@ -114,5 +123,9 @@ interface NavigationEntry {
   label: string;
   link: string;
   icon: string;
+}
+
+function deepCopyArray<T>(arr: Array<T>): Array<T> {
+  return arr.map(item => Object.assign({}, item));
 }
 

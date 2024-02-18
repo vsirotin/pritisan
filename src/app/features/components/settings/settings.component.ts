@@ -12,7 +12,7 @@ import { LanguageSelectionComponent } from '../../services/language-selection/la
 import { ILanguageChangeNotificator } from '../../../shared/classes/localization/language-change-notificator';
 import { ILanguageDescription, SupportedLanguages } from '../../../shared/classes/localization/language-description';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { ILocalizer, Localizer } from '../../../shared/classes/localization/localizer';
+import { Localizer } from '../../../shared/classes/localization/localizer';
 import { Logger } from '../../../shared/services/logging/logger';
 
 export const SETTINGS_SOURCE_DIR = "assets/languages/features/components/settings/lang/";
@@ -37,7 +37,7 @@ export const SETTINGS_SOURCE_DIR = "assets/languages/features/components/setting
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
-export class SettingsComponent implements OnDestroy  {
+export class SettingsComponent implements OnInit, OnDestroy  {
   @ViewChild(MatAccordion) accordion?: MatAccordion;
 
   private subscription: Subscription;
@@ -76,6 +76,11 @@ export class SettingsComponent implements OnDestroy  {
     this.langEtfTag = langDescr.ietfTag;
   }
 
+  async ngOnInit() {
+    this.logger.debug("Start of SettingsComponent.ngOnInit");
+    await this.localizer.initializeLanguage();
+    this.logger.debug("End of SettingsComponent.ngOnInit");
+  }
 
   ngOnDestroy() {
     this.logger.debug("Start of SettingsComponent.ngDestroy");
