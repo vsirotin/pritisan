@@ -79,6 +79,7 @@ export class SettingsComponent implements OnInit, OnDestroy  {
   async ngOnInit() {
     this.logger.debug("Start of SettingsComponent.ngOnInit");
     await this.localizer.initializeLanguage();
+    this.setLanguageRelatedElements(this.localizer.currentLanguage as ILanguageDescription);
     this.logger.debug("End of SettingsComponent.ngOnInit");
   }
 
