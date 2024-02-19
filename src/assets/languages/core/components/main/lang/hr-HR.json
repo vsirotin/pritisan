@@ -1,8 +1,8 @@
 {
-  "capture": "Snimanje",
-  "edit": "Uređivanje",
-  "analysis": "Analiza",
-  "import_export": "Uvoz/Izvoz",
+  "capture": "Bilježenje podataka",
+  "edit": "Uređivanje podataka",
+  "analysis": "Analiza podataka",
+  "import_export": "Uvoz/Izvoz podataka",
   "settings": "Postavke",
   "info": "Informacije"
 }

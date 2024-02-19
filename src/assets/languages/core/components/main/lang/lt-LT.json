@@ -1,8 +1,8 @@
 {
-  "capture": "Užfiksuoti",
-  "edit": "Redaguoti",
-  "analysis": "Analizė",
-  "import_export": "Importuoti/Eksportuoti",
-  "settings": "Nustatymai",
+  "capture": "Duomenų surinkimas",
+  "edit": "Duomenų redagavimas",
+  "analysis": "Duomenų analizė",
+  "import_export": "Duomenų importavimas/eksportavimas",
+  "settings": "Nuostatos",
   "info": "Informacija"
 }

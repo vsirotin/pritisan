@@ -1,8 +1,8 @@
 {
-  "capture": "Menangkap",
-  "edit": "Mengedit",
-  "analysis": "Analisis",
-  "import_export": "Impor/Ekspor",
+  "capture": "Pengumpulan Data",
+  "edit": "Penyuntingan Data",
+  "analysis": "Analisis Data",
+  "import_export": "Impor/Ekspor Data",
   "settings": "Pengaturan",
-  "info": "Informasi"
+  "info": "Info"
 }

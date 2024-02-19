@@ -1,8 +1,8 @@
 {
-  "capture": "Datenerfassung",
-  "edit": "Editieren",
-  "analysis": "Analyse",
-  "import_export": "Import/Export",
-  "settings": "Einstellungen",
-  "info": "Info"
+"capture": "Datenerfassung",
+ "edit": "Datenänderung",
+ "analysis": "Daten-Analyse",
+ "import_export": "Import/Export von Daten",
+ "settings": "Einstellungen",
+ "info": "Info"
 }

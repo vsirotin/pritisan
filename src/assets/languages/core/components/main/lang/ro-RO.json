@@ -1,8 +1,8 @@
 {
-  "capture": "Captură",
-  "edit": "Edita",
-  "analysis": "Analiză",
-  "import_export": "Import/Export",
+  "capture": "Captură de date",
+  "edit": "Editare date",
+  "analysis": "Analiză de date",
+  "import_export": "Import/Export date",
   "settings": "Setări",
   "info": "Informații"
 }

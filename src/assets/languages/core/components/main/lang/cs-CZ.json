@@ -1,8 +1,8 @@
 {
-  "capture": "Zachytit",
-  "edit": "Upravit",
-  "analysis": "Analýza",
-  "import_export": "Importovat/Exportovat",
+  "capture": "Zachytávání dat",
+  "edit": "Editace dat",
+  "analysis": "Analýza dat",
+  "import_export": "Import/Export dat",
   "settings": "Nastavení",
   "info": "Informace"
 }

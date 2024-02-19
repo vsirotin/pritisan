@@ -1,8 +1,8 @@
 {
-  "capture": "ਕੈਪਚਰ",
-  "edit": "ਸੋਧ",
-  "analysis": "ਵਿਸ਼ਲੇਸ਼ਣ",
-  "import_export": "ਆਯਾਤ/ਨਿਰਯਾਤ",
+  "capture": "ਡਾਟਾ ਕੈਚਰ",
+  "edit": "ਡਾਟਾ ਸੋਧ",
+  "analysis": "ਡਾਟਾ ਵਿਸ਼ਲੇਸ਼ਣ",
+  "import_export": "ਡਾਟਾ ਆਯਾਤ/ਨਿਰਯਾਤ",
   "settings": "ਸੈਟਿੰਗਜ਼",
   "info": "ਜਾਣਕਾਰੀ"
 }

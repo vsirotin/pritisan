@@ -1,8 +1,8 @@
 {
-  "capture": "Vastleggen",
-  "edit": "Bewerken",
-  "analysis": "Analyse",
-  "import_export": "Importeren/Exporteren",
+  "capture": "Gegevens vastleggen",
+  "edit": "Gegevens bewerken",
+  "analysis": "Gegevensanalyse",
+  "import_export": "Gegevens importeren/exporteren",
   "settings": "Instellingen",
   "info": "Informatie"
 }

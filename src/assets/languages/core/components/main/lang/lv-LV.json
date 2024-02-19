@@ -1,8 +1,8 @@
 {
-  "capture": "Uzņemt",
-  "edit": "Rediģēt",
-  "analysis": "Analīze",
-  "import_export": "Importēt/Eksportēt",
+  "capture": "Datu iegūšana",
+  "edit": "Datu rediģēšana",
+  "analysis": "Datu analīze",
+  "import_export": "Datu importēšana/eksportēšana",
   "settings": "Iestatījumi",
   "info": "Informācija"
 }

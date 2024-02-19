@@ -1,8 +1,8 @@
 {
-  "capture": "Fang",
-  "edit": "Redigere",
-  "analysis": "Analyse",
-  "import_export": "Import/eksport",
+  "capture": "Datafangst",
+  "edit": "Redigering av data",
+  "analysis": "Dataanalyse",
+  "import_export": "Import/Eksport av data",
   "settings": "Innstillinger",
   "info": "Info"
 }

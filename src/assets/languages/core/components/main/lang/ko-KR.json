@@ -1,8 +1,8 @@
 {
-  "capture": "캡처",
-  "edit": "편집",
-  "analysis": "분석",
-  "import_export": "가져 오기/내보내기",
-  "settings": "설 정",
+  "capture": "데이터 캡처",
+  "edit": "데이터 편집",
+  "analysis": "데이터 분석",
+  "import_export": "데이터 가져오기/내보내기",
+  "settings": "설정",
   "info": "정보"
 }

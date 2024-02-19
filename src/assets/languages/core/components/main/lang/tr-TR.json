@@ -1,8 +1,8 @@
 {
-  "capture": "Yakalama",
-  "edit": "Düzenleme",
-  "analysis": "Analiz",
-  "import_export": "İçe Aktar/Dışa Aktar",
+  "capture": "Veri yakalama",
+  "edit": "Veri düzenleme",
+  "analysis": "Veri analizi",
+  "import_export": "Veri İçe/Dışa Aktarma",
   "settings": "Ayarlar",
   "info": "Bilgi"
 }

@@ -1,8 +1,8 @@
 {
-  "capture": "Rögzítés",
-  "edit": "Szerkesztés",
-  "analysis": "Elemzés",
-  "import_export": "Import/Export",
+  "capture": "Adatgyűjtés",
+  "edit": "Adatok szerkesztése",
+  "analysis": "Adatelemzés",
+  "import_export": "Adat importálása/exportálása",
   "settings": "Beállítások",
   "info": "Információ"
 }

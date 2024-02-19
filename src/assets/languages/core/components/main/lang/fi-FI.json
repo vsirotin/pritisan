@@ -1,8 +1,8 @@
 {
-  "capture": "Kaappaa",
-  "edit": "Muokkaa",
-  "analysis": "Analyysi",
-  "import_export": "Tuo/Vie",
+  "capture": "Tietojen kerääminen",
+  "edit": "Tietojen muokkaaminen",
+  "analysis": "Tietojen analysointi",
+  "import_export": "Tietojen tuonti/vienti",
   "settings": "Asetukset",
   "info": "Tiedot"
 }

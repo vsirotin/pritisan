@@ -1,8 +1,8 @@
 {
-  "capture": "Chụp",
-  "edit": "Chỉnh sửa",
-  "analysis": "Phân tích",
-  "import_export": "Nhập/Xuất",
+  "capture": "Thu thập dữ liệu",
+  "edit": "Chỉnh sửa dữ liệu",
+  "analysis": "Phân tích dữ liệu",
+  "import_export": "Nhập/Xuất dữ liệu",
   "settings": "Cài đặt",
   "info": "Thông tin"
 }

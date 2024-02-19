@@ -1,8 +1,8 @@
 {
-  "capture": "Zajem",
-  "edit": "Uredi",
-  "analysis": "Analiza",
-  "import_export": "Uvoz/Izvoz",
+  "capture": "Zajem podatkov",
+  "edit": "Urejanje podatkov",
+  "analysis": "Analiza podatkov",
+  "import_export": "Uvoz/Izvoz podatkov",
   "settings": "Nastavitve",
   "info": "Informacije"
 }

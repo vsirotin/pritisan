@@ -1,8 +1,8 @@
 {
-  "capture": "Optag",
-  "edit": "Rediger",
-  "analysis": "Analyse",
-  "import_export": "Import/Eksport",
+  "capture": "Datafangst",
+  "edit": "Redigering af data",
+  "analysis": "Dataanalyse",
+  "import_export": "Import/Eksport af data",
   "settings": "Indstillinger",
   "info": "Info"
 }

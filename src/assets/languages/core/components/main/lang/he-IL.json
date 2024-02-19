@@ -1,8 +1,8 @@
 {
-  "capture": "לְכַידָה",
-  "edit": "ערוך",
-  "analysis": "ניתוח",
-  "import_export": "ייבוא/יצוא",
+  "capture": "לכידת נתונים",
+  "edit": "עריכת נתונים",
+  "analysis": "ניתוח נתונים",
+  "import_export": "יבוא/יצוא נתונים",
   "settings": "הגדרות",
   "info": "מידע"
 }

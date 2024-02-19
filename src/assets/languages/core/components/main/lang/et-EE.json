@@ -1,8 +1,8 @@
 {
-  "capture": "Hõivamine",
-  "edit": "Muuda",
-  "analysis": "Analüüs",
-  "import_export": "Import/Eksport",
+  "capture": "Andmete kogumine",
+  "edit": "Andmete muutmine",
+  "analysis": "Andmete analüüs",
+  "import_export": "Andmete importimine/eksportimine",
   "settings": "Seaded",
   "info": "Info"
 }
