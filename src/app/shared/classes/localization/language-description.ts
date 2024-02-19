@@ -5,6 +5,8 @@ export interface ILanguageDescription {
   ietfTag: string;
 }
 
+export const DEFAULT_LANG_TAG = "en-US";
+
 export const SupportedLanguages: Array<ILanguageDescription> = [
   { "enName": "Arabic", "originalName": "العربية", "ietfTag": "ar-SA" },
   { "enName": "Bengali", "originalName": "বাংলা", "ietfTag": "bn-BD" },
