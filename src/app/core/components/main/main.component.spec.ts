@@ -126,9 +126,9 @@ describe('MainComponent', () => {
 
         const expectedLinkLabels = [
           'Datenerfassung', 
-          'Editieren', 
-          'Analyse', 
-          'Import/Export',       
+          'Datenänderung', 
+          'Daten-Analyse', 
+          'Import/Export von Daten',       
           'Einstellungen',
           'Info'];
   
