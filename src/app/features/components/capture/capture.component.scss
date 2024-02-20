@@ -1,0 +1,38 @@
+.toolbar-icon {
+    position: relative;
+    background-color: #424942; /* Green */
+    border: none;
+    color: white;
+    padding: 1px 2px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    box-shadow: 3px 3px #999;
+    }
+  
+    .toolbar-icon:hover {
+        background-color: #3e8e41;
+        color: white;
+    }
+
+    .toolbar-icon:active {
+        background-color: #3e8e41;
+        box-shadow: 3px 3px #666;
+        transform: translateY(4px);
+    }
+
+    .toolbar-icon:disabled {
+        background-color: #829182;
+        color: #666;
+        cursor: not-allowed;
+    }
+
+    .toolbar-icon.playing {
+        background-color: #3f483f;
+        color: #666;
+        box-shadow: inset 3px 3px 5px #999,;
+    }
