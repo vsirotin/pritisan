@@ -19,4 +19,95 @@
         <mat-icon>last_page</mat-icon>
       </button>
   </mat-toolbar>
-<p>-------------------------------------------- capture works!</p>
+
+
+  <h1 >Enter the event:</h1>
+
+<mat-form-field>
+  <mat-label>Momentary event </mat-label>
+  <select matNativeControl>
+    <optgroup label="Momentary event">
+      <option value="m1">just occurred </option>
+      <option value="m2">happened in the past</option>
+    </optgroup>
+    <optgroup label="Interval event">
+      <option value="i1">- just started</option>
+      <option value="i2">- started in the past and is ongoing</option>
+      <option value="i3">- just ended</option>
+      <option value="i4">- occurred and finished in the past </option>
+    </optgroup>
+  </select>
+</mat-form-field>
+
+<div class="event-capture-box">
+  <h2>Interval event, occurred and finished in the past.</h2>
+
+  <div>
+    <h3>Start time:</h3>
+    <mat-form-field class="datecontrol">
+      <input matInput [matDatepicker]="picker" placeholder="Date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>  
+ 
+
+    <mat-form-field class="timecontrol">
+      <mat-label>Hour</mat-label>
+      
+      <select matNativeControl>
+      
+        @for (hour of hours; track hour) {
+          <option [value]="hour">{{hour}}</option>
+        }
+      </select>
+    </mat-form-field>
+
+    <mat-form-field class="timecontrol">
+      <mat-label>Minutes</mat-label>
+      
+      <select matNativeControl>
+      
+        @for (minute of minutes; track minute) {
+          <option [value]="minute">{{minute}}</option>
+        }
+      </select>
+    </mat-form-field>
+
+  </div>
+
+
+  <div>
+    <h3>Finish time:</h3>
+    <mat-form-field class="datecontrol">
+      <input matInput [matDatepicker]="picker" placeholder="Date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>  
+ 
+
+    <mat-form-field class="timecontrol">
+      <mat-label>Hour</mat-label>
+      
+      <select matNativeControl>
+      
+        @for (hour of hours; track hour) {
+          <option [value]="hour">{{hour}}</option>
+        }
+      </select>
+    </mat-form-field>
+
+    <mat-form-field class="timecontrol">
+      <mat-label>Minutes</mat-label>
+      
+      <select matNativeControl>
+      
+        @for (minute of minutes; track minute) {
+          <option [value]="minute">{{minute}}</option>
+        }
+      </select>
+    </mat-form-field>
+
+  </div>
+</div>
+
+

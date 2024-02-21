@@ -12,6 +12,9 @@
     cursor: pointer;
     transition-duration: 0.4s;
     box-shadow: 3px 3px #999;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
     }
   
     .toolbar-icon:hover {
@@ -36,3 +39,23 @@
         color: #666;
         box-shadow: inset 3px 3px 5px #999,;
     }
+
+.event-capture-box {
+    padding: 20px 20px 20px 20px;
+    box-shadow: 1px 5px 15px 5px #888888;
+    color: #666;
+    border-radius: 20px;
+    margin: 10px;
+    box-sizing: border-box;
+}
+
+.timecontrol{
+    width: 80px;
+    margin: 10px;
+}
+
+.datecontrol{
+    width: 180px;
+    margin: 10px;
+    vertical-align: top;
+}
