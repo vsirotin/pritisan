@@ -10,9 +10,9 @@ import {CommunicatorService} from '../toolbar/service/communicator.service'
 import { Subscription } from 'rxjs';
 import {ToolbarComponent } from '../toolbar/toolbar.component';
 import { Logger } from '../../../shared/services/logging/logger';
-import { ILocalizer , Localizer } from '../../../shared/classes/localization/localizer';
+import { Localizer } from '../../../shared/classes/localization/localizer';
 import { ILanguageChangeNotificator } from '../../../shared/classes/localization/language-change-notificator';
-import { DEFAULT_LANG_TAG, ILanguageDescription } from '../../../shared/classes/localization/language-description';
+import { ILanguageDescription } from '../../../shared/classes/localization/language-description';
 
 export const MAIN_SOURCE_DIR = "assets/languages/core/components/main/lang/";
 
@@ -41,7 +41,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   mobileQuery!: MediaQueryList;
 
-  readonly navItemsDefault: Array<NavigationEntry> = [
+  readonly navItemsDefault: Array<INavigationEntry> = [
     {id: "capture", label: "Capture",  link: "capture", icon: "feed"},
     {id: "edit", label: "Edit",  link: "edit", icon: "edit_square"},
     {id: "analysis", label: "Analysis",  link: "analysis", icon: "area_chart"},
@@ -118,7 +118,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
 };
 
-interface NavigationEntry {
+interface INavigationEntry {
   id: string;
   label: string;
   link: string;
