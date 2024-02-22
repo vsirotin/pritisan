@@ -1,27 +1,28 @@
+<div class="event-capture-box">
 <mat-toolbar color="secondary" class="frame-toolbar">
-    <button mat-icon-button class="toolbar-icon" aria-label="Icon-button for navigation in app" (click)="onClick()">
-      <mat-icon>more_time</mat-icon>
+  <button mat-icon-button class="toolbar-icon" aria-label="Icon-button for navigation in app" (click)="onClick()">
+    <mat-icon>more_time</mat-icon>
+  </button>
+  
+  <button mat-icon-button class="toolbar-icon" aria-label="Icon-button with application logo">
+    <mat-icon>edit_note</mat-icon>
+  </button>
+
+  <button mat-icon-button class="toolbar-icon" [class.playing]="isPlaying" aria-label="Icon-button with application logo">
+      <mat-icon>keyboard_arrow_left</mat-icon>
     </button>
-    
+
     <button mat-icon-button class="toolbar-icon" aria-label="Icon-button with application logo">
-      <mat-icon>edit_note</mat-icon>
+      <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
 
-    <button mat-icon-button class="toolbar-icon" [class.playing]="isPlaying" aria-label="Icon-button with application logo">
-        <mat-icon>keyboard_arrow_left</mat-icon>
-      </button>
-
-      <button mat-icon-button class="toolbar-icon" aria-label="Icon-button with application logo">
-        <mat-icon>keyboard_arrow_right</mat-icon>
-      </button>
-
-      <button mat-icon-button class="toolbar-icon" [disabled]="isDisabled" aria-label="Icon-button with application logo">
-        <mat-icon>last_page</mat-icon>
-      </button>
-  </mat-toolbar>
+    <button mat-icon-button class="toolbar-icon" [disabled]="isDisabled" aria-label="Icon-button with application logo">
+      <mat-icon>last_page</mat-icon>
+    </button>
+</mat-toolbar>
 
 
-  <h1 >Enter the event:</h1>
+<h1 >Enter the event:</h1>
 
 <mat-form-field>
   <mat-label>Momentary event </mat-label>
@@ -39,19 +40,19 @@
   </select>
 </mat-form-field>
 
-<div class="event-capture-box">
-  <h2>Interval event, occurred and finished in the past.</h2>
+<div>
+  <h2>Interval event, occurred and finished in the past.</h2> 
 
-  <div>
-    <h3>Start time:</h3>
-    <mat-form-field class="datecontrol">
-      <input matInput [matDatepicker]="picker" placeholder="Date">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
+  <div >
+    <h3>Start time:</h3> 
+    <mat-form-field class="date-control">
+      <input matInput [matDatepicker]="picker1" placeholder="Date">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>  
  
 
-    <mat-form-field class="timecontrol">
+    <mat-form-field class="time-control">
       <mat-label>Hour</mat-label>
       
       <select matNativeControl>
@@ -62,7 +63,7 @@
       </select>
     </mat-form-field>
 
-    <mat-form-field class="timecontrol">
+    <mat-form-field class="time-control">
       <mat-label>Minutes</mat-label>
       
       <select matNativeControl>
@@ -77,15 +78,15 @@
 
 
   <div>
-    <h3>Finish time:</h3>
-    <mat-form-field class="datecontrol">
+    <h3>Finish time:</h3> 
+    <mat-form-field class="date-control">
       <input matInput [matDatepicker]="picker" placeholder="Date">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>  
  
 
-    <mat-form-field class="timecontrol">
+    <mat-form-field class="time-control">
       <mat-label>Hour</mat-label>
       
       <select matNativeControl>
@@ -96,7 +97,7 @@
       </select>
     </mat-form-field>
 
-    <mat-form-field class="timecontrol">
+    <mat-form-field class="time-control">
       <mat-label>Minutes</mat-label>
       
       <select matNativeControl>
@@ -107,7 +108,20 @@
       </select>
     </mat-form-field>
 
+    <h3>Activity:</h3>
+    <mat-form-field class="activity-control">
+      <mat-label>Activity/Data</mat-label>
+      
+      <select matNativeControl>
+      
+        @for (activity of activities; track activity.id) {
+          <option [value]="activity">{{activity.label}}</option>
+        }
+      </select>
+    </mat-form-field>
+
   </div>
+</div>
 </div>
 
 

@@ -38,8 +38,19 @@ export class CaptureComponent {
   selectedHour = this.hours[0];
   selectedMinute = this.minutes[0];
 
+  readonly activities: Array<IActivity> = [
+    {id: "1.1", label: "Activity 1.1"},
+    {id: "1.2", label: "Activity 1.2"},
+    {id: "2.1", label: "Activity 2.1"},
+  ];
+
   onClick() {
     
   }
 
+}
+
+interface IActivity {
+  id: string;
+  label: string;
 }
