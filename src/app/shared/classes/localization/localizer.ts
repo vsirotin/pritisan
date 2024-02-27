@@ -80,35 +80,57 @@ export class Localizer implements ILocalizer {
 
   private async loadLanguageMap() {
     this.logger.debug("Start of Localizer.loadLanguageMap componentCooordinate=" + this.componentCooordinate);
-    this.loadLanguageMapFromDb.then(
-      ()=>{ 
-        //Nothing to do
-      }, 
-      ()=>{
-        this.loadLanguageMapFromServer()
+    this.loadLanguageMapFromDb()
+    .then(
+      (dbLoadingResult)=>{ 
+        this.logger.debug("In Localizer.loadLanguageMap dbLoadingResult=" + dbLoadingResult);
+        if(!dbLoadingResult){
+          this.loadLanguageMapFromServer()
+        }
+      }).catch((error) => {
+        this.logger.debug("In Localizer.loadLanguageMap catch error=" + error);
       });
     };
+   
 
-    private loadLanguageMapFromDb = new Promise((resolve, reject) =>{
-      this.logger.debug("Start of Localizer.loadLanguageMapFromDb componentCooordinate=" + this.componentCooordinate 
-        + " componentVersion=" + this.componentVersion);
+
+    onRrror(raeson: any) {
+      this.logger.debug("In Localizer.onRrror raeson=" + raeson);
+    }
+    private onOk(result: unknown) {
+      this.logger.debug("In Localizer.onOk result=" + result);
+    }
+
+    private async loadLanguageMapFromDb(): Promise<boolean> {
+        return new Promise((resolve) =>{
+          this.logger.debug("Start of Localizer.loadLanguageMapFromDb componentCooordinate=" + this.componentCooordinate 
+            + " componentVersion=" + this.componentVersion);
+          
+          let key = this.generateKeyForLoadingLanguageMap();
       
-      let key = this.generateKeyForLoadingLanguageMap();
-  
-      let res = this.dbAgent.get(key);
-      this.logger.debug("In Localizer.loadLanguageMapFromDb (1) key=" + key + " res=" + res); 
-      if(res == null) reject();
+          let res = this.dbAgent.get(key);
+          this.logger.debug("In Localizer.loadLanguageMapFromDb (1) key=" + key + " res=" + res); 
+          if(res == null){
+            resolve(false);
+            return;
+          }  
+          
+          const jsonObject = JSON.parse(res as string);
+          if(jsonObject == null){
+            resolve(false);
+            return; 
+          }
+
+          const map = new Map<string, string>(Object.entries(jsonObject));
+          this.logger.debug("In Localizer.loadLanguageMapFromDb (2) map=" + JSON.stringify(Object.fromEntries(map))); 
+
+          this.currentLanguageMap = map;
+          this.logger.debug("In Localizer.loadLanguageMapFromDb (3)  this.currentLanguageMap=" + JSON.stringify(Object.fromEntries( this.currentLanguageMap))); 
+          resolve(true);
       
-      const jsonObject = JSON.parse(res as string);
-      const map = new Map<string, string>(Object.entries(jsonObject));
-      this.logger.debug("In Localizer.loadLanguageMapFromDb (2) map=" + JSON.stringify(Object.fromEntries(map))); 
-      if(map != null){
-        this.currentLanguageMap = map;
-        this.logger.debug("In Localizer.loadLanguageMapFromDb (3)  this.currentLanguageMap=" + JSON.stringify(Object.fromEntries( this.currentLanguageMap))); 
-        resolve(true);
-      }
-      reject();
-    });
+        }
+      )
+    };
     
   private async loadLanguageMapFromServer() {
     let path = this.componentCooordinate + this.currentLanguage.ietfTag + ".json";
