@@ -13,6 +13,12 @@ import { Logger } from '../../../shared/services/logging/logger';
 import { Localizer } from '../../../shared/classes/localization/localizer';
 import { ILanguageChangeNotificator } from '../../../shared/classes/localization/language-change-notificator';
 import { ILanguageDescription } from '../../../shared/classes/localization/language-description';
+import {CaptureComponent} from '../../../features/components/capture/capture.component'
+import {EditComponent} from '../../../features/components/edit/edit.component'
+import {ImportExportComponent} from '../../../features/components/import-export/import-export.component'
+import {SettingsComponent} from '../../../features/components/settings/settings.component'
+import {InfoComponent} from '../../../features/components/info/info.component'
+import {AnalysisComponent} from '../../../features/components/analysis/analysis.component'
 
 export const MAIN_SOURCE_DIR = "assets/languages/core/components/main/lang/";
 
@@ -25,7 +31,14 @@ export const MAIN_SOURCE_DIR = "assets/languages/core/components/main/lang/";
     MatIconModule,
     MatListModule, 
     RouterModule,
-    ToolbarComponent],
+    ToolbarComponent,
+    CaptureComponent,
+    EditComponent,
+    ImportExportComponent,
+    SettingsComponent,
+    InfoComponent,
+    AnalysisComponent
+  ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
@@ -37,17 +50,19 @@ export class MainComponent implements OnInit, OnDestroy {
 
   showFiller = false;
 
-  isShowing = false
+  isShowing = false;
+
+  currentCommponent = "capture";
 
   mobileQuery!: MediaQueryList;
 
   readonly navItemsDefault: Array<INavigationEntry> = [
-    {id: "capture", label: "Capture",  link: "capture", icon: "feed"},
-    {id: "edit", label: "Edit",  link: "edit", icon: "edit_square"},
-    {id: "analysis", label: "Analysis",  link: "analysis", icon: "area_chart"},
-    {id: "import_export", label: "Import/Export",  link: "import-export", icon: "app_shortcut"},
-    {id: "settings", label: "Settings",  link: "settings", icon: "settings"},
-    {id: "info", label: "Info",  link: "info", icon: "help"}
+    {id: "capture", label: "Capture", icon: "feed"},
+    {id: "edit", label: "Edit", icon: "edit_square"},
+    {id: "analysis", label: "Analysis", icon: "area_chart"},
+    {id: "import_export", label: "Import/Export", icon: "app_shortcut"},
+    {id: "settings", label: "Settings", icon: "settings"},
+    {id: "info", label: "Info", icon: "help"}
   ];
 
   private _mobileQueryListener!: () => void;
@@ -87,22 +102,15 @@ export class MainComponent implements OnInit, OnDestroy {
     this.logger.debug("End of MainComponent.ngOnInit");
   }
 
-  // private async resetNavItems(selectedLangIetfTag: string){
-  //   this.logger.debug("Start of MainComponent.resetNavItems selectedLangIetfTag=" + selectedLangIetfTag);
-  //   if(selectedLangIetfTag == DEFAULT_LANG_TAG){
-  //     this.logger.debug("MainComponent.resetNavItems selectedLangIetfTag == DEFAULT_LANG_TAG : make a deep copy of navItemsDefault and assign it to navItems");
-  //     this.navItems =  deepCopyArray<NavigationEntry>(this.navItemsDefault);
-  //     return
-  //   }
-  //   this.logger.debug("MainComponent.resetNavItems using translations");
-  //   this.navItems.forEach((item) => {
-  //       item.label = this.localizer.getTranslation(item.id, item.label);
-  //   });
-  // }
-
   t(id: string) {
     const defaultLabel = this.navItemsDefault.find(item => item.id === id)?.label || id;
     return this.localizer.getTranslation(id, defaultLabel);
+  }
+
+  selectMenuItem(id: string) {
+    this.logger.debug("Start of MainComponent.selectMenuItem id=" + id);
+    this.currentCommponent = id;
+    this.toggleMenu();
   }
 
   toggleMenu() {
@@ -121,7 +129,6 @@ export class MainComponent implements OnInit, OnDestroy {
 interface INavigationEntry {
   id: string;
   label: string;
-  link: string;
   icon: string;
 }
 
