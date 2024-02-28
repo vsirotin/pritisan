@@ -45,10 +45,10 @@ describe('MainComponent', () => {
   });
 
   function checkLabels(expectations: string[]) {
-    const links = fixture.debugElement.queryAll(By.css('a[mat-list-item]'));
-    expect(links.length).toBe(6);
+    const items = fixture.debugElement.queryAll(By.css('a[mat-list-item]'));
+    expect(items.length).toBe(6);
 
-    links.forEach((title, index) => {
+    items.forEach((title, index) => {
       expect(title.nativeElement.textContent.trim()).toContain(expectations[index]);
     });
   }
@@ -68,6 +68,46 @@ describe('MainComponent', () => {
       checkLabels(expectedLinkLabels);  
 
     });
+
+    it('should have default active component ', () => {
+
+      const appEdit = fixture.debugElement.query(By.css('mat-sidenav-content'));
+      expect(appEdit.nativeElement.textContent).toContain("Start ");
+
+    });
+
+    it('after click on Edit should Edit component presented ', () => {
+      doCleckOnmenuItemAndCheckActiveComponent('Edit', 'edit works!');      
+    });
+
+    it('after click on Edit should Edit component presented ', () => {
+      doCleckOnmenuItemAndCheckActiveComponent('Analysis', 'analysis works!');      
+    });
+
+    it('after click on Edit should Edit component presented ', () => {
+      doCleckOnmenuItemAndCheckActiveComponent('Import/Export', 'import-export works!');      
+    });
+
+    it('after click on Edit should Edit component presented ', () => {
+      doCleckOnmenuItemAndCheckActiveComponent('Settings', 'Settings');      
+    });
+
+    it('after click on Edit should Edit component presented ', () => {
+      doCleckOnmenuItemAndCheckActiveComponent('Info', 'info works!');      
+    });
+
+    function doCleckOnmenuItemAndCheckActiveComponent(menuItemLabel: string, expectedTextPart: string) {
+      const buttons = fixture.debugElement.queryAll(By.css('a[mat-list-item]'));
+      buttons.forEach(button => console.log("button textContent=" + button.nativeElement.textContent));
+
+
+      const button = buttons.find(button => button.nativeElement.textContent.includes(menuItemLabel));
+      button?.triggerEventHandler('click', null);
+      fixture.detectChanges();
+
+      const appEdit = fixture.debugElement.query(By.css('mat-sidenav-content'));
+      expect(appEdit.nativeElement.textContent).toContain(expectedTextPart);
+    }
   });
 
   describe('After language change on de-DE...', () => {
@@ -79,7 +119,6 @@ describe('MainComponent', () => {
     beforeEach(() => {  
       languageChanged$ = localizer.languageChanged$;
       langDescr = {"enName": "German", "originalName": "Deutsch", "ietfTag": "de-DE"};
-      //component.languageChangeNotificator = Localizer.languageChangeNotificator;
     });
 
     afterEach(() => {
