@@ -1,1 +1,13 @@
-<p>parameters-setting works!</p>
+<div>      
+    <h3>Parameters:</h3>
+    <mat-form-field class="activity-control">
+      <mat-label>Parameter/Data</mat-label>
+      
+      <select matNativeControl>
+      
+        @for (parameter of activities; track parameter.id) {
+          <option [value]="parameter">{{parameter.label}}</option>
+        }
+      </select>
+    </mat-form-field>
+  </div>

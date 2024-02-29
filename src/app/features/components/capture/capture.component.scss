@@ -1,6 +1,6 @@
 .toolbar-icon {
     position: relative;
-    background-color: #424942; /* Green */
+    background-color: #424942; 
     border: none;
     color: white;
     padding: 1px 2px;
@@ -50,20 +50,4 @@
     display: inline-grid;
 }
 
-.time-control{
-    width: 80px;
-    margin: 10px;
-}
 
-.date-control{
-    width: 180px;
-    margin: 10px;
-    vertical-align: top;
-}
-
-
-.activity-control{
-    width: 300px;
-    margin: 10px;
-    vertical-align: top;
-}

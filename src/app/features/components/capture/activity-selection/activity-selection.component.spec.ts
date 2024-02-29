@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ActivitySelectionComponent } from './activity-selection.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ActivitySelectionComponent', () => {
   let component: ActivitySelectionComponent;
@@ -8,7 +8,7 @@ describe('ActivitySelectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActivitySelectionComponent]
+      imports: [ActivitySelectionComponent, BrowserAnimationsModule]
     })
     .compileComponents();
     

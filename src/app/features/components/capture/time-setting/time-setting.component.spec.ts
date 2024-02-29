@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TimeSettingComponent } from './time-setting.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { By } from '@angular/platform-browser';
 
 describe('TimeSettingComponent', () => {
   let component: TimeSettingComponent;
@@ -8,7 +9,7 @@ describe('TimeSettingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TimeSettingComponent]
+      imports: [TimeSettingComponent, BrowserAnimationsModule]
     })
     .compileComponents();
     
@@ -19,5 +20,10 @@ describe('TimeSettingComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have two app-time-point-setting controls', () => {
+    const elements = fixture.debugElement.queryAll(By.css('app-time-point-setting'));
+    expect(elements.length).toBe(2);
   });
 });
