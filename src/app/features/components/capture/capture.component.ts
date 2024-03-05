@@ -3,8 +3,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import { RunningActivitiesComponent } from './running-activities/running-activities.component';
-import { ActivitySelectionComponent } from './activity-selection/activity-selection.component';
+import { RunningEventsComponent } from './running-events/running-events.component';
+import { ActivitySelectionComponent } from './event-selection/event-selection.component';
 import { TimeSettingComponent } from './time-setting/time-setting.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
 
@@ -15,7 +15,7 @@ import { ParametersSettingComponent } from './parameters-setting/parameters-sett
   imports: [MatToolbarModule, 
     MatButtonModule, 
     MatIconModule,
-    RunningActivitiesComponent,
+    RunningEventsComponent,
     ActivitySelectionComponent,
     TimeSettingComponent,
     ParametersSettingComponent

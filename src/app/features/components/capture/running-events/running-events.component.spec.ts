@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivitySelectionComponent } from './activity-selection.component';
+
+import { RunningEventsComponent } from './running-events.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('ActivitySelectionComponent', () => {
-  let component: ActivitySelectionComponent;
-  let fixture: ComponentFixture<ActivitySelectionComponent>;
+describe('RunningActionsComponent', () => {
+  let component: RunningEventsComponent;
+  let fixture: ComponentFixture<RunningEventsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActivitySelectionComponent, BrowserAnimationsModule]
+      imports: [RunningEventsComponent, BrowserAnimationsModule]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ActivitySelectionComponent);
+    fixture = TestBed.createComponent(RunningEventsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

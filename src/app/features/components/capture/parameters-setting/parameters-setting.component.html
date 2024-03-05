@@ -1,11 +1,11 @@
 <div>      
     <h3>Parameters:</h3>
-    <mat-form-field class="activity-control">
+    <mat-form-field class="event-control">
       <mat-label>Parameter/Data</mat-label>
       
       <select matNativeControl>
       
-        @for (parameter of activities; track parameter.id) {
+        @for (parameter of events; track parameter.id) {
           <option [value]="parameter">{{parameter.label}}</option>
         }
       </select>

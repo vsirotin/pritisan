@@ -32,12 +32,12 @@ describe('CaptureComponent', () => {
     hasElement('mat-toolbar');   
   });
 
-  it('should have app-running-activities', () => {
-    hasElement('app-running-activities');   
+  it('should have app-running-events', () => {
+    hasElement('app-running-events');   
   });
 
-  it('should have app-activity-selection', () => {
-    hasElement('app-activity-selection');   
+  it('should have app-event-selection', () => {
+    hasElement('app-event-selection');   
   });
 
   it('should have app-time-setting', () => {

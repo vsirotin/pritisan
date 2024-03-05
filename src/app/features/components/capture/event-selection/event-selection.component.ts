@@ -4,14 +4,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-  selector: 'app-activity-selection',
+  selector: 'app-event-selection',
   standalone: true,
   imports: [ MatInputModule,
     MatSelectModule,
     MatFormFieldModule
   ],
-  templateUrl: './activity-selection.component.html',
-  styleUrl: './activity-selection.component.scss'
+  templateUrl: './event-selection.component.html',
+  styleUrl: './event-selection.component.scss'
 })
 export class ActivitySelectionComponent {
 

@@ -22,7 +22,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  selector: 'app-running-activities',
+  selector: 'app-running-events',
   standalone: true,
 imports: [
     MatToolbarModule,
@@ -31,10 +31,10 @@ imports: [
     MatTableModule, 
     MatSortModule
     ],
-  templateUrl: './running-activities.component.html',
-  styleUrl: './running-activities.component.scss'
+  templateUrl: './running-events.component.html',
+  styleUrl: './running-events.component.scss'
 })
-export class RunningActivitiesComponent implements AfterViewInit {
+export class RunningEventsComponent implements AfterViewInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
