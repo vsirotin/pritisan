@@ -33,8 +33,8 @@ export class RepositoryNavigationComponent implements OnInit {
     this.countEvents = this.repositoryPresentationModel.countEventsInRepository;
   }
 
-  onClick() {
-    
+  navigateTo(where: string) {
+    this.repositoryPresentationModel.navigateTo(where);   
   }
 
 

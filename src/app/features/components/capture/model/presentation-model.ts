@@ -35,6 +35,10 @@ export class RepositoryPresentationModel  {
 
     // Position of current event in the repository
     currentEventPosition: string = "0";
+
+    navigateTo(where: string) {
+        console.log('Navigate to ' + where);
+    }
 }
 
 // Presentation model for events/events saved in the repository
