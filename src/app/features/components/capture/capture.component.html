@@ -1,55 +1,9 @@
 <div class="event-capture-box">
-  <mat-toolbar >
-
-    <button mat-icon-button class="toolbar-button"  aria-label="Icon-button with application logo">
-      <mat-icon>keyboard_double_arrow_left</mat-icon>
-    </button>
-
-    <button mat-icon-button class="toolbar-button"  aria-label="Icon-button with application logo">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-    </button>
-
-    <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo">
-      <mat-icon>keyboard_arrow_right</mat-icon>
-    </button>
-
-    <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo">
-      <mat-icon>keyboard_double_arrow_right</mat-icon>
-    </button>
-
-    <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo">
-      <mat-icon>last_page</mat-icon>
-    </button>
-
-    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" (click)="onClick()">
-      <mat-icon>more_time</mat-icon>
-    </button>
-  </mat-toolbar>
-
-  <div>
-    <app-running-events></app-running-events>
-  <div>
-    <div><h2>Add Event/Data</h2>
-      <mat-toolbar class="toolbar-add-edit">
-       
-        <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" (click)="onClick()">
-          <mat-icon>save</mat-icon>
-        </button>
-
-
-        <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo">
-          <mat-icon>delete</mat-icon>
-        </button>
-    
-      </mat-toolbar>
-    </div>
-    <app-event-selection></app-event-selection>
-
-    </div>
-
-    <app-time-setting></app-time-setting>
-    <app-parameters-setting></app-parameters-setting>
-  </div>
+  <app-repository-navigation></app-repository-navigation>
+  <app-running-events></app-running-events>
+  <app-event-selection></app-event-selection>
+  <app-time-setting></app-time-setting>
+  <app-parameters-setting></app-parameters-setting>
 </div>
 
 

@@ -3,10 +3,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
 @Component({
   selector: 'app-event-selection',
   standalone: true,
-  imports: [ MatInputModule,
+  imports: [ 
+    MatToolbarModule, 
+    MatButtonModule, 
+    MatIconModule,
+    MatInputModule,
     MatSelectModule,
     MatFormFieldModule
   ],
@@ -14,5 +22,7 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrl: './event-selection.component.scss'
 })
 export class ActivitySelectionComponent {
-
+  onClick() {
+    
+  }
 }

@@ -1,55 +1,4 @@
-.mat-toolbar {
-    background: none;
-  }
-.toolbar-add-edit {
-    display: flex;
-    padding: 0 10px;
-    margin: 0 10px;
-    justify-content: flex-end
 
-}
-
-.toolbar-button {
-    position: relative;
-    background-color: #3f51b5;
-    border: none;
-    padding: 1px 2px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    transition-duration: 0.4s;
-    box-shadow: 3px 3px #999;
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
-    color: white;
-    }
-  
-    .toolbar-button:hover {
-        background-color: #3e8e41;
-        color: white;
-    }
-
-    .toolbar-button:active {
-        background-color: #3e8e41;
-        box-shadow: 3px 3px #666;
-        transform: translateY(4px);
-    }
-
-    .toolbar-button:disabled {
-        background-color: #829182;
-        color: #666;
-        cursor: not-allowed;
-    }
-
-    .toolbar-button.playing {
-        background-color: #3f483f;
-        color: #666;
-        box-shadow: inset 3px 3px 5px #999,;
-    }
 
 .event-capture-box {
     padding: 20px 20px 20px 20px;
@@ -60,5 +9,6 @@
     box-sizing: content-box;
     display: inline-grid;
 }
+
 
 
