@@ -1,8 +1,18 @@
-.toolbar-icon {
+.mat-toolbar {
+    background: none;
+  }
+.toolbar-add-edit {
+    display: flex;
+    padding: 0 10px;
+    margin: 0 10px;
+    justify-content: flex-end
+
+}
+
+.toolbar-button {
     position: relative;
-    background-color: #424942; 
+    background-color: #3f51b5;
     border: none;
-    color: white;
     padding: 1px 2px;
     text-align: center;
     text-decoration: none;
@@ -15,26 +25,27 @@
     width: 50px;
     height: 50px;
     border-radius: 10px;
+    color: white;
     }
   
-    .toolbar-icon:hover {
+    .toolbar-button:hover {
         background-color: #3e8e41;
         color: white;
     }
 
-    .toolbar-icon:active {
+    .toolbar-button:active {
         background-color: #3e8e41;
         box-shadow: 3px 3px #666;
         transform: translateY(4px);
     }
 
-    .toolbar-icon:disabled {
+    .toolbar-button:disabled {
         background-color: #829182;
         color: #666;
         cursor: not-allowed;
     }
 
-    .toolbar-icon.playing {
+    .toolbar-button.playing {
         background-color: #3f483f;
         color: #666;
         box-shadow: inset 3px 3px 5px #999,;
@@ -43,7 +54,7 @@
 .event-capture-box {
     padding: 20px 20px 20px 20px;
     box-shadow: 1px 5px 15px 5px #888888;
-    color: #666;
+
     border-radius: 20px;
     margin: 10px;
     box-sizing: content-box;
