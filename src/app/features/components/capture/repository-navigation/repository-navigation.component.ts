@@ -3,8 +3,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import { AdapterRepositoryPresentationModel } from '../model/capture-presentation-model';
-import { RepositoryPresentationModel } from '../model/capture-presentation-model';
+import { AdapterNavigationPresentationModel } from '../model/capture-presentation-model';
+import { NavigationPresentationModel } from '../model/capture-presentation-model';
 
 @Component({
   selector: 'app-repository-navigation',
@@ -19,10 +19,10 @@ import { RepositoryPresentationModel } from '../model/capture-presentation-model
 })
 export class RepositoryNavigationComponent implements OnInit {
 
-  repositoryPresentationModel: RepositoryPresentationModel;
+  repositoryPresentationModel: NavigationPresentationModel;
 
-  constructor(private adapterRepositoryPresentationModel: AdapterRepositoryPresentationModel) {
-    this.repositoryPresentationModel = this.adapterRepositoryPresentationModel.repositoryPresentationModel;
+  constructor(private adapterRepositoryPresentationModel: AdapterNavigationPresentationModel) {
+    this.repositoryPresentationModel = this.adapterRepositoryPresentationModel.navigationPresentationModel;
     this.repositoryPresentationModel.repositoryNavigationBehaviorModel?.repositoryStateChangeNotificator$.subscribe((repositoryStateExtended) => {
       this.currentEventPosition = repositoryStateExtended.repositoryState.currentEventPosition.toString();
       this.countEvents = repositoryStateExtended.repositoryState.countEventsInRepository;

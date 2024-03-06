@@ -1,12 +1,25 @@
 import { Subject } from "rxjs";
 
 // Behavior-model for the capture
+
+export interface ICaptureBehaviorModel {
+    repositoryNavigationBehaviorModel: IRepositoryNavigationBehaviorModel;
+}
+
 export class CaptureBehaviorModel implements ICaptureBehaviorModel{
+
     repositoryNavigationBehaviorModel: IRepositoryNavigationBehaviorModel = new RepositoryNavigationBehaviorModel();
+    runningEventsBehaviorModel: IRunningEventsBehaviorModel = new RunningEventsBehaviorModel();
     
     constructor() {
         
     }
+}
+
+//------------Navigation behavior model----------------
+export interface IRepositoryNavigationBehaviorModel {
+    navigateTo(where: string): unknown;
+    repositoryStateChangeNotificator$: Subject<IRepositoryStateExtended>;
 }
 
 class RepositoryNavigationBehaviorModel implements IRepositoryNavigationBehaviorModel {
@@ -29,13 +42,17 @@ class RepositoryNavigationBehaviorModel implements IRepositoryNavigationBehavior
     }
 }
 
-export interface ICaptureBehaviorModel {
-    repositoryNavigationBehaviorModel: IRepositoryNavigationBehaviorModel;
+
+//------------Running events behavior model----------------
+
+export interface IRunningEventsBehaviorModel {
+   
 }
 
-export interface IRepositoryNavigationBehaviorModel {
-    navigateTo(where: string): unknown;
-    repositoryStateChangeNotificator$: Subject<IRepositoryStateExtended>;
+class RunningEventsBehaviorModel implements IRunningEventsBehaviorModel {
+    constructor() {
+        
+    }
 }
 
 export interface IRepositoryState {

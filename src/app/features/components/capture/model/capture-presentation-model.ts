@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { CaptureBehaviorModel, ICaptureBehaviorModel, IRepositoryNavigationBehaviorModel } from './capture-behavior-model';
 
 // Adapter for presentation model for the capture component
@@ -8,32 +8,46 @@ import { CaptureBehaviorModel, ICaptureBehaviorModel, IRepositoryNavigationBehav
 export class AdapterCapturePresentationModel {
     capturePresentationModel: CapturePresentationModel;
     
-    constructor(adapterRepositoryPresentationModel: AdapterRepositoryPresentationModel) {
-        this.capturePresentationModel = new CapturePresentationModel(adapterRepositoryPresentationModel.repositoryPresentationModel);
+    constructor(
+        adapterNavigationPresentationModel: AdapterNavigationPresentationModel,
+        adapterRunningEventsPresentationModel: AdapterRunningEventsPresentationModel
+        ) {
+        this.capturePresentationModel = new CapturePresentationModel(
+            adapterNavigationPresentationModel.navigationPresentationModel,
+            adapterRunningEventsPresentationModel.runningEventsPresentationModel
+            );
     }
 }
 
 // Presentation model for the capture component
 export class CapturePresentationModel {
     captureBehaviorModel: ICaptureBehaviorModel = new CaptureBehaviorModel();
-    repositoryPresentationModel: RepositoryPresentationModel;
 
-    constructor(repositoryPresentationModel: RepositoryPresentationModel) {
-        this.repositoryPresentationModel = repositoryPresentationModel;
-        this.repositoryPresentationModel.repositoryNavigationBehaviorModel = this.captureBehaviorModel.repositoryNavigationBehaviorModel;
+    navigationPresentationModel: NavigationPresentationModel;
+    runningEventsPresentationModel: RunningEventsPresentationModel;
+
+    constructor(
+        navigationPresentationModel: NavigationPresentationModel,
+        runningEventsPresentationModel: RunningEventsPresentationModel) {
+        this.navigationPresentationModel = navigationPresentationModel;
+        this.navigationPresentationModel.repositoryNavigationBehaviorModel = this.captureBehaviorModel.repositoryNavigationBehaviorModel;
+
+        this.runningEventsPresentationModel = runningEventsPresentationModel;
     }
 }
+
+//------------Navigation model----------------
 
 @Injectable({
     providedIn: 'root'
   })
-export class AdapterRepositoryPresentationModel {
-    repositoryPresentationModel = new RepositoryPresentationModel();
+export class AdapterNavigationPresentationModel {
+    navigationPresentationModel = new NavigationPresentationModel();
 }
 
 
 // Presentation model for events/events saved in the repository
-export class RepositoryPresentationModel  {
+export class NavigationPresentationModel  {
 
     // Count events in the repository
     countEventsInRepository: number = 0;
@@ -50,33 +64,39 @@ export class RepositoryPresentationModel  {
     }
 }
 
+//------------Running events presentation model----------------
+
+@Injectable({
+    providedIn: 'root'
+  })
+export class AdapterRunningEventsPresentationModel {
+    runningEventsPresentationModel = new RunningEventsPresentationModel();
+}
+
 // Presentation model for events/events saved in the repository
 export class RunningEventsPresentationModel  {
     
     // The list of runing events/events
-    runningEvents!: EventPresentationModel[];
+    runningEvents: EventPresentationModel[] = [];
 
-    // Count events in the repository
-    countEventsInRepository: number = 0;
+    isVisible: boolean = true;
 
-    // Position of current event in the repository
-    currentEventPosition: number = 0;
+    selectEvent(eventPositionInList: number) {}
+
+    closeSelectedEvents() {}
+
+    deletelectedEvents() {}
 }
 
-// Presentation model for event/event
+//------------Event presentation model -----------------
 export class EventPresentationModel {
-    constructor() {
-        this.name = '';
-        this.description = '';
-        this.startTime = '';
-        this.endTime = '';
-    }
-    // The name of the event/event
-    name;
-    // The description of the event/event
-    description;
-    // The start time of the event/event
-    startTime;
-    // The end time of the event/event
-    endTime;
+    durationInHours: number = 0;
+
+    startTime?: Date;
+    finishTime?: Date;
+
+    type: string = "";
+
+    details: string = "";
 }
+
