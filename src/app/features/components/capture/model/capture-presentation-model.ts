@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-
-
+import { CaptureBehaviorModel, ICaptureBehaviorModel, IRepositoryNavigationBehaviorModel } from './capture-behavior-model';
 
 // Adapter for presentation model for the capture component
 @Injectable({
@@ -16,7 +15,13 @@ export class AdapterCapturePresentationModel {
 
 // Presentation model for the capture component
 export class CapturePresentationModel {
-    constructor(repositoryPresentationModel: RepositoryPresentationModel) {}
+    captureBehaviorModel: ICaptureBehaviorModel = new CaptureBehaviorModel();
+    repositoryPresentationModel: RepositoryPresentationModel;
+
+    constructor(repositoryPresentationModel: RepositoryPresentationModel) {
+        this.repositoryPresentationModel = repositoryPresentationModel;
+        this.repositoryPresentationModel.repositoryNavigationBehaviorModel = this.captureBehaviorModel.repositoryNavigationBehaviorModel;
+    }
 }
 
 @Injectable({
@@ -36,8 +41,12 @@ export class RepositoryPresentationModel  {
     // Position of current event in the repository
     currentEventPosition: string = "0";
 
+    repositoryNavigationBehaviorModel?: IRepositoryNavigationBehaviorModel;
+
     navigateTo(where: string) {
-        console.log('Navigate to ' + where);
+        if (this.repositoryNavigationBehaviorModel) {
+            this.repositoryNavigationBehaviorModel.navigateTo(where);
+        }
     }
 }
 

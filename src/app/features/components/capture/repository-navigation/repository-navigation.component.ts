@@ -3,8 +3,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import { AdapterRepositoryPresentationModel } from '../model/presentation-model';
-import { RepositoryPresentationModel } from '../model/presentation-model';
+import { AdapterRepositoryPresentationModel } from '../model/capture-presentation-model';
+import { RepositoryPresentationModel } from '../model/capture-presentation-model';
 
 @Component({
   selector: 'app-repository-navigation',
@@ -23,6 +23,11 @@ export class RepositoryNavigationComponent implements OnInit {
 
   constructor(private adapterRepositoryPresentationModel: AdapterRepositoryPresentationModel) {
     this.repositoryPresentationModel = this.adapterRepositoryPresentationModel.repositoryPresentationModel;
+    this.repositoryPresentationModel.repositoryNavigationBehaviorModel?.repositoryStateChangeNotificator$.subscribe((repositoryStateExtended) => {
+      this.currentEventPosition = repositoryStateExtended.repositoryState.currentEventPosition.toString();
+      this.countEvents = repositoryStateExtended.repositoryState.countEventsInRepository;
+    })
+
    }
 
   currentEventPosition: string = "2";

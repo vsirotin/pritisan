@@ -6,7 +6,7 @@ import { ActivitySelectionComponent } from './event-selection/event-selection.co
 import { TimeSettingComponent } from './time-setting/time-setting.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
 import { RepositoryNavigationComponent } from './repository-navigation/repository-navigation.component';
-import { AdapterCapturePresentationModel, CapturePresentationModel } from './model/presentation-model';
+import { AdapterCapturePresentationModel, CapturePresentationModel } from './model/capture-presentation-model';
 
 
 @Component({
