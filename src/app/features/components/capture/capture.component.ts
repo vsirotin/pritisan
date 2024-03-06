@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { RunningEventsComponent } from './running-events/running-events.component';
-import { ActivitySelectionComponent } from './event-selection/event-selection.component';
-import { TimeSettingComponent } from './time-setting/time-setting.component';
-import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
 import { RepositoryNavigationComponent } from './repository-navigation/repository-navigation.component';
 import { AdapterCapturePresentationModel, CapturePresentationModel } from './model/capture-presentation-model';
+import { CurrentEventComponent } from './current-event/current-event.component';
 
 
 @Component({
@@ -16,9 +14,7 @@ import { AdapterCapturePresentationModel, CapturePresentationModel } from './mod
     MatDividerModule,
     RepositoryNavigationComponent,
     RunningEventsComponent,
-    ActivitySelectionComponent,
-    TimeSettingComponent,
-    ParametersSettingComponent
+    CurrentEventComponent
 ],
   templateUrl: './capture.component.html',
   styleUrl: './capture.component.scss'

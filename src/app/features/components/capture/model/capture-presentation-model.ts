@@ -10,11 +10,13 @@ export class AdapterCapturePresentationModel {
     
     constructor(
         adapterNavigationPresentationModel: AdapterNavigationPresentationModel,
-        adapterRunningEventsPresentationModel: AdapterRunningEventsPresentationModel
+        adapterRunningEventsPresentationModel: AdapterRunningEventsPresentationModel,
+        adapterCurrentEventPresentationModel: AdapterCurrentEventPresentationModel
         ) {
         this.capturePresentationModel = new CapturePresentationModel(
             adapterNavigationPresentationModel.navigationPresentationModel,
-            adapterRunningEventsPresentationModel.runningEventsPresentationModel
+            adapterRunningEventsPresentationModel.runningEventsPresentationModel,
+            adapterCurrentEventPresentationModel.currentEventPresentationModel
             );
     }
 }
@@ -25,14 +27,18 @@ export class CapturePresentationModel {
 
     navigationPresentationModel: NavigationPresentationModel;
     runningEventsPresentationModel: RunningEventsPresentationModel;
+    currentEventPresentationModel?: EventPresentationModel;
 
     constructor(
         navigationPresentationModel: NavigationPresentationModel,
-        runningEventsPresentationModel: RunningEventsPresentationModel) {
+        runningEventsPresentationModel: RunningEventsPresentationModel,
+        currentEventPresentationModel?: EventPresentationModel
+        ) {
         this.navigationPresentationModel = navigationPresentationModel;
         this.navigationPresentationModel.repositoryNavigationBehaviorModel = this.captureBehaviorModel.repositoryNavigationBehaviorModel;
 
         this.runningEventsPresentationModel = runningEventsPresentationModel;
+        this.currentEventPresentationModel = currentEventPresentationModel;
     }
 }
 
@@ -88,7 +94,15 @@ export class RunningEventsPresentationModel  {
     deletelectedEvents() {}
 }
 
-//------------Event presentation model -----------------
+//------------Current event presentation model -----------------
+
+@Injectable({
+    providedIn: 'root'
+  })
+export class AdapterCurrentEventPresentationModel {
+    currentEventPresentationModel?: EventPresentationModel;
+}
+
 export class EventPresentationModel {
     durationInHours: number = 0;
 
