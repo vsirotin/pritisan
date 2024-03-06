@@ -1,0 +1,32 @@
+<div >
+    <h3>Start time:</h3> 
+    <mat-form-field class="date-control">
+      <input matInput [matDatepicker]="picker1" placeholder="Date">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>  
+
+
+    <mat-form-field class="time-control">
+      <mat-label>Hour</mat-label>
+      
+      <select matNativeControl>
+      
+        @for (hour of hours; track hour) {
+          <option [value]="hour">{{hour}}</option>
+        }
+      </select>
+    </mat-form-field>
+
+    <mat-form-field class="time-control">
+      <mat-label>Minutes</mat-label>
+      
+      <select matNativeControl>
+      
+        @for (minute of minutes; track minute) {
+          <option [value]="minute">{{minute}}</option>
+        }
+      </select>
+    </mat-form-field>
+
+  </div>

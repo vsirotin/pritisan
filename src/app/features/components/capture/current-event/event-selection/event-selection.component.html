@@ -1,0 +1,31 @@
+<div>
+  <h2>Add Event/Data</h2>
+  <mat-toolbar class="toolbar-add-edit">
+   
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" (click)="onClick()">
+      <mat-icon>save</mat-icon>
+    </button>
+
+
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo">
+      <mat-icon>delete</mat-icon>
+    </button>
+
+  </mat-toolbar>
+</div>
+
+<mat-form-field>
+  <mat-label>Momentary event </mat-label>
+  <select matNativeControl>
+    <optgroup label="Momentary event">
+      <option value="m1">just occurred </option>
+      <option value="m2">happened in the past</option>
+    </optgroup>
+    <optgroup label="Interval event">
+      <option value="i1">- just started</option>
+      <option value="i2">- started in the past and is ongoing</option>
+      <option value="i3">- just ended</option>
+      <option value="i4">- occurred and finished in the past </option>
+    </optgroup>
+  </select>
+</mat-form-field>

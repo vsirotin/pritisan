@@ -1,0 +1,13 @@
+<div>      
+    <h3>Parameters:</h3>
+    <mat-form-field class="event-control">
+      <mat-label>Parameter/Data</mat-label>
+      
+      <select matNativeControl>
+      
+        @for (parameter of events; track parameter.id) {
+          <option [value]="parameter">{{parameter.label}}</option>
+        }
+      </select>
+    </mat-form-field>
+  </div>
