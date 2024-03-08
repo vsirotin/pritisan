@@ -104,6 +104,10 @@ export class AdapterCurrentEventPresentationModel {
 }
 
 export class EventPresentationModel {
+
+    eventSelectionPresenationModel = new EventSelectionPresenationModel();
+    timeSettingPresenationModel = new TimeSettingPresentationModel();
+    parametersSettingPresentationModel = new ParametersSettingPresentationModel();
     durationInHours: number = 0;
 
     startTime?: Date;
@@ -113,4 +117,21 @@ export class EventPresentationModel {
 
     details: string = "";
 }
+
+export class EventSelectionPresenationModel {
+    eventSelection: string = "";
+}
+
+export class TimeSettingPresentationModel {
+    startTime: TimePointSettingPresentationModel = new TimePointSettingPresentationModel();
+    finishTime?: TimePointSettingPresentationModel;
+}  
+
+export class TimePointSettingPresentationModel {
+    time: Date = new Date();
+    role!: string;
+    error?: string;
+} 
+
+export class ParametersSettingPresentationModel {}
 

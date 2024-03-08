@@ -1,11 +1,12 @@
 <div >
-    <h3>Start time:</h3> 
-    <mat-form-field class="date-control">
-      <input matInput [matDatepicker]="picker1" placeholder="Date">
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>  
-
+    <h3>{{label}}</h3> 
+    <form [formGroup]="form">
+      <mat-form-field class="date-control">
+        <input matInput [matDatepicker]="picker" placeholder="Date" formControlName="date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>  
+    </form>
 
     <mat-form-field class="time-control">
       <mat-label>Hour</mat-label>
