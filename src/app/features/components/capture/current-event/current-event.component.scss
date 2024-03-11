@@ -1,0 +1,15 @@
+.container2 {
+    display: flex;
+  }
+  
+  app-current-event-toolbar {
+    flex: 0 0 auto; /* This means the toolbar will not grow or shrink and will use its natural width */
+  }
+  
+  app-event-selection {
+    flex: 1 1 auto; /* This means the selection will grow and shrink as needed to occupy the rest of the width */
+  }
+
+  .event-card {
+    max-width: 300px;
+  }

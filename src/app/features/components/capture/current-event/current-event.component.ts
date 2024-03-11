@@ -1,14 +1,17 @@
 import { Component, ViewChild } from '@angular/core';
 
+
 import { EventSelectionComponent } from './event-selection/event-selection.component';
 import { TimeSettingComponent } from './time-setting/time-setting.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
 import { AdapterCurrentEventPresentationModel, EventPresentationModel } from '../model/capture-presentation-model';
+import { CurrentEventToolbarComponent } from './current-event-toolbar/current-event-toolbar.component';
 
 @Component({
   selector: 'app-current-event',
   standalone: true,
   imports: [
+    CurrentEventToolbarComponent,
     EventSelectionComponent,
     TimeSettingComponent,
     ParametersSettingComponent],
@@ -17,6 +20,7 @@ import { AdapterCurrentEventPresentationModel, EventPresentationModel } from '..
 })
 export class CurrentEventComponent {
 
+  @ViewChild(CurrentEventToolbarComponent) currentEventToolbarComponent!: CurrentEventToolbarComponent;
   @ViewChild(EventSelectionComponent) eventSelectionComponent!: EventSelectionComponent;
   @ViewChild(TimeSettingComponent) timeSettingComponent!: TimeSettingComponent;
   @ViewChild(ParametersSettingComponent) parametersSettingComponent!: ParametersSettingComponent;
