@@ -2,12 +2,19 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule} from '@angular/material/expansion';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+
 
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 import { MatSort, Sort, MatSortModule}  from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RunningEventsUIModel } from '../model/capture-ui-model';
+import { SelectionModel } from '@angular/cdk/collections';
 
 export interface PeriodicElement {
   duration: number;
@@ -26,7 +33,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
   selector: 'app-running-events',
   standalone: true,
 imports: [
+    MatCheckboxModule,
+    MatExpansionModule,
     MatToolbarModule,
+    MatSelectModule,
+    MatInputModule,
     MatIconModule,
     MatButtonModule,
     MatTableModule, 
@@ -36,9 +47,11 @@ imports: [
   styleUrl: './running-events.component.scss'
 })
 export class RunningEventsComponent implements AfterViewInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   uiModel!: RunningEventsUIModel;
+
+  selection = new SelectionModel<PeriodicElement>(true, []);
 
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
@@ -59,5 +72,34 @@ export class RunningEventsComponent implements AfterViewInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: PeriodicElement): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.duration + 1}`;
+  }
+
+  onClick() {
+    
   }
 }

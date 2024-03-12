@@ -11,7 +11,7 @@ export class CaptureUIModel {
     }
     captureBehaviorModel: ICaptureBehaviorModel = new CaptureBehaviorModel();
 
-    navigationUIModel = new NavigationUIModel();
+    navigationUIModel = new RepositoryNavigationUIModel();
     runningEventsUIModel = new RunningEventsUIModel();
     currentEventUIModel = new EventUIModel();
 
@@ -21,7 +21,7 @@ export class CaptureUIModel {
 
 
 // UI model for events/events saved in the repository
-export class NavigationUIModel  {
+export class RepositoryNavigationUIModel  {
 
     // Count events in the repository
     countEventsInRepository: number = 0;
@@ -29,11 +29,13 @@ export class NavigationUIModel  {
     // Position of current event in the repository
     currentEventPosition: string = "0";
 
-    repositoryNavigationBehaviorModel?: IRepositoryNavigationBehaviorModel;
+    repositoryNavigationBehaviorModel!: IRepositoryNavigationBehaviorModel;
 
     navigateTo(where: string) {
         if (this.repositoryNavigationBehaviorModel) {
             this.repositoryNavigationBehaviorModel.navigateTo(where);
+        }else {
+            throw new Error("RepositoryNavigationBehaviorModel is not initialized");
         }
     }
 }
