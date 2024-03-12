@@ -1,59 +1,21 @@
-import { Inject, Injectable } from '@angular/core';
 import { CaptureBehaviorModel, ICaptureBehaviorModel, IRepositoryNavigationBehaviorModel } from './capture-behavior-model';
 
-// Adapter for presentation model for the capture component
-@Injectable({
-    providedIn: 'root'
-  })
-export class AdapterCapturePresentationModel {
-    capturePresentationModel: CapturePresentationModel;
-    
-    constructor(
-        adapterNavigationPresentationModel: AdapterNavigationPresentationModel,
-        adapterRunningEventsPresentationModel: AdapterRunningEventsPresentationModel,
-        adapterCurrentEventPresentationModel: AdapterCurrentEventPresentationModel
-        ) {
-        this.capturePresentationModel = new CapturePresentationModel(
-            adapterNavigationPresentationModel.navigationPresentationModel,
-            adapterRunningEventsPresentationModel.runningEventsPresentationModel,
-            adapterCurrentEventPresentationModel.currentEventPresentationModel
-            );
-    }
-}
 
-// Presentation model for the capture component
-export class CapturePresentationModel {
+// UI model for the capture component
+export class CaptureUIModel {
     captureBehaviorModel: ICaptureBehaviorModel = new CaptureBehaviorModel();
 
-    navigationPresentationModel: NavigationPresentationModel;
-    runningEventsPresentationModel: RunningEventsPresentationModel;
-    currentEventPresentationModel?: EventPresentationModel;
+    navigationUIModel = new NavigationUIModel();
+    runningEventsUIModel = new RunningEventsUIModel();
+    currentEventUIModel = new EventUIModel();
 
-    constructor(
-        navigationPresentationModel: NavigationPresentationModel,
-        runningEventsPresentationModel: RunningEventsPresentationModel,
-        currentEventPresentationModel?: EventPresentationModel
-        ) {
-        this.navigationPresentationModel = navigationPresentationModel;
-        this.navigationPresentationModel.repositoryNavigationBehaviorModel = this.captureBehaviorModel.repositoryNavigationBehaviorModel;
-
-        this.runningEventsPresentationModel = runningEventsPresentationModel;
-        this.currentEventPresentationModel = currentEventPresentationModel;
-    }
 }
 
 //------------Navigation model----------------
 
-@Injectable({
-    providedIn: 'root'
-  })
-export class AdapterNavigationPresentationModel {
-    navigationPresentationModel = new NavigationPresentationModel();
-}
 
-
-// Presentation model for events/events saved in the repository
-export class NavigationPresentationModel  {
+// UI model for events/events saved in the repository
+export class NavigationUIModel  {
 
     // Count events in the repository
     countEventsInRepository: number = 0;
@@ -72,18 +34,12 @@ export class NavigationPresentationModel  {
 
 //------------Running events presentation model----------------
 
-@Injectable({
-    providedIn: 'root'
-  })
-export class AdapterRunningEventsPresentationModel {
-    runningEventsPresentationModel = new RunningEventsPresentationModel();
-}
 
-// Presentation model for events/events saved in the repository
-export class RunningEventsPresentationModel  {
+// UI model for events/events saved in the repository
+export class RunningEventsUIModel  {
     
     // The list of runing events/events
-    runningEvents: EventPresentationModel[] = [];
+    runningEvents: EventUIModel[] = [];
 
     isVisible: boolean = true;
 
@@ -96,18 +52,12 @@ export class RunningEventsPresentationModel  {
 
 //------------Current event presentation model -----------------
 
-@Injectable({
-    providedIn: 'root'
-  })
-export class AdapterCurrentEventPresentationModel {
-    currentEventPresentationModel?: EventPresentationModel;
-}
 
-export class EventPresentationModel {
+export class EventUIModel {
 
     eventSelectionPresenationModel = new EventSelectionPresenationModel();
-    timeSettingPresenationModel = new TimeSettingPresentationModel();
-    parametersSettingPresentationModel = new ParametersSettingPresentationModel();
+    timeSettingPresenationModel = new TimeSettingUIModel();
+    parametersSettingUIModel = new ParametersSettingUIModel();
     durationInHours: number = 0;
 
     startTime?: Date;
@@ -122,16 +72,16 @@ export class EventSelectionPresenationModel {
     eventSelection: string = "";
 }
 
-export class TimeSettingPresentationModel {
-    startTime: TimePointSettingPresentationModel = new TimePointSettingPresentationModel();
-    finishTime?: TimePointSettingPresentationModel;
+export class TimeSettingUIModel {
+    startTime: TimePointSettingUIModel = new TimePointSettingUIModel();
+    finishTime?: TimePointSettingUIModel;
 }  
 
-export class TimePointSettingPresentationModel {
+export class TimePointSettingUIModel {
     time: Date = new Date();
     role!: string;
     error?: string;
 } 
 
-export class ParametersSettingPresentationModel {}
+export class ParametersSettingUIModel {}
 

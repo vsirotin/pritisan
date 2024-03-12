@@ -1,6 +1,6 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { TimePointSettingComponent } from './time-point-setting/time-point-setting.component';
-import { TimeSettingPresentationModel } from '../../model/capture-presentation-model';
+import { TimeSettingUIModel } from '../../model/capture-presentation-model';
 
 @Component({
   selector: 'app-time-setting',
@@ -12,7 +12,7 @@ import { TimeSettingPresentationModel } from '../../model/capture-presentation-m
 export class TimeSettingComponent {
   @ViewChildren(TimePointSettingComponent) timePoitnsSettingComponents!: QueryList<TimePointSettingComponent>;
 
-  presentationModel?: TimeSettingPresentationModel;
+  presentationModel?: TimeSettingUIModel;
 
   ngAfterViewInit() {
 

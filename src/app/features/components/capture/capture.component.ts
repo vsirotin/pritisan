@@ -3,7 +3,7 @@ import { MatDividerModule } from '@angular/material/divider';
 
 import { RunningEventsComponent } from './running-events/running-events.component';
 import { RepositoryNavigationComponent } from './repository-navigation/repository-navigation.component';
-import { AdapterCapturePresentationModel, CapturePresentationModel } from './model/capture-presentation-model';
+import { CaptureUIModel } from './model/capture-presentation-model';
 import { CurrentEventComponent } from './current-event/current-event.component';
 
 
@@ -21,13 +21,8 @@ import { CurrentEventComponent } from './current-event/current-event.component';
 })
 export class CaptureComponent implements OnInit {
 
-  capturePresentationModel: CapturePresentationModel;
+  captureUIModel!: CaptureUIModel;
   
-
-  constructor(adapterCapturePresentationModel: AdapterCapturePresentationModel) { 
-    this.capturePresentationModel = adapterCapturePresentationModel.capturePresentationModel;
-  }
-
   
   ngOnInit() {
     

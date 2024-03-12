@@ -3,8 +3,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import { AdapterNavigationPresentationModel } from '../model/capture-presentation-model';
-import { NavigationPresentationModel } from '../model/capture-presentation-model';
+import { NavigationUIModel } from '../model/capture-presentation-model';
 
 @Component({
   selector: 'app-repository-navigation',
@@ -19,14 +18,10 @@ import { NavigationPresentationModel } from '../model/capture-presentation-model
 })
 export class RepositoryNavigationComponent implements OnInit {
 
-  repositoryPresentationModel: NavigationPresentationModel;
+  repositoryUIModel!: NavigationUIModel;
 
-  constructor(private adapterRepositoryPresentationModel: AdapterNavigationPresentationModel) {
-    this.repositoryPresentationModel = this.adapterRepositoryPresentationModel.navigationPresentationModel;
-    this.repositoryPresentationModel.repositoryNavigationBehaviorModel?.repositoryStateChangeNotificator$.subscribe((repositoryStateExtended) => {
-      this.currentEventPosition = repositoryStateExtended.repositoryState.currentEventPosition.toString();
-      this.countEvents = repositoryStateExtended.repositoryState.countEventsInRepository;
-    })
+  constructor() {
+   
 
    }
 
@@ -34,12 +29,18 @@ export class RepositoryNavigationComponent implements OnInit {
   countEvents: number = 0;
 
   ngOnInit() {
-    this.currentEventPosition = this.repositoryPresentationModel.currentEventPosition;
-    this.countEvents = this.repositoryPresentationModel.countEventsInRepository;
+
+    this.repositoryUIModel.repositoryNavigationBehaviorModel?.repositoryStateChangeNotificator$.subscribe((repositoryStateExtended) => {
+      this.currentEventPosition = repositoryStateExtended.repositoryState.currentEventPosition.toString();
+      this.countEvents = repositoryStateExtended.repositoryState.countEventsInRepository;
+    })
+
+    this.currentEventPosition = this.repositoryUIModel.currentEventPosition;
+    this.countEvents = this.repositoryUIModel.countEventsInRepository;
   }
 
   navigateTo(where: string) {
-    this.repositoryPresentationModel.navigateTo(where);   
+    this.repositoryUIModel.navigateTo(where);   
   }
 
 
