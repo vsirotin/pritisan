@@ -3,6 +3,12 @@ import { CaptureBehaviorModel, ICaptureBehaviorModel, IRepositoryNavigationBehav
 
 // UI model for the capture component
 export class CaptureUIModel {
+    initModel() {
+      throw new Error('Method not implemented.');
+    }
+    init() {
+      throw new Error('Method not implemented.');
+    }
     captureBehaviorModel: ICaptureBehaviorModel = new CaptureBehaviorModel();
 
     navigationUIModel = new NavigationUIModel();
@@ -32,7 +38,7 @@ export class NavigationUIModel  {
     }
 }
 
-//------------Running events presentation model----------------
+//------------Running events ui model----------------
 
 
 // UI model for events/events saved in the repository
@@ -50,13 +56,13 @@ export class RunningEventsUIModel  {
     deletelectedEvents() {}
 }
 
-//------------Current event presentation model -----------------
+//------------Current event ui model -----------------
 
 
 export class EventUIModel {
 
-    eventSelectionPresenationModel = new EventSelectionPresenationModel();
-    timeSettingPresenationModel = new TimeSettingUIModel();
+    eventSelectionUIModel = new EventSelectionPresenationModel();
+    timeSettingUIModel = new TimeSettingUIModel();
     parametersSettingUIModel = new ParametersSettingUIModel();
     durationInHours: number = 0;
 

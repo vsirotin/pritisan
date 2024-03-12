@@ -3,10 +3,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
-import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { MatSort, Sort, MatSortModule}  from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { RunningEventsUIModel } from '../model/capture-ui-model';
 
 export interface PeriodicElement {
   duration: number;
@@ -37,6 +38,7 @@ imports: [
 export class RunningEventsComponent implements AfterViewInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
+  uiModel!: RunningEventsUIModel;
 
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 

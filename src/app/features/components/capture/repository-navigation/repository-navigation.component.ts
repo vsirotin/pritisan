@@ -3,7 +3,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import { NavigationUIModel } from '../model/capture-presentation-model';
+import { NavigationUIModel } from '../model/capture-ui-model';
 
 @Component({
   selector: 'app-repository-navigation',
@@ -18,7 +18,7 @@ import { NavigationUIModel } from '../model/capture-presentation-model';
 })
 export class RepositoryNavigationComponent implements OnInit {
 
-  repositoryUIModel!: NavigationUIModel;
+  uiModel!: NavigationUIModel;
 
   constructor() {
    
@@ -30,17 +30,17 @@ export class RepositoryNavigationComponent implements OnInit {
 
   ngOnInit() {
 
-    this.repositoryUIModel.repositoryNavigationBehaviorModel?.repositoryStateChangeNotificator$.subscribe((repositoryStateExtended) => {
+    this.uiModel.repositoryNavigationBehaviorModel?.repositoryStateChangeNotificator$.subscribe((repositoryStateExtended) => {
       this.currentEventPosition = repositoryStateExtended.repositoryState.currentEventPosition.toString();
       this.countEvents = repositoryStateExtended.repositoryState.countEventsInRepository;
     })
 
-    this.currentEventPosition = this.repositoryUIModel.currentEventPosition;
-    this.countEvents = this.repositoryUIModel.countEventsInRepository;
+    this.currentEventPosition = this.uiModel.currentEventPosition;
+    this.countEvents = this.uiModel.countEventsInRepository;
   }
 
   navigateTo(where: string) {
-    this.repositoryUIModel.navigateTo(where);   
+    this.uiModel.navigateTo(where);   
   }
 
 

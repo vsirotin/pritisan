@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { RunningEventsComponent } from './running-events/running-events.component';
 import { RepositoryNavigationComponent } from './repository-navigation/repository-navigation.component';
-import { CaptureUIModel } from './model/capture-presentation-model';
+import { CaptureUIModel } from './model/capture-ui-model';
 import { CurrentEventComponent } from './current-event/current-event.component';
 
 
@@ -19,13 +19,19 @@ import { CurrentEventComponent } from './current-event/current-event.component';
   templateUrl: './capture.component.html',
   styleUrl: './capture.component.scss'
 })
-export class CaptureComponent implements OnInit {
+export class CaptureComponent implements AfterViewInit {
 
-  captureUIModel!: CaptureUIModel;
+  @ViewChild(RepositoryNavigationComponent) repositoryNavigationComponent!: RepositoryNavigationComponent;
+  @ViewChild(RunningEventsComponent) runningEventsComponent!: RunningEventsComponent;
+  @ViewChild(CurrentEventComponent) rurrentEventComponent!: CurrentEventComponent;
+
+  uiModel = new CaptureUIModel();
   
   
-  ngOnInit() {
-    
+  ngAfterViewInit() {
+    this.repositoryNavigationComponent.uiModel = this.uiModel.navigationUIModel;
+    this.runningEventsComponent.uiModel = this.uiModel.runningEventsUIModel;
+    this.rurrentEventComponent.uiModel = this.uiModel.currentEventUIModel;
   }
 
 }
