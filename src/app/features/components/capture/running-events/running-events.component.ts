@@ -49,7 +49,7 @@ imports: [
 export class RunningEventsComponent implements AfterViewInit {
   displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-  uiModel!: RunningEventsUIModel;
+  uiModel = new RunningEventsUIModel();
 
   selection = new SelectionModel<PeriodicElement>(true, []);
 

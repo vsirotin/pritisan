@@ -23,15 +23,15 @@ export class CaptureComponent implements AfterViewInit {
 
   @ViewChild(RepositoryNavigationComponent) repositoryNavigationComponent!: RepositoryNavigationComponent;
   @ViewChild(RunningEventsComponent) runningEventsComponent!: RunningEventsComponent;
-  @ViewChild(CurrentEventComponent) rurrentEventComponent!: CurrentEventComponent;
+  @ViewChild(CurrentEventComponent) currentEventComponent!: CurrentEventComponent;
 
   uiModel = new CaptureUIModel();
   
-  
   ngAfterViewInit() {
-    this.repositoryNavigationComponent.uiModel = this.uiModel.navigationUIModel;
-    this.runningEventsComponent.uiModel = this.uiModel.runningEventsUIModel;
-    this.rurrentEventComponent.uiModel = this.uiModel.currentEventUIModel;
+    this.uiModel.navigationUIModel = this.repositoryNavigationComponent.uiModel;
+    this.uiModel.runningEventsUIModel = this.runningEventsComponent.uiModel;
+    this.uiModel.currentEventUIModel = this.currentEventComponent.uiModel;
+    this.uiModel.init();
   }
 
 }

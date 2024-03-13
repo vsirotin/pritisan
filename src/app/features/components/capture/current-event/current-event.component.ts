@@ -27,7 +27,7 @@ export class CurrentEventComponent implements AfterViewInit {
   uiModel = new EventUIModel(); 
 
   ngAfterViewInit() {
-    this.eventSelectionComponent.uiModel = this.uiModel.eventSelectionUIModel
+    this.uiModel.eventSelectionUIModel = this.eventSelectionComponent.uiModel;
     this.timeSettingComponent.uiModel = this.uiModel.timeSettingUIModel;
     this.parametersSettingComponent.uiModel = this.uiModel.parametersSettingUIModel; 
   }

@@ -1,19 +1,26 @@
-import { CaptureBehaviorModel, ICaptureBehaviorModel, IRepositoryNavigationBehaviorModel } from './capture-behavior-model';
+import { CaptureBusinessLogicModel, 
+    ICaptureBusinessLogicModel, 
+    IRepositoryBusinessLogicModel,
+    IRunningEventsBusinessLogicModel } from './capture-business-logic-model';
 
 
 // UI model for the capture component
 export class CaptureUIModel {
-    initModel() {
-      throw new Error('Method not implemented.');
-    }
-    init() {
-      throw new Error('Method not implemented.');
-    }
-    captureBehaviorModel: ICaptureBehaviorModel = new CaptureBehaviorModel();
 
-    navigationUIModel = new RepositoryNavigationUIModel();
-    runningEventsUIModel = new RunningEventsUIModel();
-    currentEventUIModel = new EventUIModel();
+
+    captureBusinessLogicModel!: ICaptureBusinessLogicModel;
+
+    navigationUIModel!: RepositoryNavigationUIModel;
+    runningEventsUIModel!:  RunningEventsUIModel;
+    currentEventUIModel!: EventUIModel;
+
+    init() {
+        this.captureBusinessLogicModel = new CaptureBusinessLogicModel()
+        this.captureBusinessLogicModel.load(); 
+        this.navigationUIModel.loadFrom(this.captureBusinessLogicModel.repositoryBusinessLogicModel);
+        this.runningEventsUIModel.loadFrom(this.captureBusinessLogicModel.runningEventsBusinessLogicModel);
+        this.currentEventUIModel.loadFrom(this.captureBusinessLogicModel.currentEventBusinessLogicModel);
+    }
 
 }
 
@@ -23,21 +30,38 @@ export class CaptureUIModel {
 // UI model for events/events saved in the repository
 export class RepositoryNavigationUIModel  {
 
+    loadFrom(repositoryModel: IRepositoryBusinessLogicModel) {
+        this.countEventsInRepository = repositoryModel.countEvents;
+        this.currentEventPosition = repositoryModel.currentEventPosition;
+    }
+
+    presenter!: IRepositoryPresentationModel;
+
+
     // Count events in the repository
-    countEventsInRepository: number = 0;
+    countEventsInRepository: number = 9;
 
     // Position of current event in the repository
-    currentEventPosition: string = "0";
+    currentEventPosition: number = 23;
 
-    repositoryNavigationBehaviorModel!: IRepositoryNavigationBehaviorModel;
+    repositoryNavigationBehaviorModel!: IRepositoryBusinessLogicModel;
 
     navigateTo(where: string) {
-        if (this.repositoryNavigationBehaviorModel) {
-            this.repositoryNavigationBehaviorModel.navigateTo(where);
-        }else {
-            throw new Error("RepositoryNavigationBehaviorModel is not initialized");
+        console.log("RepositoryNavigationUIModel.navigateTo presenter: ", this.presenter);
+        if (this.presenter) {
+            this.presenter.setRepositoryMetaData(this.countEventsInRepository, this.currentEventPosition);
         }
+
+        // if (this.repositoryNavigationBehaviorModel) {
+        //     this.repositoryNavigationBehaviorModel.navigateTo(where);
+        // }else {
+        //     throw new Error("RepositoryNavigationBehaviorModel is not initialized");
+        // }
     }
+}
+
+export interface IRepositoryPresentationModel {
+    setRepositoryMetaData(count: number, currentEventPosition: number): void;
 }
 
 //------------Running events ui model----------------
@@ -49,13 +73,7 @@ export class RunningEventsUIModel  {
     // The list of runing events/events
     runningEvents: EventUIModel[] = [];
 
-    isVisible: boolean = true;
-
-    selectEvent(eventPositionInList: number) {}
-
-    closeSelectedEvents() {}
-
-    deletelectedEvents() {}
+    loadFrom(runningEventsModel: IRunningEventsBusinessLogicModel) {}
 }
 
 //------------Current event ui model -----------------
@@ -63,9 +81,9 @@ export class RunningEventsUIModel  {
 
 export class EventUIModel {
 
-    eventSelectionUIModel = new EventSelectionPresenationModel();
-    timeSettingUIModel = new TimeSettingUIModel();
-    parametersSettingUIModel = new ParametersSettingUIModel();
+    eventSelectionUIModel!: EventSelectionPresenationModel;
+    timeSettingUIModel!: TimeSettingUIModel;
+    parametersSettingUIModel!: ParametersSettingUIModel;
     durationInHours: number = 0;
 
     startTime?: Date;
@@ -74,6 +92,8 @@ export class EventUIModel {
     type: string = "";
 
     details: string = "";
+
+    loadFrom(currentEventModel: IRunningEventsBusinessLogicModel) {}
 }
 
 export class EventSelectionPresenationModel {

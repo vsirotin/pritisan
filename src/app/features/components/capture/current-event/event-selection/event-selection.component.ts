@@ -16,7 +16,7 @@ import { EventSelectionPresenationModel } from '../../model/capture-ui-model';
 })
 export class EventSelectionComponent {
 
-  uiModel?:  EventSelectionPresenationModel;
+  uiModel!:  EventSelectionPresenationModel;
   onClick() {
     
   }
