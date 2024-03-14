@@ -3,7 +3,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import { IRepositoryPresentationModel, RepositoryNavigationUIModel } from '../model/capture-ui-model';
+import { IRepositoryNavigationInputModel, IRepositoryNavigationUIModel, IRepositoryPresentationModel, RepositoryNavigationUIModel } from '../model/capture-ui-model';
 
 @Component({
   selector: 'app-repository-navigation',
@@ -18,10 +18,10 @@ import { IRepositoryPresentationModel, RepositoryNavigationUIModel } from '../mo
 })
 export class RepositoryNavigationComponent implements IRepositoryPresentationModel {
 
-  uiModel = new RepositoryNavigationUIModel();
+  uiModel: IRepositoryNavigationUIModel = new RepositoryNavigationUIModel();
 
   constructor() {
-    this.uiModel.presenter = this;
+    this.uiModel.setPresenter(this);
   }
 
   currentEventPosition: string = "2";

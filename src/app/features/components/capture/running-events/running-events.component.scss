@@ -1,4 +1,13 @@
+@import '../../../../shared/styles/toolbar.scss';
+
 .table-container {
     max-height: 150px; /* Adjust this value based on the height of your rows */
     overflow-y: auto;
   }
+
+  .toolbar-running-events {
+    display: flex;
+    padding: 0 10px;
+    margin: 0 10px 20px 10px;
+    justify-content: flex-end
+}

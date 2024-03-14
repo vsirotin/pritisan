@@ -10,7 +10,7 @@ export class CaptureUIModel {
 
     captureBusinessLogicModel!: ICaptureBusinessLogicModel;
 
-    navigationUIModel!: RepositoryNavigationUIModel;
+    navigationUIModel!: IRepositoryNavigationUIModel;
     runningEventsUIModel!:  RunningEventsUIModel;
     currentEventUIModel!: EventUIModel;
 
@@ -24,28 +24,48 @@ export class CaptureUIModel {
 
 }
 
-//------------Navigation model----------------
+//------------Repository Navigation model----------------
+export interface IRepositoryPresentationModel {
+    setRepositoryMetaData(count: number, currentEventPosition: number): void;
+}
 
+export interface IRepositoryNavigationInputModel {
+    navigateTo(where: string): void;
+}
+
+export interface IRepositoryNavigationUIModel extends IRepositoryNavigationInputModel, IRepositoryPresentationModel {
+    setPresenter(presenter: IRepositoryPresentationModel): void;
+    loadFrom(repositoryModel: IRepositoryBusinessLogicModel): void;
+}
 
 // UI model for events/events saved in the repository
-export class RepositoryNavigationUIModel  {
+export class RepositoryNavigationUIModel  implements IRepositoryNavigationUIModel{
+
+    repositoryNavigationBehaviorModel!: IRepositoryBusinessLogicModel;
+
+    // Count events in the repository
+    private countEventsInRepository: number = 9; //TODO
+
+    // Position of current event in the repository
+    private currentEventPosition: number = 23; //TODO
+
+
+
+    private presenter!: IRepositoryPresentationModel;
+
+    setPresenter(presenter: IRepositoryPresentationModel): void {
+        this.presenter = presenter;
+    }
+    setRepositoryMetaData(count: number, currentEventPosition: number): void {
+        throw new Error('Method not implemented.');
+    }
 
     loadFrom(repositoryModel: IRepositoryBusinessLogicModel) {
         this.countEventsInRepository = repositoryModel.countEvents;
         this.currentEventPosition = repositoryModel.currentEventPosition;
     }
 
-    presenter!: IRepositoryPresentationModel;
-
-
-    // Count events in the repository
-    countEventsInRepository: number = 9;
-
-    // Position of current event in the repository
-    currentEventPosition: number = 23;
-
-    repositoryNavigationBehaviorModel!: IRepositoryBusinessLogicModel;
-
+ 
     navigateTo(where: string) {
         console.log("RepositoryNavigationUIModel.navigateTo presenter: ", this.presenter);
         if (this.presenter) {
@@ -60,9 +80,7 @@ export class RepositoryNavigationUIModel  {
     }
 }
 
-export interface IRepositoryPresentationModel {
-    setRepositoryMetaData(count: number, currentEventPosition: number): void;
-}
+
 
 //------------Running events ui model----------------
 
