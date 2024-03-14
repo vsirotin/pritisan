@@ -8,18 +8,20 @@
 
   <mat-toolbar class="toolbar-running-events">
 
+    <p class="text-for-icon">Complete all</p>
     <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" (click)="onClick()">
-      <mat-icon>save</mat-icon>
+      <mat-icon>done_all</mat-icon>
+    </button>
+    <p class="text-for-icon">Delete all</p> 
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo">
+      <mat-icon>delete</mat-icon>
     </button>
   
+    <p class="text-for-icon">Cancel/reset</p>
     <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" (click)="onClick()">
       <mat-icon>refresh</mat-icon>
     </button>
   
-  
-    <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo">
-      <mat-icon>delete</mat-icon>
-    </button>
   
   </mat-toolbar>
         
