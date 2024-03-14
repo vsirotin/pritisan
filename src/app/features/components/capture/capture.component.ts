@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { RunningEventsComponent } from './running-events/running-events.component';
 import { RepositoryNavigationComponent } from './repository-navigation/repository-navigation.component';
-import { AdapterCapturePresentationModel, CapturePresentationModel } from './model/capture-presentation-model';
+import { CaptureUIModel } from './model/capture-ui-model';
 import { CurrentEventComponent } from './current-event/current-event.component';
 
 
@@ -19,18 +19,19 @@ import { CurrentEventComponent } from './current-event/current-event.component';
   templateUrl: './capture.component.html',
   styleUrl: './capture.component.scss'
 })
-export class CaptureComponent implements OnInit {
+export class CaptureComponent implements AfterViewInit {
 
-  capturePresentationModel: CapturePresentationModel;
+  @ViewChild(RepositoryNavigationComponent) repositoryNavigationComponent!: RepositoryNavigationComponent;
+  @ViewChild(RunningEventsComponent) runningEventsComponent!: RunningEventsComponent;
+  @ViewChild(CurrentEventComponent) currentEventComponent!: CurrentEventComponent;
+
+  uiModel = new CaptureUIModel();
   
-
-  constructor(adapterCapturePresentationModel: AdapterCapturePresentationModel) { 
-    this.capturePresentationModel = adapterCapturePresentationModel.capturePresentationModel;
-  }
-
-  
-  ngOnInit() {
-    
+  ngAfterViewInit() {
+    this.uiModel.navigationUIModel = this.repositoryNavigationComponent.uiModel;
+    this.uiModel.runningEventsUIModel = this.runningEventsComponent.uiModel;
+    this.uiModel.currentEventUIModel = this.currentEventComponent.uiModel;
+    this.uiModel.init();
   }
 
 }

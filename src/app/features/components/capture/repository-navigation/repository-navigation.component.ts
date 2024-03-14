@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import { AdapterNavigationPresentationModel } from '../model/capture-presentation-model';
-import { NavigationPresentationModel } from '../model/capture-presentation-model';
+import { IRepositoryNavigationInputModel, IRepositoryNavigationUIModel, IRepositoryPresentationModel, RepositoryNavigationUIModel } from '../model/capture-ui-model';
 
 @Component({
   selector: 'app-repository-navigation',
@@ -17,29 +16,24 @@ import { NavigationPresentationModel } from '../model/capture-presentation-model
   templateUrl: './repository-navigation.component.html',
   styleUrl: './repository-navigation.component.scss'
 })
-export class RepositoryNavigationComponent implements OnInit {
+export class RepositoryNavigationComponent implements IRepositoryPresentationModel {
 
-  repositoryPresentationModel: NavigationPresentationModel;
+  uiModel: IRepositoryNavigationUIModel = new RepositoryNavigationUIModel();
 
-  constructor(private adapterRepositoryPresentationModel: AdapterNavigationPresentationModel) {
-    this.repositoryPresentationModel = this.adapterRepositoryPresentationModel.navigationPresentationModel;
-    this.repositoryPresentationModel.repositoryNavigationBehaviorModel?.repositoryStateChangeNotificator$.subscribe((repositoryStateExtended) => {
-      this.currentEventPosition = repositoryStateExtended.repositoryState.currentEventPosition.toString();
-      this.countEvents = repositoryStateExtended.repositoryState.countEventsInRepository;
-    })
-
-   }
+  constructor() {
+    this.uiModel.setPresenter(this);
+  }
 
   currentEventPosition: string = "2";
   countEvents: number = 0;
 
-  ngOnInit() {
-    this.currentEventPosition = this.repositoryPresentationModel.currentEventPosition;
-    this.countEvents = this.repositoryPresentationModel.countEventsInRepository;
+  setRepositoryMetaData(count: number, currentEventPosition: number): void {
+    this.countEvents = count;
+    this.currentEventPosition = currentEventPosition.toString();
   }
 
   navigateTo(where: string) {
-    this.repositoryPresentationModel.navigateTo(where);   
+    this.uiModel.navigateTo(where);   
   }
 
 

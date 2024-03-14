@@ -1,14 +1,12 @@
-<mat-card class="example-card">
+<mat-card class="settings-card">
   <mat-card-header>
     <mat-card-title>{{t('settings', 'Settings')}}</mat-card-title>
   </mat-card-header>
-<div class="example-action-buttons">
+<div class="settings-action-buttons">
     <button mat-button (click)="accordion?.openAll()">{{t('expand_all', 'Expand All')}}</button>
     <button mat-button (click)="accordion?.closeAll()">{{t('collapse_all', 'Collapse All')}}</button>
   </div>
-  <!-- #docregion multi -->
-  <mat-accordion class="example-headers-align" multi>
-  <!-- #enddocregion multi -->
+  <mat-accordion class="settings-headers-align" multi>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>

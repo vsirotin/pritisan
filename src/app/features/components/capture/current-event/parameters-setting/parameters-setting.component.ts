@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ParametersSettingUIModel } from '../../model/capture-ui-model';
 
 @Component({
   selector: 'app-parameters-setting',
@@ -16,6 +17,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrl: './parameters-setting.component.scss'
 })
 export class ParametersSettingComponent {
+
+  uiModel?: ParametersSettingUIModel;
+
   readonly events: Array<IActivityParameter> = [
     {id: "1.1", label: "Parameter 1.1"},
     {id: "1.2", label: "Parameter 1.2"},
