@@ -21,8 +21,8 @@ export class CaptureBusinessLogicModel implements ICaptureBusinessLogicModel{
         //TODO Temporyry implementation!!!!
         console.log("CaptureBusinessLogicModel.load repositoryBusinessLogicModel: ", this.repositoryBusinessLogicModel);
         if(this.repositoryBusinessLogicModel) {
-            this.repositoryBusinessLogicModel.currentEventPosition = 3
-            this.repositoryBusinessLogicModel.countEvents = 5;
+            this.repositoryBusinessLogicModel.currentEventPosition = -1;
+            this.repositoryBusinessLogicModel.countEvents = 0;
         }
 
     }
@@ -91,4 +91,13 @@ export interface IRepositoryStateExtended {
 
 //------------Current event behavior model----------------
 export interface IEventBusinessLogicModel { 
+}
+
+export enum RepositoryNavigationAction {
+    PREVIOUS_PAGE,
+    PREVIOUS,
+    NEXT,
+    NEXT_PAGE,
+    LAST,
+    NEW
 }

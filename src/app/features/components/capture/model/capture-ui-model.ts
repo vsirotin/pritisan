@@ -1,7 +1,8 @@
 import { CaptureBusinessLogicModel, 
     ICaptureBusinessLogicModel, 
     IRepositoryBusinessLogicModel,
-    IRunningEventsBusinessLogicModel } from './capture-business-logic-model';
+    IRunningEventsBusinessLogicModel, 
+    RepositoryNavigationAction} from './capture-business-logic-model';
 
 
 // UI model for the capture component
@@ -34,6 +35,7 @@ export interface IRepositoryNavigationInputModel {
 }
 
 export interface IRepositoryNavigationUIModel extends IRepositoryNavigationInputModel, IRepositoryPresentationModel {
+    isDisabled(element: RepositoryNavigationAction): boolean;
     setPresenter(presenter: IRepositoryPresentationModel): void;
     loadFrom(repositoryModel: IRepositoryBusinessLogicModel): void;
 }
@@ -44,14 +46,14 @@ export class RepositoryNavigationUIModel  implements IRepositoryNavigationUIMode
     repositoryNavigationBehaviorModel!: IRepositoryBusinessLogicModel;
 
     // Count events in the repository
-    private countEventsInRepository: number = 9; //TODO
+    private countEventsInRepository: number = -1; 
 
     // Position of current event in the repository
-    private currentEventPosition: number = 23; //TODO
-
-
+    private currentEventPosition: number = 0; 
 
     private presenter!: IRepositoryPresentationModel;
+
+    private pageSize = 10;
 
     setPresenter(presenter: IRepositoryPresentationModel): void {
         this.presenter = presenter;
@@ -77,6 +79,35 @@ export class RepositoryNavigationUIModel  implements IRepositoryNavigationUIMode
         // }else {
         //     throw new Error("RepositoryNavigationBehaviorModel is not initialized");
         // }
+    }
+
+    isDisabled(element: RepositoryNavigationAction): boolean {
+        console.log("RepositoryNavigationUIModel.isDisabled element: ", element, 
+        " countEventsInRepository: ", this.countEventsInRepository, 
+        " currentEventPosition: ", this.currentEventPosition, 
+        " pageSize: ", this.pageSize);
+
+        //Calcualtion in (...) done for positive (available) to better readability
+        switch (element) {
+            case RepositoryNavigationAction.PREVIOUS_PAGE:
+                if(this.currentEventPosition = -1){
+                    return !(this.countEventsInRepository > this.pageSize);
+                } 
+                return !(this.countEventsInRepository - this.currentEventPosition >= this.pageSize);
+            case RepositoryNavigationAction.PREVIOUS:
+                if(this.currentEventPosition = -1){
+                    return !(this.countEventsInRepository > 0);
+                } 
+                return !(this.countEventsInRepository - this.currentEventPosition > 0);
+            case RepositoryNavigationAction.NEXT:
+                 return !(this.currentEventPosition > 0); 
+            case RepositoryNavigationAction.NEXT_PAGE:
+                return !(this.currentEventPosition > this.pageSize);
+            case RepositoryNavigationAction.LAST:  
+                return !(this.currentEventPosition > 0);   
+            default: // equal RepositoryNavigationAction.NEW
+                return false;
+        }
     }
 }
 
