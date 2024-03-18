@@ -32,11 +32,13 @@ export interface IRepositoryBusinessLogicModel {
     currentEventPosition: number;
     countEvents: number;
 
-    navigateTo(where: string): unknown;
+    navigateTo(element: RepositoryNavigationAction): void;
+
+    updateDefaultEvent():void
 
 }
 
-class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicModel {
+export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicModel {
     
 
     currentEventPosition: number = 0;
@@ -44,12 +46,26 @@ class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicModel {
     
     constructor() {}
 
-    navigateTo(where: string): void {
+    navigateTo(element: RepositoryNavigationAction): void {
+        console.log("RepositoryBusinessLogicModel.navigateTo element: ", element);
+        switch (element) {
+            case RepositoryNavigationAction.PREVIOUS_PAGE:
+                //TODO
+            case RepositoryNavigationAction.PREVIOUS:
+                //TODO
+            case RepositoryNavigationAction.NEXT:
+                //TODO
+            case RepositoryNavigationAction.NEXT_PAGE:
+                //TODO
+            case RepositoryNavigationAction.LAST:  
+                //TODO   
+            default: // equal RepositoryNavigationAction.NEW
+                this.updateDefaultEvent();
+        }
+       
+    }
 
-        this.calculateNewRepositoryState(where).then((repositoryStateExtended: IRepositoryStateExtended) => {
-            //this.repositoryStateChangeNotificator$.next(repositoryStateExtended);
-            }
-        )
+    updateDefaultEvent():void {
     }
 
     async calculateNewRepositoryState(where: string): Promise<IRepositoryStateExtended> {
@@ -67,9 +83,6 @@ export interface IRunningEventsBusinessLogicModel {
 }
 
 class RunningEventsBusinessLogicModel implements IRunningEventsBusinessLogicModel {
-    constructor() {
-        
-    }
 }
 
 export interface IRepositoryState {

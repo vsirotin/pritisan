@@ -6,27 +6,27 @@
     </button>
 
     <button mat-icon-button class="toolbar-button"  aria-label="Icon-button with application logo" 
-        (click)="navigateTo('left')" disabled="{{isDisabled(RNA.PREVIOUS)}}">
+        (click)="navigateTo(RNA.PREVIOUS)" disabled="{{isDisabled(RNA.PREVIOUS)}}">
       <mat-icon>keyboard_arrow_left</mat-icon>
     </button>
 
     <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo" 
-        (click)="navigateTo('right')" disabled="{{isDisabled(RNA.NEXT)}}">
+        (click)="navigateTo(RNA.NEXT)" disabled="{{isDisabled(RNA.NEXT)}}">
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
 
     <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo" 
-        (click)="navigateTo('right-page')" disabled="{{isDisabled(RNA.NEXT_PAGE)}}">
+        (click)="navigateTo(RNA.NEXT_PAGE)" disabled="{{isDisabled(RNA.NEXT_PAGE)}}">
       <mat-icon>keyboard_double_arrow_right</mat-icon>
     </button>
 
     <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo" 
-        (click)="navigateTo('last')" disabled="{{isDisabled(RNA.LAST)}}">
+        (click)="navigateTo(RNA.LAST)" disabled="{{isDisabled(RNA.LAST)}}">
       <mat-icon>last_page</mat-icon>
     </button>
 
     <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" 
-        (click)="navigateTo('new')" disabled="{{isDisabled(RNA.NEW)}}">
+        (click)="navigateTo(RNA.NEW)" disabled="{{isDisabled(RNA.NEW)}}">
       <mat-icon>more_time</mat-icon>
     </button>
 

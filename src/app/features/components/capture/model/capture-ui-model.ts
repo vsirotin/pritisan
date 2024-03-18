@@ -31,10 +31,11 @@ export interface IRepositoryPresentationModel {
 }
 
 export interface IRepositoryNavigationInputModel {
-    navigateTo(where: string): void;
+    navigateTo(element: RepositoryNavigationAction): void;
 }
 
 export interface IRepositoryNavigationUIModel extends IRepositoryNavigationInputModel, IRepositoryPresentationModel {
+    repositoryNavigationBusinessLogicModel: IRepositoryBusinessLogicModel;
     isDisabled(element: RepositoryNavigationAction): boolean;
     setPresenter(presenter: IRepositoryPresentationModel): void;
     loadFrom(repositoryModel: IRepositoryBusinessLogicModel): void;
@@ -43,7 +44,7 @@ export interface IRepositoryNavigationUIModel extends IRepositoryNavigationInput
 // UI model for events/events saved in the repository
 export class RepositoryNavigationUIModel  implements IRepositoryNavigationUIModel{
 
-    repositoryNavigationBehaviorModel!: IRepositoryBusinessLogicModel;
+    repositoryNavigationBusinessLogicModel!: IRepositoryBusinessLogicModel;
 
     // Count events in the repository
     private countEventsInRepository: number = -1; 
@@ -68,17 +69,17 @@ export class RepositoryNavigationUIModel  implements IRepositoryNavigationUIMode
     }
 
  
-    navigateTo(where: string) {
-        console.log("RepositoryNavigationUIModel.navigateTo presenter: ", this.presenter);
+    navigateTo(element: RepositoryNavigationAction) {
+        console.log("RepositoryNavigationUIModel.navigateTo presenter: ", this.presenter, " element: ", element);
         if (this.presenter) {
             this.presenter.setRepositoryMetaData(this.countEventsInRepository, this.currentEventPosition);
         }
 
-        // if (this.repositoryNavigationBehaviorModel) {
-        //     this.repositoryNavigationBehaviorModel.navigateTo(where);
-        // }else {
-        //     throw new Error("RepositoryNavigationBehaviorModel is not initialized");
-        // }
+        if(this.repositoryNavigationBusinessLogicModel) {
+            this.repositoryNavigationBusinessLogicModel.navigateTo(element);
+        }else {
+            throw new Error("RepositoryNavigationBehaviorModel is not initialized");
+        }
     }
 
     isDisabled(element: RepositoryNavigationAction): boolean {

@@ -40,12 +40,16 @@ export class RepositoryNavigationComponent implements IRepositoryPresentationMod
     this.currentEventAsNumber = currentEventPosition;
   }
 
-  navigateTo(where: string) {
-    this.uiModel.navigateTo(where);   
+  navigateTo(element: RepositoryNavigationAction) {
+    this.uiModel.navigateTo(element);   
   }
 
   isDisabled(element: RepositoryNavigationAction ): boolean {
     return this.uiModel.isDisabled(element);
   }
+
+ 
+
+  
 
 }
