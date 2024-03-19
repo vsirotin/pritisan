@@ -1,4 +1,5 @@
 import { Subject } from "rxjs";
+import { Logger } from "../../../../shared/services/logging/logger";
 
 
 export interface ICaptureBusinessLogicModel {
@@ -10,53 +11,112 @@ export interface ICaptureBusinessLogicModel {
 
 export class CaptureBusinessLogicModel implements ICaptureBusinessLogicModel{
 
-    repositoryBusinessLogicModel: IRepositoryBusinessLogicModel = new RepositoryBusinessLogicModel();
+    repositoryBusinessLogicModel!: IRepositoryBusinessLogicModel;
     runningEventsBusinessLogicModel!: IRunningEventsBusinessLogicModel;
     currentEventBusinessLogicModel!: IEventBusinessLogicModel;
+    logger!: Logger;
     
-    constructor() {
-        
+    constructor(logger: Logger) {
+        this.logger = logger;  
+        this.repositoryBusinessLogicModel = new RepositoryBusinessLogicModel(logger);
     }
+
     load(){
         //TODO Temporyry implementation!!!!
-        console.log("CaptureBusinessLogicModel.load repositoryBusinessLogicModel: ", this.repositoryBusinessLogicModel);
+        this.logger.debug("CaptureBusinessLogicModel.load repositoryBusinessLogicModel: " + this.repositoryBusinessLogicModel);
         if(this.repositoryBusinessLogicModel) {
-            this.repositoryBusinessLogicModel.currentEventPosition = 3
-            this.repositoryBusinessLogicModel.countEvents = 5;
+            //TODO
         }
 
     }
 }
 
-export interface IRepositoryBusinessLogicModel {
+export interface IRepositoryMetaData {
     currentEventPosition: number;
     countEvents: number;
+    pageSize: number;
+}
 
-    navigateTo(where: string): unknown;
+export interface IRepositoryBusinessLogicModel {
+
+    navigateTo(element: RepositoryNavigationAction): void;
+
+    updateDefaultEvent():void
+
+    getMetaData(): IRepositoryMetaData;
+
+    setMetaData(metaData: IRepositoryMetaData): void;
 
 }
 
-class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicModel {
+export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicModel {
     
+    private currentEventPosition: number = -1;
+    private countEvents: number = 0;
+    private pageSize: number = 10;
 
-    currentEventPosition: number = 0;
-    countEvents: number = 0;
-    
-    constructor() {}
-
-    navigateTo(where: string): void {
-
-        this.calculateNewRepositoryState(where).then((repositoryStateExtended: IRepositoryStateExtended) => {
-            //this.repositoryStateChangeNotificator$.next(repositoryStateExtended);
-            }
-        )
+    constructor(private logger: Logger) {
+        this.logger = logger;
     }
 
-    async calculateNewRepositoryState(where: string): Promise<IRepositoryStateExtended> {
-        return new Promise<IRepositoryStateExtended>((resolve, reject) => {
-            resolve({repositoryState: {countEventsInRepository: 0, currentEventPosition: 0}, currentEvent: {duration: 0, start: "", type: "", details: ""}});
-        });
+    navigateTo(element: RepositoryNavigationAction): void {
+        this.logger.debug("RepositoryBusinessLogicModel.navigateTo before element: " + RepositoryNavigationAction[element] 
+            + " currentEventPosition: " + this.currentEventPosition + " countEvents: " + this.countEvents );
+        switch (element) {
+            case RepositoryNavigationAction.PREVIOUS_PAGE:
+                if(this.currentEventPosition  == -1){
+                    this.currentEventPosition = this.countEvents - this.pageSize;
+                }else{
+                    this.currentEventPosition = this.currentEventPosition - this.pageSize;   
+                }             
+                break
+            case RepositoryNavigationAction.PREVIOUS:
+                if(this.currentEventPosition  == -1){
+                    this.currentEventPosition = this.countEvents;
+                }else{
+                    this.currentEventPosition = this.currentEventPosition - 1;
+                }
+                
+                break
+            case RepositoryNavigationAction.NEXT:
+                this.currentEventPosition = this.currentEventPosition + 1;
+                break
+            case RepositoryNavigationAction.NEXT_PAGE:
+                this.currentEventPosition = this.currentEventPosition + this.pageSize;
+                break
+            case RepositoryNavigationAction.LAST:  
+                this.currentEventPosition = this.countEvents;
+                break
+            default: // equal RepositoryNavigationAction.NEW
+                this.currentEventPosition = -1;
+                this.updateDefaultEvent();
+        }
+        this.logger.debug("RepositoryBusinessLogicModel.navigateTo after currentEventPosition: " + this.currentEventPosition + " countEvents: " + this.countEvents );
+        if(this.currentEventPosition < -1){
+            throw new Error("RepositoryBusinessLogicModel.navigateTo currentEventPosition is less than -1");
+        }
+
+        if(this.currentEventPosition > this.countEvents){
+            throw new Error("RepositoryBusinessLogicModel.navigateTo currentEventPosition is bigger than countEvents");
+        }
+       
     }
+
+    updateDefaultEvent():void {
+        this.logger.debug("RepositoryBusinessLogicModel.updateDefaultEvent before currentEventPosition: " + this.currentEventPosition + " countEvents: " + this.countEvents );
+    }
+
+    getMetaData(): IRepositoryMetaData {
+        return {currentEventPosition: this.currentEventPosition, countEvents: this.countEvents, pageSize: this.pageSize};
+    }
+
+    setMetaData(metaData: IRepositoryMetaData): void {
+        this.currentEventPosition = metaData.currentEventPosition;
+        this.countEvents = metaData.countEvents;
+        this.pageSize = metaData.pageSize;
+    
+    }
+
 }
 
 
@@ -67,9 +127,6 @@ export interface IRunningEventsBusinessLogicModel {
 }
 
 class RunningEventsBusinessLogicModel implements IRunningEventsBusinessLogicModel {
-    constructor() {
-        
-    }
 }
 
 export interface IRepositoryState {
@@ -91,4 +148,13 @@ export interface IRepositoryStateExtended {
 
 //------------Current event behavior model----------------
 export interface IEventBusinessLogicModel { 
+}
+
+export enum RepositoryNavigationAction {
+    PREVIOUS_PAGE,
+    PREVIOUS,
+    NEXT,
+    NEXT_PAGE,
+    LAST,
+    NEW
 }

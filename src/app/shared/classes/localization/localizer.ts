@@ -1,7 +1,6 @@
 import { Observable, Subject, Subscription } from "rxjs";
 import { ILanguageDescription, inSupportedLanguages, DEFAULT_LANG_TAG } from './language-description';
 import { Logger } from "../../services/logging/logger";
-import { Warning } from "../problems/problems";
 import { DbAgent, IKeyValueDB } from "../db/db-agent";
 import { ILanguageChangeNotificator, LanguageChangeNotificator } from "./language-change-notificator";
 
@@ -24,7 +23,6 @@ export class Localizer implements ILocalizer {
 
   constructor(private componentCooordinate: string,
     private componentVersion : number,
-
     private logger: Logger) { 
     this.logger.debug("Start of Localizer.constructor"); 
 
@@ -75,8 +73,6 @@ export class Localizer implements ILocalizer {
     this.currentLanguageMap = new Map<string, string>();
 
   }
-
-
 
   private async loadLanguageMap() {
     this.logger.debug("Start of Localizer.loadLanguageMap componentCooordinate=" + this.componentCooordinate);
