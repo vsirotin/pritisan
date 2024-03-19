@@ -3,8 +3,9 @@ import { MatDividerModule } from '@angular/material/divider';
 
 import { RunningEventsComponent } from './running-events/running-events.component';
 import { RepositoryNavigationComponent } from './repository-navigation/repository-navigation.component';
-import { CaptureUIModel } from './model/capture-ui-model';
+import { CaptureUIModel, ICaptureUIModel } from './model/capture-ui-model';
 import { CurrentEventComponent } from './current-event/current-event.component';
+import { Logger } from '../../../shared/services/logging/logger';
 
 
 @Component({
@@ -25,12 +26,16 @@ export class CaptureComponent implements AfterViewInit {
   @ViewChild(RunningEventsComponent) runningEventsComponent!: RunningEventsComponent;
   @ViewChild(CurrentEventComponent) currentEventComponent!: CurrentEventComponent;
 
-  uiModel = new CaptureUIModel();
-  
+  uiModel! : ICaptureUIModel;
+
+  constructor(private logger: Logger) { 
+    this.uiModel = new CaptureUIModel(this.logger);
+  }
+
   ngAfterViewInit() {
-    this.uiModel.navigationUIModel = this.repositoryNavigationComponent.uiModel;
-    this.uiModel.runningEventsUIModel = this.runningEventsComponent.uiModel;
-    this.uiModel.currentEventUIModel = this.currentEventComponent.uiModel;
+    this.uiModel.setNavigationUIModel(this.repositoryNavigationComponent.uiModel);
+    this.uiModel.setRunningEventsUIModel(this.runningEventsComponent.uiModel);
+    this.uiModel.setCurrentEventUIModel(this.currentEventComponent.uiModel);
     this.uiModel.init();
   }
 

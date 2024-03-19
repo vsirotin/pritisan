@@ -48,8 +48,7 @@ export class SettingsComponent implements OnInit, OnDestroy  {
   langEn: string = ""
   langEtfTag: string = "" 
 
-  constructor(
-    private logger: Logger ) {
+  constructor(private logger: Logger ) {
     this.logger.debug("Start of SettingsComponent.constructor");  
 
     this.localizer =  new Localizer(SETTINGS_SOURCE_DIR, 1, logger);

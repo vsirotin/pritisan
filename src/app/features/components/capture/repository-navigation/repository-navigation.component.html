@@ -1,7 +1,7 @@
 <mat-toolbar >
 
     <button mat-icon-button class="toolbar-button"  aria-label="Icon-button with application logo" 
-        (click)="navigateTo('left-page')" disabled="{{isDisabled(RNA.PREVIOUS_PAGE)}}">
+        (click)="navigateTo(RNA.PREVIOUS_PAGE)" disabled="{{isDisabled(RNA.PREVIOUS_PAGE)}}">
       <mat-icon>keyboard_double_arrow_left</mat-icon>
     </button>
 
@@ -30,5 +30,5 @@
       <mat-icon>more_time</mat-icon>
     </button>
 
-    <p>{{currentEventPosition()}}/{{countEvents}}</p>
+    <p>{{currentEvent}}/{{countEvents}}</p>
   </mat-toolbar>
