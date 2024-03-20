@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { EventSelectionPresenationModel } from '../../model/capture-ui-model';
+import { EventSelectionPresenationModel } from '../../model/capture/capture-ui-model';
 
 @Component({
   selector: 'app-event-selection',

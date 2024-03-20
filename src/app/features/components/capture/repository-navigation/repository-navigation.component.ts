@@ -3,8 +3,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import { IRepositoryNavigationUIModel, IRepositoryPresentationModel, RepositoryNavigationUIModel } from '../model/capture-ui-model';
-import { RepositoryNavigationAction } from '../model/capture-business-logic-model';
+import { IRepositoryNavigationUIModel, IRepositoryPresentationModel, RepositoryNavigationUIModel } from '../model/capture/capture-ui-model';
+import { RepositoryNavigationAction } from '../model/capture/capture-business-logic-model';
 import { Logger } from '../../../../shared/services/logging/logger';
 
 @Component({

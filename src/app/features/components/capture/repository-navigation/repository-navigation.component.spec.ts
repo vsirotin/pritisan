@@ -2,9 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RepositoryNavigationComponent } from './repository-navigation.component';
 import { By } from '@angular/platform-browser';
-import { IRepositoryNavigationUIModel } from '../model/capture-ui-model';
-import { IRepositoryBusinessLogicModel, IRepositoryMetaData, RepositoryBusinessLogicModel, RepositoryNavigationAction } from '../model/capture-business-logic-model';
+import { IRepositoryNavigationUIModel } from '../model/capture/capture-ui-model';
+import { IRepositoryBusinessLogicModel, RepositoryBusinessLogicModel, RepositoryNavigationAction } from '../model/capture/capture-business-logic-model';
 import { Logger } from '../../../../shared/services/logging/logger';
+import { ITimeSeriesDB, TimeSeriesDB } from '../../../../shared/classes/time-series/time-series-db';
 
 describe('RepositoryNavigationComponent', () => {
   let component: RepositoryNavigationComponent;
@@ -301,5 +302,7 @@ describe('RepositoryNavigationComponent', () => {
     });
   });
 });
+
+
 
 

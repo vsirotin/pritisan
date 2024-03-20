@@ -3,7 +3,7 @@ import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { EventSelectionComponent } from './event-selection/event-selection.component';
 import { TimeSettingComponent } from './time-setting/time-setting.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
-import { EventUIModel } from '../model/capture-ui-model';
+import { EventUIModel } from '../model/capture/capture-ui-model';
 import { CurrentEventToolbarComponent } from './current-event-toolbar/current-event-toolbar.component';
 
 @Component({

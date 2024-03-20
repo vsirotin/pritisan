@@ -1,10 +1,11 @@
-import { Logger } from '../../../../shared/services/logging/logger';
+import { ITimeSeriesDB, TimeSeriesDB } from '../../../../../shared/classes/time-series/time-series-db';
+import { Logger } from '../../../../../shared/services/logging/logger';
 import { CaptureBusinessLogicModel, 
     ICaptureBusinessLogicModel, 
     IRepositoryBusinessLogicModel,
-    IRepositoryMetaData,
     IRunningEventsBusinessLogicModel, 
     RepositoryNavigationAction} from './capture-business-logic-model';
+import { IRepositoryMetaData } from './capture-model-interfaces';
 
 
 // UI model for the capture component
@@ -25,13 +26,12 @@ export class CaptureUIModel implements ICaptureUIModel {
 
     private captureBusinessLogicModel!: ICaptureBusinessLogicModel;
 
-    private navigationUIModel!: IRepositoryNavigationUIModel;
+    private repositorNavigationUIModel!: IRepositoryNavigationUIModel;
     private runningEventsUIModel!:  RunningEventsUIModel;
     private currentEventUIModel!: EventUIModel;
 
-    constructor(private logger: Logger) {
+    constructor(private logger: Logger, private timeSeriesDB: ITimeSeriesDB = new TimeSeriesDB()) {
         this.captureBusinessLogicModel = new CaptureBusinessLogicModel(this.logger)
-        //this.navigationUIModel.setRepositoryNavigationBusinessLogicModel(this.captureBusinessLogicModel.repositoryBusinessLogicModel);
     }
 
     setCaptureBusinessLogicModel(captureBusinessLogicModel: ICaptureBusinessLogicModel): void {
@@ -43,7 +43,8 @@ export class CaptureUIModel implements ICaptureUIModel {
     }
 
     setNavigationUIModel(repositoryNavigationUIModel: IRepositoryNavigationUIModel): void {
-        this.navigationUIModel = repositoryNavigationUIModel;
+        this.repositorNavigationUIModel = repositoryNavigationUIModel;
+        this.captureBusinessLogicModel.setTimeSeriesDB(this.timeSeriesDB);
     }
 
     setCurrentEventUIModel(currentEventUIModel: EventUIModel): void {

@@ -1,5 +1,6 @@
-import { Subject } from "rxjs";
-import { Logger } from "../../../../shared/services/logging/logger";
+import { Logger } from "../../../../../shared/services/logging/logger";
+import { ITimeSeriesDB, TimeSeriesDB } from "../../../../../shared/classes/time-series/time-series-db";
+import { IRepositoryMetaData } from "./capture-model-interfaces";
 
 
 export interface ICaptureBusinessLogicModel {
@@ -7,6 +8,7 @@ export interface ICaptureBusinessLogicModel {
     repositoryBusinessLogicModel: IRepositoryBusinessLogicModel;
     runningEventsBusinessLogicModel: IRunningEventsBusinessLogicModel;
     currentEventBusinessLogicModel: IEventBusinessLogicModel;
+    setTimeSeriesDB(timeSeriesDB: ITimeSeriesDB): void;
 }
 
 export class CaptureBusinessLogicModel implements ICaptureBusinessLogicModel{
@@ -15,10 +17,15 @@ export class CaptureBusinessLogicModel implements ICaptureBusinessLogicModel{
     runningEventsBusinessLogicModel!: IRunningEventsBusinessLogicModel;
     currentEventBusinessLogicModel!: IEventBusinessLogicModel;
     logger!: Logger;
+    private timeSeriesDB!: ITimeSeriesDB;
     
     constructor(logger: Logger) {
         this.logger = logger;  
         this.repositoryBusinessLogicModel = new RepositoryBusinessLogicModel(logger);
+    }
+
+    setTimeSeriesDB(timeSeriesDB: ITimeSeriesDB): void{
+        this.timeSeriesDB = timeSeriesDB;
     }
 
     load(){
@@ -29,12 +36,6 @@ export class CaptureBusinessLogicModel implements ICaptureBusinessLogicModel{
         }
 
     }
-}
-
-export interface IRepositoryMetaData {
-    currentEventPosition: number;
-    countEvents: number;
-    pageSize: number;
 }
 
 export interface IRepositoryBusinessLogicModel {
@@ -54,9 +55,9 @@ export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicMod
     private currentEventPosition: number = -1;
     private countEvents: number = 0;
     private pageSize: number = 10;
+    
 
-    constructor(private logger: Logger) {
-        this.logger = logger;
+    constructor(private logger: Logger, private timeSeriesDB: ITimeSeriesDB = new TimeSeriesDB()) {
     }
 
     navigateTo(element: RepositoryNavigationAction): void {
@@ -107,6 +108,9 @@ export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicMod
     }
 
     getMetaData(): IRepositoryMetaData {
+        this.logger.debug("RepositoryBusinessLogicModel.getMetaData this.repositoryMetaDataDB currentEventPosition: " 
+        + this.currentEventPosition + " countEvents: " + this.countEvents );
+    
         return {currentEventPosition: this.currentEventPosition, countEvents: this.countEvents, pageSize: this.pageSize};
     }
 
