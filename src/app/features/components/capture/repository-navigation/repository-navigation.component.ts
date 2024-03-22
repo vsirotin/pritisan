@@ -26,11 +26,13 @@ export class RepositoryNavigationComponent implements IRepositoryPresentationMod
   currentEvent!: string;
 
   constructor(private logger: Logger) {
+    this.logger.debug("RepositoryNavigationComponent.constructor");
     this.uiModel = new RepositoryNavigationUIModel(logger);
     this.uiModel.setPresenter(this);
   }
 
   ngOnInit(): void {
+    this.logger.debug("RepositoryNavigationComponent.ngOnInit");
     let result = this.uiModel.getRepositoryMetaData();
     this.logger.debug("RepositoryNavigationComponent.ngOnInit result: " + result);
     this.countEvents = result.count;
@@ -38,12 +40,12 @@ export class RepositoryNavigationComponent implements IRepositoryPresentationMod
   }
 
   setRepositoryMetaData(count: number, currentEventPosition: number): void {
-    console.log("RepositoryNavigationComponent.setRepositoryMetaData count: ", count, " currentEventPosition: ", currentEventPosition);
-    this.countEvents = count;
+    this.logger.debug("RepositoryNavigationComponent.setRepositoryMetaData count: " + count + " currentEventPosition: " + currentEventPosition);
     this.currentEvent = this.currentEventToString(currentEventPosition);
   }
 
   navigateTo(element: RepositoryNavigationAction) {
+    this.logger.debug("RepositoryNavigationComponent.navigateTo element: " + element);
     this.uiModel.navigateTo(element);   
   }
 

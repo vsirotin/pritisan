@@ -1,9 +1,10 @@
-import { ITimeSeriesDB, TimeSeriesDB } from '../../../../../shared/classes/time-series/time-series-db';
+import { IMetaDataPersistence, MetaDataPersistence } from '../../../../../shared/classes/db/time-series-db';
 import { Logger } from '../../../../../shared/services/logging/logger';
 import { CaptureBusinessLogicModel, 
     ICaptureBusinessLogicModel, 
     IRepositoryBusinessLogicModel,
     IRunningEventsBusinessLogicModel, 
+    RepositoryBusinessLogicModel, 
     RepositoryNavigationAction} from './capture-business-logic-model';
 import { IRepositoryMetaData } from './capture-model-interfaces';
 
@@ -30,7 +31,7 @@ export class CaptureUIModel implements ICaptureUIModel {
     private runningEventsUIModel!:  RunningEventsUIModel;
     private currentEventUIModel!: EventUIModel;
 
-    constructor(private logger: Logger, private timeSeriesDB: ITimeSeriesDB = new TimeSeriesDB()) {
+    constructor(private logger: Logger) {
         this.captureBusinessLogicModel = new CaptureBusinessLogicModel(this.logger)
     }
 
@@ -44,7 +45,6 @@ export class CaptureUIModel implements ICaptureUIModel {
 
     setNavigationUIModel(repositoryNavigationUIModel: IRepositoryNavigationUIModel): void {
         this.repositorNavigationUIModel = repositoryNavigationUIModel;
-        this.captureBusinessLogicModel.setTimeSeriesDB(this.timeSeriesDB);
     }
 
     setCurrentEventUIModel(currentEventUIModel: EventUIModel): void {
@@ -110,10 +110,13 @@ export class RepositoryNavigationUIModel  implements IRepositoryNavigationUIMode
     //Page size by navigation
     private pageSize!: number;
 
-    constructor(private logger: Logger) {}
+    constructor(private logger: Logger) {
+        this.logger.debug("RepositoryNavigationUIModel.constructor");
+        this.repositoryNavigationBusinessLogicModel = new RepositoryBusinessLogicModel(this.logger);
+    }
 
     setRepositoryNavigationBusinessLogicModel(repositoryNavigationBusinessLogicModel: IRepositoryBusinessLogicModel) {
-        this.logger.debug("RepositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel repositoryNavigationBusinessLogicModel: " + repositoryNavigationBusinessLogicModel);
+        this.logger.debug("RepositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel start ");
         this.repositoryNavigationBusinessLogicModel = repositoryNavigationBusinessLogicModel;
         this.updateDataFromBusinessModel();
         this.presenter.setRepositoryMetaData(this.countEventsInRepository, this.currentEventPosition);
@@ -128,21 +131,17 @@ export class RepositoryNavigationUIModel  implements IRepositoryNavigationUIMode
     }
 
     updateDataFromBusinessModel() {
-        this.logger.debug("RepositoryNavigationUIModel.updateDataFromBusinessModel before getMetaData() countEvents: " 
+        this.logger.debug("RepositoryNavigationUIModel.updateDataFromBusinessModel start countEvents: " 
             + this.countEventsInRepository + " currentEventPosition: " + this.currentEventPosition + " pageSize: " + this.pageSize );
-        let result: IRepositoryMetaData
-        if(this.repositoryNavigationBusinessLogicModel){
-            this.logger.debug("RepositoryNavigationUIModel.updateDataFromBusinessModel  repositoryNavigationBusinessLogicModel is set: " + this.repositoryNavigationBusinessLogicModel);
-            result = this.repositoryNavigationBusinessLogicModel.getMetaData();
-        } else {
-            this.logger.debug("RepositoryNavigationUIModel.updateDataFromBusinessModel  repositoryNavigationBusinessLogicModel is not set");
-            result = {countEvents: 0, currentEventPosition: -1, pageSize: 10};
-        }
+
+            
+        let result = this.repositoryNavigationBusinessLogicModel.getMetaData();
+    
         this.countEventsInRepository = result.countEvents;
         this.currentEventPosition = result.currentEventPosition;
         this.pageSize = result.pageSize;
-
-        this.logger.debug("RepositoryNavigationUIModel.updateDataFromBusinessModel after processing countEvents: " 
+        
+        this.logger.debug("RepositoryNavigationUIModel.updateDataFromBusinessModel fin countEvents: " 
             + this.countEventsInRepository + " currentEventPosition: " + this.currentEventPosition + " pageSize: " + this.pageSize );
     }
 
@@ -166,10 +165,13 @@ export class RepositoryNavigationUIModel  implements IRepositoryNavigationUIMode
 
     isDisabled(element: RepositoryNavigationAction): boolean {
         this.logger.debug("RepositoryNavigationUIModel.isDisabled element: " + RepositoryNavigationAction[element] 
-        + " this.currentEventPosition: " + this.currentEventPosition + " this.countEventsInRepository: "+ this.countEventsInRepository)
-        //Calcualtion in (...) done for positive (available) to better readability
+        + " this.currentEventPosition: " + this.currentEventPosition + " this.countEventsInRepository: " 
+        + this.countEventsInRepository + " this.pageSize: " + this.pageSize);
+
+        //Ordering: N, ...3,2,1. Last inserte has position 1. New has position -1. Oldes has position this.countEventsInRepository. 
         switch (element) {
             case RepositoryNavigationAction.PREVIOUS_PAGE:
+
                 if(this.currentEventPosition == -1){
                     return !(this.countEventsInRepository > this.pageSize);
                 } 
@@ -180,20 +182,20 @@ export class RepositoryNavigationUIModel  implements IRepositoryNavigationUIMode
                 } 
                 return !(this.countEventsInRepository - this.currentEventPosition > 0);
             case RepositoryNavigationAction.NEXT:
-                if(this.currentEventPosition == -1){
+                if((this.currentEventPosition == -1) || (this.currentEventPosition == 1)){
                     return true;
                 } 
-                return !(this.countEventsInRepository > this.currentEventPosition);
+                return !(this.currentEventPosition > 0);
             case RepositoryNavigationAction.NEXT_PAGE:
                 if(this.currentEventPosition == -1){
                     return true;
                 } 
-                return !(this.countEventsInRepository - this.pageSize > this.currentEventPosition);
+                return (this.currentEventPosition <= this.pageSize);
             case RepositoryNavigationAction.LAST:  
-                if(this.currentEventPosition == this.countEventsInRepository - 1){
+                if((this.currentEventPosition == - 1) || (this.currentEventPosition == 1)){
                     return true;
                 }
-                return !(this.countEventsInRepository > 0);   
+                return (this.countEventsInRepository == 0);   
             default: // equal RepositoryNavigationAction.NEW
                 return false;
         }

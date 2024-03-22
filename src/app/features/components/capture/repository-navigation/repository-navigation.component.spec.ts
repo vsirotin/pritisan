@@ -5,13 +5,15 @@ import { By } from '@angular/platform-browser';
 import { IRepositoryNavigationUIModel } from '../model/capture/capture-ui-model';
 import { IRepositoryBusinessLogicModel, RepositoryBusinessLogicModel, RepositoryNavigationAction } from '../model/capture/capture-business-logic-model';
 import { Logger } from '../../../../shared/services/logging/logger';
-import { ITimeSeriesDB, TimeSeriesDB } from '../../../../shared/classes/time-series/time-series-db';
+import { IMetaDataPersistence, MetaDataPersistence } from '../../../../shared/classes/db/time-series-db';
+import { IRepositoryMetaData } from '../model/capture/capture-model-interfaces';
 
 describe('RepositoryNavigationComponent', () => {
   let component: RepositoryNavigationComponent;
   let fixture: ComponentFixture<RepositoryNavigationComponent>;
   let repositoryNavigationUIModel: IRepositoryNavigationUIModel;
   let repositoryBusinessLogicModel: IRepositoryBusinessLogicModel;
+  let metaDataDB: IMetaDataPersistence;
 
   let p: any;
   let buttons: any;
@@ -30,6 +32,7 @@ describe('RepositoryNavigationComponent', () => {
       imports: [RepositoryNavigationComponent]
     })
     .compileComponents();
+
     
     fixture = TestBed.createComponent(RepositoryNavigationComponent);
     component = fixture.componentInstance;
@@ -38,6 +41,16 @@ describe('RepositoryNavigationComponent', () => {
     logger = new Logger();
 
     let blModel = new RepositoryBusinessLogicModel(logger);
+
+    class MetaDataPersistenceMock extends MetaDataPersistence {
+      override readMetaData(): IRepositoryMetaData{
+        return {currentEventPosition: -1, countEvents: 0, pageSize: 10};
+      }
+    }
+
+    metaDataDB = new MetaDataPersistenceMock(logger);
+    blModel.metaDataDB = metaDataDB;
+
     repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel);
     repositoryBusinessLogicModel = repositoryNavigationUIModel.getRepositoryNavigationBusinessLogicModel();
 
@@ -51,6 +64,7 @@ describe('RepositoryNavigationComponent', () => {
     buttonLast = buttons[4];
     buttonNew = buttons[5];
 
+    component.ngOnInit();
     fixture.detectChanges();
   });
 
@@ -87,7 +101,7 @@ describe('RepositoryNavigationComponent', () => {
     });
 
     it('should have text in given format', () => {
-      const p = fixture.debugElement.query(By.css('p'));
+      p = fixture.debugElement.query(By.css('p'));
       expect(p.nativeElement.textContent.trim()).toContain("new/0");
     });
 
@@ -122,9 +136,9 @@ describe('RepositoryNavigationComponent', () => {
       });
 
       it('updateDefaultEvent by business modell called', () => {
-        spyOn(repositoryBusinessLogicModel, 'updateDefaultEvent');
+        spyOn(metaDataDB, 'readEvent');
         buttonNew.nativeElement.click();
-        expect(repositoryBusinessLogicModel.updateDefaultEvent).toHaveBeenCalled();
+        expect(metaDataDB.readEvent).toHaveBeenCalledWith(-1);
       });
 
       it('new/0 presented', () => {
@@ -136,13 +150,21 @@ describe('RepositoryNavigationComponent', () => {
 
   describe('by filled repository and currentEvent is new', () => {
 
+    class MetaDataPersistenceMock2 extends MetaDataPersistence {
+      override readMetaData(): IRepositoryMetaData{
+        return {currentEventPosition: -1, countEvents: 1001, pageSize: 10};
+      }
+    }
+
     beforeEach(async () => {
       let blModel = new RepositoryBusinessLogicModel(logger);
-      blModel.setMetaData({currentEventPosition: -1, countEvents: 1001, pageSize: 10});
+      metaDataDB = new MetaDataPersistenceMock2(logger);
+      blModel.metaDataDB = metaDataDB;
 
       repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel);
       repositoryBusinessLogicModel = repositoryNavigationUIModel.getRepositoryNavigationBusinessLogicModel();
 
+      component.ngOnInit();
       fixture.detectChanges();
     });
 
@@ -150,7 +172,7 @@ describe('RepositoryNavigationComponent', () => {
       expect(p.nativeElement.textContent.trim()).toContain("new/1001");  
     });
 
-    it('should have enabling TTFFTT where F-false (disabled) and T-true (enabled)', () => {
+    it('should have enabling TTFFFT where F-false (disabled) and T-true (enabled)', () => {
       const buttons = fixture.debugElement.queryAll(By.css('button'));
       expect(buttons.length).toBe(6);
 
@@ -158,7 +180,7 @@ describe('RepositoryNavigationComponent', () => {
       expect(buttonPrevious.nativeElement.disabled).toBe(false)
       expect(buttonNext.nativeElement.disabled).toBe(true)
       expect(buttonNextPage.nativeElement.disabled).toBe(true)
-      expect(buttonLast.nativeElement.disabled).toBe(false)
+      expect(buttonLast.nativeElement.disabled).toBe(true)
       expect(buttonNew.nativeElement.disabled).toBe(false)
 
     });
@@ -172,9 +194,9 @@ describe('RepositoryNavigationComponent', () => {
       });
 
       it('updateDefaultEvent by business modell called', () => {
-        spyOn(repositoryBusinessLogicModel, 'updateDefaultEvent');
+        spyOn(metaDataDB, 'readEvent');
         buttonNew.nativeElement.click();
-        expect(repositoryBusinessLogicModel.updateDefaultEvent).toHaveBeenCalled();
+        expect(metaDataDB.readEvent).toHaveBeenCalledWith(-1);
       });
 
       it('new/0 presented', () => {
@@ -187,7 +209,7 @@ describe('RepositoryNavigationComponent', () => {
     it('should correct process click <', () => {
       buttonPrevious.nativeElement.click(); 
       fixture.detectChanges();
-      expect(p.nativeElement.textContent.trim()).toContain("1001/1001");
+      expect(p.nativeElement.textContent.trim()).toContain("1/1001");
 
     });
 
@@ -195,15 +217,18 @@ describe('RepositoryNavigationComponent', () => {
 
       buttonPreviousPage.nativeElement.click();
       fixture.detectChanges();
-      expect(p.nativeElement.textContent.trim()).toContain("991/1001");  
+      expect(p.nativeElement.textContent.trim()).toContain("10/1001");  
       
     });
 
     it('should correct process click on LAST', () => {
 
+      buttonPreviousPage.nativeElement.click();
+      fixture.detectChanges();
+
       buttonLast.nativeElement.click();
       fixture.detectChanges();
-      expect(p.nativeElement.textContent.trim()).toContain("1001/1001");  
+      expect(p.nativeElement.textContent.trim()).toContain("1/1001");  
       
     });
   });
@@ -212,12 +237,22 @@ describe('RepositoryNavigationComponent', () => {
 
     beforeEach(async () => {
       let blModel = new RepositoryBusinessLogicModel(logger);
-      blModel.setMetaData({currentEventPosition: 500, countEvents: 1001, pageSize: 10});
+      
+      class MetaDataPersistenceMock3 extends MetaDataPersistence {
+
+        override readMetaData(): IRepositoryMetaData{
+          return {currentEventPosition: 500, countEvents: 1001, pageSize: 10};
+        }
+      }
+
+      metaDataDB = new MetaDataPersistenceMock3(logger);
+      blModel.metaDataDB = metaDataDB;
 
       repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel);
       component.uiModel = repositoryNavigationUIModel;
       repositoryBusinessLogicModel = repositoryNavigationUIModel.getRepositoryNavigationBusinessLogicModel();
 
+      component.ngOnInit();
       fixture.detectChanges();
     });
 
@@ -248,9 +283,10 @@ describe('RepositoryNavigationComponent', () => {
       });
 
       it('updateDefaultEvent by business modell called', () => {
-        spyOn(repositoryBusinessLogicModel, 'updateDefaultEvent');
+
+        spyOn(metaDataDB, 'readEvent');
         buttonNew.nativeElement.click();
-        expect(repositoryBusinessLogicModel.updateDefaultEvent).toHaveBeenCalled();
+        expect(metaDataDB.readEvent).toHaveBeenCalledWith(-1);
       });
 
       it('new/1001 presented', () => {
@@ -265,7 +301,7 @@ describe('RepositoryNavigationComponent', () => {
       it('should correct process click <', () => {
         buttonPrevious.nativeElement.click(); 
         fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("499/1001");
+        expect(p.nativeElement.textContent.trim()).toContain("501/1001");
 
       });
 
@@ -273,14 +309,14 @@ describe('RepositoryNavigationComponent', () => {
 
         buttonPreviousPage.nativeElement.click();
         fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("490/1001");  
+        expect(p.nativeElement.textContent.trim()).toContain("510/1001");  
         
       });
 
       it('should correct process click >', () => {
         buttonNext.nativeElement.click(); 
         fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("501/1001");
+        expect(p.nativeElement.textContent.trim()).toContain("499/1001");
 
       });
 
@@ -288,7 +324,7 @@ describe('RepositoryNavigationComponent', () => {
 
         buttonNextPage.nativeElement.click();
         fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("510/1001");  
+        expect(p.nativeElement.textContent.trim()).toContain("490/1001");  
         
       });
 
@@ -296,7 +332,7 @@ describe('RepositoryNavigationComponent', () => {
 
         buttonLast.nativeElement.click();
         fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("1001/1001");  
+        expect(p.nativeElement.textContent.trim()).toContain("1/1001");  
         
       });
     });
