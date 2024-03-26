@@ -36,8 +36,8 @@ describe('CaptureComponent', () => {
     hasElement('app-running-events');   
   });
 
-  it('should have app-event-selection', () => {
-    hasElement('app-event-selection');   
+  it('should have app-event-type-selecting', () => {
+    hasElement('app-event-type-selecting');   
   });
 
   it('should have app-time-setting', () => {

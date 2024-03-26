@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ParametersSettingUIModel } from '../../model/capture/capture-ui-model';
+import { ParametersSettingUIModel } from '../../model/capture/ui-model/capture-ui-model';
 
 @Component({
   selector: 'app-parameters-setting',

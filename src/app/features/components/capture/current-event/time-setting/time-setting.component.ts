@@ -1,6 +1,6 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { TimePointSettingComponent } from './time-point-setting/time-point-setting.component';
-import { TimeSettingUIModel } from '../../model/capture/capture-ui-model';
+import { TimeSettingUIModel } from '../../model/capture/ui-model/capture-ui-model';
 
 @Component({
   selector: 'app-time-setting',

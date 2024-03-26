@@ -3,8 +3,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import { IRepositoryNavigationUIModel, IRepositoryPresentationModel, RepositoryNavigationUIModel } from '../model/capture/capture-ui-model';
-import { RepositoryNavigationAction } from '../model/capture/capture-business-logic-model';
+import { RepositoryNavigationUIModel } from '../model/capture/ui-model/repository-navigation-ui-model';
+import { IRepositoryNavigationUIModel } from '../model/capture/ui-model/repository-navigation-ui-model';
+import { IRepositoryPresentationModel as IRepositoryNavigationPresenter } from '../model/capture/ui-model/repository-navigation-ui-model';
+import { RepositoryNavigationAction } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
 import { Logger } from '../../../../shared/services/logging/logger';
 
 @Component({
@@ -18,7 +20,7 @@ import { Logger } from '../../../../shared/services/logging/logger';
   templateUrl: './repository-navigation.component.html',
   styleUrl: './repository-navigation.component.scss'
 })
-export class RepositoryNavigationComponent implements IRepositoryPresentationModel, OnInit {
+export class RepositoryNavigationComponent implements IRepositoryNavigationPresenter, OnInit {
   RNA = RepositoryNavigationAction;
 
   uiModel!: IRepositoryNavigationUIModel;

@@ -1,6 +1,6 @@
 import { Subject, Observable } from "rxjs";
 import { Logger } from "../../services/logging/logger";
-import { IRepositoryMetaData } from "../../../features/components/capture/model/capture/capture-model-interfaces";
+import { IRepositoryMetaData } from "../../../features/components/capture/model/capture/business-logic-model/repository-navigation-business-logic-model";
 
 export interface IMetaDataPersistence   {
 
