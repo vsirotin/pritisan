@@ -1,5 +1,5 @@
 import { Logger } from "../../../../../shared/services/logging/logger";
-import { EventsPersistence, IEventsPersistence, IMetaDataPersistence, IPersistedEvent, MetaDataPersistence } from "../../../../../shared/classes/db/time-series-db";
+import { IMetaDataPersistence, IPersistedEvent, MetaDataPersistence } from "../../../../../shared/classes/db/time-series-db";
 import { IRepositoryMetaData } from "./capture-model-interfaces";
 import { Observable, Subject } from "rxjs";
 
@@ -69,37 +69,37 @@ export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicMod
         this.logger.debug("RepositoryBusinessLogicModel.navigateTo before element: " + RepositoryNavigationAction[element] 
             + " currentEventPosition: " + this.currentEventPosition + " countEvents: " + this.countEvents );
 
-        //Ordering: N, ...3,2,1. Last inserte has position 1. New has position -1. Oldes has position this.countEventsInRepository.     
+        //Ordering: 1, 2, ...N. Last inserte has position N. New has position NEW_EVENT_PODITION. First (oldest) inserted event has position 1    
         switch (element) {
             case RepositoryNavigationAction.PREVIOUS_PAGE:
-                if(this.currentEventPosition  == -1){
-                    this.currentEventPosition = this.pageSize;
+                if(this.currentEventPosition  == NEW_EVENT_PODITION){
+                    this.currentEventPosition = this.countEvents - this.pageSize;
                 }else{
-                    this.currentEventPosition = this.currentEventPosition + this.pageSize;   
+                    this.currentEventPosition = this.currentEventPosition - this.pageSize;   
                 }             
                 break
             case RepositoryNavigationAction.PREVIOUS:
-                if(this.currentEventPosition  == -1){
-                    this.currentEventPosition = 1;
+                if(this.currentEventPosition  == NEW_EVENT_PODITION){
+                    this.currentEventPosition = this.countEvents;
                 }else{
-                    this.currentEventPosition = this.currentEventPosition + 1;
+                    this.currentEventPosition = this.currentEventPosition - 1;
                 } 
                 break
             case RepositoryNavigationAction.NEXT:
-                this.currentEventPosition = this.currentEventPosition - 1;
+                this.currentEventPosition = this.currentEventPosition + 1;
                 break
             case RepositoryNavigationAction.NEXT_PAGE:
-                this.currentEventPosition = this.currentEventPosition - this.pageSize;
+                this.currentEventPosition = this.currentEventPosition + this.pageSize;
                 break
             case RepositoryNavigationAction.LAST:  
-                this.currentEventPosition = 1;
+                this.currentEventPosition = this.countEvents;
                 break
             default: // equal RepositoryNavigationAction.NEW
-                this.currentEventPosition = -1;
+                this.currentEventPosition = NEW_EVENT_PODITION;
         }
         this.logger.debug("RepositoryBusinessLogicModel.navigateTo after currentEventPosition: " + this.currentEventPosition + " countEvents: " + this.countEvents );
-        if(this.currentEventPosition < -1){
-            throw new Error("RepositoryBusinessLogicModel.navigateTo currentEventPosition is less than -1");
+        if(this.currentEventPosition < NEW_EVENT_PODITION){
+            throw new Error("RepositoryBusinessLogicModel.navigateTo currentEventPosition is less than NEW_EVENT_PODITION");
         }
 
         if(this.currentEventPosition > this.countEvents){
@@ -182,3 +182,5 @@ export enum RepositoryNavigationAction {
     LAST,
     NEW
 }
+
+export const NEW_EVENT_PODITION = -1;

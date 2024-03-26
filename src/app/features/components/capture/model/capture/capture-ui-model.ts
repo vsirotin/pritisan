@@ -4,6 +4,7 @@ import { CaptureBusinessLogicModel,
     ICaptureBusinessLogicModel, 
     IRepositoryBusinessLogicModel,
     IRunningEventsBusinessLogicModel, 
+    NEW_EVENT_PODITION, 
     RepositoryBusinessLogicModel, 
     RepositoryNavigationAction} from './capture-business-logic-model';
 import { IRepositoryMetaData } from './capture-model-interfaces';
@@ -168,31 +169,30 @@ export class RepositoryNavigationUIModel  implements IRepositoryNavigationUIMode
         + " this.currentEventPosition: " + this.currentEventPosition + " this.countEventsInRepository: " 
         + this.countEventsInRepository + " this.pageSize: " + this.pageSize);
 
-        //Ordering: N, ...3,2,1. Last inserte has position 1. New has position -1. Oldes has position this.countEventsInRepository. 
+        //Ordering: 1, 2, ...N. Last inserte has position N. New has position NEW_EVENT_PODITION. First (oldest) inserted event has position 1 
         switch (element) {
             case RepositoryNavigationAction.PREVIOUS_PAGE:
-
-                if(this.currentEventPosition == -1){
+                if(this.currentEventPosition == NEW_EVENT_PODITION){
                     return !(this.countEventsInRepository > this.pageSize);
                 } 
-                return !(this.countEventsInRepository - this.currentEventPosition >= this.pageSize);
+                return !(this.currentEventPosition > this.pageSize);
             case RepositoryNavigationAction.PREVIOUS:
-                if(this.currentEventPosition == -1){
+                if(this.currentEventPosition == NEW_EVENT_PODITION){
                     return !(this.countEventsInRepository > 0);
                 } 
-                return !(this.countEventsInRepository - this.currentEventPosition > 0);
+                return !(this.currentEventPosition > 1);
             case RepositoryNavigationAction.NEXT:
-                if((this.currentEventPosition == -1) || (this.currentEventPosition == 1)){
+                if((this.currentEventPosition == NEW_EVENT_PODITION) || (this.currentEventPosition == this.countEventsInRepository)){
                     return true;
                 } 
                 return !(this.currentEventPosition > 0);
             case RepositoryNavigationAction.NEXT_PAGE:
-                if(this.currentEventPosition == -1){
+                if((this.currentEventPosition == NEW_EVENT_PODITION) || (this.currentEventPosition == this.countEventsInRepository)){
                     return true;
                 } 
-                return (this.currentEventPosition <= this.pageSize);
+                return !(this.countEventsInRepository - this.currentEventPosition > this.pageSize);
             case RepositoryNavigationAction.LAST:  
-                if((this.currentEventPosition == - 1) || (this.currentEventPosition == 1)){
+                if((this.currentEventPosition == NEW_EVENT_PODITION) || (this.currentEventPosition == this.countEventsInRepository)){
                     return true;
                 }
                 return (this.countEventsInRepository == 0);   

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RepositoryNavigationComponent } from './repository-navigation.component';
 import { By } from '@angular/platform-browser';
 import { IRepositoryNavigationUIModel } from '../model/capture/capture-ui-model';
-import { IRepositoryBusinessLogicModel, RepositoryBusinessLogicModel, RepositoryNavigationAction } from '../model/capture/capture-business-logic-model';
+import { IRepositoryBusinessLogicModel, NEW_EVENT_PODITION, RepositoryBusinessLogicModel, RepositoryNavigationAction } from '../model/capture/capture-business-logic-model';
 import { Logger } from '../../../../shared/services/logging/logger';
 import { IMetaDataPersistence, MetaDataPersistence } from '../../../../shared/classes/db/time-series-db';
 import { IRepositoryMetaData } from '../model/capture/capture-model-interfaces';
@@ -44,7 +44,7 @@ describe('RepositoryNavigationComponent', () => {
 
     class MetaDataPersistenceMock extends MetaDataPersistence {
       override readMetaData(): IRepositoryMetaData{
-        return {currentEventPosition: -1, countEvents: 0, pageSize: 10};
+        return {currentEventPosition: NEW_EVENT_PODITION, countEvents: 0, pageSize: 10};
       }
     }
 
@@ -138,7 +138,7 @@ describe('RepositoryNavigationComponent', () => {
       it('updateDefaultEvent by business modell called', () => {
         spyOn(metaDataDB, 'readEvent');
         buttonNew.nativeElement.click();
-        expect(metaDataDB.readEvent).toHaveBeenCalledWith(-1);
+        expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_PODITION);
       });
 
       it('new/0 presented', () => {
@@ -152,7 +152,7 @@ describe('RepositoryNavigationComponent', () => {
 
     class MetaDataPersistenceMock2 extends MetaDataPersistence {
       override readMetaData(): IRepositoryMetaData{
-        return {currentEventPosition: -1, countEvents: 1001, pageSize: 10};
+        return {currentEventPosition: NEW_EVENT_PODITION, countEvents: 1001, pageSize: 10};
       }
     }
 
@@ -196,7 +196,7 @@ describe('RepositoryNavigationComponent', () => {
       it('updateDefaultEvent by business modell called', () => {
         spyOn(metaDataDB, 'readEvent');
         buttonNew.nativeElement.click();
-        expect(metaDataDB.readEvent).toHaveBeenCalledWith(-1);
+        expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_PODITION);
       });
 
       it('new/0 presented', () => {
@@ -209,7 +209,7 @@ describe('RepositoryNavigationComponent', () => {
     it('should correct process click <', () => {
       buttonPrevious.nativeElement.click(); 
       fixture.detectChanges();
-      expect(p.nativeElement.textContent.trim()).toContain("1/1001");
+      expect(p.nativeElement.textContent.trim()).toContain("1001/1001");
 
     });
 
@@ -217,7 +217,7 @@ describe('RepositoryNavigationComponent', () => {
 
       buttonPreviousPage.nativeElement.click();
       fixture.detectChanges();
-      expect(p.nativeElement.textContent.trim()).toContain("10/1001");  
+      expect(p.nativeElement.textContent.trim()).toContain("991/1001");  
       
     });
 
@@ -228,7 +228,7 @@ describe('RepositoryNavigationComponent', () => {
 
       buttonLast.nativeElement.click();
       fixture.detectChanges();
-      expect(p.nativeElement.textContent.trim()).toContain("1/1001");  
+      expect(p.nativeElement.textContent.trim()).toContain("1001/1001");  
       
     });
   });
@@ -286,7 +286,7 @@ describe('RepositoryNavigationComponent', () => {
 
         spyOn(metaDataDB, 'readEvent');
         buttonNew.nativeElement.click();
-        expect(metaDataDB.readEvent).toHaveBeenCalledWith(-1);
+        expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_PODITION);
       });
 
       it('new/1001 presented', () => {
@@ -301,7 +301,7 @@ describe('RepositoryNavigationComponent', () => {
       it('should correct process click <', () => {
         buttonPrevious.nativeElement.click(); 
         fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("501/1001");
+        expect(p.nativeElement.textContent.trim()).toContain("499/1001");
 
       });
 
@@ -309,14 +309,14 @@ describe('RepositoryNavigationComponent', () => {
 
         buttonPreviousPage.nativeElement.click();
         fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("510/1001");  
+        expect(p.nativeElement.textContent.trim()).toContain("490/1001");  
         
       });
 
       it('should correct process click >', () => {
         buttonNext.nativeElement.click(); 
         fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("499/1001");
+        expect(p.nativeElement.textContent.trim()).toContain("501/1001");
 
       });
 
@@ -324,7 +324,7 @@ describe('RepositoryNavigationComponent', () => {
 
         buttonNextPage.nativeElement.click();
         fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("490/1001");  
+        expect(p.nativeElement.textContent.trim()).toContain("510/1001");  
         
       });
 
@@ -332,7 +332,7 @@ describe('RepositoryNavigationComponent', () => {
 
         buttonLast.nativeElement.click();
         fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("1/1001");  
+        expect(p.nativeElement.textContent.trim()).toContain("1001/1001");  
         
       });
     });
