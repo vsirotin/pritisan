@@ -9,7 +9,7 @@ import { RepositoryBusinessLogicModel } from "../business-logic-model/repository
 import { IRepositoryBusinessLogicModel } from "../business-logic-model/repository-navigation-business-logic-model";
 
 
-export interface IRepositoryPresentationModel {
+export interface IRepositoryNavigationPresenter {
     setRepositoryMetaData(count: number, currentEventPosition: number): void;
 }// Input model for the navigation for processing the user actions
 
@@ -23,16 +23,16 @@ export interface IRepositoryNavigationUIQueryModell {
 }
 //Model for update data from the business logic model
 
-export interface IRepositoryNavigartionUpdateModel {
+export interface IRepositoryNavigationUpdateModel {
     updateRepositoryData(countEventsInRepository: number, currentEventPosition: number): void;
     updatePageSize(pageSize: number): void;
 }
-export interface IRepositoryNavigationUIModel extends IRepositoryNavigationInputModel, IRepositoryNavigationUIQueryModell, IRepositoryNavigartionUpdateModel {
+export interface IRepositoryNavigationUIModel extends IRepositoryNavigationInputModel, IRepositoryNavigationUIQueryModell, IRepositoryNavigationUpdateModel {
     setRepositoryNavigationBusinessLogicModel(repositoryNavigationBusinessLogicModel: IRepositoryBusinessLogicModel): void;
     getRepositoryNavigationBusinessLogicModel(): IRepositoryBusinessLogicModel;
 
     isDisabled(element: RepositoryNavigationAction): boolean;
-    setPresenter(presenter: IRepositoryPresentationModel): void;
+    setPresenter(presenter: IRepositoryNavigationPresenter): void;
     updateDataFromBusinessModel(): void;
 }
 // UI model for events/events saved in the repository
@@ -43,7 +43,7 @@ export class RepositoryNavigationUIModel implements IRepositoryNavigationUIModel
     private repositoryNavigationBusinessLogicModel!: IRepositoryBusinessLogicModel;
 
     //Presenter for the UI (component)
-    private presenter!: IRepositoryPresentationModel;
+    private presenter!: IRepositoryNavigationPresenter;
 
     // Count events in the repository
     private countEventsInRepository!: number;
@@ -70,7 +70,7 @@ export class RepositoryNavigationUIModel implements IRepositoryNavigationUIModel
         return this.repositoryNavigationBusinessLogicModel;
     }
 
-    setPresenter(presenter: IRepositoryPresentationModel): void {
+    setPresenter(presenter: IRepositoryNavigationPresenter): void {
         this.presenter = presenter;
     }
 

@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { RepositoryNavigationUIModel } from '../model/capture/ui-model/repository-navigation-ui-model';
 import { IRepositoryNavigationUIModel } from '../model/capture/ui-model/repository-navigation-ui-model';
-import { IRepositoryPresentationModel as IRepositoryNavigationPresenter } from '../model/capture/ui-model/repository-navigation-ui-model';
+import { IRepositoryNavigationPresenter } from '../model/capture/ui-model/repository-navigation-ui-model';
 import { RepositoryNavigationAction } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
 import { Logger } from '../../../../shared/services/logging/logger';
 

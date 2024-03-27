@@ -3,20 +3,23 @@ import { Observable, Subject } from "rxjs";
 import { IMetaDataPersistence, MetaDataPersistence, IPersistedEvent } from "../../../../../../shared/classes/db/time-series-db";
 import { Logger } from "../../../../../../shared/services/logging/logger";
 
-
-export interface IRepositoryBusinessLogicModel {
-
+export interface IRepositoryBusinessLogicModelInput {
     navigateTo(element: RepositoryNavigationAction): void;
-
-    updateDefaultEvent(): void;
-
+}
+export interface IRepositoryBusinessLogicModelQuery {
     getMetaData(): IRepositoryMetaData;
+}
 
-    setMetaData(metaData: IRepositoryMetaData): void;
-
+export interface IRepositoryBusinessLogicModelNotificator {
     currentEventIdChanged$: Observable<IEvent>;
+}
 
-}export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicModel {
+
+export interface IRepositoryBusinessLogicModel extends IRepositoryBusinessLogicModelInput, 
+    IRepositoryBusinessLogicModelQuery, 
+    IRepositoryBusinessLogicModelNotificator  {}
+
+export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicModel {
 
     private currentEventPosition!: number;
     private countEvents!: number;
@@ -87,10 +90,6 @@ export interface IRepositoryBusinessLogicModel {
         return { duration: 9, start: "a", type: "t", details: "b" };
     }
 
-    updateDefaultEvent(): void {
-        this.logger.debug("RepositoryBusinessLogicModel.updateDefaultEvent before currentEventPosition: " + this.currentEventPosition + " countEvents: " + this.countEvents);
-    }
-
     getMetaData(): IRepositoryMetaData {
         this.logger.debug("RepositoryBusinessLogicModel.getMetaData start this.repositoryMetaDataDB currentEventPosition: "
             + this.currentEventPosition + " countEvents: " + this.countEvents);
@@ -104,13 +103,6 @@ export interface IRepositoryBusinessLogicModel {
         }
 
         return { currentEventPosition: this.currentEventPosition, countEvents: this.countEvents, pageSize: this.pageSize };
-    }
-
-    setMetaData(metaData: IRepositoryMetaData): void {
-        this.currentEventPosition = metaData.currentEventPosition;
-        this.countEvents = metaData.countEvents;
-        this.pageSize = metaData.pageSize;
-
     }
 
 }
