@@ -1,15 +1,41 @@
 import { EventUIModel } from './capture-ui-model';
 
 import { IRunningEventsBusinessLogicModel } from '../business-logic-model/running-events-business-logic-model';
+import { IEvent } from "../capture-common-interfaces";
+import { Logger } from '../../../../../../shared/services/logging/logger';
 
 
-//------------Running events ui model----------------
-// UI model for events/events saved in the repository
+export interface IRunningEventsUIModelPresenter {
 
-export class RunningEventsUIModel {
+    setRunningEvents(runningEvents: IEvent[]): void;
+}
 
-    // The list of runing events/events
-    runningEvents: EventUIModel[] = [];
+export interface IRunningEventsUIInputModel {
 
-    loadFrom(runningEventsModel: IRunningEventsBusinessLogicModel) { }
+}
+
+export interface IRunningEventsUIQueringModel {
+
+}
+
+export interface IRunningEventsUIModel extends IRunningEventsUIInputModel, IRunningEventsUIQueringModel { 
+    setPresenter(presenter: IRunningEventsUIModelPresenter): void;  
+}
+
+
+export class RunningEventsUIModel implements IRunningEventsUIModel{
+
+    private runningEvents!: IEvent[];
+
+    private presenter!: IRunningEventsUIModelPresenter;
+
+    constructor(private logger: Logger) {
+        this.logger.debug("RunningEventsUIModel.constructor");
+    }
+
+    setPresenter(presenter: IRunningEventsUIModelPresenter): void{
+        this.presenter = presenter;
+    }
+
+    
 }

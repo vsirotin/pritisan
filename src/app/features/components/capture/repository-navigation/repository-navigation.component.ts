@@ -33,12 +33,21 @@ export class RepositoryNavigationComponent implements IRepositoryNavigationPrese
     this.uiModel.setPresenter(this);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.logger.debug("RepositoryNavigationComponent.ngOnInit");
-    let result = this.uiModel.getRepositoryMetaData();
-    this.logger.debug("RepositoryNavigationComponent.ngOnInit result: " + result);
-    this.countEvents = result.count;
-    this.currentEvent = this.currentEventToString(result.currentEventPosition);
+
+    const result = await this.uiModel.getRepositoryMetaData();
+    this.logger.debug("RepositoryNavigationComponent.ngOnInit result: " + JSON.stringify(result) 
+          + " countEvents: " + result.countEvents + " currentEventPosition: " + result.currentEventPosition);
+        this.countEvents = result.countEvents;
+        this.currentEvent = this.currentEventToString(result.currentEventPosition);
+
+    // this.uiModel.getRepositoryMetaData().then((result) => {
+    //     this.logger.debug("RepositoryNavigationComponent.ngOnInit result: " + JSON.stringify(result) 
+    //       + " countEvents: " + result.countEvents + " currentEventPosition: " + result.currentEventPosition);
+    //     this.countEvents = result.countEvents;
+    //     this.currentEvent = this.currentEventToString(result.currentEventPosition);
+    // });
   }
 
   setRepositoryMetaData(count: number, currentEventPosition: number): void {

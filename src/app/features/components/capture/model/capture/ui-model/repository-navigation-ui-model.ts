@@ -7,6 +7,7 @@ import { RepositoryNavigationAction } from "../business-logic-model/repository-n
 import { NEW_EVENT_PODITION } from "../business-logic-model/repository-navigation-business-logic-model";
 import { RepositoryBusinessLogicModel } from "../business-logic-model/repository-navigation-business-logic-model";
 import { IRepositoryBusinessLogicModel } from "../business-logic-model/repository-navigation-business-logic-model";
+import { IRepositoryMetaData } from "../capture-common-interfaces";
 
 
 export interface IRepositoryNavigationPresenter {
@@ -19,7 +20,7 @@ export interface IRepositoryNavigationInputModel {
 // Query model for the providing data to the UI
 
 export interface IRepositoryNavigationUIQueryModell {
-    getRepositoryMetaData(): { count: number; currentEventPosition: number; };
+    getRepositoryMetaData(): Promise<IRepositoryMetaData>
 }
 //Model for update data from the business logic model
 
@@ -28,12 +29,11 @@ export interface IRepositoryNavigationUpdateModel {
     updatePageSize(pageSize: number): void;
 }
 export interface IRepositoryNavigationUIModel extends IRepositoryNavigationInputModel, IRepositoryNavigationUIQueryModell, IRepositoryNavigationUpdateModel {
-    setRepositoryNavigationBusinessLogicModel(repositoryNavigationBusinessLogicModel: IRepositoryBusinessLogicModel): void;
+    setRepositoryNavigationBusinessLogicModel(repositoryNavigationBusinessLogicModel: IRepositoryBusinessLogicModel): Promise<void>;
     getRepositoryNavigationBusinessLogicModel(): IRepositoryBusinessLogicModel;
 
     isDisabled(element: RepositoryNavigationAction): boolean;
     setPresenter(presenter: IRepositoryNavigationPresenter): void;
-    updateDataFromBusinessModel(): void;
 }
 // UI model for events/events saved in the repository
 
@@ -59,10 +59,10 @@ export class RepositoryNavigationUIModel implements IRepositoryNavigationUIModel
         this.repositoryNavigationBusinessLogicModel = new RepositoryBusinessLogicModel(this.logger);
     }
 
-    setRepositoryNavigationBusinessLogicModel(repositoryNavigationBusinessLogicModel: IRepositoryBusinessLogicModel) {
+    async setRepositoryNavigationBusinessLogicModel(repositoryNavigationBusinessLogicModel: IRepositoryBusinessLogicModel): Promise<void> {
         this.logger.debug("RepositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel start ");
         this.repositoryNavigationBusinessLogicModel = repositoryNavigationBusinessLogicModel;
-        this.updateDataFromBusinessModel();
+        await this.updateDataFromBusinessModel();
         this.presenter.setRepositoryMetaData(this.countEventsInRepository, this.currentEventPosition);
     }
 
@@ -74,28 +74,26 @@ export class RepositoryNavigationUIModel implements IRepositoryNavigationUIModel
         this.presenter = presenter;
     }
 
-    updateDataFromBusinessModel() {
+    private async updateDataFromBusinessModel() {
         this.logger.debug("RepositoryNavigationUIModel.updateDataFromBusinessModel start countEvents: "
             + this.countEventsInRepository + " currentEventPosition: " + this.currentEventPosition + " pageSize: " + this.pageSize);
 
-
-        let result = this.repositoryNavigationBusinessLogicModel.getMetaData();
-
+        const result = await this.repositoryNavigationBusinessLogicModel.getMetaData();
         this.countEventsInRepository = result.countEvents;
         this.currentEventPosition = result.currentEventPosition;
         this.pageSize = result.pageSize;
-
         this.logger.debug("RepositoryNavigationUIModel.updateDataFromBusinessModel fin countEvents: "
-            + this.countEventsInRepository + " currentEventPosition: " + this.currentEventPosition + " pageSize: " + this.pageSize);
+        + this.countEventsInRepository + " currentEventPosition: " + this.currentEventPosition + " pageSize: " + this.pageSize);
+        
     }
 
 
-    navigateTo(element: RepositoryNavigationAction) {
+    async navigateTo(element: RepositoryNavigationAction) {
         console.log("RepositoryNavigationUIModel.navigateTo element: ", RepositoryNavigationAction[element]);
 
         if (this.repositoryNavigationBusinessLogicModel) {
             this.repositoryNavigationBusinessLogicModel.navigateTo(element);
-            this.updateDataFromBusinessModel();
+            await this.updateDataFromBusinessModel();
         } else {
             throw new Error("RepositoryNavigationBehaviorModel.repositoryNavigationBusinessLogicModel is not initialized");
         }
@@ -144,12 +142,24 @@ export class RepositoryNavigationUIModel implements IRepositoryNavigationUIModel
         }
     }
 
-    getRepositoryMetaData(): { count: number; currentEventPosition: number; } {
+    async getRepositoryMetaData(): Promise<IRepositoryMetaData> {
+        this.logger.debug("RepositoryNavigationUIModel.getRepositoryMetaData countEventsInRepository: " + this.countEventsInRepository 
+            + " currentEventPosition: " + this.currentEventPosition);
+        
         if (this.countEventsInRepository == undefined || this.currentEventPosition == undefined) {
-            this.updateDataFromBusinessModel();
+                const result = await this.repositoryNavigationBusinessLogicModel.getMetaData()
+                this.countEventsInRepository = result.countEvents;
+                this.currentEventPosition = result.currentEventPosition;
+                this.pageSize = result.pageSize;
+                this.logger.debug("RepositoryNavigationUIModel.getRepositoryMetaData in then() countEvents: "
+                + this.countEventsInRepository + " currentEventPosition: " + this.currentEventPosition + " pageSize: " + this.pageSize);
+
         }
-        this.logger.debug("RepositoryNavigationUIModel.getRepositoryMetaData countEventsInRepository: " + this.countEventsInRepository + " currentEventPosition: " + this.currentEventPosition);
-        return { count: this.countEventsInRepository, currentEventPosition: this.currentEventPosition };
+
+        this.logger.debug("RepositoryNavigationUIModel.getRepositoryMetaData 2 countEvents: "
+                + this.countEventsInRepository + " currentEventPosition: " + this.currentEventPosition + " pageSize: " + this.pageSize);
+        return { countEvents: this.countEventsInRepository, currentEventPosition: this.currentEventPosition };
+        
     }
 
     updateRepositoryData(countEventsInRepository: number, currentEventPosition: number): void {

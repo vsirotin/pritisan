@@ -1,13 +1,14 @@
-import { IEvent } from "./current-event-business-logic-model";
+import { IEvent } from "../capture-common-interfaces";
 import { Observable, Subject } from "rxjs";
 import { IMetaDataPersistence, MetaDataPersistence, IPersistedEvent } from "../../../../../../shared/classes/db/time-series-db";
 import { Logger } from "../../../../../../shared/services/logging/logger";
+import { IRepositoryMetaDataExt } from "../capture-common-interfaces";
 
 export interface IRepositoryBusinessLogicModelInput {
     navigateTo(element: RepositoryNavigationAction): void;
 }
 export interface IRepositoryBusinessLogicModelQuery {
-    getMetaData(): IRepositoryMetaData;
+    getMetaData(): Promise<IRepositoryMetaDataExt>;
 }
 
 export interface IRepositoryBusinessLogicModelNotificator {
@@ -90,24 +91,27 @@ export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicMod
         return { duration: 9, start: "a", type: "t", details: "b" };
     }
 
-    getMetaData(): IRepositoryMetaData {
+    async getMetaData(): Promise<IRepositoryMetaDataExt> {
         this.logger.debug("RepositoryBusinessLogicModel.getMetaData start this.repositoryMetaDataDB currentEventPosition: "
             + this.currentEventPosition + " countEvents: " + this.countEvents);
 
         if (this.currentEventPosition == undefined || this.countEvents == undefined || this.pageSize == undefined) {
-            let metaData = this.metaDataDB.readMetaData();
+            const metaData = await this.metaDataDB.readMetaData();
             this.currentEventPosition = metaData.currentEventPosition;
             this.countEvents = metaData.countEvents;
             this.pageSize = metaData.pageSize;
-            this.logger.debug("RepositoryBusinessLogicModel.getMetaData metaData: " + JSON.stringify(metaData));
+            this.logger.debug("RepositoryBusinessLogicModel.getMetaData metaData: " + JSON.stringify(metaData));         
         }
+        this.logger.debug("RepositoryBusinessLogicModel.getMetaData fin this.repositoryMetaDataDB currentEventPosition: "
+            + this.currentEventPosition + " countEvents: " + this.countEvents);
 
-        return { currentEventPosition: this.currentEventPosition, countEvents: this.countEvents, pageSize: this.pageSize };
-    }
-
+        return { currentEventPosition: this.currentEventPosition, 
+                countEvents: this.countEvents, pageSize: this.pageSize };
+    };
 }
 
 export const NEW_EVENT_PODITION = -1;
+
 export enum RepositoryNavigationAction {
     PREVIOUS_PAGE,
     PREVIOUS,
@@ -116,9 +120,3 @@ export enum RepositoryNavigationAction {
     LAST,
     NEW
 }
-export interface IRepositoryMetaData {
-    currentEventPosition: number;
-    countEvents: number;
-    pageSize: number;
-}
-

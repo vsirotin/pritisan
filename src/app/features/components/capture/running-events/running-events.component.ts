@@ -13,8 +13,10 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 import { MatSort, Sort, MatSortModule}  from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { RunningEventsUIModel } from '../model/capture/ui-model/running-events-ui-model';
+import { IRunningEventsUIModel, IRunningEventsUIModelPresenter, RunningEventsUIModel } from '../model/capture/ui-model/running-events-ui-model';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Logger } from '../../../../shared/services/logging/logger';
+import { IEvent } from "../model/capture/capture-common-interfaces";
 
 export interface PeriodicElement {
   duration: number;
@@ -46,14 +48,22 @@ imports: [
   templateUrl: './running-events.component.html',
   styleUrl: './running-events.component.scss'
 })
-export class RunningEventsComponent implements AfterViewInit {
+export class RunningEventsComponent implements IRunningEventsUIModelPresenter, AfterViewInit {
+  countRunningEvents = 0;
   displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-  uiModel = new RunningEventsUIModel();
+  uiModel! : IRunningEventsUIModel;
 
   selection = new SelectionModel<PeriodicElement>(true, []);
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(private logger: Logger, private _liveAnnouncer: LiveAnnouncer) {
+    this.logger.debug("RunningEventsComponent.constructor");
+    this.uiModel = new RunningEventsUIModel(logger);
+  }
+  setRunningEvents(runningEvents: IEvent[]): void {
+    this.logger.debug("RunningEventsComponent.setRunningEvents runningEvents: " + runningEvents);
+    this.countRunningEvents = runningEvents.length;
+  }
 
   @ViewChild(MatSort) sort!: MatSort;
 

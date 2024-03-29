@@ -9,7 +9,7 @@ import { RepositoryBusinessLogicModel } from "../model/capture/business-logic-mo
 import { IRepositoryBusinessLogicModel } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
 import { Logger } from '../../../../shared/services/logging/logger';
 import { IMetaDataPersistence, MetaDataPersistence } from '../../../../shared/classes/db/time-series-db';
-import { IRepositoryMetaData } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
+import { IRepositoryMetaDataExt } from "../model/capture/capture-common-interfaces";
 
 describe('RepositoryNavigationComponent', () => {
   let component: RepositoryNavigationComponent;
@@ -46,7 +46,7 @@ describe('RepositoryNavigationComponent', () => {
     let blModel = new RepositoryBusinessLogicModel(logger);
 
     class MetaDataPersistenceMock extends MetaDataPersistence {
-      override readMetaData(): IRepositoryMetaData{
+      override async readMetaData(): Promise<IRepositoryMetaDataExt>{
         return {currentEventPosition: NEW_EVENT_PODITION, countEvents: 0, pageSize: 10};
       }
     }
@@ -54,10 +54,13 @@ describe('RepositoryNavigationComponent', () => {
     metaDataDB = new MetaDataPersistenceMock(logger);
     blModel.metaDataDB = metaDataDB;
 
-    repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel);
+    await repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel)
+
+   
     repositoryBusinessLogicModel = repositoryNavigationUIModel.getRepositoryNavigationBusinessLogicModel();
 
     p = fixture.debugElement.query(By.css('p'));
+
     buttons = fixture.debugElement.queryAll(By.css('button'));
 
     buttonPreviousPage = buttons[0];
@@ -67,7 +70,7 @@ describe('RepositoryNavigationComponent', () => {
     buttonLast = buttons[4];
     buttonNew = buttons[5];
 
-    component.ngOnInit();
+    await component.ngOnInit();
     fixture.detectChanges();
   });
 
@@ -104,7 +107,6 @@ describe('RepositoryNavigationComponent', () => {
     });
 
     it('should have text in given format', () => {
-      p = fixture.debugElement.query(By.css('p'));
       expect(p.nativeElement.textContent.trim()).toContain("new/0");
     });
 
@@ -154,7 +156,7 @@ describe('RepositoryNavigationComponent', () => {
   describe('by filled repository and currentEvent is new', () => {
 
     class MetaDataPersistenceMock2 extends MetaDataPersistence {
-      override readMetaData(): IRepositoryMetaData{
+      override async readMetaData(): Promise<IRepositoryMetaDataExt>{
         return {currentEventPosition: NEW_EVENT_PODITION, countEvents: 1001, pageSize: 10};
       }
     }
@@ -164,10 +166,10 @@ describe('RepositoryNavigationComponent', () => {
       metaDataDB = new MetaDataPersistenceMock2(logger);
       blModel.metaDataDB = metaDataDB;
 
-      repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel);
+      await repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel);
       repositoryBusinessLogicModel = repositoryNavigationUIModel.getRepositoryNavigationBusinessLogicModel();
 
-      component.ngOnInit();
+      await component.ngOnInit();
       fixture.detectChanges();
     });
 
@@ -202,34 +204,40 @@ describe('RepositoryNavigationComponent', () => {
         expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_PODITION);
       });
 
-      it('new/0 presented', () => {
+      it('new/0 presented', async () => {
         buttonNew.nativeElement.click();
+        await fixture.whenStable();
+        fixture.detectChanges();
         expect(p.nativeElement.textContent.trim()).toContain("new/1001");   
       });
     });
 
 
-    it('should correct process click <', () => {
+    it('should correct process click <', async () => {
       buttonPrevious.nativeElement.click(); 
+      await fixture.whenStable();
       fixture.detectChanges();
       expect(p.nativeElement.textContent.trim()).toContain("1001/1001");
 
     });
 
-    it('should correct process click <<', () => {
+    it('should correct process click <<', async () => {
 
       buttonPreviousPage.nativeElement.click();
+      await fixture.whenStable();
       fixture.detectChanges();
       expect(p.nativeElement.textContent.trim()).toContain("991/1001");  
       
     });
 
-    it('should correct process click on LAST', () => {
+    it('should correct process click on LAST', async () => {
 
       buttonPreviousPage.nativeElement.click();
+      await fixture.whenStable();
       fixture.detectChanges();
 
       buttonLast.nativeElement.click();
+      await fixture.whenStable();
       fixture.detectChanges();
       expect(p.nativeElement.textContent.trim()).toContain("1001/1001");  
       
@@ -243,7 +251,7 @@ describe('RepositoryNavigationComponent', () => {
       
       class MetaDataPersistenceMock3 extends MetaDataPersistence {
 
-        override readMetaData(): IRepositoryMetaData{
+        override async readMetaData(): Promise<IRepositoryMetaDataExt>{
           return {currentEventPosition: 500, countEvents: 1001, pageSize: 10};
         }
       }
@@ -251,11 +259,11 @@ describe('RepositoryNavigationComponent', () => {
       metaDataDB = new MetaDataPersistenceMock3(logger);
       blModel.metaDataDB = metaDataDB;
 
-      repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel);
+      await repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel);
       component.uiModel = repositoryNavigationUIModel;
       repositoryBusinessLogicModel = repositoryNavigationUIModel.getRepositoryNavigationBusinessLogicModel();
 
-      component.ngOnInit();
+      await component.ngOnInit();
       fixture.detectChanges();
     });
 
@@ -292,8 +300,9 @@ describe('RepositoryNavigationComponent', () => {
         expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_PODITION);
       });
 
-      it('new/1001 presented', () => {
+      it('new/1001 presented', async () => {
         buttonNew.nativeElement.click();
+        await fixture.whenStable();
         fixture.detectChanges();
         expect(p.nativeElement.textContent.trim()).toContain("new/1001");   
       });
@@ -301,39 +310,44 @@ describe('RepositoryNavigationComponent', () => {
 
     describe('by other buttons', () => {
 
-      it('should correct process click <', () => {
+      it('should correct process click <', async () => {
         buttonPrevious.nativeElement.click(); 
+        await fixture.whenStable();
         fixture.detectChanges();
         expect(p.nativeElement.textContent.trim()).toContain("499/1001");
 
       });
 
-      it('should correct process click <<', () => {
+      it('should correct process click <<', async() => {
 
         buttonPreviousPage.nativeElement.click();
+        await fixture.whenStable();
         fixture.detectChanges();
         expect(p.nativeElement.textContent.trim()).toContain("490/1001");  
         
       });
 
-      it('should correct process click >', () => {
+      it('should correct process click >', async() => {
         buttonNext.nativeElement.click(); 
+        await fixture.whenStable();
         fixture.detectChanges();
         expect(p.nativeElement.textContent.trim()).toContain("501/1001");
 
       });
 
-      it('should correct process click >>', () => {
+      it('should correct process click >>', async() => {
 
         buttonNextPage.nativeElement.click();
+        await fixture.whenStable();
         fixture.detectChanges();
         expect(p.nativeElement.textContent.trim()).toContain("510/1001");  
         
       });
 
-      it('should correct process click on LAST', () => {
+      it('should correct process click on LAST',async () => {
 
         buttonLast.nativeElement.click();
+        await fixture.whenStable();
         fixture.detectChanges();
         expect(p.nativeElement.textContent.trim()).toContain("1001/1001");  
         

@@ -1,10 +1,10 @@
 import { Subject, Observable } from "rxjs";
 import { Logger } from "../../services/logging/logger";
-import { IRepositoryMetaData } from "../../../features/components/capture/model/capture/business-logic-model/repository-navigation-business-logic-model";
+import { IRepositoryMetaDataExt } from "../../../features/components/capture/model/capture/capture-common-interfaces";
 
 export interface IMetaDataPersistence   {
 
-  readMetaData(): IRepositoryMetaData
+  readMetaData(): Promise<IRepositoryMetaDataExt>;
 
   updateCountEvents(count: number): void;
 
@@ -26,9 +26,9 @@ export class MetaDataPersistence implements IMetaDataPersistence{
     this.logger.log("MetaDataPersistence created");
   }
 
-  readMetaData(): IRepositoryMetaData{
+  async readMetaData(): Promise<IRepositoryMetaDataExt>{
     this.logger.warn("MetaDataPersistence.getMetaData. Temporary solution. It should be replaced by real data from DB ");
-    return {currentEventPosition: 3, countEvents: 31, pageSize: 10};
+    return {currentEventPosition: 4, countEvents: 32, pageSize: 10};
   }
 
 
