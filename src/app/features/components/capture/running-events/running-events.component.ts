@@ -13,23 +13,13 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 import { MatSort, Sort, MatSortModule}  from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { IRunningEventsUIModel, IRunningEventsUIModelPresenter, RunningEventsUIModel } from '../model/capture/ui-model/running-events-ui-model';
+import { IRunningEvent, IRunningEventsUIModel, RunningEventsUIModel } from '../model/capture/ui-model/running-events-ui-model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Logger } from '../../../../shared/services/logging/logger';
 import { IEvent } from "../model/capture/capture-common-interfaces";
 
-export interface PeriodicElement {
-  duration: number;
-  start: string;
-  type: string;
-  details: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  {duration: 10.1, start: 'Hydrogen', type: 'some  type 1', details: 'H-gR'},
-  {duration: 2, start: 'Helium', type: 'some  type 12', details: 'H.dr'},
-  {duration: 1.3, start: 'Lithium', type: 'some  type 5', details: 'Li.dd'},
-  {duration: 0.4, start: 'Beryllium', type: 'some  type 14', details: 'Be'},
-];
+
+const ELEMENT_DATA: IRunningEvent[] = [];
 
 @Component({
   selector: 'app-running-events',
@@ -48,17 +38,21 @@ imports: [
   templateUrl: './running-events.component.html',
   styleUrl: './running-events.component.scss'
 })
-export class RunningEventsComponent implements IRunningEventsUIModelPresenter, AfterViewInit {
+export class RunningEventsComponent implements  AfterViewInit {
   countRunningEvents = 0;
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['select', 'duration', 'start', 'description'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   uiModel! : IRunningEventsUIModel;
 
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  selection = new SelectionModel<IRunningEvent>(true, []);
 
   constructor(private logger: Logger, private _liveAnnouncer: LiveAnnouncer) {
     this.logger.debug("RunningEventsComponent.constructor");
     this.uiModel = new RunningEventsUIModel(logger);
+    this.uiModel.runningEventsPresentationChanged$.subscribe((events) => {
+      this.logger.debug("RunningEventsComponent.constructor. Running events: " + events.length);
+      this.dataSource.data = events;
+    });
   }
   setRunningEvents(runningEvents: IEvent[]): void {
     this.logger.debug("RunningEventsComponent.setRunningEvents runningEvents: " + runningEvents);
@@ -102,7 +96,7 @@ export class RunningEventsComponent implements IRunningEventsUIModelPresenter, A
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: IRunningEvent): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }

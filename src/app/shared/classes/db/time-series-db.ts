@@ -1,6 +1,7 @@
 import { Subject, Observable } from "rxjs";
 import { Logger } from "../../services/logging/logger";
 import { IRepositoryMetaDataExt } from "../../../features/components/capture/model/capture/capture-common-interfaces";
+import { Data } from "@angular/router";
 
 export interface IMetaDataPersistence   {
 
@@ -46,11 +47,42 @@ export class MetaDataPersistence implements IMetaDataPersistence{
 
   readEvent(eventId: number): IPersistedEvent{
     this.logger.warn("MetaDataPersistence.readEvent. Temporary solution. It should be replaced by real data from DB ");
-    return {};
+    return {id: 1, start: new Date(), fin: null, typeId: "1", details: "a"};
   }
 }
 
-export interface IPersistedEvent{}
+export interface IPersistedRunningEvents{
+
+  readRunningEvents(): Promise<IPersistedEvent[]>;
+
+}
+
+export class RunningEventsPersistence implements IPersistedRunningEvents{
+  constructor(private logger: Logger){
+    this.logger.log("RunningEventsPersistence created");
+  }
+
+  async readRunningEvents(): Promise<IPersistedEvent[]>{
+   
+    const TMP_PERSISTED_EVENTS: IPersistedEvent[] = [
+      {id: 1, start: new Date(), fin: null, typeId: "1", details: "a"},
+      {id: 2, start: new Date(), fin: null, typeId: "2", details: "b"},
+      {id: 3, start: new Date(), fin: null, typeId: "3", details: "c"}
+    ]
+    this.logger.warn("RunningEventsPersistence.readRunningEvents. Temporary solution. It should be replaced by real data from DB. Returning: " 
+    + JSON.stringify(TMP_PERSISTED_EVENTS));
+
+    return TMP_PERSISTED_EVENTS;
+  }
+}
+
+export interface IPersistedEvent{
+  id: number
+  start: Data;
+  fin: Data|null;
+  typeId: string;
+  details: string|null;
+}
 
 export interface IEventsPersistence {
   saveEvent(event: IPersistedEvent): number;

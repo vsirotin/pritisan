@@ -1,41 +1,64 @@
 import { EventUIModel } from './capture-ui-model';
 
-import { IRunningEventsBusinessLogicModel } from '../business-logic-model/running-events-business-logic-model';
+import { IRunningEventsBusinessLogicModel, RunningEventsBusinessLogicModel } from '../business-logic-model/running-events-business-logic-model';
 import { IEvent } from "../capture-common-interfaces";
 import { Logger } from '../../../../../../shared/services/logging/logger';
+import { Observable, Subject } from 'rxjs';
 
 
-export interface IRunningEventsUIModelPresenter {
-
-    setRunningEvents(runningEvents: IEvent[]): void;
-}
+export interface IRunningEvent {
+    duration: number;
+    start: string;
+    description: string;
+  }
 
 export interface IRunningEventsUIInputModel {
 
-}
-
-export interface IRunningEventsUIQueringModel {
+    runningEventsPresentationChanged$: Observable<IRunningEvent[]>;
 
 }
 
-export interface IRunningEventsUIModel extends IRunningEventsUIInputModel, IRunningEventsUIQueringModel { 
-    setPresenter(presenter: IRunningEventsUIModelPresenter): void;  
+// export interface IRunningEventsUIQueringModel {
+
+// }
+
+export interface IRunningEventsUIModel extends IRunningEventsUIInputModel { 
+//    setPresenter(presenter: IRunningEventsUIModelPresenter): void; 
+    setBusinessLogicModel(runningEventsBusinessLogicModel: IRunningEventsBusinessLogicModel): void;
 }
 
 
 export class RunningEventsUIModel implements IRunningEventsUIModel{
 
+    runningEventsPresentationChanged$!: Observable<IRunningEvent[]>;
+
     private runningEvents!: IEvent[];
 
-    private presenter!: IRunningEventsUIModelPresenter;
+    private runningEventsBusinessLogicModel!: IRunningEventsBusinessLogicModel;
+
+    private subject = new Subject<IRunningEvent[]>();
 
     constructor(private logger: Logger) {
         this.logger.debug("RunningEventsUIModel.constructor");
+        
+        this.runningEventsPresentationChanged$ = this.subject.asObservable();
+
+        this.setBusinessLogicModel(new RunningEventsBusinessLogicModel(logger));
     }
 
-    setPresenter(presenter: IRunningEventsUIModelPresenter): void{
-        this.presenter = presenter;
+    setBusinessLogicModel(runningEventsBusinessLogicModel: IRunningEventsBusinessLogicModel): void{
+        this.logger.debug("RunningEventsUIModel.setRunningEventsBusinessLogicModel start ");
+        this.runningEventsBusinessLogicModel = runningEventsBusinessLogicModel;
+        this.runningEventsBusinessLogicModel.runningEventsChanged$.subscribe((events) => {
+            this.logger.debug("RunningEventsUIModel.setRunningEventsBusinessLogicModel. Running events: " + events.length);
+            this.runningEvents = events;
+            const runningEventsPresentation: IRunningEvent[] = events.map((event) => this.covertEventToPresentation(event));
+            this.logger.debug("RunningEventsUIModel.setRunningEventsBusinessLogicModel. Running events presentation: " 
+                + runningEventsPresentation.length);
+            this.subject.next(runningEventsPresentation);   
+        });
     }
-
-    
+    covertEventToPresentation(event: IEvent): IRunningEvent {
+        return {duration: 0, start: "xxx", description: "yyy"};
+    }
 }

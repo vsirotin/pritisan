@@ -3,6 +3,7 @@ import { Observable, Subject } from "rxjs";
 import { IMetaDataPersistence, MetaDataPersistence, IPersistedEvent } from "../../../../../../shared/classes/db/time-series-db";
 import { Logger } from "../../../../../../shared/services/logging/logger";
 import { IRepositoryMetaDataExt } from "../capture-common-interfaces";
+import { encodePersistedEvent } from "./event-converter";
 
 export interface IRepositoryBusinessLogicModelInput {
     navigateTo(element: RepositoryNavigationAction): void;
@@ -88,7 +89,7 @@ export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicMod
     convertToEvent(savedEvent: IPersistedEvent): IEvent {
         this.logger.debug("RepositoryBusinessLogicModel.convertToEvent savedEvent: " + JSON.stringify(savedEvent));
         this.logger.warn("RepositoryBusinessLogicModel.convertToEvent. Temporary solution. It should be replaced by real data from DB ");
-        return { duration: 9, start: "a", type: "t", details: "b" };
+        return encodePersistedEvent(savedEvent);
     }
 
     async getMetaData(): Promise<IRepositoryMetaDataExt> {
