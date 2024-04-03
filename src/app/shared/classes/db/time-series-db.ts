@@ -54,21 +54,32 @@ export class MetaDataPersistence implements IMetaDataPersistence{
 export interface IPersistedRunningEvents{
 
   readRunningEvents(): Promise<IPersistedEvent[]>;
-
+  deleteEventsWithIds(eventIDs: number[]): Promise<void>;
+  updateEvents(events: IPersistedEvent[]): Promise<void>;
 }
 
 export class RunningEventsPersistence implements IPersistedRunningEvents{
   constructor(private logger: Logger){
     this.logger.log("RunningEventsPersistence created");
   }
+  async deleteEventsWithIds(eventIDs: number[]): Promise<void> {
+    this.logger.warn("RunningEventsPersistence.deleteEventsWithIds. Temporary solution. It should be replaced by real data from DB. Deleting: "
+    + JSON.stringify(eventIDs));
+    return Promise.resolve();
+  }
+  async updateEvents(events: IPersistedEvent[]): Promise<void> {
+    this.logger.warn("RunningEventsPersistence.updateEvents. Temporary solution. It should be replaced by real data from DB. Updating: "
+    + JSON.stringify(events));
+    return Promise.resolve();
+  }
 
   async readRunningEvents(): Promise<IPersistedEvent[]>{
    
     const TMP_PERSISTED_EVENTS: IPersistedEvent[] = [
-      {id: 1, start: getTimeBeforeNow(0, 1, 4), fin: null, typeId: "1", details: "a"},
-      {id: 2, start: getTimeBeforeNow(0, 12, 34), fin: null, typeId: "2", details: "b"},
-      {id: 3, start: getTimeBeforeNow(2, 4, 44), fin: null, typeId: "3", details: "c"},
-      {id: 4, start: getTimeBeforeNow(0, 0, 0), fin: null, typeId: "3", details: "c"}
+      {id: 11, start: getTimeBeforeNow(0, 1, 4), fin: null, typeId: "1", details: "a"},
+      {id: 12, start: getTimeBeforeNow(0, 12, 34), fin: null, typeId: "2", details: "b"},
+      {id: 13, start: getTimeBeforeNow(2, 4, 44), fin: null, typeId: "3", details: "c"},
+      {id: 14, start: getTimeBeforeNow(0, 0, 0), fin: null, typeId: "3", details: "c"}
     ]
     this.logger.warn("RunningEventsPersistence.readRunningEvents. Temporary solution. It should be replaced by real data from DB. Returning: " 
     + JSON.stringify(TMP_PERSISTED_EVENTS));

@@ -16,7 +16,6 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { IRunningEvent, IRunningEventsUIModel, RunningEventsUIModel } from '../model/capture/ui-model/running-events-ui-model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Logger } from '../../../../shared/services/logging/logger';
-import { IEvent } from "../model/capture/capture-common-interfaces";
 
 
 const ELEMENT_DATA: IRunningEvent[] = [];
@@ -39,7 +38,10 @@ imports: [
   styleUrl: './running-events.component.scss'
 })
 export class RunningEventsComponent implements  AfterViewInit {
+  isExpanded: boolean = true;
   countRunningEvents = 0;
+  areButtonsDisabled = true;
+
   displayedColumns: string[] = ['select', 'duration', 'start', 'description'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   uiModel! : IRunningEventsUIModel;
@@ -50,13 +52,21 @@ export class RunningEventsComponent implements  AfterViewInit {
     this.logger.debug("RunningEventsComponent.constructor");
     this.uiModel = new RunningEventsUIModel(logger);
     this.uiModel.runningEventsPresentationChanged$.subscribe((events) => {
-      this.logger.debug("RunningEventsComponent.constructor. Running events: " + events.length);
+      this.logger.debug("RunningEventsComponent.constructor. Running events: " + JSON.stringify(events));
       this.dataSource.data = events;
+      this.countRunningEvents = events.length;
+      this.isExpanded = this.countRunningEvents > 0;
     });
-  }
-  setRunningEvents(runningEvents: IEvent[]): void {
-    this.logger.debug("RunningEventsComponent.setRunningEvents runningEvents: " + runningEvents);
-    this.countRunningEvents = runningEvents.length;
+
+    this.selection.changed.subscribe((event) => {
+      if(this.selection.selected.length > 0) {
+        this.areButtonsDisabled = false;
+        this.uiModel.selectRunningEvent(this.selection.selected[0]);
+      } else {
+        this.areButtonsDisabled = true;
+      }
+      
+    });
   }
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -103,7 +113,21 @@ export class RunningEventsComponent implements  AfterViewInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.duration + 1}`;
   }
 
-  onClick() {
-    
+  onComplete() {
+    const selectedIds = this.selection.selected.map((event) => event.id);
+    this.logger.debug("RunningEventsComponent.onComplete onCompleteSelected: " + selectedIds);
+    this.uiModel.completeEventsWithIds(selectedIds);
   }
+
+  onDelete() {
+    const selectedIds = this.selection.selected.map((event) => event.id);
+    this.logger.debug("RunningEventsComponent.onDelete selectedIds: " + selectedIds);
+    this.uiModel.deleteEventsWithIds(selectedIds);
+  }
+
+  onCancel() {
+    this.logger.debug("RunningEventsComponent.onCancel");
+    this.selection.clear();
+  }
+
 }

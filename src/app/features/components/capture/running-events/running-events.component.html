@@ -1,5 +1,5 @@
 <mat-accordion class="settings-headers-align" multi>
-  <mat-expansion-panel [expanded]="true">
+  <mat-expansion-panel [expanded]="isExpanded">
     <mat-expansion-panel-header>
       <mat-panel-title>Running events:</mat-panel-title>
       <mat-panel-description>{{countRunningEvents}}</mat-panel-description>
@@ -9,16 +9,19 @@
   <mat-toolbar class="toolbar-running-events">
 
     <p class="text-for-icon">Complete selected</p>
-    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" (click)="onClick()">
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" (click)="onComplete()"
+      disabled="{{areButtonsDisabled}}">
       <mat-icon>done_all</mat-icon>
     </button>
     <p class="text-for-icon">Delete selected</p> 
-    <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo">
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo" (click)="onDelete()"
+    disabled="{{areButtonsDisabled}}">
       <mat-icon>delete</mat-icon>
     </button>
   
     <p class="text-for-icon">Cancel/reset</p>
-    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" (click)="onClick()">
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" (click)="onCancel()"
+    disabled="{{areButtonsDisabled}}">
       <mat-icon>refresh</mat-icon>
     </button>
   
