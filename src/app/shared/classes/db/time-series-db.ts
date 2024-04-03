@@ -65,15 +65,24 @@ export class RunningEventsPersistence implements IPersistedRunningEvents{
   async readRunningEvents(): Promise<IPersistedEvent[]>{
    
     const TMP_PERSISTED_EVENTS: IPersistedEvent[] = [
-      {id: 1, start: new Date(), fin: null, typeId: "1", details: "a"},
-      {id: 2, start: new Date(), fin: null, typeId: "2", details: "b"},
-      {id: 3, start: new Date(), fin: null, typeId: "3", details: "c"}
+      {id: 1, start: getTimeBeforeNow(0, 1, 4), fin: null, typeId: "1", details: "a"},
+      {id: 2, start: getTimeBeforeNow(0, 12, 34), fin: null, typeId: "2", details: "b"},
+      {id: 3, start: getTimeBeforeNow(2, 4, 44), fin: null, typeId: "3", details: "c"},
+      {id: 4, start: getTimeBeforeNow(0, 0, 0), fin: null, typeId: "3", details: "c"}
     ]
     this.logger.warn("RunningEventsPersistence.readRunningEvents. Temporary solution. It should be replaced by real data from DB. Returning: " 
     + JSON.stringify(TMP_PERSISTED_EVENTS));
 
     return TMP_PERSISTED_EVENTS;
   }
+}
+
+export function getTimeBeforeNow(days: number, hours: number, minutes: number): Date{
+  const t = new Date();
+  t.setDate(t.getDate() - days);
+  t.setHours(t.getHours() - hours);
+  t.setMinutes(t.getMinutes() - minutes);
+  return t;
 }
 
 export interface IPersistedEvent{

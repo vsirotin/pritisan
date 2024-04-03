@@ -7,7 +7,8 @@ import { Observable, Subject } from 'rxjs';
 
 
 export interface IRunningEvent {
-    duration: number;
+    id: number
+    duration: string;
     start: string;
     description: string;
   }
@@ -52,13 +53,35 @@ export class RunningEventsUIModel implements IRunningEventsUIModel{
         this.runningEventsBusinessLogicModel.runningEventsChanged$.subscribe((events) => {
             this.logger.debug("RunningEventsUIModel.setRunningEventsBusinessLogicModel. Running events: " + events.length);
             this.runningEvents = events;
-            const runningEventsPresentation: IRunningEvent[] = events.map((event) => this.covertEventToPresentation(event));
+            const runningEventsPresentation: IRunningEvent[] = events.sort((a,b)=>this.sortEvents(a, b))
+                .map((event) => this.covertEventToPresentation(event));
+
             this.logger.debug("RunningEventsUIModel.setRunningEventsBusinessLogicModel. Running events presentation: " 
                 + runningEventsPresentation.length);
             this.subject.next(runningEventsPresentation);   
         });
     }
+    sortEvents(a: IEvent, b: IEvent): number {
+        return b.start['getTime']() - a.start['getTime']();
+    }
     covertEventToPresentation(event: IEvent): IRunningEvent {
-        return {duration: 0, start: "xxx", description: "yyy"};
+        const now = new Date();
+        const start = event.start as Date; //To avoid sysntay error
+        const durationMilliseconds = now.getTime() - start.getTime();
+        const startAsString = start.toLocaleDateString() + " " + start.toLocaleTimeString();
+        let durationSeconds = Math.floor(durationMilliseconds / 1000);
+        let durationMinutes = Math.floor(durationSeconds / 60);
+        let durationHours = Math.floor(durationMinutes / 60);
+        let duration = "";
+        if(durationHours > 0){
+            duration += durationHours + "h ";
+            durationMinutes -= durationHours * 60;
+        }
+
+        duration += durationMinutes + "m ";
+
+        return {id: event.id, duration: duration, start: startAsString, description: "yyy"};
     }
 }
+
+
