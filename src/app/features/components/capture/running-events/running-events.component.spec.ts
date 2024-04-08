@@ -60,6 +60,17 @@ describe('RunningActionsComponent', () => {
       expect(counter.nativeElement.textContent.trim()).toBe("0");
     });
 
+    it('it containts 3 pairs <label, icon> ', () => {
+      let  buttons = fixture.debugElement.queryAll(By.css('button'));
+      expect(buttons.length).toBe(3);
+    });
+
+    it('should have 1 row (only header)', () => {
+      fixture.detectChanges();
+      let rows = fixture.debugElement.queryAll(By.css('tr'));
+      expect(rows.length).toBe(1);
+    });
+
   });
 
   describe('by not empty list of running events', () => {
@@ -89,7 +100,7 @@ describe('RunningActionsComponent', () => {
       expect(component.isExpanded).toBeTrue();
     });
 
-    it('it presented 0 running events ', () => {
+    it('it presented 4 running events in header ', () => {
       expect(component.countRunningEvents).toEqual(4);
     });
 
@@ -98,37 +109,119 @@ describe('RunningActionsComponent', () => {
       expect(counter.nativeElement.textContent.trim()).toBe("4");
     });
 
-    xit('it containts three pairs <label, icon> ', () => {
-      expect(component).toBeTruthy();
+    it('it containts 3 buttons ', () => {
+      let  buttons = fixture.debugElement.queryAll(By.css('button'));
+      expect(buttons.length).toBe(3);
     });
 
-    xit('it can be closed and in closed state its header containts corresponded text ', () => {
-      expect(component).toBeTruthy();
+    it('it containts 3 buttons and they are disabled', () => {
+        let  buttons = fixture.debugElement.queryAll(By.css('button'));
+        buttons.forEach(button => {    
+        expect(button.nativeElement.disabled).toBeTrue();
+      });
     });
 
-    xit('Complete selected works correctly by single selection ', () => {
-      expect(component).toBeTruthy();
+    it('should have 5 rows (header + 4 rows with data)', () => {
+      fixture.detectChanges();
+      let rows = fixture.debugElement.queryAll(By.css('tr'));
+      expect(rows.length).toBe(5);
     });
 
-    xit('Complete selected works correctly by multiply selection ', () => {
-      expect(component).toBeTruthy();
+    it('accordion can be closed and in closed state its header contains corresponded text ', () => {
+      // Get the accordion panel
+      let panel = fixture.debugElement.query(By.css('mat-expansion-panel'));
+      
+      // Close the panel
+      panel.componentInstance.expanded = false;
+      fixture.detectChanges();
+
+      // Check that the panel is closed
+      expect(panel.componentInstance.expanded).toBe(false);
+
+      // Get the header element
+      let header = fixture.debugElement.query(By.css('.mat-expansion-panel-header-title'));
+
+      // Check that the header contains the correct text
+      expect(header.nativeElement.textContent).toContain('Running events');
+
+      // Check correct number of running events
+      let  counter = fixture.debugElement.query(By.css('mat-panel-description'));
+      expect(counter.nativeElement.textContent.trim()).toBe("4");
     });
 
-    xit('Delete selected works correctly by single selection ', () => {
-      expect(component).toBeTruthy();
+    it('Without selection some row(s) via checkbox, all three buttons are disabled ', () => {
+
+      // Get the buttons
+      let buttons = fixture.debugElement.queryAll(By.css('button'));
+
+      // Check that all buttons are enabled
+      buttons.forEach(button => {
+        expect(button.nativeElement.disabled).toBeTrue();
+      });
     });
 
-    xit('Delete selected works correctly by multiply selection ', () => {
-      expect(component).toBeTruthy();
+    it('By selecting all rows via checkbox, all three buttons will be enabled ', () => {
+      // Simulate checking the checkbox to select all rows
+      component.selection.select(...component.dataSource.data);
+      fixture.detectChanges();
+
+      // Get the buttons
+      let buttons = fixture.debugElement.queryAll(By.css('button'));
+
+      // Check that all buttons are enabled
+      buttons.forEach(button => {
+        expect(button.nativeElement.disabled).toBeFalsy();
+      });
     });
 
-    xit('Cancel/reset works correctly by single selection ', () => {
-      expect(component).toBeTruthy();
+
+
+    it('After selection of first row and click on first button all buttons will be disabled  ', async () => {
+      // Simulate checking the checkbox to select the first row
+      component.selection.select(component.dataSource.data[0]);
+      fixture.detectChanges();
+
+      // Get the first button
+      let button = fixture.debugElement.query(By.css('button'));
+
+      // Click the button
+      button.nativeElement.click();
+      component.onComplete();
+
+      // Wait for all asynchronous tasks to complete
+      await fixture.whenStable();
+
+      // Trigger change detection
+      fixture.detectChanges();
+
+      // Get all buttons
+      let buttons = fixture.debugElement.queryAll(By.css('button'));
+
+      // Check that all buttons are disabled
+      buttons.forEach(button => {
+        expect(button.nativeElement.disabled).toBeTrue();
+      });
     });
 
-    xit('Cancel/reset works correctly by multiply selection ', () => {
-      expect(component).toBeTruthy();
-    });
+      xit('Complete selected works correctly by multiply selection ', () => {
+        expect(component).toBeTruthy();
+      });
+
+      xit('Delete selected works correctly by single selection ', () => {
+        expect(component).toBeTruthy();
+      });
+
+      xit('Delete selected works correctly by multiply selection ', () => {
+        expect(component).toBeTruthy();
+      });
+
+      xit('Cancel/reset works correctly by single selection ', () => {
+        expect(component).toBeTruthy();
+      });
+
+      xit('Cancel/reset works correctly by multiply selection ', () => {
+        expect(component).toBeTruthy();
+      });
 
     
     describe('by a few  running events', () => {

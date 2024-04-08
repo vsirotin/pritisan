@@ -55,21 +55,26 @@ export class RunningEventsComponent implements  AfterViewInit {
       this.logger.debug("RunningEventsComponent.constructor. Running events: " + JSON.stringify(events));
       this.dataSource.data = events;
       this.countRunningEvents = events.length;
-      this.isExpanded = this.countRunningEvents > 0;
+      this.isExpanded = (this.countRunningEvents > 0);
+      this.selection.clear();
     });
 
     this.selection.changed.subscribe((event) => {
-      if(this.selection.selected.length > 0) {
-        this.areButtonsDisabled = false;
-        this.uiModel.selectRunningEvent(this.selection.selected[0]);
-      } else {
-        this.areButtonsDisabled = true;
-      }
-      
+      this.updateButtonsState();     
     });
   }
 
   @ViewChild(MatSort) sort!: MatSort;
+
+  private updateButtonsState() {
+    this.logger.debug("RunningEventsComponent.updateButtonsState this.selection.selected.length: " + JSON.stringify(this.selection.selected));
+    if (this.selection.selected.length > 0) {
+      this.areButtonsDisabled = false;
+      this.uiModel.selectRunningEvent(this.selection.selected[0]);
+    } else {
+      this.areButtonsDisabled = true;
+    }
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
