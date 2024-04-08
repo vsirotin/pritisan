@@ -7,6 +7,8 @@ import { IPersistedRunningEvents, RunningEventsPersistence } from "../../../../.
 import { encodePersistedEvent } from "./event-converter";
 
 export interface IRunningEventsBusinessLogicModel {
+    readRunninfEventsFromDB(): unknown;
+    runningEventsDB: IPersistedRunningEvents;
     runningEventsChanged$: Observable<IEvent[]>;
 
     completeEventsWithIds(eventIDs: number[]): void;
@@ -18,22 +20,26 @@ export class RunningEventsBusinessLogicModel implements IRunningEventsBusinessLo
     runningEventsDB! : IPersistedRunningEvents;
 
     runningEvents!: IEvent[];
-    private subject = new Subject<IEvent[]>();
+    private subjectRunningEventsChanged = new Subject<IEvent[]>();
 
     constructor(private logger: Logger) {
         this.logger.debug("RunningEventsBusinessLogicModel.constructor");
         
-        this.runningEventsChanged$ = this.subject.asObservable();
+        this.runningEventsChanged$ = this.subjectRunningEventsChanged.asObservable();
 
         this.runningEventsDB = new RunningEventsPersistence(logger);
 
-        this.runningEventsDB.readRunningEvents().then((events) => {
-            this.runningEvents = events.map((event) => encodePersistedEvent(event));
-            logger.debug("RunningEventsBusinessLogicModel.constructor. Running events: " + this.runningEvents.length);
-            this.subject.next(this.runningEvents);
-        });
+        this.readRunninfEventsFromDB();
 
     }
+    async readRunninfEventsFromDB() {
+        this.runningEventsDB.readRunningEvents().then((events) => {
+            this.runningEvents = events.map((event) => encodePersistedEvent(event));
+            this.logger.debug("RunningEventsBusinessLogicModel.constructor. Running events: " + this.runningEvents.length);
+            this.subjectRunningEventsChanged.next(this.runningEvents);
+        });
+    }
+
     completeEventsWithIds(eventIDs: number[]): void {
         this.updateEventList(eventIDs);
         this.logger.debug("RunningEventsBusinessLogicModel.completeEventsWithIds. completed eventIDs: " + eventIDs
@@ -50,7 +56,7 @@ export class RunningEventsBusinessLogicModel implements IRunningEventsBusinessLo
     private updateEventList(eventIDs: number[]) {
         this.runningEventsDB.deleteEventsWithIds(eventIDs).then(() => {
             this.runningEvents = this.runningEvents.filter((event) => !eventIDs.includes(event.id));
-            this.subject.next(this.runningEvents);
+            this.subjectRunningEventsChanged.next(this.runningEvents);
         });
     }
 

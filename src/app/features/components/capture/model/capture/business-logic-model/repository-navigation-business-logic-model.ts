@@ -19,7 +19,9 @@ export interface IRepositoryBusinessLogicModelNotificator {
 
 export interface IRepositoryBusinessLogicModel extends IRepositoryBusinessLogicModelInput, 
     IRepositoryBusinessLogicModelQuery, 
-    IRepositoryBusinessLogicModelNotificator  {}
+    IRepositoryBusinessLogicModelNotificator  {
+  metaDataDB: IMetaDataPersistence;
+}
 
 export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicModel {
 
