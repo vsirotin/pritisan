@@ -149,7 +149,7 @@ describe('RunningActionsComponent', () => {
       expect(counter.nativeElement.textContent.trim()).toBe("4");
     });
 
-    it('Without selection some row(s) via checkbox, all three buttons are disabled ', () => {
+    it('without selection some row(s) via checkbox, all three buttons are disabled ', () => {
 
       // Get the buttons
       let buttons = fixture.debugElement.queryAll(By.css('button'));
@@ -160,7 +160,7 @@ describe('RunningActionsComponent', () => {
       });
     });
 
-    it('By selecting all rows via checkbox, all three buttons will be enabled ', () => {
+    it('by selecting all rows via checkbox, all three buttons will be enabled ', () => {
       // Simulate checking the checkbox to select all rows
       component.selection.select(...component.dataSource.data);
       fixture.detectChanges();
@@ -174,17 +174,21 @@ describe('RunningActionsComponent', () => {
       });
     });
 
+   
+    for (let i = 0; i < 3; i++) {
+      it(`after selection of first row and click on button ${i} all buttons will be disabled  `, async () => {
+        await testProcessinSelectionAndClickOnButton(i);
+      });
+    }
 
+    async function testProcessinSelectionAndClickOnButton(buttonNumber: number) {
 
-    it('After selection of first row and click on first button all buttons will be disabled  ', async () => {
       // Simulate checking the checkbox to select the first row
       component.selection.select(component.dataSource.data[0]);
       fixture.detectChanges();
 
-      // Get the first button
-      let button = fixture.debugElement.query(By.css('button'));
-
       // Click the button
+      let button = fixture.debugElement.queryAll(By.css('button'))[buttonNumber];
       button.nativeElement.click();
       component.onComplete();
 
@@ -201,53 +205,226 @@ describe('RunningActionsComponent', () => {
       buttons.forEach(button => {
         expect(button.nativeElement.disabled).toBeTrue();
       });
+    }
+
+    it('the button "Complete all selected" works correctly by single selection', async () => {
+      // Find the list of all object ids
+      let initialIds = component.dataSource.data.map(item => item.id);
+
+      // Select one object
+      let selectedObject = component.dataSource.data[0];
+      component.selection.select(selectedObject);
+      fixture.detectChanges();
+
+      // Click on "Complete all selected" button
+      component.onComplete();
+
+      // Wait for all asynchronous tasks to complete
+      await fixture.whenStable();
+
+      // Trigger change detection
+      fixture.detectChanges();
+
+      // Find the updated list of all object ids
+      let updatedIds = component.dataSource.data.map(item => item.id);
+
+      // Check that the number of objects in the list has decreased by 1
+      expect(updatedIds.length).toBe(initialIds.length - 1);
+
+      // Check that the selected object is not in the list
+      expect(updatedIds.includes(selectedObject.id)).toBeFalse();
     });
 
-      xit('Complete selected works correctly by multiply selection ', () => {
-        expect(component).toBeTruthy();
-      });
+    it('the button "Complete all selected" works correctly by multiply selection', async () => {
+      // Find the list of all object ids
+      let initialIds = component.dataSource.data.map(item => item.id);
 
-      xit('Delete selected works correctly by single selection ', () => {
-        expect(component).toBeTruthy();
-      });
+      // Select three objects
+      let selectedObjects = component.dataSource.data.slice(0, 3);
+      component.selection.select(...selectedObjects);
+      fixture.detectChanges();
 
-      xit('Delete selected works correctly by multiply selection ', () => {
-        expect(component).toBeTruthy();
-      });
+      // Click on "Complete all selected" button
+      component.onComplete();
 
-      xit('Cancel/reset works correctly by single selection ', () => {
-        expect(component).toBeTruthy();
-      });
+      // Wait for all asynchronous tasks to complete
+      await fixture.whenStable();
 
-      xit('Cancel/reset works correctly by multiply selection ', () => {
-        expect(component).toBeTruthy();
-      });
+      // Trigger change detection
+      fixture.detectChanges();
 
-    
-    describe('by a few  running events', () => {
-      xit('it containts N lines by count running events N <=3 ', () => {
-          expect(component).toBeTruthy();
-        });
+      // Find the updated list of all object ids
+      let updatedIds = component.dataSource.data.map(item => item.id);
+
+      // Check that the number of objects in the list has decreased by 1
+      expect(updatedIds.length).toBe(initialIds.length - 3);
+
+      // Check that the selected objects are not in the list
+      selectedObjects.forEach(selectedObject => {
+        expect(updatedIds.includes(selectedObject.id)).toBeFalse();
+      });
+    });
+
+    it('the button "Delete all selected" works correctly by single selection', async () => {
+      // Find the list of all object ids
+      let initialIds = component.dataSource.data.map(item => item.id);
+
+      // Select one object
+      let selectedObject = component.dataSource.data[0];
+      component.selection.select(selectedObject);
+      fixture.detectChanges();
+
+      // Click on "Delete all selected" button
+      component.onDelete();
+
+      // Wait for all asynchronous tasks to complete
+      await fixture.whenStable();
+
+      // Trigger change detection
+      fixture.detectChanges();
+
+      // Find the updated list of all object ids
+      let updatedIds = component.dataSource.data.map(item => item.id);
+
+      // Check that the number of objects in the list has decreased by 1
+      expect(updatedIds.length).toBe(initialIds.length - 1);
+
+      // Check that the selected object is not in the list
+      expect(updatedIds.includes(selectedObject.id)).toBeFalse();
+    });
+
+    it('the button "Delete all selected" works correctly by multiply selection', async () => {
+      // Find the list of all object ids
+      let initialIds = component.dataSource.data.map(item => item.id);
+
+      // Select three objects
+      let selectedObjects = component.dataSource.data.slice(0, 3);
+      component.selection.select(...selectedObjects);
+      fixture.detectChanges();
+
+      // Click on "Delete all selected" button
+      component.onDelete();
+
+      // Wait for all asynchronous tasks to complete
+      await fixture.whenStable();
+
+      // Trigger change detection
+      fixture.detectChanges();
+
+      // Find the updated list of all object ids
+      let updatedIds = component.dataSource.data.map(item => item.id);
+
+      // Check that the number of objects in the list has decreased by 1
+      expect(updatedIds.length).toBe(initialIds.length - 3);
+
+      // Check that the selected objects are not in the list
+      selectedObjects.forEach(selectedObject => {
+        expect(updatedIds.includes(selectedObject.id)).toBeFalse();
+      });
+    });
+
+    it('the button "Cancel" works correctly by single selection', async () => {
+      // Find the list of all object ids
+      let initialIds = component.dataSource.data.map(item => item.id);
+
+      // Select one object
+      let selectedObject = component.dataSource.data[0];
+      component.selection.select(selectedObject);
+      fixture.detectChanges();
+
+      // Click on "Cancel" button
+      component.onCancel();
+
+      // Wait for all asynchronous tasks to complete
+      await fixture.whenStable();
+
+      // Trigger change detection
+      fixture.detectChanges();
+
+      // Find the updated list of all object ids
+      let updatedIds = component.dataSource.data.map(item => item.id);
+
+      // Check that the number of objects in the list is the same
+      expect(updatedIds.length).toBe(initialIds.length);
+
+      // Check that the selected object is in the list
+      expect(updatedIds.includes(selectedObject.id)).toBeTrue();
+    });
+
+    it('the button "Cancel" works correctly by multiply selection', async () => {
+      // Find the list of all object ids
+      let initialIds = component.dataSource.data.map(item => item.id);
+
+      // Select three objects
+      let selectedObjects = component.dataSource.data.slice(0, 3);
+      component.selection.select(...selectedObjects);
+      fixture.detectChanges();
+
+      // Click on "Cancel" button
+      component.onCancel();
+
+      // Wait for all asynchronous tasks to complete
+      await fixture.whenStable();
+
+      // Trigger change detection
+      fixture.detectChanges();
+
+      // Find the updated list of all object ids
+      let updatedIds = component.dataSource.data.map(item => item.id);
+
+      // Check that the number of objects in the list is the same
+      expect(updatedIds.length).toBe(initialIds.length);
+
+      // Check that the selected objects are in the list
+      selectedObjects.forEach(selectedObject => {
+        expect(updatedIds.includes(selectedObject.id)).toBeTrue();
+      });
+    });
   
+
+    it('by single selection the notification happens ', (done) => {
+
+      // Prepare check that the notification happens
+      component.uiModel.currentEventChanged$.subscribe(event => {
+        expect(event).toEqual(selectedObject);
+        done();
+      });
+
+      // Select one object
+      let selectedObject = component.dataSource.data[0];
+      component.selection.select(selectedObject);
+      fixture.detectChanges();
+
+      // Click on "Complete all selected" button
+      component.onComplete();
+
+      // Trigger change detection
+      fixture.detectChanges();
+      
     });
-    
-    describe('by a many running events', () => {
-    
-      xit('it containts 3 lines by count running events N > 3 ', () => {
-        expect(component).toBeTruthy();
-      });
-    });
 
-    describe('by change a list of running events its presentation changes correctly', () => {
-    
-      xit('it containts right number of lines ', () => {
-        expect(component).toBeTruthy();
-      });
+    it('by multiple selection the notification happens for each selected item', (done) => {
 
-      xit('it is correctly ordered ', () => {
-        expect(component).toBeTruthy();
+      // Prepare check that the notification happens for each selected item
+      let selectedCount = 0;
+      component.uiModel.currentEventChanged$.subscribe(event => {
+        expect(selectedObjects).toContain(event);
+        selectedCount++;
+        if (selectedCount === selectedObjects.length) {
+          done();
+        }
       });
 
+      // Select multiple objects
+      let selectedObjects = component.dataSource.data.slice(0, 3);
+      selectedObjects.forEach(obj => component.selection.select(obj));
+      fixture.detectChanges();
+
+      // Click on "Complete all selected" button
+      component.onComplete();
+
+      // Trigger change detection
+      fixture.detectChanges();
     });
 
   });

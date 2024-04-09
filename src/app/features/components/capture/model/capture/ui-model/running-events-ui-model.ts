@@ -28,6 +28,7 @@ export interface IRunningEventsUIModel extends IRunningEventsUIInputModel {
     setBusinessLogicModel(runningEventsBusinessLogicModel: IRunningEventsBusinessLogicModel): void;
     completeEventsWithIds(eventIDs: number[]): void;
     deleteEventsWithIds(eventIDs: number[]): void;
+    currentEventChanged$: Observable<IRunningEvent>;
 }
 
 
