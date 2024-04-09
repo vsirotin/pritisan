@@ -10,6 +10,7 @@ import { IRepositoryBusinessLogicModel } from "../model/capture/business-logic-m
 import { Logger } from '../../../../shared/services/logging/logger';
 import { IMetaDataPersistence, MetaDataPersistence } from '../../../../shared/classes/db/time-series-db';
 import { IRepositoryMetaDataExt } from "../model/capture/capture-common-interfaces";
+import { DebugElement } from '@angular/core';
 
 describe('RepositoryNavigationComponent', () => {
   let component: RepositoryNavigationComponent;
@@ -19,7 +20,7 @@ describe('RepositoryNavigationComponent', () => {
   let metaDataDB: IMetaDataPersistence;
 
   let p: any;
-  let buttons: any;
+  let buttons!: DebugElement[];
 
   let buttonPreviousPage: any;
   let buttonPrevious: any;
@@ -43,7 +44,7 @@ describe('RepositoryNavigationComponent', () => {
 
     logger = new Logger();
 
-    let blModel = new RepositoryBusinessLogicModel(logger);
+    repositoryBusinessLogicModel = new RepositoryBusinessLogicModel(logger);
 
     class MetaDataPersistenceMock extends MetaDataPersistence {
       override async readMetaData(): Promise<IRepositoryMetaDataExt>{
@@ -52,13 +53,11 @@ describe('RepositoryNavigationComponent', () => {
     }
 
     metaDataDB = new MetaDataPersistenceMock(logger);
-    blModel.metaDataDB = metaDataDB;
+    repositoryBusinessLogicModel.metaDataDB = metaDataDB;
 
-    await repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel)
+    await repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(repositoryBusinessLogicModel);
 
-   
-    repositoryBusinessLogicModel = repositoryNavigationUIModel.getRepositoryNavigationBusinessLogicModel();
-
+    await component.ngOnInit();
     p = fixture.debugElement.query(By.css('p'));
 
     buttons = fixture.debugElement.queryAll(By.css('button'));
@@ -70,7 +69,7 @@ describe('RepositoryNavigationComponent', () => {
     buttonLast = buttons[4];
     buttonNew = buttons[5];
 
-    await component.ngOnInit();
+   
     fixture.detectChanges();
   });
 
@@ -89,9 +88,7 @@ describe('RepositoryNavigationComponent', () => {
     });
 
     it('should have 6 buttons with given icons', () => {
-      const buttons = fixture.debugElement.queryAll(By.css('button'));
       expect(buttons.length).toBe(6);
-
 
       const expectedIcons = [
         'keyboard_double_arrow_left',

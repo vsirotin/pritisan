@@ -1,3 +1,4 @@
+import { Data } from "@angular/router";
 
 export interface IRepositoryMetaData {
     currentEventPosition: number;
@@ -8,10 +9,12 @@ export interface IRepositoryMetaData {
 export interface IRepositoryMetaDataExt extends IRepositoryMetaData{
     pageSize: number;
 }
+
 export interface IEvent {
-    duration: number;
-    start: string;
-    type: string;
-    details: string;
+    id: number
+    start: Data;
+    fin: Data|null;
+    typeId: string;
+    details: string|null;
 } //------------Current event behavior model----------------
 

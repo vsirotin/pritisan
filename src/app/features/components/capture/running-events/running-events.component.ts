@@ -13,23 +13,12 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 import { MatSort, Sort, MatSortModule}  from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { IRunningEventsUIModel, IRunningEventsUIModelPresenter, RunningEventsUIModel } from '../model/capture/ui-model/running-events-ui-model';
+import { IRunningEvent, IRunningEventsUIModel, RunningEventsUIModel } from '../model/capture/ui-model/running-events-ui-model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Logger } from '../../../../shared/services/logging/logger';
-import { IEvent } from "../model/capture/capture-common-interfaces";
 
-export interface PeriodicElement {
-  duration: number;
-  start: string;
-  type: string;
-  details: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  {duration: 10.1, start: 'Hydrogen', type: 'some  type 1', details: 'H-gR'},
-  {duration: 2, start: 'Helium', type: 'some  type 12', details: 'H.dr'},
-  {duration: 1.3, start: 'Lithium', type: 'some  type 5', details: 'Li.dd'},
-  {duration: 0.4, start: 'Beryllium', type: 'some  type 14', details: 'Be'},
-];
+
+const ELEMENT_DATA: IRunningEvent[] = [];
 
 @Component({
   selector: 'app-running-events',
@@ -48,24 +37,44 @@ imports: [
   templateUrl: './running-events.component.html',
   styleUrl: './running-events.component.scss'
 })
-export class RunningEventsComponent implements IRunningEventsUIModelPresenter, AfterViewInit {
+export class RunningEventsComponent implements  AfterViewInit {
+  isExpanded: boolean = true;
   countRunningEvents = 0;
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
+  areButtonsDisabled = true;
+
+  displayedColumns: string[] = ['select', 'duration', 'start', 'description'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   uiModel! : IRunningEventsUIModel;
 
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  selection = new SelectionModel<IRunningEvent>(true, []);
 
   constructor(private logger: Logger, private _liveAnnouncer: LiveAnnouncer) {
     this.logger.debug("RunningEventsComponent.constructor");
     this.uiModel = new RunningEventsUIModel(logger);
-  }
-  setRunningEvents(runningEvents: IEvent[]): void {
-    this.logger.debug("RunningEventsComponent.setRunningEvents runningEvents: " + runningEvents);
-    this.countRunningEvents = runningEvents.length;
+    this.uiModel.runningEventsPresentationChanged$.subscribe((events) => {
+      this.logger.debug("RunningEventsComponent.constructor. Running events: " + JSON.stringify(events));
+      this.dataSource.data = events;
+      this.countRunningEvents = events.length;
+      this.isExpanded = (this.countRunningEvents > 0);
+      this.selection.clear();
+    });
+
+    this.selection.changed.subscribe((event) => {
+      this.updateButtonsState();     
+    });
   }
 
   @ViewChild(MatSort) sort!: MatSort;
+
+  private updateButtonsState() {
+    this.logger.debug("RunningEventsComponent.updateButtonsState this.selection.selected.length: " + JSON.stringify(this.selection.selected));
+    if (this.selection.selected.length > 0) {
+      this.areButtonsDisabled = false;
+      this.uiModel.selectRunningEvent(this.selection.selected[0]);
+    } else {
+      this.areButtonsDisabled = true;
+    }
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -102,14 +111,28 @@ export class RunningEventsComponent implements IRunningEventsUIModelPresenter, A
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: IRunningEvent): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.duration + 1}`;
   }
 
-  onClick() {
-    
+  onComplete() {
+    const selectedIds = this.selection.selected.map((event) => event.id);
+    this.logger.debug("RunningEventsComponent.onComplete onCompleteSelected: " + selectedIds);
+    this.uiModel.completeEventsWithIds(selectedIds);
   }
+
+  onDelete() {
+    const selectedIds = this.selection.selected.map((event) => event.id);
+    this.logger.debug("RunningEventsComponent.onDelete selectedIds: " + selectedIds);
+    this.uiModel.deleteEventsWithIds(selectedIds);
+  }
+
+  onCancel() {
+    this.logger.debug("RunningEventsComponent.onCancel");
+    this.selection.clear();
+  }
+
 }
