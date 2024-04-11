@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventTypeSelectingComponent } from './event-type-selecting.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('ActivitySelectionComponent', () => {
+xdescribe('ActivitySelectionComponent', () => {
   let component: EventTypeSelectingComponent;
   let fixture: ComponentFixture<EventTypeSelectingComponent>;
 

@@ -19,6 +19,8 @@ import { CurrentEventToolbarComponent } from './current-event-toolbar/current-ev
 })
 export class CurrentEventComponent implements AfterViewInit {
 
+  currentSubCommponent: string = 'eventSelectionComponent';
+
   @ViewChild(CurrentEventToolbarComponent) currentEventToolbarComponent!: CurrentEventToolbarComponent;
   @ViewChild(EventTypeSelectingComponent) eventSelectionComponent!: EventTypeSelectingComponent;
   @ViewChild(TimeSettingComponent) timeSettingComponent!: TimeSettingComponent;
@@ -28,8 +30,8 @@ export class CurrentEventComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.uiModel.eventSelectionUIModel = this.eventSelectionComponent.uiModel;
-    this.timeSettingComponent.uiModel = this.uiModel.timeSettingUIModel;
-    this.parametersSettingComponent.uiModel = this.uiModel.parametersSettingUIModel; 
+   // this.timeSettingComponent.uiModel = this.uiModel.timeSettingUIModel;
+   // this.parametersSettingComponent.uiModel = this.uiModel.parametersSettingUIModel; 
   }
 
 }

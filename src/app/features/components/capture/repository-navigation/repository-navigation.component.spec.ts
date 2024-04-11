@@ -8,7 +8,7 @@ import { NEW_EVENT_PODITION } from "../model/capture/business-logic-model/reposi
 import { RepositoryBusinessLogicModel } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
 import { IRepositoryBusinessLogicModel } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
 import { Logger } from '../../../../shared/services/logging/logger';
-import { IMetaDataPersistence, MetaDataPersistence } from '../../../../shared/classes/db/time-series-db';
+import { IMetaDataPersistence, MetaDataPersistence } from "../../../../shared/classes/db/metadata-db";
 import { IRepositoryMetaDataExt } from "../model/capture/capture-common-interfaces";
 import { DebugElement } from '@angular/core';
 

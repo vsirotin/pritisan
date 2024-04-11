@@ -1,11 +1,11 @@
-import { IMetaDataPersistence, MetaDataPersistence } from '../../../../../../shared/classes/db/time-series-db';
+
 import { Logger } from '../../../../../../shared/services/logging/logger';
 import { CaptureBusinessLogicModel, 
     ICaptureBusinessLogicModel} from '../business-logic-model/capture-business-logic-model';
 import { IRunningEventsBusinessLogicModel } from "../business-logic-model/running-events-business-logic-model";
-import { IRepositoryMetaDataExt } from "../capture-common-interfaces";
+import { EventTypeSelectingUIModel } from './current-event-ui-model';
 import { IRepositoryNavigationUIModel } from './repository-navigation-ui-model';
-import { IRunningEventsUIModel, RunningEventsUIModel } from './running-events-ui-model';
+import { IRunningEventsUIModel } from './running-events-ui-model';
 
 
 // UI model for the capture component
@@ -17,8 +17,6 @@ export interface ICaptureUIModel {
     setRunningEventsUIModel(runningEventsUIModel: IRunningEventsUIModel): void;
     
     setCurrentEventUIModel(currentEventUIModel: EventUIModel): void;
-
-    init(): void;
 
 } 
 
@@ -50,13 +48,6 @@ export class CaptureUIModel implements ICaptureUIModel {
         this.currentEventUIModel = currentEventUIModel;
     }
 
-    init() {
-
-        // this.captureBusinessLogicModel.load(); 
-        // this.runningEventsUIModel.loadFrom(this.captureBusinessLogicModel.runningEventsBusinessLogicModel);
-        // this.currentEventUIModel.loadFrom(this.captureBusinessLogicModel.currentEventBusinessLogicModel);
-    }
-
 }
 
 //------------Current event ui model -----------------
@@ -64,7 +55,7 @@ export class CaptureUIModel implements ICaptureUIModel {
 
 export class EventUIModel {
 
-    eventSelectionUIModel!: EventTypeSelectingPresenationModel;
+    eventSelectionUIModel!: EventTypeSelectingUIModel;
     timeSettingUIModel!: TimeSettingUIModel;
     parametersSettingUIModel!: ParametersSettingUIModel;
     durationInHours: number = 0;
@@ -77,10 +68,6 @@ export class EventUIModel {
     details: string = "";
 
     loadFrom(currentEventModel: IRunningEventsBusinessLogicModel) {}
-}
-
-export class EventTypeSelectingPresenationModel {
-    eventSelection: string = "";
 }
 
 export class TimeSettingUIModel {

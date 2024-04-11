@@ -1,6 +1,7 @@
 import { IEvent } from "../capture-common-interfaces";
 import { Observable, Subject } from "rxjs";
-import { IMetaDataPersistence, MetaDataPersistence, IPersistedEvent } from "../../../../../../shared/classes/db/time-series-db";
+import { IPersistedEvent } from "../../../../../../shared/classes/db/time-series-db";
+import { IMetaDataPersistence, MetaDataPersistence } from "../../../../../../shared/classes/db/metadata-db";
 import { Logger } from "../../../../../../shared/services/logging/logger";
 import { IRepositoryMetaDataExt } from "../capture-common-interfaces";
 import { encodePersistedEvent } from "./event-converter";

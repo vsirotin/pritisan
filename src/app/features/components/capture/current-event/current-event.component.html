@@ -1,8 +1,31 @@
-<h1>Add Event/Data</h1>
+<h1>Add Event</h1>
 <div class="container2">
-    <app-event-type-selecting></app-event-type-selecting>
+    
+    @switch (currentSubCommponent) { 
+        <!--
+        @case ("activity_type_selecting") {
+            <app-event-type-selecting></app-event-type-selecting>
+        } 
+        @case ("analysis") {
+          <app-analysis></app-analysis>
+        } 
+        @case ("import_export") {
+          <app-import-export></app-import-export>
+        } 
+        @case ("settings") {
+          <app-settings></app-settings>
+        } 
+        @case ("info") {
+          <app-info></app-info>
+        } 
+        -->
+        @default {
+            <app-event-type-selecting></app-event-type-selecting>
+        } 
+      }
+</div>
+<div class="container3">
     <app-current-event-toolbar></app-current-event-toolbar>
 </div>
-<app-time-setting></app-time-setting>
-<app-parameters-setting></app-parameters-setting>
+
 

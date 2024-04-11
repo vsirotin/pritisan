@@ -1,5 +1,3 @@
-import { EventUIModel } from './capture-ui-model';
-
 import { IRunningEventsBusinessLogicModel, RunningEventsBusinessLogicModel } from '../business-logic-model/running-events-business-logic-model';
 import { IEvent } from "../capture-common-interfaces";
 import { Logger } from '../../../../../../shared/services/logging/logger';
@@ -18,10 +16,6 @@ export interface IRunningEventsUIInputModel {
     runningEventsPresentationChanged$: Observable<IRunningEvent[]>;
 
 }
-
-// export interface IRunningEventsUIQueringModel {
-
-// }
 
 export interface IRunningEventsUIModel extends IRunningEventsUIInputModel {
     selectRunningEvent(event: IRunningEvent): void; 
@@ -87,7 +81,7 @@ export class RunningEventsUIModel implements IRunningEventsUIModel{
     }
     private convertAndNotifyEvents() {
         const runningEventsPresentation: IRunningEvent[] = this.runningEvents.sort((a, b) => this.sortEvents(a, b))
-            .map((event) => this.covertEventToPresentation(event));
+            .map((event) => this.convertEventToPresentation(event));
 
         this.logger.debug("RunningEventsUIModel.convertAndNotifyEvents. Running events presentation: " + JSON.stringify(runningEventsPresentation));
         this.subjectRunningEvents.next(runningEventsPresentation);
@@ -97,7 +91,8 @@ export class RunningEventsUIModel implements IRunningEventsUIModel{
     sortEvents(a: IEvent, b: IEvent): number {
         return b.start['getTime']() - a.start['getTime']();
     }
-    covertEventToPresentation(event: IEvent): IRunningEvent {
+
+    convertEventToPresentation(event: IEvent): IRunningEvent {
         const now = new Date();
         const start = event.start as Date; //To avoid sysntax error
         const durationMilliseconds = now.getTime() - start.getTime();

@@ -1,15 +1,8 @@
-<mat-form-field>
-  <mat-label>Momentary event </mat-label>
-  <select matNativeControl>
-    <optgroup label="Momentary event">
-      <option value="m1">just occurred </option>
-      <option value="m2">happened in the past</option>
-    </optgroup>
-    <optgroup label="Interval event">
-      <option value="i1">- just started</option>
-      <option value="i2">- started in the past and is ongoing</option>
-      <option value="i3">- just ended</option>
-      <option value="i4">- occurred and finished in the past </option>
-    </optgroup>
-  </select>
-</mat-form-field>
+<mat-radio-group
+  aria-labelledby="event-type-group-label"
+  class="event-type-group"
+  [(ngModel)]="selectedEventType"  (change)="onSelectionChange($event)">
+  @for (eventType of eventTypes; track eventType) {
+    <mat-radio-button class="event-type-button" [value]="eventType">{{eventType}}...</mat-radio-button>
+  }
+</mat-radio-group>
