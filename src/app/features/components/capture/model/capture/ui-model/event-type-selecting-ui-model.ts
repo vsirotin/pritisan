@@ -1,4 +1,5 @@
 import { Logger } from "../../../../../../shared/services/logging/logger";
+import { CaptureNotificationService } from "../../../capture-notification-service";
 import { CurrentEventBusinessLogicModel } from "../business-logic-model/current-event-business-logic-model";
 import { IReceiverEventPartUpdates } from "../business-logic-model/event-commons";
 
@@ -12,7 +13,7 @@ export class EventTypeSelectingUIModel {
 
     updateIndoReceiver!: IReceiverEventPartUpdates;
 
-    constructor(private logger: Logger) {
+    constructor(private logger: Logger, private captureNotificationService: CaptureNotificationService) {
         this.logger.debug("EventTypeSelectingUIModel.constructor");
         this.businessLogicModel = new CurrentEventBusinessLogicModel(this.logger);
         this.loadFromBusinessLogicModel();
@@ -27,11 +28,7 @@ export class EventTypeSelectingUIModel {
     }
 
     updateSelectedEventType(eventType: string) {
-        if (this.updateIndoReceiver !== undefined) {
-            this.updateIndoReceiver.addEventPart({
-                partAsText: "EventType: " + eventType
-            });
-        }
+       this.captureNotificationService.notifyCaptureComponent(eventType); 
     }
 
     private async loadFromBusinessLogicModel() {

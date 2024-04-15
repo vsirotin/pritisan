@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
 import { Logger } from '../../../../../shared/services/logging/logger';
 import { EventTypeSelectingUIModel } from "../../model/capture/ui-model/event-type-selecting-ui-model";
+import { CaptureNotificationService } from '../../capture-notification-service';
 
 
 @Component({
@@ -22,8 +23,8 @@ export class EventTypeSelectingComponent implements OnInit{
 
   eventTypes!: string[];
   selectedEventType!: string;
-  constructor(private logger: Logger) { 
-    this.uiModel = new EventTypeSelectingUIModel(this.logger);
+  constructor(private logger: Logger, private captureNotificationService: CaptureNotificationService) { 
+    this.uiModel = new EventTypeSelectingUIModel(this.logger, captureNotificationService);
   }
   
   async ngOnInit() {

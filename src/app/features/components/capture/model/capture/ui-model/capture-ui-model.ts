@@ -2,10 +2,9 @@
 import { Logger } from '../../../../../../shared/services/logging/logger';
 import { CaptureBusinessLogicModel, 
     ICaptureBusinessLogicModel} from '../business-logic-model/capture-business-logic-model';
-import { IRunningEventsBusinessLogicModel } from "../business-logic-model/running-events-business-logic-model";
-import { EventTypeSelectingUIModel } from "./event-type-selecting-ui-model";
 import { IRepositoryNavigationUIModel } from './repository-navigation-ui-model';
 import { IRunningEventsUIModel } from './running-events-ui-model';
+import { EventUIModel } from './current-event-ui-model';
 
 
 // UI model for the capture component
@@ -48,26 +47,6 @@ export class CaptureUIModel implements ICaptureUIModel {
         this.currentEventUIModel = currentEventUIModel;
     }
 
-}
-
-//------------Current event ui model -----------------
-
-
-export class EventUIModel {
-
-    eventSelectionUIModel!: EventTypeSelectingUIModel;
-    timeSettingUIModel!: TimeSettingUIModel;
-    parametersSettingUIModel!: ParametersSettingUIModel;
-    durationInHours: number = 0;
-
-    startTime?: Date;
-    finishTime?: Date;
-
-    type: string = "";
-
-    details: string = "";
-
-    loadFrom(currentEventModel: IRunningEventsBusinessLogicModel) {}
 }
 
 export class TimeSettingUIModel {

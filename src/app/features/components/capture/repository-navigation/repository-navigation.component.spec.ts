@@ -4,7 +4,7 @@ import { RepositoryNavigationComponent } from './repository-navigation.component
 import { By } from '@angular/platform-browser';
 import { IRepositoryNavigationUIModel } from '../model/capture/ui-model/repository-navigation-ui-model';
 import { RepositoryNavigationAction } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
-import { NEW_EVENT_PODITION } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
+import { NEW_EVENT_POSITION } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
 import { RepositoryBusinessLogicModel } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
 import { IRepositoryBusinessLogicModel } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
 import { Logger } from '../../../../shared/services/logging/logger';
@@ -48,7 +48,7 @@ describe('RepositoryNavigationComponent', () => {
 
     class MetaDataPersistenceMock extends MetaDataPersistence {
       override async readMetaData(): Promise<IRepositoryMetaDataExt>{
-        return {currentEventPosition: NEW_EVENT_PODITION, countEvents: 0, pageSize: 10};
+        return {currentEventPosition: NEW_EVENT_POSITION, countEvents: 0, pageSize: 10};
       }
     }
 
@@ -140,7 +140,7 @@ describe('RepositoryNavigationComponent', () => {
       it('updateDefaultEvent by business modell called', () => {
         spyOn(metaDataDB, 'readEvent');
         buttonNew.nativeElement.click();
-        expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_PODITION);
+        expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_POSITION);
       });
 
       it('new/0 presented', () => {
@@ -154,7 +154,7 @@ describe('RepositoryNavigationComponent', () => {
 
     class MetaDataPersistenceMock2 extends MetaDataPersistence {
       override async readMetaData(): Promise<IRepositoryMetaDataExt>{
-        return {currentEventPosition: NEW_EVENT_PODITION, countEvents: 1001, pageSize: 10};
+        return {currentEventPosition: NEW_EVENT_POSITION, countEvents: 1001, pageSize: 10};
       }
     }
 
@@ -198,7 +198,7 @@ describe('RepositoryNavigationComponent', () => {
       it('updateDefaultEvent by business modell called', () => {
         spyOn(metaDataDB, 'readEvent');
         buttonNew.nativeElement.click();
-        expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_PODITION);
+        expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_POSITION);
       });
 
       it('new/0 presented', async () => {
@@ -294,7 +294,7 @@ describe('RepositoryNavigationComponent', () => {
 
         spyOn(metaDataDB, 'readEvent');
         buttonNew.nativeElement.click();
-        expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_PODITION);
+        expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_POSITION);
       });
 
       it('new/1001 presented', async () => {

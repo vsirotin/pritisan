@@ -47,14 +47,14 @@ export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicMod
         //Ordering: 1, 2, ...N. Last inserte has position N. New has position NEW_EVENT_PODITION. First (oldest) inserted event has position 1    
         switch (element) {
             case RepositoryNavigationAction.PREVIOUS_PAGE:
-                if (this.currentEventPosition == NEW_EVENT_PODITION) {
+                if (this.currentEventPosition == NEW_EVENT_POSITION) {
                     this.currentEventPosition = this.countEvents - this.pageSize;
                 } else {
                     this.currentEventPosition = this.currentEventPosition - this.pageSize;
                 }
                 break;
             case RepositoryNavigationAction.PREVIOUS:
-                if (this.currentEventPosition == NEW_EVENT_PODITION) {
+                if (this.currentEventPosition == NEW_EVENT_POSITION) {
                     this.currentEventPosition = this.countEvents;
                 } else {
                     this.currentEventPosition = this.currentEventPosition - 1;
@@ -70,10 +70,10 @@ export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicMod
                 this.currentEventPosition = this.countEvents;
                 break;
             default: // equal RepositoryNavigationAction.NEW
-                this.currentEventPosition = NEW_EVENT_PODITION;
+                this.currentEventPosition = NEW_EVENT_POSITION;
         }
         this.logger.debug("RepositoryBusinessLogicModel.navigateTo after currentEventPosition: " + this.currentEventPosition + " countEvents: " + this.countEvents);
-        if (this.currentEventPosition < NEW_EVENT_PODITION) {
+        if (this.currentEventPosition < NEW_EVENT_POSITION) {
             throw new Error("RepositoryBusinessLogicModel.navigateTo currentEventPosition is less than NEW_EVENT_PODITION");
         }
 
@@ -114,7 +114,7 @@ export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicMod
     };
 }
 
-export const NEW_EVENT_PODITION = -1;
+export const NEW_EVENT_POSITION = -1;
 
 export enum RepositoryNavigationAction {
     PREVIOUS_PAGE,

@@ -1,24 +1,24 @@
-import {ChangeDetectorRef, Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import {MediaMatcher} from '@angular/cdk/layout';
-import {MatButtonModule} from '@angular/material/button';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatIconModule} from '@angular/material/icon';
-import {MatListModule} from '@angular/material/list';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import { RouterModule, Routes } from '@angular/router';
-import {CommunicatorService} from '../toolbar/service/communicator.service'
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { MatButtonModule}  from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterModule } from '@angular/router';
+import { CommunicatorService } from '../toolbar/service/communicator.service'
 import { Subscription } from 'rxjs';
-import {ToolbarComponent } from '../toolbar/toolbar.component';
+import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { Logger } from '../../../shared/services/logging/logger';
 import { Localizer } from '../../../shared/classes/localization/localizer';
 import { ILanguageChangeNotificator } from '../../../shared/classes/localization/language-change-notificator';
 import { ILanguageDescription } from '../../../shared/classes/localization/language-description';
-import {CaptureComponent} from '../../../features/components/capture/capture.component'
-import {EditComponent} from '../../../features/components/edit/edit.component'
-import {ImportExportComponent} from '../../../features/components/import-export/import-export.component'
-import {SettingsComponent} from '../../../features/components/settings/settings.component'
-import {InfoComponent} from '../../../features/components/info/info.component'
-import {AnalysisComponent} from '../../../features/components/analysis/analysis.component'
+import { CaptureComponent } from '../../../features/components/capture/capture.component'
+import { EditComponent } from '../../../features/components/edit/edit.component'
+import { ImportExportComponent } from '../../../features/components/import-export/import-export.component'
+import { SettingsComponent } from '../../../features/components/settings/settings.component'
+import { InfoComponent } from '../../../features/components/info/info.component'
+import { AnalysisComponent } from '../../../features/components/analysis/analysis.component'
 
 export const MAIN_SOURCE_DIR = "assets/languages/core/components/main/lang/";
 

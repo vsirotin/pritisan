@@ -1,11 +1,12 @@
-<h1>Add Event</h1>
+<h1>Add Event: {{currentEventDescription}}</h1>
 <div class="container2">
     
     @switch (currentSubCommponent) { 
-        <!--
+        
         @case ("activity_type_selecting") {
-            <app-event-type-selecting></app-event-type-selecting>
+            <app-activity-type-selecting></app-activity-type-selecting>
         } 
+        <!--
         @case ("analysis") {
           <app-analysis></app-analysis>
         } 
@@ -25,7 +26,41 @@
       }
 </div>
 <div class="container3">
-    <app-current-event-toolbar></app-current-event-toolbar>
+  <mat-toolbar class="toolbar-add-edit">
+   
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app"
+      (click)="navigateTo(CEA.FIRST_STEP)" disabled="{{isDisabled(CEA.FIRST_STEP)}}">
+      <mat-icon>first_page</mat-icon>
+    </button>
+  
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" 
+    (click)="navigateTo(CEA.PREVIOUS_STEP)" disabled="{{isDisabled(CEA.PREVIOUS_STEP)}}">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+  
+  
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo"
+      (click)="navigateTo(CEA.NEXT_STEP)" disabled="{{isDisabled(CEA.NEXT_STEP)}}">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+  
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" 
+      (click)="navigateTo(CEA.SAVE)" disabled="{{isDisabled(CEA.SAVE)}}">
+      <mat-icon>save</mat-icon>
+    </button>
+  
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" 
+    (click)="navigateTo(CEA.CANCEL)" disabled="{{isDisabled(CEA.CANCEL)}}">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  
+  
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo"
+      (click)="navigateTo(CEA.DELETE)" disabled="{{isDisabled(CEA.DELETE)}}">
+      <mat-icon>delete</mat-icon>
+    </button>
+  
+  </mat-toolbar>
 </div>
 
 
