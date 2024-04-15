@@ -4,7 +4,7 @@ import { IPersistedEvent } from "../../../../../../shared/classes/db/time-series
 import { IMetaDataPersistence, MetaDataPersistence } from "../../../../../../shared/classes/db/metadata-db";
 import { Logger } from "../../../../../../shared/services/logging/logger";
 import { IRepositoryMetaDataExt } from "../capture-common-interfaces";
-import { encodePersistedEvent } from "./event-converter";
+import { encodePersistedEvent } from "./event-commons";
 
 export interface IRepositoryBusinessLogicModelInput {
     navigateTo(element: RepositoryNavigationAction): void;

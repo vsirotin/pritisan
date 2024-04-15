@@ -3,7 +3,7 @@ import { Logger } from '../../../../../../shared/services/logging/logger';
 import { CaptureBusinessLogicModel, 
     ICaptureBusinessLogicModel} from '../business-logic-model/capture-business-logic-model';
 import { IRunningEventsBusinessLogicModel } from "../business-logic-model/running-events-business-logic-model";
-import { EventTypeSelectingUIModel } from './current-event-ui-model';
+import { EventTypeSelectingUIModel } from "./event-type-selecting-ui-model";
 import { IRepositoryNavigationUIModel } from './repository-navigation-ui-model';
 import { IRunningEventsUIModel } from './running-events-ui-model';
 

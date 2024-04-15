@@ -11,3 +11,11 @@ export function encodePersistedEvent(event: IPersistedEvent): IEvent {
         details: event.details
     };
 }
+
+export interface IReceiverEventPartUpdates {
+    addEventPart(eventPart: IEventPart): void;
+}
+
+export interface IEventPart {
+    partAsText: string;
+}
