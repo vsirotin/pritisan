@@ -36,7 +36,7 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
   currentSubCommponent: string = 'eventSelectionComponent';
 
   @ViewChild(EventTypeSelectingComponent) eventSelectionComponent!: EventTypeSelectingComponent;
-  @ViewChild(TimeSettingComponent) timeSettingComponent!: TimeSettingComponent;
+  @ViewChild(ActivityTypeSelectingComponent) activityTypeSelectingComponent!: ActivityTypeSelectingComponent;
   @ViewChild(ParametersSettingComponent) parametersSettingComponent!: ParametersSettingComponent;
 
   uiModel! : CurrentEventProcessingUIModel; 
@@ -55,7 +55,8 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.uiModel.eventSelectionUIModel = this.eventSelectionComponent.uiModel;
+   // this.uiModel.eventSelectionUIModel = this.eventSelectionComponent.uiModel;
+   // this.uiModel.activityTypeSelectingUIModel = this.activityTypeSelectingComponent.uiModel
    // this.timeSettingComponent.uiModel = this.uiModel.timeSettingUIModel;
    // this.parametersSettingComponent.uiModel = this.uiModel.parametersSettingUIModel; 
   }
