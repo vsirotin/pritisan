@@ -1,5 +1,5 @@
 import { Logger } from "../../services/logging/logger";
-import { IRepositoryMetaDataExt } from "../../../features/components/capture/model/capture/capture-common-interfaces";
+import { IRepositoryMetaDataExt } from "../../../features/models/capture/capture-common-interfaces";
 import { IPersistedEvent } from "./time-series-db";
 
 

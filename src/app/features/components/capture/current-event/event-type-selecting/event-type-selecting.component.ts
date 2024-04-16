@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
 import { Logger } from '../../../../../shared/services/logging/logger';
-import { EventTypeSelectingUIModel } from "../../model/capture/ui-model/event-type-selecting-ui-model";
+import { EventTypeSelectingUIModel } from "../../../../models/capture/ui-model/current-event-ui-model/event-type-selecting-ui-model";
 import { CaptureNotificationService } from '../../capture-notification-service';
 
 

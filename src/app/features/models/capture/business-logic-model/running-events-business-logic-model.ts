@@ -2,9 +2,9 @@
 
 import { Observable, Subject } from "rxjs";
 import { IEvent } from "../capture-common-interfaces";
-import { Logger } from "../../../../../../shared/services/logging/logger";
-import { IPersistedRunningEvents, RunningEventsPersistence } from "../../../../../../shared/classes/db/running-events-db";
-import { encodePersistedEvent } from "./event-commons";
+import { Logger } from "../../../../shared/services/logging/logger";
+import { IPersistedRunningEvents, RunningEventsPersistence } from "../../../../shared/classes/db/running-events-db";
+import { encodePersistedEvent } from "./current-event-business-logic-model/event-commons";
 
 export interface IRunningEventsBusinessLogicModel {
     readRunninfEventsFromDB(): unknown;

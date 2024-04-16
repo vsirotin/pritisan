@@ -2,7 +2,7 @@
 //------------Repository Navigation model----------------
 // Presentation model for the presenting data in UI
 
-import { Logger } from "../../../../../../shared/services/logging/logger";
+import { Logger } from "../../../../shared/services/logging/logger";
 import { RepositoryNavigationAction } from "../business-logic-model/repository-navigation-business-logic-model";
 import { NEW_EVENT_POSITION } from "../business-logic-model/repository-navigation-business-logic-model";
 import { RepositoryBusinessLogicModel } from "../business-logic-model/repository-navigation-business-logic-model";

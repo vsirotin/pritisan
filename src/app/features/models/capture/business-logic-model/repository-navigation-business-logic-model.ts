@@ -1,10 +1,10 @@
 import { IEvent } from "../capture-common-interfaces";
 import { Observable, Subject } from "rxjs";
-import { IPersistedEvent } from "../../../../../../shared/classes/db/time-series-db";
-import { IMetaDataPersistence, MetaDataPersistence } from "../../../../../../shared/classes/db/metadata-db";
-import { Logger } from "../../../../../../shared/services/logging/logger";
+import { IPersistedEvent } from "../../../../shared/classes/db/time-series-db";
+import { IMetaDataPersistence, MetaDataPersistence } from "../../../../shared/classes/db/metadata-db";
+import { Logger } from "../../../../shared/services/logging/logger";
 import { IRepositoryMetaDataExt } from "../capture-common-interfaces";
-import { encodePersistedEvent } from "./event-commons";
+import { encodePersistedEvent } from "./current-event-business-logic-model/event-commons";
 
 export interface IRepositoryBusinessLogicModelInput {
     navigateTo(element: RepositoryNavigationAction): void;

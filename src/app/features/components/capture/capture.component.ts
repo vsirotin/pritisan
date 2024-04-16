@@ -3,7 +3,7 @@ import { MatDividerModule } from '@angular/material/divider';
 
 import { RunningEventsComponent } from './running-events/running-events.component';
 import { RepositoryNavigationComponent } from './repository-navigation/repository-navigation.component';
-import { CaptureUIModel, ICaptureUIModel } from './model/capture/ui-model/capture-ui-model';
+import { CaptureUIModel, ICaptureUIModel } from '../../models/capture/ui-model/capture-ui-model';
 import { CurrentEventComponent } from './current-event/current-event.component';
 import { Logger } from '../../../shared/services/logging/logger';
 

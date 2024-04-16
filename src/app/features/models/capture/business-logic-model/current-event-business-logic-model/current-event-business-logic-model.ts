@@ -1,4 +1,4 @@
-import { Logger } from "../../../../../../shared/services/logging/logger";
+import { Logger } from "../../../../../shared/services/logging/logger";
 
 export class CurrentEventProcessingBusinessLogicModel {
     

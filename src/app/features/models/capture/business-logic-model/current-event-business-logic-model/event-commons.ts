@@ -1,5 +1,5 @@
-import { IPersistedEvent } from "../../../../../../shared/classes/db/time-series-db";
-import { IEvent } from "../capture-common-interfaces";
+import { IPersistedEvent } from "../../../../../shared/classes/db/time-series-db";
+import { IEvent } from "../../capture-common-interfaces";
 
 
 export function encodePersistedEvent(event: IPersistedEvent): IEvent {

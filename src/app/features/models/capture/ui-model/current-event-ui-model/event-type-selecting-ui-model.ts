@@ -1,7 +1,7 @@
-import { Logger } from "../../../../../../shared/services/logging/logger";
-import { CaptureNotificationService } from "../../../capture-notification-service";
-import { CurrentEventProcessingBusinessLogicModel } from "../business-logic-model/current-event-business-logic-model";
-import { IReceiverEventPartUpdates } from "../business-logic-model/event-commons";
+import { Logger } from "../../../../../shared/services/logging/logger";
+import { CaptureNotificationService } from "../../../../components/capture/capture-notification-service";
+import { CurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
+import { IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
 
 
 export class EventTypeSelectingUIModel {

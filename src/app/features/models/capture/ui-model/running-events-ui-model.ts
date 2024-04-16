@@ -1,6 +1,6 @@
 import { IRunningEventsBusinessLogicModel, RunningEventsBusinessLogicModel } from '../business-logic-model/running-events-business-logic-model';
 import { IEvent } from "../capture-common-interfaces";
-import { Logger } from '../../../../../../shared/services/logging/logger';
+import { Logger } from '../../../../shared/services/logging/logger';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 

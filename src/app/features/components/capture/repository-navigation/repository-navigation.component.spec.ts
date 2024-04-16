@@ -2,14 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RepositoryNavigationComponent } from './repository-navigation.component';
 import { By } from '@angular/platform-browser';
-import { IRepositoryNavigationUIModel } from '../model/capture/ui-model/repository-navigation-ui-model';
-import { RepositoryNavigationAction } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
-import { NEW_EVENT_POSITION } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
-import { RepositoryBusinessLogicModel } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
-import { IRepositoryBusinessLogicModel } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
+import { IRepositoryNavigationUIModel } from '../../../models/capture/ui-model/repository-navigation-ui-model';
+import { RepositoryNavigationAction } from "../../../models/capture/business-logic-model/repository-navigation-business-logic-model";
+import { NEW_EVENT_POSITION } from "../../../models/capture/business-logic-model/repository-navigation-business-logic-model";
+import { RepositoryBusinessLogicModel } from "../../../models/capture/business-logic-model/repository-navigation-business-logic-model";
+import { IRepositoryBusinessLogicModel } from "../../../models/capture/business-logic-model/repository-navigation-business-logic-model";
 import { Logger } from '../../../../shared/services/logging/logger';
 import { IMetaDataPersistence, MetaDataPersistence } from "../../../../shared/classes/db/metadata-db";
-import { IRepositoryMetaDataExt } from "../model/capture/capture-common-interfaces";
+import { IRepositoryMetaDataExt } from "../../../models/capture/capture-common-interfaces";
 import { DebugElement } from '@angular/core';
 
 describe('RepositoryNavigationComponent', () => {

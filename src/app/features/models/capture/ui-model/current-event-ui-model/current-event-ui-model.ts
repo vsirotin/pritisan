@@ -1,9 +1,9 @@
-import { TimeSettingUIModel, ParametersSettingUIModel } from './capture-ui-model';
+import { TimeSettingUIModel, ParametersSettingUIModel } from '../capture-ui-model';
 
 import { Subject, Subscription } from "rxjs";
-import { Logger } from "../../../../../../shared/services/logging/logger";
-import { CaptureNotificationService } from "../../../capture-notification-service";
-import { IRunningEventsBusinessLogicModel } from "../business-logic-model/running-events-business-logic-model";
+import { Logger } from "../../../../../shared/services/logging/logger";
+import { CaptureNotificationService } from "../../../../components/capture/capture-notification-service";
+import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
 import { EventTypeSelectingUIModel } from "./event-type-selecting-ui-model";
 
 export enum CurrentEventActions {
