@@ -4,7 +4,7 @@ import { EventTypeSelectingComponent } from './event-type-selecting/event-type-s
 import { ActivityTypeSelectingComponent } from './activity-type-selecting/activity-type-selecting.component';
 import { TimeSettingComponent } from './time-setting/time-setting.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
-import { EventUIModel } from '../model/capture/ui-model/current-event-ui-model';
+import { CurrentEventProcessingUIModel } from '../model/capture/ui-model/current-event-ui-model';
 import { Logger } from '../../../../shared/services/logging/logger';
 import { CaptureNotificationService } from '../capture-notification-service';
 import { Subscription } from 'rxjs';
@@ -39,7 +39,7 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
   @ViewChild(TimeSettingComponent) timeSettingComponent!: TimeSettingComponent;
   @ViewChild(ParametersSettingComponent) parametersSettingComponent!: ParametersSettingComponent;
 
-  uiModel! : EventUIModel; 
+  uiModel! : CurrentEventProcessingUIModel; 
 
   currentEventDescription = "";
 
@@ -48,7 +48,7 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
   CEA = CurrentEventActions;
 
   constructor(private logger: Logger, private captureNotificationService: CaptureNotificationService) { 
-    this.uiModel = new EventUIModel(logger, captureNotificationService); 
+    this.uiModel = new CurrentEventProcessingUIModel(logger, captureNotificationService); 
     this.subscription = this.captureNotificationService.captureNotification$.subscribe((notification) => {
       this.currentEventDescription += notification;
     });

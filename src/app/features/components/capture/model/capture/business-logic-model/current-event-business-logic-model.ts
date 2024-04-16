@@ -1,6 +1,6 @@
 import { Logger } from "../../../../../../shared/services/logging/logger";
 
-export class CurrentEventBusinessLogicModel {
+export class CurrentEventProcessingBusinessLogicModel {
     
     constructor(private logger: Logger) {
         this.logger.debug("CurrentEventBusinessLogicModel.constructor");

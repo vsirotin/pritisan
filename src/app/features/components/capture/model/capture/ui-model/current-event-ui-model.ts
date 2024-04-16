@@ -16,7 +16,7 @@ export enum CurrentEventActions {
 }
 //------------Current event ui model -----------------
 
-export class EventUIModel {
+export class CurrentEventProcessingUIModel {
 
     eventSelectionUIModel!: EventTypeSelectingUIModel;
     timeSettingUIModel!: TimeSettingUIModel;
