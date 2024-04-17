@@ -14,26 +14,65 @@ export class MasterDataPersistence implements IMasterDataPersistence {
     
     async readEventTypes(): Promise<string[]> {
         this.logger.warn("CurrentEventBusinessLogicModel.getEventTypes. Temporary implementation.");
-        return ['Beginning of ', 'Ending of ', 'Occurred in the past', 'Spent'];
+        return ['Начало', 'Окончание', 'Израсходовано', ];
     }
 
     async readActivityTypes(): Promise<IActivityTypeNode[]> {
         this.logger.warn("CurrentEventBusinessLogicModel.readActivityTypes. Temporary implementation.");
         return [
             {
-                name: 'Fruit',
-                children: [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Fruit loops' }],
+                name: 'Сон',
+                children: [
+                    { name: 'Подготовка ко сну' }, 
+                    { name: 'Дрёмы' }, 
+                    { name: 'Глубокий сон' },
+                    { name: 'Проснулся среди на недолго' },
+                    { name: 'Проснулся и долшл не мог заснуть' },
+                ],
             },
             {
-                name: 'Vegetables',
+                name: 'Отдых',
                 children: [
                     {
-                        name: 'Green',
-                        children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
+                        name: 'Спорт',
+                        children: [
+                            { name: 'Пробежка' }, 
+                            { name: 'Велосипед' },
+                            { name: 'Плавание' },
+                            { name: 'Тренажерный зал' },
+                            { name: 'Физические упражнения дома' },
+                            { name: 'Прогулка' },
+                        ],
                     },
                     {
-                        name: 'Orange',
-                        children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+                        name: 'Занятие по дому',
+                        children: [
+                            { name: 'Уборка' }, 
+                            { name: 'Работа в саду'},
+                            { name: 'Приготовление пищи' },
+                            { name: 'Ремонт' },
+                            { name: 'Строительство' },
+                        ],
+                    },
+                ]
+            },
+            {
+                name: 'Работа',
+                children: [
+                    {
+                        name: 'Путь на работу',
+                        children: [
+                            { name: 'На поезде' }, 
+                            { name: 'На автомобиле' },
+                            { name: 'На автобусе' },
+                            { name: 'Пешком' },
+                        ],
+                    },
+                    {
+                        name: 'Работа в офисе',
+                        children: [
+                            { name: 'Совещание' }, 
+                            { name: 'Работа за компьютером' }],
                     },
                 ],
             },
