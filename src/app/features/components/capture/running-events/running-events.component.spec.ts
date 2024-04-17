@@ -7,6 +7,7 @@ import { IPersistedEvent } from '../../../../shared/classes/db/time-series-db';
 import { RunningEventsPersistence } from "../../../../shared/classes/db/running-events-db";
 import { Logger } from '../../../../shared/services/logging/logger';
 import { By } from '@angular/platform-browser';
+import { CaptureBusinessLogicModelFactory } from '../../../models/capture/business-logic-model/capture-business-logic-model';
 
 describe('RunningActionsComponent', () => {
   let component: RunningEventsComponent;
@@ -25,7 +26,7 @@ describe('RunningActionsComponent', () => {
     component = fixture.componentInstance;
 
     logger = new Logger();
-    businessLogicModel = new RunningEventsBusinessLogicModel(logger);
+    businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(logger).getRunningEventsBusinessLogicModel();
   });
 
   it('should create', () => {

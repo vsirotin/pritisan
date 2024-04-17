@@ -2,6 +2,7 @@ import { IRunningEventsBusinessLogicModel, RunningEventsBusinessLogicModel } fro
 import { IEvent } from "../capture-common-interfaces";
 import { Logger } from '../../../../shared/services/logging/logger';
 import { Observable, Subject, Subscription } from 'rxjs';
+import { CaptureBusinessLogicModelFactory } from '../business-logic-model/capture-business-logic-model';
 
 
 export interface IRunningEvent {
@@ -49,7 +50,7 @@ export class RunningEventsUIModel implements IRunningEventsUIModel{
         this.runningEventsPresentationChanged$ = this.subjectRunningEvents.asObservable();
         this.currentEventChanged$ = this.subjectCurrentEvent.asObservable();
 
-        this.setBusinessLogicModel(new RunningEventsBusinessLogicModel(logger));
+        this.setBusinessLogicModel(CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getRunningEventsBusinessLogicModel());
     }
 
     selectRunningEvent(event: IRunningEvent): void {

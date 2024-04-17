@@ -1,4 +1,4 @@
-import { IEvent } from "../capture-common-interfaces";
+import { ICaptureBusinessLogicModel, IEvent } from "../capture-common-interfaces";
 import { Observable, Subject } from "rxjs";
 import { IPersistedEvent } from "../../../../shared/classes/db/time-series-db";
 import { IMetaDataPersistence, MetaDataPersistence } from "../../../../shared/classes/db/metadata-db";
@@ -35,7 +35,7 @@ export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicMod
     currentEventIdChanged$!: Observable<IEvent>;
 
 
-    constructor(private logger: Logger) {
+    constructor(private logger: Logger, private parent: ICaptureBusinessLogicModel) {
         this.metaDataDB = new MetaDataPersistence(logger);
         this.currentEventIdChanged$ = this.subjectCurrentEventId.asObservable();
     }

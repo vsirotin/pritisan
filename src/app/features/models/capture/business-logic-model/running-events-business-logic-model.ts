@@ -1,7 +1,7 @@
 //------------Running events behavior model----------------
 
 import { Observable, Subject } from "rxjs";
-import { IEvent } from "../capture-common-interfaces";
+import { ICaptureBusinessLogicModel, IEvent } from "../capture-common-interfaces";
 import { Logger } from "../../../../shared/services/logging/logger";
 import { IPersistedRunningEvents, RunningEventsPersistence } from "../../../../shared/classes/db/running-events-db";
 import { encodePersistedEvent } from "./current-event-business-logic-model/event-commons";
@@ -22,7 +22,7 @@ export class RunningEventsBusinessLogicModel implements IRunningEventsBusinessLo
     runningEvents!: IEvent[];
     private subjectRunningEventsChanged = new Subject<IEvent[]>();
 
-    constructor(private logger: Logger) {
+    constructor(private logger: Logger, private parent: ICaptureBusinessLogicModel) {
         this.logger.debug("RunningEventsBusinessLogicModel.constructor");
         
         this.runningEventsChanged$ = this.subjectRunningEventsChanged.asObservable();
