@@ -5,7 +5,7 @@ import { Logger } from "../../../../../shared/services/logging/logger";
 import { CaptureNotificationService } from "../../../../components/capture/capture-notification-service";
 import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
 import { EventTypeSelectingUIModel } from "./event-type-selecting-ui-model";
-import { ActivitySelectingUIModel } from './activity-selecting-ui-model';
+import { IActivitySelectingUIModel } from './activity-selecting-ui-model';
 
 export enum CurrentEventActions {
     FIRST_STEP,
@@ -17,10 +17,16 @@ export enum CurrentEventActions {
 }
 //------------Current event ui model -----------------
 
+export interface ICurrentEventProcessingUIModel {
+  navigateTo(action: CurrentEventActions): string;
+  doDestroy(): unknown;
+
+}
+
 export class CurrentEventProcessingUIModel {
 
     eventSelectionUIModel!: EventTypeSelectingUIModel;
-    activityTypeSelectingUIModel!: ActivitySelectingUIModel;
+    activityTypeSelectingUIModel!: IActivitySelectingUIModel;
     timeSettingUIModel!: TimeSettingUIModel;
     parametersSettingUIModel!: ParametersSettingUIModel;
    

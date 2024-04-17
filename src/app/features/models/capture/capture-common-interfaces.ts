@@ -26,4 +26,8 @@ export interface ICaptureBusinessLogicModel {
     getRunningEventsBusinessLogicModel(): IRunningEventsBusinessLogicModel;
     getCurrentEventBusinessLogicModel(): ICurrentEventProcessingBusinessLogicModel;
 }
+export interface IActivityTypeNode {
+  name: string;
+  children?: IActivityTypeNode[];
+}
 

@@ -1,14 +1,15 @@
 import { Logger } from "../../../../../shared/services/logging/logger";
 import { CaptureNotificationService } from "../../../../components/capture/capture-notification-service";
+import { IActivityTypeNode } from "../../capture-common-interfaces";
 
-export interface ActivityTypeNode {
-    name: string;
-    children?: ActivityTypeNode[];
-  }
+export interface IActivitySelectingUIModel {
+    getTreeData(): IActivityTypeNode[];
+    onNodeClick(node: IActivityTypeNode): void;
+}
 
 export class ActivitySelectingUIModel {
  
-      ACTIVITY_TYPES_DATA: ActivityTypeNode[] = [
+      ACTIVITY_TYPES_DATA: IActivityTypeNode[] = [
         {
           name: 'Fruit',
           children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
@@ -28,14 +29,14 @@ export class ActivitySelectingUIModel {
         },
       ];
 
-    getTreeData(): ActivityTypeNode[] {
+    getTreeData(): IActivityTypeNode[] {
       return this.ACTIVITY_TYPES_DATA;
     }
     constructor(private logger: Logger, private captureNotificationService: CaptureNotificationService) {
         
     }
 
-    onNodeClick(node: ActivityTypeNode) {
+    onNodeClick(node: IActivityTypeNode) {
         throw new Error('Method not implemented.');
     }
 

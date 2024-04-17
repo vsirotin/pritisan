@@ -4,7 +4,7 @@ import { EventTypeSelectingComponent } from './event-type-selecting/event-type-s
 import { ActivityTypeSelectingComponent } from './activity-type-selecting/activity-type-selecting.component';
 import { TimeSettingComponent } from './time-setting/time-setting.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
-import { CurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-ui-model/current-event-ui-model';
+import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-ui-model/current-event-ui-model';
 import { Logger } from '../../../../shared/services/logging/logger';
 import { CaptureNotificationService } from '../capture-notification-service';
 import { Subscription } from 'rxjs';
@@ -39,7 +39,7 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
   @ViewChild(ActivityTypeSelectingComponent) activityTypeSelectingComponent!: ActivityTypeSelectingComponent;
   @ViewChild(ParametersSettingComponent) parametersSettingComponent!: ParametersSettingComponent;
 
-  uiModel! : CurrentEventProcessingUIModel; 
+  uiModel! : ICurrentEventProcessingUIModel; 
 
   currentEventDescription = "";
 

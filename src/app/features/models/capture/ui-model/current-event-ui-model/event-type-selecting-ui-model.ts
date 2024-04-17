@@ -7,7 +7,6 @@ import { IReceiverEventPartUpdates } from "../../business-logic-model/current-ev
 
 export class EventTypeSelectingUIModel {
 
-
     private eventTypes!: string[];
 
     businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
@@ -22,21 +21,22 @@ export class EventTypeSelectingUIModel {
 
     async getEventTypes(): Promise<string[]> {
         if (this.eventTypes !== undefined) {
-            return this.eventTypes;
+            this.logger.debug("EventTypeSelectingUIModel.getEventTypes 1 eventTypes: " + this.eventTypes);
+            return this.eventTypes;         
         }
-        await this.loadFromBusinessLogicModel();
-        return this.eventTypes;
+        return await this.loadFromBusinessLogicModel();      
     }
 
     updateSelectedEventType(eventType: string) {
        this.captureNotificationService.notifyCaptureComponent(eventType); 
     }
 
-    private async loadFromBusinessLogicModel() {
-        this.businessLogicModel.getEventTypes().then((eventTypes) => {
+    private async loadFromBusinessLogicModel(): Promise<string[]> {
+        await this.businessLogicModel.getEventTypes().then((eventTypes) => {
             this.logger.debug("EventTypeSelectingUIModel.loadFromBusinessLogicModel eventTypes: " + eventTypes);
             this.eventTypes = eventTypes;
         });
+        return this.eventTypes;
     }
 
 }

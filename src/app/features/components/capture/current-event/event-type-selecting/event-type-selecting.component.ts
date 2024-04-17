@@ -29,6 +29,7 @@ export class EventTypeSelectingComponent implements OnInit{
   
   async ngOnInit() {
     this.uiModel.getEventTypes().then((eventTypes) => {
+      this.logger.debug("EventTypeSelectingComponent.ngOnInit Event types: " + eventTypes);
       this.eventTypes = eventTypes;
       this.logger.debug("Event types: " + this.eventTypes);
       this.selectedEventType = this.eventTypes[0];

@@ -4,7 +4,7 @@ import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeModule } from '@angular
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Logger } from '../../../../../shared/services/logging/logger';
-import { ActivitySelectingUIModel } from '../../../../models/capture/ui-model/current-event-ui-model/activity-selecting-ui-model';
+import { ActivitySelectingUIModel, IActivitySelectingUIModel } from '../../../../models/capture/ui-model/current-event-ui-model/activity-selecting-ui-model';
 import { CaptureNotificationService } from '../../capture-notification-service';
 
 interface ActivityTypeNode {
@@ -53,7 +53,7 @@ interface ActivityType {
 })
 export class ActivityTypeSelectingComponent {
 
-  uiModel!: ActivitySelectingUIModel;
+  uiModel!: IActivitySelectingUIModel;
 
   private _transformer = (node: ActivityTypeNode, level: number) => {
     return {
