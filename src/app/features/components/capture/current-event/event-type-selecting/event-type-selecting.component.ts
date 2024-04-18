@@ -4,7 +4,8 @@ import {FormsModule} from '@angular/forms';
 import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
 import { Logger } from '../../../../../shared/services/logging/logger';
 import { EventTypeSelectingUIModel } from "../../../../models/capture/ui-model/current-event-ui-model/event-type-selecting-ui-model";
-import { CaptureNotificationService } from '../../capture-notification-service';
+import { CurrentEventNotificationService } from '../current-event-notification-service';
+import { IEventType } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class EventTypeSelectingComponent implements OnInit{
 
   eventTypes!: string[];
   selectedEventType!: string;
-  constructor(private logger: Logger, private captureNotificationService: CaptureNotificationService) { 
+  constructor(private logger: Logger, private captureNotificationService: CurrentEventNotificationService) { 
     this.uiModel = new EventTypeSelectingUIModel(this.logger, captureNotificationService);
   }
   
@@ -33,6 +34,7 @@ export class EventTypeSelectingComponent implements OnInit{
       this.eventTypes = eventTypes;
       this.logger.debug("Event types: " + this.eventTypes);
       this.selectedEventType = this.eventTypes[0];
+      this.uiModel.updateSelectedEventType(this.selectedEventType);
 
     });
   }

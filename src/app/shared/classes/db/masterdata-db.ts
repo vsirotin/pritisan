@@ -1,8 +1,9 @@
+import { IEventType } from "../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
 import { IActivityTypeNode } from "../../../features/models/capture/capture-common-interfaces";
 import { Logger } from "../../services/logging/logger";
 
 export interface IMasterDataPersistence {
-    readEventTypes(): Promise<string[]>;
+    readEventTypes(): Promise<IEventType[]>;
     readActivityTypes(): Promise<IActivityTypeNode[]>;
     saveOrUpdateActivityTypes(activityTypes: IActivityTypeNode[]): Promise<void>;
 }
@@ -12,9 +13,12 @@ export class MasterDataPersistence implements IMasterDataPersistence {
     constructor(private logger: Logger) {}
 
     
-    async readEventTypes(): Promise<string[]> {
+    async readEventTypes(): Promise<IEventType[]> {
         this.logger.warn("CurrentEventBusinessLogicModel.getEventTypes. Temporary implementation.");
-        return ['Начало', 'Окончание', 'Израсходовано', ];
+        return [
+            {id: 1, name: 'Начало'}, 
+            {id: 2, name: 'Окончание'}, 
+            {id: 3, name: 'Израсходовано'}, ];
     }
 
     async readActivityTypes(): Promise<IActivityTypeNode[]> {
@@ -24,7 +28,7 @@ export class MasterDataPersistence implements IMasterDataPersistence {
                 name: 'Сон',
                 children: [
                     { name: 'Подготовка ко сну' }, 
-                    { name: 'Дрёмы' }, 
+                    { name: 'Дремота' }, 
                     { name: 'Глубокий сон' },
                     { name: 'Проснулся среди на недолго' },
                     { name: 'Проснулся и долшл не мог заснуть' },

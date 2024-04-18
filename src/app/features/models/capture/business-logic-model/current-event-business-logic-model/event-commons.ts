@@ -16,6 +16,18 @@ export interface IReceiverEventPartUpdates {
     addEventPart(eventPart: IEventPart): void;
 }
 
+export interface IEventType {
+    id: number
+    name: string;
+}
+
+export interface IActivityType {
+    id: number
+    name: string;
+}
+
 export interface IEventPart {
-    partAsText: string;
+    stepNumber: number
+    id: number|undefined;
+    name: string;
 }

@@ -6,7 +6,7 @@ import { TimeSettingComponent } from './time-setting/time-setting.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
 import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-ui-model/current-event-ui-model';
 import { Logger } from '../../../../shared/services/logging/logger';
-import { CaptureNotificationService } from '../capture-notification-service';
+import { CurrentEventNotificationService } from './current-event-notification-service';
 import { Subscription } from 'rxjs';
 import { CurrentEventActions } from '../../../models/capture/ui-model/current-event-ui-model/current-event-ui-model';
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { IEventPart } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 
 @Component({
   selector: 'app-current-event',
@@ -41,17 +42,21 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
 
   uiModel! : ICurrentEventProcessingUIModel; 
 
-  currentEventDescription = "";
+  currentEventDescription: string = "";
 
   private subscription!: Subscription; 
 
   CEA = CurrentEventActions;
 
-  constructor(private logger: Logger, private captureNotificationService: CaptureNotificationService) { 
-    this.uiModel = new CurrentEventProcessingUIModel(logger, captureNotificationService); 
-    this.subscription = this.captureNotificationService.captureNotification$.subscribe((notification) => {
-      this.currentEventDescription += notification;
+  constructor(private logger: Logger, private currentEventNotificationService: CurrentEventNotificationService) { 
+    this.uiModel = new CurrentEventProcessingUIModel(logger, currentEventNotificationService); 
+    this.subscription = this.currentEventNotificationService.captureNotification$.subscribe((notification) => {
+      this.logger.debug("CurrentEventComponent.captureNotification$ notification: " + notification);
+      this.updateCurrentEventDescription(notification);
     });
+  }
+  private updateCurrentEventDescription(notification: IEventPart) {
+    this.currentEventDescription += notification.name + " ";
   }
 
   ngAfterViewInit() {

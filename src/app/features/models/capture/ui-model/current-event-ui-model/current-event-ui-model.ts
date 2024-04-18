@@ -2,10 +2,11 @@ import { TimeSettingUIModel, ParametersSettingUIModel } from '../capture-ui-mode
 
 import { Subject, Subscription } from "rxjs";
 import { Logger } from "../../../../../shared/services/logging/logger";
-import { CaptureNotificationService } from "../../../../components/capture/capture-notification-service";
+import { CurrentEventNotificationService } from "../../../../components/capture/current-event/current-event-notification-service";
 import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
 import { EventTypeSelectingUIModel } from "./event-type-selecting-ui-model";
 import { IActivitySelectingUIModel } from './activity-selecting-ui-model';
+import { IEventPart } from '../../business-logic-model/current-event-business-logic-model/event-commons';
 
 export enum CurrentEventActions {
     FIRST_STEP,
@@ -41,14 +42,14 @@ export class CurrentEventProcessingUIModel {
 
     // private eventDescription = "";
 
-    private eventDescriprionSubject = new Subject<string>();
+    private eventDescriprionSubject = new Subject<IEventPart>();
 
     eventDescriptionChange$ = this.eventDescriprionSubject.asObservable();
 
     private subscription!: Subscription;
  
 
-    constructor(private logger: Logger, private captureNotificationService: CaptureNotificationService) {
+    constructor(private logger: Logger, private captureNotificationService: CurrentEventNotificationService) {
         this.subscription = this.captureNotificationService.captureNotification$.subscribe((eventType) => {
             this.eventDescriprionSubject.next(eventType);
         });

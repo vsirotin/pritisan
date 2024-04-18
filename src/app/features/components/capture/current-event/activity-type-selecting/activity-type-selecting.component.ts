@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Logger } from '../../../../../shared/services/logging/logger';
 import { ActivitySelectingUIModel, IActivitySelectingUIModel } from '../../../../models/capture/ui-model/current-event-ui-model/activity-selecting-ui-model';
-import { CaptureNotificationService } from '../../capture-notification-service';
+import { CurrentEventNotificationService } from '../current-event-notification-service';
 
 interface ActivityTypeNode {
   name: string;
@@ -61,7 +61,7 @@ export class ActivityTypeSelectingComponent {
 
   hasChild = (_: number, node: ActivityType) => node.expandable;
 
-  constructor(private logger: Logger, private captureNotificationService: CaptureNotificationService) {
+  constructor(private logger: Logger, private captureNotificationService: CurrentEventNotificationService) {
     this.uiModel = new ActivitySelectingUIModel(logger, captureNotificationService);
     this.uiModel.getActiviyTypes().then(data => {
       this.logger.debug("ActivityTypeSelectingComponent: Data loaded: " + JSON.stringify(data));
@@ -72,7 +72,7 @@ export class ActivityTypeSelectingComponent {
 
   onNodeClick(node: ActivityType) {
     this.logger.debug("ActivityTypeSelectingComponent: Node clicked: " + JSON.stringify(node));
-    this.uiModel.onNodeClick(node);
+    this.uiModel.onActivityTypeSelected(node);
   }
 
 

@@ -3,16 +3,17 @@
 
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { IEventPart } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class CaptureNotificationService {
-  private subject = new Subject<string>();
+export class CurrentEventNotificationService {
+  private subject = new Subject<IEventPart>();
   captureNotification$ = this.subject.asObservable();
 
-  notifyCaptureComponent(notification: string) {
+  notifyCaptureComponent(notification: IEventPart) {
     this.subject.next(notification);
   }
 }
