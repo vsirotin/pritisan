@@ -3,9 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
 import { Logger } from '../../../../../shared/services/logging/logger';
-import { EventTypeSelectingUIModel } from "../../../../models/capture/ui-model/current-event-ui-model/event-type-selecting-ui-model";
+import { WorkflowTypeSelectionUIModel } from "../../../../models/capture/ui-model/current-event-ui-model/event-type-selecting-ui-model";
 import { CurrentEventNotificationService } from '../current-event-notification-service';
-import { IEventType } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 
 
 @Component({
@@ -15,22 +14,22 @@ import { IEventType } from '../../../../models/capture/business-logic-model/curr
     MatRadioModule, 
     FormsModule
   ],
-  templateUrl: './event-type-selecting.component.html',
-  styleUrl: './event-type-selecting.component.scss'
+  templateUrl: './workflow-type-selection.component.html',
+  styleUrl: './workflow-type-selection.component.scss'
 })
-export class EventTypeSelectingComponent implements OnInit{
+export class WorkflowTypeSelectionComponent implements OnInit{
 
-  uiModel!:  EventTypeSelectingUIModel;
+  uiModel!:  WorkflowTypeSelectionUIModel;
 
   eventTypes!: string[];
   selectedEventType!: string;
   constructor(private logger: Logger, private captureNotificationService: CurrentEventNotificationService) { 
-    this.uiModel = new EventTypeSelectingUIModel(this.logger, captureNotificationService);
+    this.uiModel = new WorkflowTypeSelectionUIModel(this.logger, captureNotificationService);
   }
   
   async ngOnInit() {
     this.uiModel.getEventTypes().then((eventTypes) => {
-      this.logger.debug("EventTypeSelectingComponent.ngOnInit Event types: " + eventTypes);
+      this.logger.debug("WorkflowTypeSelectionComponent.ngOnInit Event types: " + eventTypes);
       this.eventTypes = eventTypes;
       this.logger.debug("Event types: " + this.eventTypes);
       this.selectedEventType = this.eventTypes[0];

@@ -16,9 +16,9 @@ export class MasterDataPersistence implements IMasterDataPersistence {
     async readEventTypes(): Promise<IEventType[]> {
         this.logger.warn("CurrentEventBusinessLogicModel.getEventTypes. Temporary implementation.");
         return [
-            {id: 1, name: 'Начало'}, 
-            {id: 2, name: 'Окончание'}, 
-            {id: 3, name: 'Израсходовано'}, ];
+            {id:  "start-of-event", localizedName: 'Начало'}, 
+            {id: "finish-of-event", localizedName: 'Окончание'}, 
+            {id: "occured-in", localizedName: 'Израсходовано'}, ];
     }
 
     async readActivityTypes(): Promise<IActivityTypeNode[]> {

@@ -29,8 +29,8 @@ export class ActivitySelectingUIModel {
     onActivityTypeSelected(node: IActivityTypeNode) {
       this.logger.debug("ActivitySelectingUIModel.onActivityTypeSelected node: " + node);
       const id =1.1 //TODO
-      const message: IEventPart = {stepNumber: 2, name: node.name, id: id, }; 
-      this.currentEventNotificationService.notifyCaptureComponent(message); 
+      const message: IEventPart = {localizedName: node.name, id: "no_set" }; 
+      this.currentEventNotificationService.notifyAboutUserAction(message); 
     }
 
 }

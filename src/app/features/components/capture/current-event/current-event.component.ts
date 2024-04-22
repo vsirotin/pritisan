@@ -1,6 +1,6 @@
 import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 
-import { EventTypeSelectingComponent } from './event-type-selecting/event-type-selecting.component';
+import { WorkflowTypeSelectionComponent } from './workflow-type-selection/workflow-type-selection.component';
 import { ActivityTypeSelectingComponent } from './activity-type-selecting/activity-type-selecting.component';
 import { TimeSettingComponent } from './time-setting/time-setting.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
@@ -20,7 +20,7 @@ import { IEventPart } from '../../../models/capture/business-logic-model/current
   selector: 'app-current-event',
   standalone: true,
   imports: [
-    EventTypeSelectingComponent,
+    WorkflowTypeSelectionComponent,
     ActivityTypeSelectingComponent,
     TimeSettingComponent,
     ParametersSettingComponent,
@@ -36,7 +36,7 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
 
   currentSubCommponent: string = 'eventSelectionComponent';
 
-  @ViewChild(EventTypeSelectingComponent) eventSelectionComponent!: EventTypeSelectingComponent;
+  @ViewChild(WorkflowTypeSelectionComponent) eventSelectionComponent!: WorkflowTypeSelectionComponent;
   @ViewChild(ActivityTypeSelectingComponent) activityTypeSelectingComponent!: ActivityTypeSelectingComponent;
   @ViewChild(ParametersSettingComponent) parametersSettingComponent!: ParametersSettingComponent;
 
@@ -56,7 +56,7 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
     });
   }
   private updateCurrentEventDescription(notification: IEventPart) {
-    this.currentEventDescription += notification.name + " ";
+    this.currentEventDescription += notification.localizedName + " ";
   }
 
   ngAfterViewInit() {

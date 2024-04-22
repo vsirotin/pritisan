@@ -13,7 +13,7 @@ export class CurrentEventNotificationService {
   private subject = new Subject<IEventPart>();
   captureNotification$ = this.subject.asObservable();
 
-  notifyCaptureComponent(notification: IEventPart) {
+  notifyAboutUserAction(notification: IEventPart) {
     this.subject.next(notification);
   }
 }
