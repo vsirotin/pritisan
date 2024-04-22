@@ -4,11 +4,11 @@ import { EventTypeSelectingComponent } from './event-type-selecting/event-type-s
 import { ActivityTypeSelectingComponent } from './activity-type-selecting/activity-type-selecting.component';
 import { TimeSettingComponent } from './time-setting/time-setting.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
-import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-ui-model/current-event-ui-model';
+import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-ui-model/current-event-processing-ui-model';
 import { Logger } from '../../../../shared/services/logging/logger';
 import { CurrentEventNotificationService } from './current-event-notification-service';
 import { Subscription } from 'rxjs';
-import { CurrentEventActions } from '../../../models/capture/ui-model/current-event-ui-model/current-event-ui-model';
+import { CurrentEventActions } from '../../../models/capture/ui-model/current-event-ui-model/current-event-processing-ui-model';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
