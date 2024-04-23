@@ -4,7 +4,7 @@ import { CaptureBusinessLogicModelFactory} from '../business-logic-model/capture
 import { ICaptureBusinessLogicModel } from "../capture-common-interfaces";
 import { IRepositoryNavigationUIModel } from './repository-navigation-ui-model';
 import { IRunningEventsUIModel } from './running-events-ui-model';
-import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from './current-event-ui-model/current-event-processing-ui-model';
+import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from './current-event-processing-ui-model/current-event-processing-ui-model';
 
 
 // UI model for the capture component

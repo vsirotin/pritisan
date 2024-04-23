@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
 import { Logger } from '../../../../../shared/services/logging/logger';
-import { WorkflowTypeSelectionUIModel } from "../../../../models/capture/ui-model/current-event-ui-model/event-type-selecting-ui-model";
+import { WorkflowTypeSelectionUIModel } from "../../../../models/capture/ui-model/current-event-processing-ui-model/event-type-selecting-ui-model";
 import { CurrentEventNotificationService } from '../current-event-notification-service';
 
 

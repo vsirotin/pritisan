@@ -4,7 +4,7 @@ import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeModule } from '@angular
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Logger } from '../../../../../shared/services/logging/logger';
-import { ActivitySelectingUIModel, IActivitySelectingUIModel } from '../../../../models/capture/ui-model/current-event-ui-model/activity-selecting-ui-model';
+import { ActivitySelectingUIModel, IActivitySelectingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/activity-selecting-ui-model';
 import { CurrentEventNotificationService } from '../current-event-notification-service';
 
 interface ActivityTypeNode {
