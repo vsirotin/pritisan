@@ -1,7 +1,7 @@
 import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { WorkflowTypeSelectionComponent } from './workflow-type-selection/workflow-type-selection.component';
-import { ActivityTypeSelectingComponent } from './activity-type-selecting/activity-type-selecting.component';
+import { EventTypeSettingComponent } from './event-type-setting/event-type-setting.component';
 import { TimeSettingComponent } from './time-setting/time-setting.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
 import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
@@ -21,7 +21,7 @@ import { IEventPart } from '../../../models/capture/business-logic-model/current
   standalone: true,
   imports: [
     WorkflowTypeSelectionComponent,
-    ActivityTypeSelectingComponent,
+    EventTypeSettingComponent,
     TimeSettingComponent,
     ParametersSettingComponent,
     MatToolbarModule, 
@@ -37,7 +37,7 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
   currentSubCommponent: string = 'eventSelectionComponent';
 
   @ViewChild(WorkflowTypeSelectionComponent) eventSelectionComponent!: WorkflowTypeSelectionComponent;
-  @ViewChild(ActivityTypeSelectingComponent) activityTypeSelectingComponent!: ActivityTypeSelectingComponent;
+  @ViewChild(EventTypeSettingComponent) activityTypeSelectingComponent!: EventTypeSettingComponent;
   @ViewChild(ParametersSettingComponent) parametersSettingComponent!: ParametersSettingComponent;
 
   uiModel! : ICurrentEventProcessingUIModel; 
@@ -72,7 +72,9 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
   }
 
   navigateTo(action: CurrentEventActions) {
-    this.currentSubCommponent = this.uiModel.navigateTo(action);
+    const result = this.uiModel.navigateTo(action);
+    this.logger.debug("CurrentEventComponent.navigateTo action: " + JSON.stringify(action) + " result: " + result);
+    this.currentSubCommponent = result;
   }
   
   isDisabled(action: CurrentEventActions): boolean {

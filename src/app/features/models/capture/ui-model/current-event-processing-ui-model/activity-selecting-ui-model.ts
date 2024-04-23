@@ -3,14 +3,14 @@ import { CurrentEventNotificationService } from "../../../../components/capture/
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
 import { IEventPart } from "../../business-logic-model/current-event-business-logic-model/event-commons";
-import { IActivityTypeNode, ICaptureBusinessLogicModel } from "../../capture-common-interfaces";
+import { IEventTypeNode, ICaptureBusinessLogicModel } from "../../capture-common-interfaces";
 
-export interface IActivitySelectingUIModel {
-    getActiviyTypes(): Promise<IActivityTypeNode[]>;
-    onActivityTypeSelected(node: IActivityTypeNode): void;
+export interface IEventTypeSettingUIModel {
+    getEventTypes(): Promise<IEventTypeNode[]>;
+    onEventTypeSelected(node: IEventTypeNode): void;
 }
 
-export class ActivitySelectingUIModel {
+export class EventTypeSettingUIModel implements IEventTypeSettingUIModel{
 
   private businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
  
@@ -21,12 +21,12 @@ export class ActivitySelectingUIModel {
 
 
 
-    async getActiviyTypes(): Promise<IActivityTypeNode[]> {
+    async getEventTypes(): Promise<IEventTypeNode[]> {
       return this.businessLogicModel.getActivityTypes();
     }
 
 
-    onActivityTypeSelected(node: IActivityTypeNode) {
+    onEventTypeSelected(node: IEventTypeNode) {
       this.logger.debug("ActivitySelectingUIModel.onActivityTypeSelected node: " + node);
       const id =1.1 //TODO
       const message: IEventPart = {localizedName: node.name, id: "no_set" }; 

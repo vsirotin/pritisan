@@ -1,11 +1,11 @@
 import { IEventType } from "../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
-import { IActivityTypeNode } from "../../../features/models/capture/capture-common-interfaces";
+import { IEventTypeNode } from "../../../features/models/capture/capture-common-interfaces";
 import { Logger } from "../../services/logging/logger";
 
 export interface IMasterDataPersistence {
     readEventTypes(): Promise<IEventType[]>;
-    readActivityTypes(): Promise<IActivityTypeNode[]>;
-    saveOrUpdateActivityTypes(activityTypes: IActivityTypeNode[]): Promise<void>;
+    readActivityTypes(): Promise<IEventTypeNode[]>;
+    saveOrUpdateActivityTypes(activityTypes: IEventTypeNode[]): Promise<void>;
 }
 
 export class MasterDataPersistence implements IMasterDataPersistence {
@@ -21,7 +21,7 @@ export class MasterDataPersistence implements IMasterDataPersistence {
             {id: "occured-in", localizedName: 'Израсходовано'}, ];
     }
 
-    async readActivityTypes(): Promise<IActivityTypeNode[]> {
+    async readActivityTypes(): Promise<IEventTypeNode[]> {
         this.logger.warn("CurrentEventBusinessLogicModel.readActivityTypes. Temporary implementation.");
         return [
             {
@@ -83,7 +83,7 @@ export class MasterDataPersistence implements IMasterDataPersistence {
         ];
     }
 
-    async saveOrUpdateActivityTypes(activityTypes: IActivityTypeNode[]): Promise<void> {
+    async saveOrUpdateActivityTypes(activityTypes: IEventTypeNode[]): Promise<void> {
         console.log('activityTypes', activityTypes);
     }
 }

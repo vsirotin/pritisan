@@ -5,7 +5,7 @@ import { Logger } from "../../../../../shared/services/logging/logger";
 import { CurrentEventNotificationService } from "../../../../components/capture/current-event/current-event-notification-service";
 import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
 import { WorkflowTypeSelectionUIModel } from "./event-type-selecting-ui-model";
-import { IActivitySelectingUIModel } from './activity-selecting-ui-model';
+import { IEventTypeSettingUIModel } from './activity-selecting-ui-model';
 import { IEventPart } from '../../business-logic-model/current-event-business-logic-model/event-commons';
 
 //Actions by processing current event
@@ -66,7 +66,7 @@ export class CurrentEventProcessingUIModel {
 
 
     eventSelectionUIModel!: WorkflowTypeSelectionUIModel;
-    activityTypeSelectingUIModel!: IActivitySelectingUIModel;
+    activityTypeSelectingUIModel!: IEventTypeSettingUIModel;
     timeSettingUIModel!: TimeSettingUIModel;
     parametersSettingUIModel!: ParametersSettingUIModel;
 
@@ -97,45 +97,16 @@ export class CurrentEventProcessingUIModel {
         const period_type_setting = new EventProcesingState(CurrentEventState.PERIOD_TYPE_SETTING);
 
 
-   
-        const currentEventProcessingUIAutomationExecutor = new CurrentEventProcessingUIAutomationExecutor();
         this.currentEventProcessingUIAutomation = new CurrentEventProcessingUIAutomation(
             this.logger,
-            [
-                workflow_type_setting,
-                event_type_setting,
-                ressource_type_setting,
-                date_setting,
-                time_interval_setting,
-                amount_setting,
-                units_setting,
-                number_of_times_setting,
-                comment_setting,
-                tag_setting,
-                interval_type_setting,
-                beginning_type_setting,
-                period_type_setting
-            ], 
-            [ 
-                CurrentEventProcessingSignal.START_OF_EVENT,
-                CurrentEventProcessingSignal.NEXT_STEP,
-                CurrentEventProcessingSignal.FINISH_OF_EVENT,
-                CurrentEventProcessingSignal.OCCURED_IN,
-                CurrentEventProcessingSignal.SPENT,
-                CurrentEventProcessingSignal.WITH_TIMES,
-                CurrentEventProcessingSignal.DAYS_AGO,
-                CurrentEventProcessingSignal.LAST_DAYS,
-                CurrentEventProcessingSignal.IN_INTERVAL,
-                CurrentEventProcessingSignal.JUST_NOW,
-            ],
             [
                 new TransitionCurrentEventProcessing(workflow_type_setting, event_type_setting),
                 new TransitionCurrentEventProcessing(event_type_setting, comment_setting),
                 new TransitionCurrentEventProcessing(comment_setting, tag_setting),
                 new TransitionCurrentEventProcessing(workflow_type_setting, ressource_type_setting),
             ], 
-            this.currentEvent, 
-            currentEventProcessingUIAutomationExecutor);
+            workflow_type_setting,
+            this.currentEvent);
 
         this.subscriptionCurrentEventNotificationService = this.currentEventNotificationService.captureNotification$.subscribe((eventType) => {
            
@@ -154,9 +125,9 @@ export class CurrentEventProcessingUIModel {
         this.currentEvent = this.currentEventProcessingUIAutomation.processSignal(CurrentEventProcessingSignal.NEXT_STEP); //TODO: extend to all actions
         this.logger.debug('CurrentEventProcessingUIModel navigateTo action: ' +  action 
         + ' currentEvent: ' + this.currentEvent
-        + ' currentState: ' + this.currentEventProcessingUIAutomation.currentState.name);
+        + ' currentState: ' + this.currentEventProcessingUIAutomation.getCurrentState().name);
 
-        return this.currentEventProcessingUIAutomation.currentState.name;
+        return this.currentEventProcessingUIAutomation.getCurrentState().name;
     }
 
     doDestroy() {
@@ -167,20 +138,12 @@ export class CurrentEventProcessingUIModel {
    
 }
 
-class CurrentEventProcessingUIAutomationExecutor implements ICurrentEvenProcessingUIExecutor {
-    constructor() { }
-
-    
-    
-}
-
 
 // Define the abstract class State with:
-// F - (finite state) the generic type for states,
 // C - (context) the generic type for context (subject of processing).
-abstract class State<F, C> {
+abstract class State<C> {
 
-    constructor(public name: F) {
+    constructor(public name: string) {
     }
 
     entranceState(subject: C): C{
@@ -199,11 +162,10 @@ abstract class State<F, C> {
 }
 
 //Define the abstract class Transition with:
-// F - the generic type for the source and target state basic type,
+// C - (context) the generic type for context (subject of processing),
 // E - (finite state) the generic type for states,
 // S - (signal) the generic type for the signal,
-// C - (context) the generic type for context (subject of processing).
-abstract class Transition<F, E extends State<F,C>, S, C> {
+abstract class Transition<C, E extends State<C>, S> {
     constructor(
     public from: E,
     public to: E,
@@ -220,18 +182,21 @@ abstract class Transition<F, E extends State<F,C>, S, C> {
 //------------Finite automata -----------------
 // Define the abstract class FiniteAutomata with: 
 // C - (context) the generic type for context (subject of processing),
-// F - (finite state) the generic type for states,
 // S - (signal) the generic type for signals,
 // T - (transition) the generic type for transitions.
 // 
-abstract class DetermenisticFiniteAutomatation<F, S, C, E extends State<F,C>, T extends Transition<F,E, S, C>> {
+abstract class DetermenisticFiniteAutomatation<C, E extends State<C>, S, T extends Transition<C, E, S>> {
 
-    constructor(private states: E[], 
-        private signals: S[], 
-        private transitions: T[], 
-        private context: C, 
-        public currentState: E = states[0]) { 
+    private states!: Set<E>;
+    private signals!: Set<S>;
+    private currentState!: E;
+    private subject!: C;
 
+    constructor(private transitions: T[], initialState: E, initialSubject: C) { 
+        this.currentState = initialState;
+        this.subject = initialSubject;
+        this.states = new Set(transitions.map(t => t.from).concat(transitions.map(t => t.to)));
+        this.signals = new Set(transitions.map(t => t.signal));
     }
 
     processSignal(signal: S): E {
@@ -240,50 +205,52 @@ abstract class DetermenisticFiniteAutomatation<F, S, C, E extends State<F,C>, T 
             throw new Error(`Transition not found for current state ${this.currentState.name} and signal ${signal} not found`);
         }
 
-        this.context =transition.exitAction(transition.from, this.context,  transition.to, signal);
-        this.context = transition.entranceAction(transition.to, this.context, transition.from, signal);
+        this.subject =transition.exitAction(transition.from, this.subject,  transition.to, signal);
+        this.subject = transition.entranceAction(transition.to, this.subject, transition.from, signal);
 
         this.currentState = transition.to;
-        this.context = this.currentState.entranceState(this.context);
-        this.context = this.currentState.processState(this.context);
-        this.context = this.currentState.exitState(this.context);
+        this.subject = this.currentState.entranceState(this.subject);
+        this.subject = this.currentState.processState(this.subject);
+        this.subject = this.currentState.exitState(this.subject);
         return transition.to;     
+    }
+
+    getCurrentState(): E {
+        return this.currentState;
+    }
+
+    getSugject(): C {
+        return this.subject;
     }
 }
 
 class CurrentEvent {
 }
 
-class EventProcesingState extends State<CurrentEventState, CurrentEvent> {
-    constructor(name: CurrentEventState) {
-        super(name);
-    }
+class EventProcesingState extends State<CurrentEvent> {
 
+    constructor(state: CurrentEventState) {
+        super(state as string);
+    }
 }
 
-class TransitionCurrentEventProcessing extends Transition<string, EventProcesingState, CurrentEventProcessingSignal, CurrentEvent> {
-    constructor(from: EventProcesingState, to: EventProcesingState, signal: CurrentEventProcessingSignal = CurrentEventProcessingSignal.START_OF_EVENT) {
+class TransitionCurrentEventProcessing extends Transition<CurrentEvent, EventProcesingState, CurrentEventProcessingSignal> {
+    constructor(from: EventProcesingState, to: EventProcesingState, signal: CurrentEventProcessingSignal = CurrentEventProcessingSignal.NEXT_STEP) {
         super(from, to, signal);
     }
 }
 
-//------------Implementation of determenistic finite automata to our case -----------------
-
-interface ICurrentEvenProcessingUIExecutor {
-}
     
 
 class CurrentEventProcessingUIAutomation 
-    extends DetermenisticFiniteAutomatation<string, CurrentEventProcessingSignal, CurrentEvent, EventProcesingState, TransitionCurrentEventProcessing> {
+    extends DetermenisticFiniteAutomatation<CurrentEvent, EventProcesingState, CurrentEventProcessingSignal, TransitionCurrentEventProcessing> {
 
     constructor(
         private logger: Logger,
-        states: EventProcesingState[], 
-        signals: CurrentEventProcessingSignal[], 
         transitions: TransitionCurrentEventProcessing[], 
-        context: CurrentEvent, 
-        executor : ICurrentEvenProcessingUIExecutor) {
-        super(states, signals, transitions, context);
+        initialState: EventProcesingState,
+        initialSubject: CurrentEvent) {
+        super(transitions, initialState, initialSubject);
     }
 
 } 

@@ -3,24 +3,46 @@
     
     @switch (currentSubCommponent) { 
         
-        @case ("workflow-type-selecting") {
-            <app-activity-type-selecting></app-activity-type-selecting>
+        @case ("event-type-setting") {
+            <app-event-type-setting></app-event-type-setting>
         } 
         <!--
-        @case ("analysis") {
+        @case ("ressource-type-setting") {
           <app-analysis></app-analysis>
         } 
-        @case ("import_export") {
+        @case ("date-setting") {
           <app-import-export></app-import-export>
         } 
-        @case ("settings") {
+        @case ("time-interval-setting") {
           <app-settings></app-settings>
         } 
-        @case ("info") {
+        @case ("amount-setting") {
+          <app-info></app-info>
+        } 
+        @case ("units-setting") {
+          <app-analysis></app-analysis>
+        } 
+        @case ( "number-of-times-setting") {
+          <app-import-export></app-import-export>
+        } 
+        @case ("comment-setting") {
+          <app-settings></app-settings>
+        } 
+        @case ("tag-setting") {
+          <app-info></app-info>
+        } 
+        @case ("interval-type-setting") {
+          <app-import-export></app-import-export>
+        } 
+        @case ("beginning-type-setting") {
+          <app-settings></app-settings>
+        } 
+        @case ("period-type-setting") {
           <app-info></app-info>
         } 
         -->
         @default {
+            <!--equal "workflow-type-setting" -->
             <app-event-type-selecting></app-event-type-selecting>
         } 
       }

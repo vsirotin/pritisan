@@ -4,17 +4,17 @@ import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeModule } from '@angular
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Logger } from '../../../../../shared/services/logging/logger';
-import { ActivitySelectingUIModel, IActivitySelectingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/activity-selecting-ui-model';
+import { EventTypeSettingUIModel, IEventTypeSettingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/activity-selecting-ui-model';
 import { CurrentEventNotificationService } from '../current-event-notification-service';
 
-interface ActivityTypeNode {
+interface EventTypeNode {
   name: string;
-  children?: ActivityTypeNode[];
+  children?: EventTypeNode[];
 }
 
 
 /** Flat node with expandable and level information */
-interface ActivityType {
+interface EventType {
   expandable: boolean;
   name: string;
   level: number;
@@ -22,21 +22,21 @@ interface ActivityType {
 
 
 @Component({
-  selector: 'app-activity-type-selecting',
+  selector: 'app-event-type-setting',
   standalone: true,
   imports: [
     MatTreeModule, 
     MatButtonModule, 
     MatIconModule
   ],
-  templateUrl: './activity-type-selecting.component.html',
-  styleUrl: './activity-type-selecting.component.scss'
+  templateUrl: './event-type-setting.component.html',
+  styleUrl: './event-type-setting.component.scss'
 })
-export class ActivityTypeSelectingComponent {
+export class EventTypeSettingComponent {
 
-  uiModel!: IActivitySelectingUIModel;
+  uiModel!: IEventTypeSettingUIModel;
 
-  private _transformer = (node: ActivityTypeNode, level: number) => {
+  private _transformer = (node: EventTypeNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
@@ -44,7 +44,7 @@ export class ActivityTypeSelectingComponent {
     };
   };
 
-  treeControl = new FlatTreeControl<ActivityType>(
+  treeControl = new FlatTreeControl<EventType>(
     node => node.level,
     node => node.expandable,
   );
@@ -59,20 +59,20 @@ export class ActivityTypeSelectingComponent {
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
 
-  hasChild = (_: number, node: ActivityType) => node.expandable;
+  hasChild = (_: number, node: EventType) => node.expandable;
 
   constructor(private logger: Logger, private captureNotificationService: CurrentEventNotificationService) {
-    this.uiModel = new ActivitySelectingUIModel(logger, captureNotificationService);
-    this.uiModel.getActiviyTypes().then(data => {
+    this.uiModel = new EventTypeSettingUIModel(logger, captureNotificationService);
+    this.uiModel.getEventTypes().then(data => {
       this.logger.debug("ActivityTypeSelectingComponent: Data loaded: " + JSON.stringify(data));
       this.dataSource.data = data;
     });
    
   }
 
-  onNodeClick(node: ActivityType) {
+  onNodeClick(node: EventType) {
     this.logger.debug("ActivityTypeSelectingComponent: Node clicked: " + JSON.stringify(node));
-    this.uiModel.onActivityTypeSelected(node);
+    this.uiModel.onEventTypeSelected(node);
   }
 
 

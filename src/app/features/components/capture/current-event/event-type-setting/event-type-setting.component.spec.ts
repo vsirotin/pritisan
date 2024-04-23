@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActivityTypeSelectingComponent } from './activity-type-selecting.component';
+import { EventTypeSettingComponent } from './event-type-setting.component';
 
 describe('ActivityTypeSelectingComponent', () => {
-  let component: ActivityTypeSelectingComponent;
-  let fixture: ComponentFixture<ActivityTypeSelectingComponent>;
+  let component: EventTypeSettingComponent;
+  let fixture: ComponentFixture<EventTypeSettingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActivityTypeSelectingComponent]
+      imports: [EventTypeSettingComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ActivityTypeSelectingComponent);
+    fixture = TestBed.createComponent(EventTypeSettingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
