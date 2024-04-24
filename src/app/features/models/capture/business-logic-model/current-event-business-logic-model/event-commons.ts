@@ -1,5 +1,6 @@
 import { IPersistedEvent } from "../../../../../shared/classes/db/time-series-db";
 import { IEvent } from "../../capture-common-interfaces";
+import { IEventChange } from "../../ui-model/current-event-processing-ui-model/current-event-notification-service";
 
 
 export function encodePersistedEvent(event: IPersistedEvent): IEvent {
@@ -13,19 +14,12 @@ export function encodePersistedEvent(event: IPersistedEvent): IEvent {
 }
 
 export interface IReceiverEventPartUpdates {
-    addEventPart(eventPart: IEventPart): void;
+    addEventPart(eventPart: IEventChange): void;
 }
 
-export interface IEventPart {
-    id: string;
-    localizedName: string;
-}
+//Defines types of workflows that can be processed
+export interface IEventProcessingWorkflowType extends IEventChange{};
 
-export interface IEventType extends IEventPart{};
 
-export interface IActivityType {
-    id: number
-    name: string;
-}
 
 

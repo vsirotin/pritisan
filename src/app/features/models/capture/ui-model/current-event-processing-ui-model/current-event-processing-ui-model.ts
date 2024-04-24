@@ -1,12 +1,12 @@
 import { TimeSettingUIModel, ParametersSettingUIModel } from '../capture-ui-model';
-
-import { Subject, Subscription } from "rxjs";
+import { Observable, Subject, Subscription } from "rxjs";
 import { Logger } from "../../../../../shared/services/logging/logger";
-import { CurrentEventNotificationService } from "../../../../components/capture/current-event/current-event-notification-service";
+import { CurrentEventChangeNotificationService } from "./current-event-notification-service";
 import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
-import { WorkflowTypeSelectionUIModel } from "./event-type-selecting-ui-model";
-import { IEventTypeSettingUIModel } from './activity-selecting-ui-model';
-import { IEventPart } from '../../business-logic-model/current-event-business-logic-model/event-commons';
+import { WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
+import { IEventTypeSettingUIModel } from './event-type-setting-ui-model';
+import { IEventChange } from "./current-event-notification-service";
+
 
 //Actions by processing current event
 export enum CurrentEventActions {
@@ -32,7 +32,8 @@ export enum CurrentEventState {
     TAG_SETTING = "tag-setting",
     INTERVAL_TYPE_SETTING = "interval-type-setting",
     BEGINNING_TYPE_SETTING = "beginning-type-setting",
-    PERIOD_TYPE_SETTING = "period-type-setting"
+    PERIOD_TYPE_SETTING = "period-type-setting",
+    EVENT_SAVING = "event-saving"
 }
 
 
@@ -55,24 +56,28 @@ type S = CurrentEventProcessingSignal;
 
 //------------Current event ui model -----------------
 
-export interface ICurrentEventProcessingUIModel {
-  navigateTo(action: CurrentEventActions): string;
-  doDestroy(): unknown;
-
+export interface ICurrentEventProcessingNavigation {
+    navigateTo(action: CurrentEventActions): string; 
 }
 
-export class CurrentEventProcessingUIModel {
+export interface ICurrentEventProcessingUIModel extends ICurrentEventProcessingNavigation {
+  doDestroy(): unknown;
+  eventDescriptionChange$: Observable<IEventChange>;
+  stateChange$: Observable<string>;
+}
 
+export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIModel{
 
-
-    eventSelectionUIModel!: WorkflowTypeSelectionUIModel;
+    eventSelectionUIModel!: WorkflowTypeSettingUIModel;
     activityTypeSelectingUIModel!: IEventTypeSettingUIModel;
     timeSettingUIModel!: TimeSettingUIModel;
     parametersSettingUIModel!: ParametersSettingUIModel;
 
-    private eventDescriprionSubject = new Subject<IEventPart>();
+    private eventDescriprionSubject = new Subject<IEventChange>();
+    eventDescriptionChange$: Observable<IEventChange> = this.eventDescriprionSubject.asObservable();
 
-    eventDescriptionChange$ = this.eventDescriprionSubject.asObservable();
+    private stateChangeSubject = new Subject<string>();
+    stateChange$: Observable<string> = this.stateChangeSubject.asObservable();
 
     private subscriptionCurrentEventNotificationService!: Subscription;
  
@@ -80,7 +85,7 @@ export class CurrentEventProcessingUIModel {
 
     private currentEventProcessingUIAutomation!: CurrentEventProcessingUIAutomation;
 
-    constructor(private logger: Logger, private currentEventNotificationService: CurrentEventNotificationService) {  
+    constructor(private logger: Logger, private currentEventNotificationService: CurrentEventChangeNotificationService) {  
 
         const workflow_type_setting = new EventProcesingState(CurrentEventState.WORKFLOW_TYPE_SETTING);
         const event_type_setting = new EventProcesingState(CurrentEventState.EVENT_TYPE_SETTING);
@@ -101,6 +106,7 @@ export class CurrentEventProcessingUIModel {
             this.logger,
             [
                 new TransitionCurrentEventProcessing(workflow_type_setting, event_type_setting),
+                new TransitionCurrentEventProcessing(workflow_type_setting, event_type_setting, CurrentEventProcessingSignal.FINISH_OF_EVENT),
                 new TransitionCurrentEventProcessing(event_type_setting, comment_setting),
                 new TransitionCurrentEventProcessing(comment_setting, tag_setting),
                 new TransitionCurrentEventProcessing(workflow_type_setting, ressource_type_setting),
@@ -108,12 +114,16 @@ export class CurrentEventProcessingUIModel {
             workflow_type_setting,
             this.currentEvent);
 
-        this.subscriptionCurrentEventNotificationService = this.currentEventNotificationService.captureNotification$.subscribe((eventType) => {
+        this.subscriptionCurrentEventNotificationService = this.currentEventNotificationService.eventDescriptionNotification$
+            .subscribe((eventChange) => {
            
-            this.eventDescriprionSubject.next(eventType);
-            const signal: string = eventType.localizedName;
-            this.logger.debug('CurrentEventProcessingUIModel in subscription eventType: ' +  eventType);
-            
+            this.eventDescriprionSubject.next(eventChange);
+      
+            this.logger.debug('CurrentEventProcessingUIModel in subscription eventType: ' +  eventChange);
+            const signalId: string = eventChange.signalId;    
+            this.processSihnalInFA(signalId as CurrentEventProcessingSignal);
+            const newSate = this.currentEventProcessingUIAutomation.getCurrentState().name;
+            this.stateChangeSubject.next(newSate);          
         });
     }
     
@@ -122,20 +132,24 @@ export class CurrentEventProcessingUIModel {
     loadFrom(currentEventModel: IRunningEventsBusinessLogicModel) { }
 
     navigateTo(action: CurrentEventActions): string {  
-        this.currentEvent = this.currentEventProcessingUIAutomation.processSignal(CurrentEventProcessingSignal.NEXT_STEP); //TODO: extend to all actions
-        this.logger.debug('CurrentEventProcessingUIModel navigateTo action: ' +  action 
-        + ' currentEvent: ' + this.currentEvent
-        + ' currentState: ' + this.currentEventProcessingUIAutomation.getCurrentState().name);
+        this.logger.debug('CurrentEventProcessingUIModel navigateTo action: ' + action);
+
+        const signal = CurrentEventProcessingSignal.NEXT_STEP; //TODO: extend to all actions
+        this.processSihnalInFA(signal);
 
         return this.currentEventProcessingUIAutomation.getCurrentState().name;
+    }
+
+    private processSihnalInFA(signal: CurrentEventProcessingSignal) {
+        this.currentEvent = this.currentEventProcessingUIAutomation.processSignal(signal);
+        this.logger.debug('CurrentEventProcessingUIModel processSihnalInFA signal: ' + signal
+            + ' new currentEvent: ' + this.currentEvent
+            + ' new currentState: ' + this.currentEventProcessingUIAutomation.getCurrentState().name);
     }
 
     doDestroy() {
         this.subscriptionCurrentEventNotificationService.unsubscribe();
     }
-
-   
-   
 }
 
 

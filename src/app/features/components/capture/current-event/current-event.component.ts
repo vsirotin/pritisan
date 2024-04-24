@@ -6,7 +6,7 @@ import { TimeSettingComponent } from './time-setting/time-setting.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
 import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { Logger } from '../../../../shared/services/logging/logger';
-import { CurrentEventNotificationService } from './current-event-notification-service';
+import { CurrentEventChangeNotificationService, IEventChange } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-notification-service';
 import { Subscription } from 'rxjs';
 import { CurrentEventActions } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { MatInputModule } from '@angular/material/input';
@@ -14,7 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { IEventPart } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
+
 
 @Component({
   selector: 'app-current-event',
@@ -44,18 +44,24 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
 
   currentEventDescription: string = "";
 
-  private subscription!: Subscription; 
+  private subscriptionEventDescription!: Subscription; 
+  private subscriptionState!: Subscription;
 
   CEA = CurrentEventActions;
 
-  constructor(private logger: Logger, private currentEventNotificationService: CurrentEventNotificationService) { 
+  constructor(private logger: Logger, private currentEventNotificationService: CurrentEventChangeNotificationService) { 
     this.uiModel = new CurrentEventProcessingUIModel(logger, currentEventNotificationService); 
-    this.subscription = this.currentEventNotificationService.captureNotification$.subscribe((notification) => {
-      this.logger.debug("CurrentEventComponent.captureNotification$ notification: " + notification);
+    this.subscriptionEventDescription = this.uiModel.eventDescriptionChange$.subscribe((notification) => {
+      this.logger.debug("CurrentEventComponent.uiModel.eventDescriptionChange$.subscribe notification: " + notification);
       this.updateCurrentEventDescription(notification);
     });
+
+    this.subscriptionState = this.uiModel.stateChange$.subscribe((state) => {
+      this.logger.debug("CurrentEventComponent.state$ state: " + state);
+      this.currentSubCommponent = state;
+    });
   }
-  private updateCurrentEventDescription(notification: IEventPart) {
+  private updateCurrentEventDescription(notification: IEventChange) {
     this.currentEventDescription += notification.localizedName + " ";
   }
 
@@ -67,7 +73,8 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscriptionEventDescription.unsubscribe();
+    this.subscriptionState.unsubscribe();
     this.uiModel.doDestroy();
   }
 

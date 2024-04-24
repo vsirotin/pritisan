@@ -1,8 +1,8 @@
 import { Logger } from "../../../../../shared/services/logging/logger";
-import { CurrentEventNotificationService } from "../../../../components/capture/current-event/current-event-notification-service";
+import { CurrentEventChangeNotificationService } from "./current-event-notification-service";
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
-import { IEventPart } from "../../business-logic-model/current-event-business-logic-model/event-commons";
+import { IEventChange } from "./current-event-notification-service";
 import { IEventTypeNode, ICaptureBusinessLogicModel } from "../../capture-common-interfaces";
 
 export interface IEventTypeSettingUIModel {
@@ -14,7 +14,9 @@ export class EventTypeSettingUIModel implements IEventTypeSettingUIModel{
 
   private businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
  
-  constructor(private logger: Logger, private currentEventNotificationService: CurrentEventNotificationService) {
+  constructor(
+    private logger: Logger, 
+    private currentEventNotificationService: CurrentEventChangeNotificationService) {
     this.logger.debug("ActivitySelectingUIModel.constructor");
     this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getCurrentEventBusinessLogicModel();
   }
@@ -28,9 +30,8 @@ export class EventTypeSettingUIModel implements IEventTypeSettingUIModel{
 
     onEventTypeSelected(node: IEventTypeNode) {
       this.logger.debug("ActivitySelectingUIModel.onActivityTypeSelected node: " + node);
-      const id =1.1 //TODO
-      const message: IEventPart = {localizedName: node.name, id: "no_set" }; 
-      this.currentEventNotificationService.notifyAboutUserAction(message); 
+      const message: IEventChange = {localizedName: node.name, signalId: "no_set" }; 
+      this.currentEventNotificationService.notifyEventChange(message); 
     }
 
 }
