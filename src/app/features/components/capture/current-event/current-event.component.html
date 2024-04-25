@@ -6,47 +6,75 @@
         @case ("event-type-setting") {
             <app-event-type-setting></app-event-type-setting>
         } 
-        <!--
+        
+
+        @case ("workflow-type-selection") {
+            <app-workflow-type-selection></app-workflow-type-selection>
+        }
+
+        @case ("event-type-setting") {
+            <app-event-type-setting></app-event-type-setting>
+        }
+
         @case ("ressource-type-setting") {
-          <app-analysis></app-analysis>
-        } 
-        @case ("date-setting") {
-          <app-import-export></app-import-export>
-        } 
+            <app-ressource-type-setting></app-ressource-type-setting>
+        }
+
+        @case ("time-point-setting") {
+            <app-time-point-setting></app-time-point-setting>
+        }
+
         @case ("time-interval-setting") {
-          <app-settings></app-settings>
-        } 
+            <app-time-interval-setting></app-time-interval-setting>
+        }
+
         @case ("amount-setting") {
-          <app-info></app-info>
-        } 
+            <app-amount-setting></app-amount-setting>
+        }
+
         @case ("units-setting") {
-          <app-analysis></app-analysis>
-        } 
-        @case ( "number-of-times-setting") {
-          <app-import-export></app-import-export>
-        } 
+            <app-units-setting></app-units-setting>
+        }
+
+        @case ("number-of-times-setting") {
+            <app-number-of-times-setting></app-number-of-times-setting>
+        }
+
         @case ("comment-setting") {
-          <app-settings></app-settings>
-        } 
+            <app-comment-setting></app-comment-setting>
+        }
+
         @case ("tag-setting") {
-          <app-info></app-info>
-        } 
+            <app-tag-setting></app-tag-setting>
+        }
+
         @case ("interval-type-setting") {
-          <app-import-export></app-import-export>
-        } 
+            <app-interval-type-setting></app-interval-type-setting>
+        }
+
         @case ("beginning-type-setting") {
-          <app-settings></app-settings>
-        } 
-        @case ("period-type-setting") {
-          <app-info></app-info>
-        } 
+            <app-beginning-type-setting></app-beginning-type-setting>
+        }
+
+       @case ("period-type-setting") {
+           <app-period-type-setting></app-period-type-setting>
+        }
+
         @case ("event-saving") {
-          <app-info></app-info>
+            <app-event-saving></app-event-saving>
+        }
+
+        @case ("parameters-setting") {
+            <app-parameters-setting></app-parameters-setting>
+        }
+
+        @case ("parameters-setting") {
+          <app-parameters-setting></app-parameters-setting>
         } 
-        -->
+
         @default {
-            <!--equal "workflow-type-setting" -->
-            <app-event-type-selecting></app-event-type-selecting>
+            <!--equal "workflow-type-selection" -->
+            <app-workflow-type-selection></app-workflow-type-selection>
         } 
       }
 </div>

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TimeSettingComponent } from './time-setting.component';
+import { TimeIntervalSettingComponent } from './time-interval-setting.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 
 describe('TimeSettingComponent', () => {
-  let component: TimeSettingComponent;
-  let fixture: ComponentFixture<TimeSettingComponent>;
+  let component: TimeIntervalSettingComponent;
+  let fixture: ComponentFixture<TimeIntervalSettingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TimeSettingComponent, BrowserAnimationsModule]
+      imports: [TimeIntervalSettingComponent, BrowserAnimationsModule]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(TimeSettingComponent);
+    fixture = TestBed.createComponent(TimeIntervalSettingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

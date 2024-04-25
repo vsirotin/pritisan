@@ -8,7 +8,7 @@ import { CurrentEventChangeNotificationService } from '../../../../models/captur
 
 
 @Component({
-  selector: 'app-event-type-selecting',
+  selector: 'app-workflow-type-selection',
   standalone: true,
   imports: [ 
     MatRadioModule, 
