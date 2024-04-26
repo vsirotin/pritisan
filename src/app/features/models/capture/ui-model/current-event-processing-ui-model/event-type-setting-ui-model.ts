@@ -2,7 +2,7 @@ import { Logger } from "../../../../../shared/services/logging/logger";
 import { CurrentEventChangeNotificationService } from "./current-event-notification-service";
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
-import { IEventChange } from "./current-event-notification-service";
+import { IEventChange } from './current-event-processing-ui-model';
 import { IEventTypeNode, ICaptureBusinessLogicModel } from "../../capture-common-interfaces";
 
 export interface IEventTypeSettingUIModel {

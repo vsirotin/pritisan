@@ -17,7 +17,8 @@ import { PeriodTypeSettingComponent } from './period-type-setting/period-type-se
 import { EventSavingComponent } from './event-saving/event-saving.component';
 import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { Logger } from '../../../../shared/services/logging/logger';
-import { CurrentEventChangeNotificationService, IEventChange } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-notification-service';
+import { CurrentEventChangeNotificationService } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-notification-service';
+import { IEventChange } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { Subscription } from 'rxjs';
 import { CurrentEventActions } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { MatInputModule } from '@angular/material/input';
@@ -71,8 +72,8 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
 
   CEA = CurrentEventActions;
 
-  constructor(private logger: Logger, private currentEventNotificationService: CurrentEventChangeNotificationService) { 
-    this.uiModel = new CurrentEventProcessingUIModel(logger, currentEventNotificationService); 
+  constructor(private logger: Logger) { 
+    this.uiModel = CurrentEventProcessingUIModel.getInstance(logger); 
     this.subscriptionEventDescription = this.uiModel.eventDescriptionChange$.subscribe((notification) => {
       this.logger.debug("CurrentEventComponent.uiModel.eventDescriptionChange$.subscribe notification: " + notification);
       this.updateCurrentEventDescription(notification);

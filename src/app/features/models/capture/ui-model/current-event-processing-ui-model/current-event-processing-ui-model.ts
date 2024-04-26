@@ -1,13 +1,23 @@
 import { TimeSettingUIModel, ParametersSettingUIModel } from '../capture-ui-model';
 import { Observable, Subject, Subscription } from "rxjs";
 import { Logger } from "../../../../../shared/services/logging/logger";
-import { CurrentEventChangeNotificationService } from "./current-event-notification-service";
 import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
 import { WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
 import { IEventTypeSettingUIModel } from './event-type-setting-ui-model';
-import { IEventChange } from "./current-event-notification-service";
+
 import { State, Transition, DetermenisticFiniteAutomatation } from '../../../../../shared/classes/finite-automation/finite-automation';
 
+export interface IEventChange {
+//represent Id of signal in finity automation to process this changing
+signalId: string;
+
+//represent name of event changing process or event 
+localizedName: string;
+}
+
+export interface ICurrentEventChangingNotificator {
+    notifyEventChange(eventChange: IEventChange): void;
+}
 
 //Actions by processing current event
 export enum CurrentEventActions {
@@ -49,6 +59,8 @@ export interface ICurrentEventProcessingUIModel extends ICurrentEventProcessingN
   stateChange$: Observable<string>;
 }
 
+
+
 export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIModel{
 
     eventSelectionUIModel!: WorkflowTypeSettingUIModel;
@@ -68,7 +80,10 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
 
     private currentEventProcessingUIAutomation!: CurrentEventProcessingUIAutomation;
 
-    constructor(private logger: Logger, private currentEventNotificationService: CurrentEventChangeNotificationService) {  
+    private subject = new Subject<IEventChange>();
+    private eventDescriptionNotification$ = this.subject.asObservable();
+
+    constructor(private logger: Logger) {  
 
         const workflow_type_setting = new EventProcesingState("workflow-type-selection");
         const event_type_setting1 = new EventProcesingState("event-type-setting");
@@ -110,7 +125,7 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
             workflow_type_setting,
             this.currentEvent);
 
-        this.subscriptionCurrentEventNotificationService = this.currentEventNotificationService.eventDescriptionNotification$
+        this.subscriptionCurrentEventNotificationService = this.eventDescriptionNotification$
             .subscribe((eventChange) => {
            
             this.eventDescriprionSubject.next(eventChange);
@@ -123,7 +138,14 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
         });
     }
     
-  
+    private static instance : CurrentEventProcessingUIModel|undefined = undefined;
+
+    static getInstance(logger: Logger): ICurrentEventProcessingUIModel {
+        if(!CurrentEventProcessingUIModel.instance) {
+            CurrentEventProcessingUIModel.instance = new CurrentEventProcessingUIModel(logger);
+        }
+        return CurrentEventProcessingUIModel.instance;
+    }
 
     loadFrom(currentEventModel: IRunningEventsBusinessLogicModel) { }
 
@@ -146,7 +168,15 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
     doDestroy() {
         this.subscriptionCurrentEventNotificationService.unsubscribe();
     }
+
+
+
+  notifyEventChange(eventChange: IEventChange) {
+    this.subject.next(eventChange);
+  }
 }
+
+
 
 
 class CurrentEvent {
@@ -179,6 +209,12 @@ class CurrentEventProcessingUIAutomation
     }
 
 } 
+
+// Represents information about event change of part of processing event.
+
+
+
+
 
 
 

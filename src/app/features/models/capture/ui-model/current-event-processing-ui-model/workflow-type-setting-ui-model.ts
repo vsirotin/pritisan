@@ -3,7 +3,7 @@ import { CurrentEventChangeNotificationService } from "./current-event-notificat
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
 import { IEventProcessingWorkflowType, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
-import { IEventChange } from "./current-event-notification-service";
+import { IEventChange } from './current-event-processing-ui-model';
 
 
 export class WorkflowTypeSettingUIModel {

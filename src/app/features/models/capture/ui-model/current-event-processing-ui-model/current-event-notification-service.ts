@@ -3,6 +3,7 @@
 
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { IEventChange } from './current-event-processing-ui-model';
 
 @Injectable({
     providedIn: 'root'
@@ -15,14 +16,5 @@ export class CurrentEventChangeNotificationService {
   notifyEventChange(eventChange: IEventChange) {
     this.subject.next(eventChange);
   }
-}
-
-// Represents information about event change of part of processing event.
-export interface IEventChange {
-    //represent Id of signal in finity automation to process this changing
-    signalId: string;
-
-    //represent name of event changing process or event 
-    localizedName: string;
 }
 
