@@ -55,7 +55,7 @@ export abstract class DetermenisticFiniteAutomatation<C, E extends State<C>, S, 
     }
 
     processSignal(signal: S): E {
-        const transition = this.transitions.find(t => t.signal === signal);
+        const transition = this.transitions.find(t => (t.from == this.currentState) && (t.signal === signal));
         if (!transition) {
             throw new Error(`Transition not found for current state ${JSON.stringify(this.currentState)} and signal ${JSON.stringify(signal)} not found`);
         }

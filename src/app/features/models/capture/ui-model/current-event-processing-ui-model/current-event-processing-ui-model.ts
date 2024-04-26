@@ -86,7 +86,7 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
         const beginning_type_setting = new EventProcesingState("beginning-type-setting");
         const period_type_setting = new EventProcesingState("period-type-setting");
         const event_saving = new EventProcesingState("event-saving");
-        const parameter_setting = new EventProcesingState("parameters-setting");
+        const parameters_setting = new EventProcesingState("parameters-setting");
 
 
 
@@ -94,7 +94,7 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
             this.logger,
             [
                 new TransitionCurrentEventProcessing(workflow_type_setting, event_type_setting1),
-                new TransitionCurrentEventProcessing(event_type_setting1, parameter_setting),
+                new TransitionCurrentEventProcessing(event_type_setting1, parameters_setting),
                 
                 new TransitionCurrentEventProcessing(workflow_type_setting, event_type_setting2, CurrentEventProcessingSignal.FINISH_OF_EVENT),
            
@@ -102,7 +102,7 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
                 new TransitionCurrentEventProcessing(workflow_type_setting, ressource_type_setting),
 
                 //Common workflow tail
-                new TransitionCurrentEventProcessing(parameter_setting, comment_setting),
+                new TransitionCurrentEventProcessing(parameters_setting, comment_setting),
                 new TransitionCurrentEventProcessing(comment_setting, tag_setting),
                 new TransitionCurrentEventProcessing(tag_setting, event_saving)
 
