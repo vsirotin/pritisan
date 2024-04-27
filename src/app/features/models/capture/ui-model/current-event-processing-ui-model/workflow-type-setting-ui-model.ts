@@ -3,10 +3,12 @@ import { CurrentEventChangeNotificationService } from "./current-event-notificat
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
 import { IEventProcessingWorkflowType, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
-import { IEventChange } from './current-event-processing-ui-model';
+import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
 
+export interface IWorkflowTypeSettingUIModel {
+}
 
-export class WorkflowTypeSettingUIModel {
+export class WorkflowTypeSettingUIModel implements IWorkflowTypeSettingUIModel{
 
     private workflowTypes!: IEventProcessingWorkflowType[];
 
@@ -14,7 +16,7 @@ export class WorkflowTypeSettingUIModel {
 
     updateIndoReceiver!: IReceiverEventPartUpdates;
 
-    constructor(private logger: Logger, private currentEventNotificationService: CurrentEventChangeNotificationService) {
+    constructor(private logger: Logger, private currentEventNotificationService: ICurrentEventChangingNotificator) {
         this.logger.debug("WorkflowTypeSelectionUIModel.constructor");
         this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getCurrentEventBusinessLogicModel();
         this.loadFromBusinessLogicModel();

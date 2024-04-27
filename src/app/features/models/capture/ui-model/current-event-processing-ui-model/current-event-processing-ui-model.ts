@@ -2,7 +2,7 @@ import { TimeSettingUIModel, ParametersSettingUIModel } from '../capture-ui-mode
 import { Observable, Subject, Subscription } from "rxjs";
 import { Logger } from "../../../../../shared/services/logging/logger";
 import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
-import { WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
+import { IWorkflowTypeSettingUIModel, WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
 import { IEventTypeSettingUIModel } from './event-type-setting-ui-model';
 
 import { State, Transition, DetermenisticFiniteAutomatation } from '../../../../../shared/classes/finite-automation/finite-automation';
@@ -49,7 +49,7 @@ type S = CurrentEventProcessingSignal;
 
 //------------Current event ui model -----------------
 
-export interface ICurrentEventProcessingNavigation {
+export interface ICurrentEventProcessingNavigation extends ICurrentEventChangingNotificator{
     navigateTo(action: CurrentEventActions): string; 
 }
 
@@ -139,12 +139,23 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
     }
     
     private static instance : CurrentEventProcessingUIModel|undefined = undefined;
+    private static logger: Logger|undefined = undefined;
 
     static getInstance(logger: Logger): ICurrentEventProcessingUIModel {
         if(!CurrentEventProcessingUIModel.instance) {
+            CurrentEventProcessingUIModel.logger = logger;
             CurrentEventProcessingUIModel.instance = new CurrentEventProcessingUIModel(logger);
         }
         return CurrentEventProcessingUIModel.instance;
+    }
+
+    private static workflowTypeSettingUIModel: IWorkflowTypeSettingUIModel|undefined = undefined;
+    static getWorkflowTypeSettingUIModel(logger: Logger): IWorkflowTypeSettingUIModel {
+        if(!CurrentEventProcessingUIModel.workflowTypeSettingUIModel) {
+            const currentEventProcessingUIModel = CurrentEventProcessingUIModel.getInstance(logger);
+            CurrentEventProcessingUIModel.workflowTypeSettingUIModel = new WorkflowTypeSettingUIModel(logger, currentEventProcessingUIModel);
+        }
+        return CurrentEventProcessingUIModel.workflowTypeSettingUIModel;
     }
 
     loadFrom(currentEventModel: IRunningEventsBusinessLogicModel) { }
