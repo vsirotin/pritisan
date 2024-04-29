@@ -15,9 +15,9 @@ import { IntervalTypeSettingComponent } from './interval-type-setting/interval-t
 import { BeginningTypeSettingComponent } from './beginning-type-setting/beginning-type-setting.component';
 import { PeriodTypeSettingComponent } from './period-type-setting/period-type-setting.component';
 import { EventSavingComponent } from './event-saving/event-saving.component';
-import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
+import { ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
+import { CurrentEventProcessingUIFactory } from '../../../models/capture/ui-model/current-event-processing-ui-model/cCurrent-event-processing-ui-factory';
 import { Logger } from '../../../../shared/services/logging/logger';
-import { CurrentEventChangeNotificationService } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-notification-service';
 import { IEventChange } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { Subscription } from 'rxjs';
 import { CurrentEventActions } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
@@ -73,7 +73,7 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
   CEA = CurrentEventActions;
 
   constructor(private logger: Logger) { 
-    this.uiModel = CurrentEventProcessingUIModel.getInstance(logger); 
+    this.uiModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(this.logger);
     this.subscriptionEventDescription = this.uiModel.eventDescriptionChange$.subscribe((notification) => {
       this.logger.debug("CurrentEventComponent.uiModel.eventDescriptionChange$.subscribe notification: " + notification);
       this.updateCurrentEventDescription(notification);

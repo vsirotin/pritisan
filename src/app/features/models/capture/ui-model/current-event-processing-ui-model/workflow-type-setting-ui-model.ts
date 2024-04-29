@@ -1,11 +1,12 @@
 import { Logger } from "../../../../../shared/services/logging/logger";
-import { CurrentEventChangeNotificationService } from "./current-event-notification-service";
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
 import { IEventProcessingWorkflowType, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
 import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
 
 export interface IWorkflowTypeSettingUIModel {
+    getWorkflowNames(): Promise<string[]>;
+    changeSelectedWorkflowType(workflowTypeName: string): void;
 }
 
 export class WorkflowTypeSettingUIModel implements IWorkflowTypeSettingUIModel{

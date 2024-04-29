@@ -5,8 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Logger } from '../../../../../shared/services/logging/logger';
 import { EventTypeSettingUIModel, IEventTypeSettingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/event-type-setting-ui-model';
-import { CurrentEventChangeNotificationService } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-notification-service';
 import { ICurrentEventProcessingNavigation } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
+import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/cCurrent-event-processing-ui-factory';
 
 interface EventTypeNode {
   name: string;
@@ -63,9 +63,8 @@ export class EventTypeSettingComponent {
   hasChild = (_: number, node: EventType) => node.expandable;
 
   constructor(
-    private logger: Logger, 
-    private captureNotificationService: CurrentEventChangeNotificationService) {
-    this.uiModel = new EventTypeSettingUIModel(logger, captureNotificationService);
+    private logger: Logger) {
+    this.uiModel = CurrentEventProcessingUIFactory.getEventTypeSettingUIModel(this.logger);
     this.uiModel.getEventTypes().then(data => {
       this.logger.debug("ActivityTypeSelectingComponent: Data loaded: " + JSON.stringify(data));
       this.dataSource.data = data;

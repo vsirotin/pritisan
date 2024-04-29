@@ -1,8 +1,8 @@
 import { Logger } from "../../../../../shared/services/logging/logger";
-import { CurrentEventChangeNotificationService } from "./current-event-notification-service";
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
-import { IEventChange } from './current-event-processing-ui-model';
+import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
+import { CurrentEventProcessingUIFactory } from './cCurrent-event-processing-ui-factory';
 import { IEventTypeNode, ICaptureBusinessLogicModel } from "../../capture-common-interfaces";
 
 export interface IEventTypeSettingUIModel {
@@ -16,7 +16,7 @@ export class EventTypeSettingUIModel implements IEventTypeSettingUIModel{
  
   constructor(
     private logger: Logger, 
-    private currentEventNotificationService: CurrentEventChangeNotificationService) {
+    private currentEventNotificationService: ICurrentEventChangingNotificator = CurrentEventProcessingUIFactory.getCurrentEventChangingNotificator(logger)) {
     this.logger.debug("ActivitySelectingUIModel.constructor");
     this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getCurrentEventBusinessLogicModel();
   }
@@ -30,7 +30,7 @@ export class EventTypeSettingUIModel implements IEventTypeSettingUIModel{
 
     onEventTypeSelected(node: IEventTypeNode) {
       this.logger.debug("ActivitySelectingUIModel.onActivityTypeSelected node: " + node);
-      const message: IEventChange = {localizedName: node.name, signalId: "no_set" }; 
+      const message: IEventChange = {localizedName: node.name }; 
       this.currentEventNotificationService.notifyEventChange(message); 
     }
 

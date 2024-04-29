@@ -4,7 +4,7 @@ import { CaptureBusinessLogicModelFactory} from '../business-logic-model/capture
 import { ICaptureBusinessLogicModel } from "../capture-common-interfaces";
 import { IRepositoryNavigationUIModel } from './repository-navigation-ui-model';
 import { IRunningEventsUIModel } from './running-events-ui-model';
-import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from './current-event-processing-ui-model/current-event-processing-ui-model';
+import { ICurrentEventProcessingUIModel } from './current-event-processing-ui-model/current-event-processing-ui-model';
 
 
 // UI model for the capture component
@@ -25,7 +25,7 @@ export class CaptureUIModel implements ICaptureUIModel {
 
     private repositorNavigationUIModel!: IRepositoryNavigationUIModel;
     private runningEventsUIModel!:  IRunningEventsUIModel;
-    private currentEventUIModel!: CurrentEventProcessingUIModel;
+    private currentEventUIModel!: ICurrentEventProcessingUIModel;
 
     constructor(private logger: Logger) {
         this.captureBusinessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger)
@@ -43,7 +43,7 @@ export class CaptureUIModel implements ICaptureUIModel {
         this.repositorNavigationUIModel = repositoryNavigationUIModel;
     }
 
-    setCurrentEventUIModel(currentEventUIModel: CurrentEventProcessingUIModel): void {
+    setCurrentEventUIModel(currentEventUIModel: ICurrentEventProcessingUIModel): void {
         this.currentEventUIModel = currentEventUIModel;
     }
 

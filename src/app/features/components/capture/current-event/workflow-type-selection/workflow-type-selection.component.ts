@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
 import { Logger } from '../../../../../shared/services/logging/logger';
-import { WorkflowTypeSettingUIModel } from "../../../../models/capture/ui-model/current-event-processing-ui-model/workflow-type-setting-ui-model";
-import { CurrentEventChangeNotificationService } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-notification-service';
+import { IWorkflowTypeSettingUIModel } from "../../../../models/capture/ui-model/current-event-processing-ui-model/workflow-type-setting-ui-model";
+import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/cCurrent-event-processing-ui-factory';
 
 
 @Component({
@@ -19,12 +19,12 @@ import { CurrentEventChangeNotificationService } from '../../../../models/captur
 })
 export class WorkflowTypeSelectionComponent implements OnInit{
 
-  uiModel!:  WorkflowTypeSettingUIModel;
+  uiModel!:  IWorkflowTypeSettingUIModel;
 
   eventTypes!: string[];
   selectedEventType!: string;
-  constructor(private logger: Logger, private captureNotificationService: CurrentEventChangeNotificationService) { 
-    this.uiModel = new WorkflowTypeSettingUIModel(this.logger, captureNotificationService);
+  constructor(private logger: Logger) { 
+    this.uiModel = CurrentEventProcessingUIFactory.getWorkflowTypeSettingUIModel(this.logger);
   }
   
   async ngOnInit() {
