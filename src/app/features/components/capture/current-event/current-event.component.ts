@@ -7,7 +7,7 @@ import { ParametersSettingComponent } from './parameters-setting/parameters-sett
 import { RessourceTypeSettingComponent } from './ressource-type-setting/ressource-type-setting.component';
 import { TimeIntervalSettingComponent } from './time-interval-setting/time-interval-setting.component';
 import { AmountSettingComponent } from './amount-setting/amount-setting.component';
-import { UnitsSettingComponent } from './units-setting/units-setting.component';
+import { BeginingTypeSettingComponent } from './begining-type-setting/begining-type-setting.component';
 import { CommentSettingComponent } from './comment-setting/comment-setting.component';
 import { TagSettingComponent } from './tag-setting/tag-setting.component';
 import { NumberOfTimesSettingComponent } from './number-of-times-setting/number-of-times-setting.component';
@@ -39,7 +39,7 @@ import { MatButtonModule } from '@angular/material/button';
     AmountSettingComponent,
     ParametersSettingComponent,
     RessourceTypeSettingComponent,
-    UnitsSettingComponent,
+    BeginingTypeSettingComponent,
     CommentSettingComponent,
     TagSettingComponent,
     NumberOfTimesSettingComponent,
@@ -57,7 +57,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class CurrentEventComponent implements AfterViewInit, OnDestroy {
 
-  currentSubCommponent: string = 'eventSelectionComponent';
+  currentSubCommponent: string = 'workflow-type-selection';
 
   @ViewChild(WorkflowTypeSelectionComponent) eventSelectionComponent!: WorkflowTypeSelectionComponent;
   @ViewChild(EventTypeSettingComponent) activityTypeSelectingComponent!: EventTypeSettingComponent;

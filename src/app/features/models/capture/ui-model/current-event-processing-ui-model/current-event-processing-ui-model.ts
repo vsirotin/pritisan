@@ -21,8 +21,6 @@ export interface ICurrentEventChangingNotificator {
 
 //Actions by processing current event
 export enum CurrentEventActions {
-    FIRST_STEP,
-    PREVIOUS_STEP,
     NEXT_STEP,
     SAVE,
     CANCEL,
@@ -84,20 +82,25 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
 
     constructor(private logger: Logger) {  
 
-        const workflow_type_setting = new EventProcesingState("workflow-type-selection");
-        const event_type_setting1 = new EventProcesingState("event-type-setting");
-        const event_type_setting2 = new EventProcesingState("event-type-setting");
-        const event_type_setting3 = new EventProcesingState("event-type-setting");
+        const p0_workflow_type_setting = new EventProcesingState("workflow-type-selection");
+        const p1_event_type_setting = new EventProcesingState("event-type-setting");
+        const p2_event_type_setting = new EventProcesingState("event-type-setting");
+        const p3_event_type_setting = new EventProcesingState("event-type-setting");
+        const p4_beginig_type_setting = new EventProcesingState("begining-type-setting"); //Begining type for closed event by workflow type 2
         const ressource_type_setting = new EventProcesingState("ressource-type-setting");
-        const date_setting = new EventProcesingState("time-point-setting");
-        const time_interval_setting = new EventProcesingState("time-interval-setting");
+        const date_setting1 = new EventProcesingState("time-point-setting");
+        const date_setting2 = new EventProcesingState("time-point-setting");
+        const date_setting3 = new EventProcesingState("time-point-setting");
+        const date_setting4 = new EventProcesingState("time-point-setting");
+        const date_setting5 = new EventProcesingState("time-point-setting");
+        const time_interval_setting1 = new EventProcesingState("time-interval-setting");
+        const time_interval_setting2 = new EventProcesingState("time-interval-setting");
         const amount_setting = new EventProcesingState("amount-setting");
         const units_setting = new EventProcesingState("units-setting");
         const number_of_times_setting = new EventProcesingState("number-of-times-setting");
         const comment_setting = new EventProcesingState("comment-setting");
         const tag_setting = new EventProcesingState("tag-setting");
         const interval_type_setting = new EventProcesingState("interval-type-setting");
-        const beginning_type_setting = new EventProcesingState("beginning-type-setting");
         const period_type_setting = new EventProcesingState("period-type-setting");
         const event_saving = new EventProcesingState("event-saving");
         const parameters_setting = new EventProcesingState("parameters-setting");
@@ -107,13 +110,43 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
         this.currentEventProcessingUIAutomation = new CurrentEventProcessingUIAutomation(
             this.logger,
             [
-                new TransitionCurrentEventProcessing(workflow_type_setting, event_type_setting1),
-                new TransitionCurrentEventProcessing(event_type_setting1, parameters_setting),
+                //Workflow type 1
+                new TransitionCurrentEventProcessing(p0_workflow_type_setting, p1_event_type_setting),
+                new TransitionCurrentEventProcessing(p1_event_type_setting, parameters_setting),
                 
-                new TransitionCurrentEventProcessing(workflow_type_setting, event_type_setting2, CurrentEventProcessingSignal.FINISH_OF_EVENT),
-           
-                new TransitionCurrentEventProcessing(comment_setting, tag_setting),
-                new TransitionCurrentEventProcessing(workflow_type_setting, ressource_type_setting),
+                //Workflow type 2
+                new TransitionCurrentEventProcessing(p0_workflow_type_setting, p2_event_type_setting, CurrentEventProcessingSignal.FINISH_OF_EVENT),
+                new TransitionCurrentEventProcessing(p2_event_type_setting, p4_beginig_type_setting),
+                new TransitionCurrentEventProcessing(date_setting1, parameters_setting),
+
+                new TransitionCurrentEventProcessing(p2_event_type_setting, time_interval_setting1, CurrentEventProcessingSignal.DAYS_AGO),
+                new TransitionCurrentEventProcessing(time_interval_setting1, parameters_setting),
+
+                //Workflow type 3
+                new TransitionCurrentEventProcessing(p0_workflow_type_setting, p3_event_type_setting, CurrentEventProcessingSignal.OCCURED_IN), 
+                new TransitionCurrentEventProcessing(p3_event_type_setting, period_type_setting),
+                new TransitionCurrentEventProcessing(period_type_setting, date_setting2, CurrentEventProcessingSignal.LAST_DAYS),
+                new TransitionCurrentEventProcessing(date_setting2, number_of_times_setting),
+                new TransitionCurrentEventProcessing(number_of_times_setting, parameters_setting),
+
+                new TransitionCurrentEventProcessing(period_type_setting, date_setting3, CurrentEventProcessingSignal.IN_INTERVAL),
+                new TransitionCurrentEventProcessing(date_setting3, number_of_times_setting),
+
+                //Workflow type 4
+                new TransitionCurrentEventProcessing(p0_workflow_type_setting, interval_type_setting, CurrentEventProcessingSignal.SPENT),
+                new TransitionCurrentEventProcessing(interval_type_setting, ressource_type_setting),
+                new TransitionCurrentEventProcessing(ressource_type_setting, amount_setting),
+                new TransitionCurrentEventProcessing(amount_setting, units_setting),
+                new TransitionCurrentEventProcessing(units_setting, parameters_setting),
+
+                new TransitionCurrentEventProcessing(interval_type_setting, time_interval_setting2, CurrentEventProcessingSignal.LAST_DAYS),
+                new TransitionCurrentEventProcessing(time_interval_setting2, ressource_type_setting),
+
+                new TransitionCurrentEventProcessing(interval_type_setting, time_interval_setting2, CurrentEventProcessingSignal.LAST_DAYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ),
+
+
+
+
 
                 //Common workflow tail
                 new TransitionCurrentEventProcessing(parameters_setting, comment_setting),
@@ -121,7 +154,7 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
                 new TransitionCurrentEventProcessing(tag_setting, event_saving)
 
             ], 
-            workflow_type_setting,
+            p0_workflow_type_setting,
             this.currentEvent);
 
     }

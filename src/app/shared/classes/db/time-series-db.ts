@@ -1,4 +1,3 @@
-import { Subject, Observable } from "rxjs";
 import { Logger } from "../../services/logging/logger";
 import { Data } from "@angular/router";
 

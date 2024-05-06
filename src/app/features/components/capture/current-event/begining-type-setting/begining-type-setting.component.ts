@@ -1,23 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-
-import {FormsModule} from '@angular/forms';
-import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
+import { IWorkflowTypeSettingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/workflow-type-setting-ui-model';
 import { Logger } from '../../../../../shared/services/logging/logger';
-import { IWorkflowTypeSettingUIModel } from "../../../../models/capture/ui-model/current-event-processing-ui-model/workflow-type-setting-ui-model";
 import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/cCurrent-event-processing-ui-factory';
-
+import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-workflow-type-selection',
+  selector: 'app-begining-type-setting',
   standalone: true,
-  imports: [ 
+  imports: [
     MatRadioModule, 
-    FormsModule
-  ],
-  templateUrl: './workflow-type-selection.component.html',
-  styleUrl: './workflow-type-selection.component.scss'
+    FormsModule],
+  templateUrl: './begining-type-setting.component.html',
+  styleUrl: './begining-type-setting.component.scss'
 })
-export class WorkflowTypeSelectionComponent implements OnInit{
+export class BeginingTypeSettingComponent implements OnInit{
 
   uiModel!:  IWorkflowTypeSettingUIModel;
 

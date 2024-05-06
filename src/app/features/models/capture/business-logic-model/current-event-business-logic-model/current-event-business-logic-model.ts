@@ -1,10 +1,16 @@
 import { IMasterDataPersistence, MasterDataPersistence } from "../../../../../shared/classes/db/masterdata-db";
 import { Logger } from "../../../../../shared/services/logging/logger";
 import { IEventTypeNode, ICaptureBusinessLogicModel } from "../../capture-common-interfaces";
-import { IEventProcessingWorkflowType } from "./event-commons";
+import { IAlternative } from "./event-commons";
 
 export interface ICurrentEventProcessingBusinessLogicModel{
-    getEventTypes(): Promise<IEventProcessingWorkflowType[]>;
+    getEventTypes(): Promise<IAlternative[]>;
+    getActivityTypes(): Promise<IEventTypeNode[]>;
+}
+
+//Generic interface for processing alternatives for user selection
+export interface IAlternativesProcessingBusinessLogicModel{
+    getAlternatives(): Promise<IAlternative[]>;
     getActivityTypes(): Promise<IEventTypeNode[]>;
 }
 
@@ -20,7 +26,7 @@ export class CurrentEventProcessingBusinessLogicModel implements ICurrentEventPr
         return this.masterDataDB.readActivityTypes();
     }
 
-    async getEventTypes(): Promise<IEventProcessingWorkflowType[]> {
+    async getEventTypes(): Promise<IAlternative[]> {
         const eventTypes = await this.masterDataDB.readEventTypes();
         this.logger.debug("CurrentEventBusinessLogicModel.getEventTypes: " + eventTypes);
         return eventTypes;

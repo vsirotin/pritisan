@@ -1,9 +1,9 @@
-import { IEventProcessingWorkflowType } from "../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
+import { IAlternative } from "../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
 import { IEventTypeNode } from "../../../features/models/capture/capture-common-interfaces";
 import { Logger } from "../../services/logging/logger";
 
 export interface IMasterDataPersistence {
-    readEventTypes(): Promise<IEventProcessingWorkflowType[]>;
+    readEventTypes(): Promise<IAlternative[]>;
     readActivityTypes(): Promise<IEventTypeNode[]>;
     saveOrUpdateActivityTypes(activityTypes: IEventTypeNode[]): Promise<void>;
 }
@@ -13,12 +13,14 @@ export class MasterDataPersistence implements IMasterDataPersistence {
     constructor(private logger: Logger) {}
 
     
-    async readEventTypes(): Promise<IEventProcessingWorkflowType[]> {
+    async readEventTypes(): Promise<IAlternative[]> {
         this.logger.warn("CurrentEventBusinessLogicModel.getEventTypes. Temporary implementation.");
         return [
-            {signalId:  "start-of-event", localizedName: 'Начало'}, 
-            {signalId: "finish-of-event", localizedName: 'Окончание'}, 
-            {signalId: "occured-in", localizedName: 'Израсходовано'}, ];
+            {signalId:  "start-of-event", localizedName: 'Начало', alternativeId: '1', suffix: '(события, деятедьности...)'}, 
+            {signalId: "finish-of-event", localizedName: 'Окончание', alternativeId: '2', suffix: '(события, деятедьности...)'}, 
+            {signalId: "occured-in", localizedName: 'Произошло в прошлом', alternativeId: '3', suffix: '(событие, деятельность...)'}, 
+            {signalId: "spent", localizedName: 'Израсходовано', alternativeId: '4', suffix: '(денег, материалов...)'}, 
+        ];
     }
 
     async readActivityTypes(): Promise<IEventTypeNode[]> {

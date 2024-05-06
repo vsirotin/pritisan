@@ -2,18 +2,17 @@
 <div class="container2">
     
     @switch (currentSubCommponent) { 
+
+      @case ("workflow-type-selection") {
+        <app-workflow-type-selection></app-workflow-type-selection>
+    }
         
         @case ("event-type-setting") {
             <app-event-type-setting></app-event-type-setting>
         } 
-        
 
-        @case ("workflow-type-selection") {
-            <app-workflow-type-selection></app-workflow-type-selection>
-        }
-
-        @case ("event-type-setting") {
-            <app-event-type-setting></app-event-type-setting>
+        @case ("begining-type-setting") {
+            <app-begining-type-setting></app-begining-type-setting>
         }
 
         @case ("ressource-type-setting") {
@@ -30,10 +29,6 @@
 
         @case ("amount-setting") {
             <app-amount-setting></app-amount-setting>
-        }
-
-        @case ("units-setting") {
-            <app-units-setting></app-units-setting>
         }
 
         @case ("number-of-times-setting") {
@@ -80,16 +75,6 @@
 </div>
 <div class="container3">
   <mat-toolbar class="toolbar-add-edit">
-   
-    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app"
-      (click)="navigateTo(CEA.FIRST_STEP)" disabled="{{isDisabled(CEA.FIRST_STEP)}}">
-      <mat-icon>first_page</mat-icon>
-    </button>
-  
-    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" 
-    (click)="navigateTo(CEA.PREVIOUS_STEP)" disabled="{{isDisabled(CEA.PREVIOUS_STEP)}}">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-    </button>
   
   
     <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo"

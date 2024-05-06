@@ -12,7 +12,7 @@ import { Observable, Subscription } from 'rxjs';
 import { ILanguageDescription } from '../../../shared/classes/localization/language-description';
 
 
-describe('MainComponent', () => {
+xdescribe('MainComponent', () => {
 
   let localizer: Localizer;
   

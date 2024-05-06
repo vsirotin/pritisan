@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UnitsSettingComponent } from './units-setting.component';
+import { BeginingTypeSettingComponent } from './begining-type-setting.component';
 
 describe('UnitsSettingComponent', () => {
-  let component: UnitsSettingComponent;
-  let fixture: ComponentFixture<UnitsSettingComponent>;
+  let component: BeginingTypeSettingComponent;
+  let fixture: ComponentFixture<BeginingTypeSettingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UnitsSettingComponent]
+      imports: [BeginingTypeSettingComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(UnitsSettingComponent);
+    fixture = TestBed.createComponent(BeginingTypeSettingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

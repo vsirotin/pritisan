@@ -17,8 +17,11 @@ export interface IReceiverEventPartUpdates {
     addEventPart(eventPart: IEventChange): void;
 }
 
-//Defines types of workflows that can be processed
-export interface IEventProcessingWorkflowType extends IEventChange{};
+//Defines generic alternative for user selection by event setting
+export interface IAlternative extends IEventChange{
+    alternativeId: string;
+    suffix: string;
+};
 
 
 

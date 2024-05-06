@@ -1,7 +1,7 @@
 import { Logger } from "../../../../../shared/services/logging/logger";
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
-import { IEventProcessingWorkflowType, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
+import { IAlternative, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
 import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
 
 export interface IWorkflowTypeSettingUIModel {
@@ -11,11 +11,9 @@ export interface IWorkflowTypeSettingUIModel {
 
 export class WorkflowTypeSettingUIModel implements IWorkflowTypeSettingUIModel{
 
-    private workflowTypes!: IEventProcessingWorkflowType[];
+    private workflowTypes!: IAlternative[];
 
     businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
-
-    updateIndoReceiver!: IReceiverEventPartUpdates;
 
     constructor(private logger: Logger, private currentEventNotificationService: ICurrentEventChangingNotificator) {
         this.logger.debug("WorkflowTypeSelectionUIModel.constructor");
@@ -26,14 +24,18 @@ export class WorkflowTypeSettingUIModel implements IWorkflowTypeSettingUIModel{
     async getWorkflowNames(): Promise<string[]> {
         if (this.workflowTypes !== undefined) {
             this.logger.debug("WorkflowTypeSelectionUIModel.getEventTypes 1 eventTypes: " + this.workflowTypes);
-            return this.workflowTypes.map((eventType: IEventProcessingWorkflowType) => eventType.localizedName);         
+            return this.workflowTypes.map((eventType: IAlternative) => this.evntType2workflowName(eventType));         
         }
-        return (await this.loadFromBusinessLogicModel()).map((eventType: IEventProcessingWorkflowType) => eventType.localizedName);      
+        return (await this.loadFromBusinessLogicModel()).map((eventType: IAlternative) => this.evntType2workflowName(eventType)) ;      
+    }
+
+    private evntType2workflowName(eventType: IAlternative): string {
+        return eventType.localizedName + " " + eventType.suffix;
     }
 
     changeSelectedWorkflowType(workflowTypeName: string) {
         this.logger.debug("WorkflowTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName: " + workflowTypeName);
-        const workflowType = this.workflowTypes.find((workflowType: IEventProcessingWorkflowType) => workflowType.localizedName === workflowTypeName);
+        const workflowType = this.workflowTypes.find((workflowType: IAlternative) => this.evntType2workflowName(workflowType) === workflowTypeName);
         if(workflowType === undefined) {
             this.logger.error("WorkflowTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName is unknown");
             return;
@@ -42,7 +44,7 @@ export class WorkflowTypeSettingUIModel implements IWorkflowTypeSettingUIModel{
         this.currentEventNotificationService.notifyEventChange(changingInfo); 
     }
 
-    private async loadFromBusinessLogicModel(): Promise<IEventProcessingWorkflowType[]> {
+    private async loadFromBusinessLogicModel(): Promise<IAlternative[]> {
         await this.businessLogicModel.getEventTypes().then((eventTypes) => {
             this.logger.debug("WorkflowTypeSelectionUIModel.loadFromBusinessLogicModel eventTypes: " + eventTypes);
             this.workflowTypes = eventTypes;
@@ -51,3 +53,4 @@ export class WorkflowTypeSettingUIModel implements IWorkflowTypeSettingUIModel{
     }
 
 }
+
