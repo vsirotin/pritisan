@@ -4,13 +4,8 @@ import { IEventTypeNode, ICaptureBusinessLogicModel } from "../../capture-common
 import { IAlternative } from "./event-commons";
 
 export interface ICurrentEventProcessingBusinessLogicModel{
+    getBeginningTypes(): Promise<IAlternative[]>;
     getEventTypes(): Promise<IAlternative[]>;
-    getActivityTypes(): Promise<IEventTypeNode[]>;
-}
-
-//Generic interface for processing alternatives for user selection
-export interface IAlternativesProcessingBusinessLogicModel{
-    getAlternatives(): Promise<IAlternative[]>;
     getActivityTypes(): Promise<IEventTypeNode[]>;
 }
 
@@ -30,6 +25,12 @@ export class CurrentEventProcessingBusinessLogicModel implements ICurrentEventPr
         const eventTypes = await this.masterDataDB.readEventTypes();
         this.logger.debug("CurrentEventBusinessLogicModel.getEventTypes: " + eventTypes);
         return eventTypes;
+    }
+
+    async getBeginningTypes(): Promise<IAlternative[]> {
+        const alternatives = await this.masterDataDB.readBeginningTypes();
+        this.logger.debug("CurrentEventBusinessLogicModel.getBeginningTypes: " + alternatives);
+        return alternatives;
     }
 }
 

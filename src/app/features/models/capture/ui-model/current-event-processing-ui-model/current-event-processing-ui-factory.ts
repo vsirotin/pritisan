@@ -2,9 +2,11 @@ import { Logger } from "../../../../../shared/services/logging/logger";
 import { IWorkflowTypeSettingUIModel, WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
 import { EventTypeSettingUIModel, IEventTypeSettingUIModel } from './event-type-setting-ui-model';
 import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel, ICurrentEventChangingNotificator } from './current-event-processing-ui-model';
+import { BeginningTypeSettingUIModel, IBeginningTypeSettingUIModel } from "./beginning-type-setting-ui-model";
 
 
 export class CurrentEventProcessingUIFactory {
+   
 
 
     private static instance: CurrentEventProcessingUIModel | undefined = undefined;
@@ -38,6 +40,16 @@ export class CurrentEventProcessingUIFactory {
             CurrentEventProcessingUIFactory.eventTypeSettingUIModel = new EventTypeSettingUIModel(logger, currentEventProcessingUIModel);
         }
         return CurrentEventProcessingUIFactory.eventTypeSettingUIModel;
+
+    }
+
+    private static beginningTypeSettingUIModel: IBeginningTypeSettingUIModel | undefined = undefined;
+    static getBeginningTypeSettingUIModel(logger: Logger): IBeginningTypeSettingUIModel {
+        if (!CurrentEventProcessingUIFactory.beginningTypeSettingUIModel) {
+            const currentEventProcessingUIModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
+            CurrentEventProcessingUIFactory.beginningTypeSettingUIModel = new BeginningTypeSettingUIModel(logger, currentEventProcessingUIModel);
+        }
+        return CurrentEventProcessingUIFactory.beginningTypeSettingUIModel;
 
     }
 

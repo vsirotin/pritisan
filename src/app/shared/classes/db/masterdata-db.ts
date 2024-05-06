@@ -3,6 +3,7 @@ import { IEventTypeNode } from "../../../features/models/capture/capture-common-
 import { Logger } from "../../services/logging/logger";
 
 export interface IMasterDataPersistence {
+    readBeginningTypes(): Promise<IAlternative[]>;
     readEventTypes(): Promise<IAlternative[]>;
     readActivityTypes(): Promise<IEventTypeNode[]>;
     saveOrUpdateActivityTypes(activityTypes: IEventTypeNode[]): Promise<void>;
@@ -14,7 +15,7 @@ export class MasterDataPersistence implements IMasterDataPersistence {
 
     
     async readEventTypes(): Promise<IAlternative[]> {
-        this.logger.warn("CurrentEventBusinessLogicModel.getEventTypes. Temporary implementation.");
+        this.logger.warn("MasterDataPersistence.readEventTypes. Temporary implementation.");
         return [
             {signalId:  "start-of-event", localizedName: 'Начало', alternativeId: '1', suffix: '(события, деятедьности...)'}, 
             {signalId: "finish-of-event", localizedName: 'Окончание', alternativeId: '2', suffix: '(события, деятедьности...)'}, 
@@ -23,8 +24,16 @@ export class MasterDataPersistence implements IMasterDataPersistence {
         ];
     }
 
+    async readBeginningTypes(): Promise<IAlternative[]> {
+        this.logger.warn("MasterDataPersistence.readBeginningTypes. Temporary implementation.");
+        return [
+            {signalId:  "with-time", localizedName: 'с началом в', alternativeId: '1', suffix: '(время)'}, 
+            {signalId: "days-ago", localizedName: 'начато назад', alternativeId: '2', suffix: '(минут, часов, дней...)'}, 
+        ];
+    }
+
     async readActivityTypes(): Promise<IEventTypeNode[]> {
-        this.logger.warn("CurrentEventBusinessLogicModel.readActivityTypes. Temporary implementation.");
+        this.logger.warn("MasterDataPersistence.readActivityTypes. Temporary implementation.");
         return [
             {
                 name: 'Сон',

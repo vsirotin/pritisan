@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { IWorkflowTypeSettingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/workflow-type-setting-ui-model';
 import { Logger } from '../../../../../shared/services/logging/logger';
-import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/cCurrent-event-processing-ui-factory';
+import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { IBeginningTypeSettingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/beginning-type-setting-ui-model';
 
 @Component({
   selector: 'app-begining-type-setting',
@@ -16,16 +17,16 @@ import { FormsModule } from '@angular/forms';
 })
 export class BeginingTypeSettingComponent implements OnInit{
 
-  uiModel!:  IWorkflowTypeSettingUIModel;
+  uiModel!:  IBeginningTypeSettingUIModel;
 
   eventTypes!: string[];
   selectedEventType!: string;
   constructor(private logger: Logger) { 
-    this.uiModel = CurrentEventProcessingUIFactory.getWorkflowTypeSettingUIModel(this.logger);
+    this.uiModel = CurrentEventProcessingUIFactory.getBeginningTypeSettingUIModel(this.logger);
   }
   
   async ngOnInit() {
-    this.uiModel.getWorkflowNames().then((eventTypes) => {
+    this.uiModel.getAlternativeNames().then((eventTypes) => {
       this.logger.debug("WorkflowTypeSelectionComponent.ngOnInit Event types: " + eventTypes);
       this.eventTypes = eventTypes;
       this.logger.debug("Event types: " + this.eventTypes);
@@ -34,6 +35,6 @@ export class BeginingTypeSettingComponent implements OnInit{
   }
 
   onSelectionChange(event: MatRadioChange) {
-    this.uiModel.changeSelectedWorkflowType(event.value);
+    this.uiModel.changeSelectedAlternative(event.value);
   }
 }

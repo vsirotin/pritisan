@@ -88,12 +88,12 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
         const p3_event_type_setting = new EventProcesingState("event-type-setting");
         const p4_beginig_type_setting = new EventProcesingState("begining-type-setting"); //Begining type for closed event by workflow type 2
         const ressource_type_setting = new EventProcesingState("ressource-type-setting");
-        const date_setting1 = new EventProcesingState("time-point-setting");
+        const p5_date_setting = new EventProcesingState("time-point-setting");
         const date_setting2 = new EventProcesingState("time-point-setting");
         const date_setting3 = new EventProcesingState("time-point-setting");
         const date_setting4 = new EventProcesingState("time-point-setting");
         const date_setting5 = new EventProcesingState("time-point-setting");
-        const time_interval_setting1 = new EventProcesingState("time-interval-setting");
+        const p6_time_interval_setting = new EventProcesingState("time-interval-setting");
         const time_interval_setting2 = new EventProcesingState("time-interval-setting");
         const amount_setting = new EventProcesingState("amount-setting");
         const units_setting = new EventProcesingState("units-setting");
@@ -117,10 +117,11 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
                 //Workflow type 2
                 new TransitionCurrentEventProcessing(p0_workflow_type_setting, p2_event_type_setting, CurrentEventProcessingSignal.FINISH_OF_EVENT),
                 new TransitionCurrentEventProcessing(p2_event_type_setting, p4_beginig_type_setting),
-                new TransitionCurrentEventProcessing(date_setting1, parameters_setting),
+                new TransitionCurrentEventProcessing(p4_beginig_type_setting, p5_date_setting),
+                new TransitionCurrentEventProcessing(p5_date_setting, parameters_setting),
 
-                new TransitionCurrentEventProcessing(p2_event_type_setting, time_interval_setting1, CurrentEventProcessingSignal.DAYS_AGO),
-                new TransitionCurrentEventProcessing(time_interval_setting1, parameters_setting),
+                new TransitionCurrentEventProcessing(p4_beginig_type_setting, p6_time_interval_setting, CurrentEventProcessingSignal.DAYS_AGO),
+                new TransitionCurrentEventProcessing(p6_time_interval_setting, parameters_setting),
 
                 //Workflow type 3
                 new TransitionCurrentEventProcessing(p0_workflow_type_setting, p3_event_type_setting, CurrentEventProcessingSignal.OCCURED_IN), 

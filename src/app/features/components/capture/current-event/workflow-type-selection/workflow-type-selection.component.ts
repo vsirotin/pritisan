@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
 import { Logger } from '../../../../../shared/services/logging/logger';
 import { IWorkflowTypeSettingUIModel } from "../../../../models/capture/ui-model/current-event-processing-ui-model/workflow-type-setting-ui-model";
-import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/cCurrent-event-processing-ui-factory';
+import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
 
 
 @Component({

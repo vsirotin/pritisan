@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Logger } from '../../../../../shared/services/logging/logger';
 import { EventTypeSettingUIModel, IEventTypeSettingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/event-type-setting-ui-model';
 import { ICurrentEventProcessingNavigation } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
-import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/cCurrent-event-processing-ui-factory';
+import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
 
 interface EventTypeNode {
   name: string;
