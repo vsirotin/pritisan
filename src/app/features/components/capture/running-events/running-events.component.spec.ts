@@ -2,10 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RunningEventsComponent } from './running-events.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IRunningEventsBusinessLogicModel, RunningEventsBusinessLogicModel } from '../model/capture/business-logic-model/running-events-business-logic-model';
-import { IPersistedEvent, RunningEventsPersistence, getTimeBeforeNow } from '../../../../shared/classes/db/time-series-db';
+import { IRunningEventsBusinessLogicModel, RunningEventsBusinessLogicModel } from '../../../models/capture/business-logic-model/running-events-business-logic-model';
+import { IPersistedEvent } from '../../../../shared/classes/db/time-series-db';
+import { RunningEventsPersistence } from "../../../../shared/classes/db/running-events-db";
 import { Logger } from '../../../../shared/services/logging/logger';
 import { By } from '@angular/platform-browser';
+import { CaptureBusinessLogicModelFactory } from '../../../models/capture/business-logic-model/capture-business-logic-model';
 
 describe('RunningActionsComponent', () => {
   let component: RunningEventsComponent;
@@ -24,7 +26,7 @@ describe('RunningActionsComponent', () => {
     component = fixture.componentInstance;
 
     logger = new Logger();
-    businessLogicModel = new RunningEventsBusinessLogicModel(logger);
+    businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(logger).getRunningEventsBusinessLogicModel();
   });
 
   it('should create', () => {
@@ -78,10 +80,10 @@ describe('RunningActionsComponent', () => {
     class RunningEventsPersistenceExtend2 extends RunningEventsPersistence{
       override async readRunningEvents(): Promise<IPersistedEvent[]> {
         const TEST_EVENTS: IPersistedEvent[] = [
-          {id: 21, start: getTimeBeforeNow(0, 1, 5), fin: null, typeId: "1", details: "event 21"},
-          {id: 22, start: getTimeBeforeNow(0, 16, 35), fin: null, typeId: "2", details: "event 22"},
-          {id: 23, start: getTimeBeforeNow(3, 4, 45), fin: null, typeId: "3", details: "event 23"},
-          {id: 24, start: getTimeBeforeNow(0, 0, 0), fin: null, typeId: "2", details: "event 24"},
+          {id: 21, start: this.getTimeBeforeNow(0, 1, 5), fin: null, typeId: "1", details: "event 21"},
+          {id: 22, start: this.getTimeBeforeNow(0, 16, 35), fin: null, typeId: "2", details: "event 22"},
+          {id: 23, start: this.getTimeBeforeNow(3, 4, 45), fin: null, typeId: "3", details: "event 23"},
+          {id: 24, start: this.getTimeBeforeNow(0, 0, 0), fin: null, typeId: "2", details: "event 24"},
         ]
     
         return TEST_EVENTS;

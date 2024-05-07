@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { LanguageSelectionComponent } from '../../services/language-selection/language-selection.component'
+import { LanguageSelectionComponent } from '../language-selection/language-selection.component'
 import { ILanguageChangeNotificator } from '../../../shared/classes/localization/language-change-notificator';
 import { ILanguageDescription, SupportedLanguages } from '../../../shared/classes/localization/language-description';
 import { Subscription } from 'rxjs/internal/Subscription';

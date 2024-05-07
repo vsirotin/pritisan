@@ -3,10 +3,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import { RepositoryNavigationUIModel } from '../model/capture/ui-model/repository-navigation-ui-model';
-import { IRepositoryNavigationUIModel } from '../model/capture/ui-model/repository-navigation-ui-model';
-import { IRepositoryNavigationPresenter } from '../model/capture/ui-model/repository-navigation-ui-model';
-import { RepositoryNavigationAction } from "../model/capture/business-logic-model/repository-navigation-business-logic-model";
+import { RepositoryNavigationUIModel } from '../../../models/capture/ui-model/repository-navigation-ui-model';
+import { IRepositoryNavigationUIModel } from '../../../models/capture/ui-model/repository-navigation-ui-model';
+import { IRepositoryNavigationPresenter } from '../../../models/capture/ui-model/repository-navigation-ui-model';
+import { RepositoryNavigationAction } from "../../../models/capture/business-logic-model/repository-navigation-business-logic-model";
 import { Logger } from '../../../../shared/services/logging/logger';
 
 @Component({

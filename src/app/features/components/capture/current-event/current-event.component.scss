@@ -1,5 +1,12 @@
+@import '../../../../shared/styles/toolbar.scss';
+
 .container2 {
     display: flex;
+  }
+
+  .container3 {
+    display: flex;
+    justify-content: flex-end;
   }
   
   app-current-event-toolbar {
@@ -13,3 +20,10 @@
   .event-card {
     max-width: 300px;
   }
+
+  .toolbar-add-edit {
+    display: flex;
+    padding: 0 10px;
+    margin: 0 10px;
+    justify-content: flex-end
+}

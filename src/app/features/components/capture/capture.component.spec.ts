@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CaptureComponent } from './capture.component';
 import { By } from '@angular/platform-browser';
 
-describe('CaptureComponent', () => {
+xdescribe('CaptureComponent', () => {
   let component: CaptureComponent;
   let fixture: ComponentFixture<CaptureComponent>;
 

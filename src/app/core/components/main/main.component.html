@@ -21,24 +21,24 @@
 
         @switch (currentCommponent) { 
           @case ("edit") {
-              <app-edit></app-edit>
-            } 
-            @case ("analysis") {
-              <app-analysis></app-analysis>
-            } 
-            @case ("import_export") {
-              <app-import-export></app-import-export>
-            } 
-            @case ("settings") {
-              <app-settings></app-settings>
-            } 
-            @case ("info") {
-              <app-info></app-info>
-            } 
-            @default {
-              <app-capture></app-capture>
-            } 
-          }
+            <app-edit></app-edit>
+          } 
+          @case ("analysis") {
+            <app-analysis></app-analysis>
+          } 
+          @case ("import_export") {
+            <app-import-export></app-import-export>
+          } 
+          @case ("settings") {
+            <app-settings></app-settings>
+          } 
+          @case ("info") {
+            <app-info></app-info>
+          } 
+          @default {
+            <app-capture></app-capture>
+          } 
+        }
 
       </mat-sidenav-content>
     </mat-sidenav-container>

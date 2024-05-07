@@ -1,8 +1,101 @@
-<h1>Add Event/Data</h1>
+<h1>Add Event: {{currentEventDescription}}</h1>
 <div class="container2">
-    <app-event-type-selecting></app-event-type-selecting>
-    <app-current-event-toolbar></app-current-event-toolbar>
+    
+    @switch (currentSubCommponent) { 
+
+      @case ("workflow-type-selection") {
+        <app-workflow-type-selection></app-workflow-type-selection>
+    }
+        
+        @case ("event-type-setting") {
+            <app-event-type-setting></app-event-type-setting>
+        } 
+
+        @case ("beginning-type-setting") {
+            <app-beginning-type-setting></app-beginning-type-setting>
+        }
+
+        @case ("ressource-type-setting") {
+            <app-ressource-type-setting></app-ressource-type-setting>
+        }
+
+        @case ("time-point-setting") {
+            <app-time-point-setting></app-time-point-setting>
+        }
+
+        @case ("time-interval-setting") {
+            <app-time-interval-setting></app-time-interval-setting>
+        }
+
+        @case ("amount-setting") {
+            <app-amount-setting></app-amount-setting>
+        }
+
+        @case ("number-of-times-setting") {
+            <app-number-of-times-setting></app-number-of-times-setting>
+        }
+
+        @case ("comment-setting") {
+            <app-comment-setting></app-comment-setting>
+        }
+
+        @case ("tag-setting") {
+            <app-tag-setting></app-tag-setting>
+        }
+
+        @case ("interval-type-setting") {
+            <app-interval-type-setting></app-interval-type-setting>
+        }
+
+
+       @case ("period-type-setting") {
+           <app-period-type-setting></app-period-type-setting>
+        }
+
+        @case ("event-saving") {
+            <app-event-saving></app-event-saving>
+        }
+
+        @case ("parameters-setting") {
+            <app-parameters-setting></app-parameters-setting>
+        }
+
+        @case ("parameters-setting") {
+          <app-parameters-setting></app-parameters-setting>
+        } 
+
+        @default {
+            <!--equal "workflow-type-selection" -->
+            <app-workflow-type-selection></app-workflow-type-selection>
+        } 
+      }
 </div>
-<app-time-setting></app-time-setting>
-<app-parameters-setting></app-parameters-setting>
+<div class="container3">
+  <mat-toolbar class="toolbar-add-edit">
+  
+  
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo"
+      (click)="navigateTo(CEA.NEXT_STEP)" disabled="{{isDisabled(CEA.NEXT_STEP)}}">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+  
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" 
+      (click)="navigateTo(CEA.SAVE)" disabled="{{isDisabled(CEA.SAVE)}}">
+      <mat-icon>save</mat-icon>
+    </button>
+  
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button for navigation in app" 
+    (click)="navigateTo(CEA.CANCEL)" disabled="{{isDisabled(CEA.CANCEL)}}">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  
+  
+    <button mat-icon-button class="toolbar-button" aria-label="Icon-button with application logo"
+      (click)="navigateTo(CEA.DELETE)" disabled="{{isDisabled(CEA.DELETE)}}">
+      <mat-icon>delete</mat-icon>
+    </button>
+  
+  </mat-toolbar>
+</div>
+
 

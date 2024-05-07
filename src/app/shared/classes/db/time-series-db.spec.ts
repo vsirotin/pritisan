@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MetaDataPersistence } from './time-series-db';
+import { MetaDataPersistence } from "./metadata-db";
 import { Logger } from '../../services/logging/logger';
 
 describe('Time Series Db', () => {
