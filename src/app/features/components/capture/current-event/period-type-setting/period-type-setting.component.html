@@ -1,1 +1,8 @@
-<p>period-type-setting works!</p>
+<mat-radio-group
+  aria-labelledby="radio-buttons-group-label"
+  class="radio-buttons-group"
+  [(ngModel)]="selectedEventType"  (change)="onSelectionChange($event)">
+  @for (eventType of eventTypes; track eventType) {
+    <mat-radio-button class="radio-button" [value]="eventType">{{eventType}}...</mat-radio-button>
+  }
+</mat-radio-group>

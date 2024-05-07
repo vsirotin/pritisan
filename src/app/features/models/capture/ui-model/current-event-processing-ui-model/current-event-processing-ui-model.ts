@@ -86,7 +86,7 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
         const p1_event_type_setting = new EventProcesingState("event-type-setting");
         const p2_event_type_setting = new EventProcesingState("event-type-setting");
         const p3_event_type_setting = new EventProcesingState("event-type-setting");
-        const p4_beginig_type_setting = new EventProcesingState("begining-type-setting"); //Begining type for closed event by workflow type 2
+        const p4_beginig_type_setting = new EventProcesingState("beginning-type-setting"); //Begining type for closed event by workflow type 2
         const ressource_type_setting = new EventProcesingState("ressource-type-setting");
         const p5_date_setting = new EventProcesingState("time-point-setting");
         const date_setting2 = new EventProcesingState("time-point-setting");

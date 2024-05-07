@@ -7,12 +7,11 @@ import { ParametersSettingComponent } from './parameters-setting/parameters-sett
 import { RessourceTypeSettingComponent } from './ressource-type-setting/ressource-type-setting.component';
 import { TimeIntervalSettingComponent } from './time-interval-setting/time-interval-setting.component';
 import { AmountSettingComponent } from './amount-setting/amount-setting.component';
-import { BeginingTypeSettingComponent } from './begining-type-setting/begining-type-setting.component';
+import { BeginningTypeSettingComponent } from './beginning-type-setting/beginning-type-setting.component';
 import { CommentSettingComponent } from './comment-setting/comment-setting.component';
 import { TagSettingComponent } from './tag-setting/tag-setting.component';
 import { NumberOfTimesSettingComponent } from './number-of-times-setting/number-of-times-setting.component';
 import { IntervalTypeSettingComponent } from './interval-type-setting/interval-type-setting.component';
-import { BeginningTypeSettingComponent } from './beginning-type-setting/beginning-type-setting.component';
 import { PeriodTypeSettingComponent } from './period-type-setting/period-type-setting.component';
 import { EventSavingComponent } from './event-saving/event-saving.component';
 import { ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
@@ -39,12 +38,11 @@ import { MatButtonModule } from '@angular/material/button';
     AmountSettingComponent,
     ParametersSettingComponent,
     RessourceTypeSettingComponent,
-    BeginingTypeSettingComponent,
+    BeginningTypeSettingComponent,
     CommentSettingComponent,
     TagSettingComponent,
     NumberOfTimesSettingComponent,
     IntervalTypeSettingComponent,
-    BeginningTypeSettingComponent,
     PeriodTypeSettingComponent,
     EventSavingComponent,
     MatToolbarModule, 

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BeginningTypeSettingComponent } from './beginning-type-setting.component';
 
-describe('BeginningTypeSettingComponent', () => {
+describe('UnitsSettingComponent', () => {
   let component: BeginningTypeSettingComponent;
   let fixture: ComponentFixture<BeginningTypeSettingComponent>;
 
