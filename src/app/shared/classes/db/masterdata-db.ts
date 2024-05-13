@@ -38,11 +38,11 @@ export class MasterDataPersistence implements IMasterDataPersistence {
             {
                 name: 'Сон',
                 children: [
-                    { name: 'Подготовка ко сну' }, 
+                    { name: 'Подготовка ко сну', id: 123 }, 
                     { name: 'Дремота' }, 
                     { name: 'Глубокий сон' },
                     { name: 'Проснулся среди на недолго' },
-                    { name: 'Проснулся и долшл не мог заснуть' },
+                    { name: 'Проснулся и долшл не мог заснуть', id: 233 },
                 ],
             },
             {

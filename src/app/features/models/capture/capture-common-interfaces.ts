@@ -29,5 +29,6 @@ export interface ICaptureBusinessLogicModel {
 export interface IEventTypeNode {
   name: string;
   children?: IEventTypeNode[];
+  id?: number;
 }
 
