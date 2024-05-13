@@ -3,7 +3,7 @@ import { Observable, Subject, Subscription } from "rxjs";
 import { Logger } from "../../../../../shared/services/logging/logger";
 import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
 import { WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
-import { IEventTypeSettingUIModel } from './event-type-setting-ui-model';
+import { ITreeSelectorUIModel } from './event-type-setting-ui-model';
 
 import { State, Transition, DetermenisticFiniteAutomatation } from '../../../../../shared/classes/finite-automation/finite-automation';
 
@@ -61,7 +61,7 @@ export interface ICurrentEventProcessingUIModel extends ICurrentEventProcessingN
 export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIModel{
 
     eventSelectionUIModel!: WorkflowTypeSettingUIModel;
-    activityTypeSelectingUIModel!: IEventTypeSettingUIModel;
+    activityTypeSelectingUIModel!: ITreeSelectorUIModel;
     timeSettingUIModel!: TimeSettingUIModel;
     parametersSettingUIModel!: ParametersSettingUIModel;
 

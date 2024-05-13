@@ -3,14 +3,14 @@ import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/cap
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
 import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
 import { CurrentEventProcessingUIFactory } from './current-event-processing-ui-factory';
-import { IEventTypeNode, ICaptureBusinessLogicModel } from "../../capture-common-interfaces";
+import { ITreeNode, ICaptureBusinessLogicModel } from "../../capture-common-interfaces";
 
-export interface IEventTypeSettingUIModel {
-    getEventTypes(): Promise<IEventTypeNode[]>;
-    onEventTypeSelected(node: IEventTypeNode): void;
+export interface ITreeSelectorUIModel {
+    getTreeNodes(): Promise<ITreeNode[]>;
+    onTreeNodeSelected(node: ITreeNode): void;
 }
 
-export class EventTypeSettingUIModel implements IEventTypeSettingUIModel{
+export class EventTypeSettingUIModel implements ITreeSelectorUIModel{
 
   private businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
  
@@ -23,12 +23,12 @@ export class EventTypeSettingUIModel implements IEventTypeSettingUIModel{
 
 
 
-    async getEventTypes(): Promise<IEventTypeNode[]> {
+    async getTreeNodes(): Promise<ITreeNode[]> {
       return this.businessLogicModel.getActivityTypes();
     }
 
 
-    onEventTypeSelected(node: IEventTypeNode) {
+    onTreeNodeSelected(node: ITreeNode) {
       this.logger.debug("ActivitySelectingUIModel.onActivityTypeSelected node: " + node);
       const message: IEventChange = {localizedName: node.name }; 
       this.currentEventNotificationService.notifyEventChange(message); 
