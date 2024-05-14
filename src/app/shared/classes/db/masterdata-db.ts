@@ -17,18 +17,18 @@ export class MasterDataPersistence implements IMasterDataPersistence {
     async readEventTypes(): Promise<IAlternative[]> {
         this.logger.warn("MasterDataPersistence.readEventTypes. Temporary implementation.");
         return [
-            {signalId:  "start-of-event", localizedName: 'Начало', alternativeId: '1', suffix: '(события, деятедьности...)'}, 
-            {signalId: "finish-of-event", localizedName: 'Окончание', alternativeId: '2', suffix: '(события, деятедьности...)'}, 
-            {signalId: "occured-in", localizedName: 'Произошло в прошлом', alternativeId: '3', suffix: '(событие, деятельность...)'}, 
-            {signalId: "spent", localizedName: 'Израсходовано', alternativeId: '4', suffix: '(денег, материалов...)'}, 
+            {id:  1, name: 'Начало (события, деятедьности...)'}, 
+            {id: 2, name: 'Окончание (события, деятедьности...)'}, 
+            {id: 3, name: 'Произошло в прошлом (событие, деятельность...)'}, 
+            {id: 4, name: 'Израсходовано (денег, материалов...)'}, 
         ];
     }
 
     async readBeginningTypes(): Promise<IAlternative[]> {
         this.logger.warn("MasterDataPersistence.readBeginningTypes. Temporary implementation.");
         return [
-            {signalId:  "with-time", localizedName: 'с началом в', alternativeId: '1', suffix: '(время)'}, 
-            {signalId: "days-ago", localizedName: 'начато назад', alternativeId: '2', suffix: '(минут, часов, дней...)'}, 
+            {id:  1, name: 'с началом в(время)'}, 
+            {id: 2, name: 'начато назад (минут, часов, дней...)'}, 
         ];
     }
 

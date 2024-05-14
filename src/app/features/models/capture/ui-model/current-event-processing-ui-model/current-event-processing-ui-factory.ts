@@ -1,8 +1,8 @@
 import { Logger } from "../../../../../shared/services/logging/logger";
-import { IWorkflowTypeSettingUIModel, WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
+import { IAlternativeSelectionUIModel, WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
 import { EventTypeSettingUIModel, ITreeSelectorUIModel } from './event-type-setting-ui-model';
 import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel, ICurrentEventChangingNotificator } from './current-event-processing-ui-model';
-import { BeginningTypeSettingUIModel, IBeginningTypeSettingUIModel } from "./beginning-type-setting-ui-model";
+import { BeginningTypeSettingUIModel} from "./beginning-type-setting-ui-model";
 
 
 export class CurrentEventProcessingUIFactory {
@@ -24,8 +24,8 @@ export class CurrentEventProcessingUIFactory {
         return CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
     }
 
-    private static workflowTypeSettingUIModel: IWorkflowTypeSettingUIModel | undefined = undefined;
-    static getWorkflowTypeSettingUIModel(logger: Logger): IWorkflowTypeSettingUIModel {
+    private static workflowTypeSettingUIModel: IAlternativeSelectionUIModel | undefined = undefined;
+    static getWorkflowTypeSettingUIModel(logger: Logger): IAlternativeSelectionUIModel {
         if (!CurrentEventProcessingUIFactory.workflowTypeSettingUIModel) {
             const currentEventProcessingUIModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
             CurrentEventProcessingUIFactory.workflowTypeSettingUIModel = new WorkflowTypeSettingUIModel(logger, currentEventProcessingUIModel);
@@ -43,8 +43,8 @@ export class CurrentEventProcessingUIFactory {
 
     }
 
-    private static beginningTypeSettingUIModel: IBeginningTypeSettingUIModel | undefined = undefined;
-    static getBeginningTypeSettingUIModel(logger: Logger): IBeginningTypeSettingUIModel {
+    private static beginningTypeSettingUIModel: IAlternativeSelectionUIModel | undefined = undefined;
+    static getBeginningTypeSettingUIModel(logger: Logger): IAlternativeSelectionUIModel {
         if (!CurrentEventProcessingUIFactory.beginningTypeSettingUIModel) {
             const currentEventProcessingUIModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
             CurrentEventProcessingUIFactory.beginningTypeSettingUIModel = new BeginningTypeSettingUIModel(logger, currentEventProcessingUIModel);
