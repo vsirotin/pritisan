@@ -11,16 +11,27 @@ export class AlternativeSelectionComponent {
   selectedAlternative!: IAlternative;
   constructor(private logger: Logger,
     private uiModel:  IAlternativeSelectionUIModel) { 
-      this.uiModel.getAlternatives().then((alternatives) => {
-        this.logger.debug("WorkflowTypeSelectionComponent.ngOnInit Event types: " + alternatives);
-        this.alternatives = alternatives;
-        this.logger.debug("Event types: " + this.alternatives);
-        this.selectedAlternative = this.alternatives[0];
-      });
-
+    this.logger.debug("AlternativeSelectionComponent.constructor");
+    this.uiModel.getAlternatives().then((alternatives) => {
+      this.logger.debug("AlternativeSelectionComponent.onInitImpl alternatives: " + alternatives);
+      this.alternatives = alternatives;
+      this.logger.debug("Event types: " + this.alternatives);
+      this.selectedAlternative = this.alternatives[0];
+    });
   }
 
   onSelectionChange(event: MatRadioChange) {
+    this.logger.debug("AlternativeSelectionComponent.onSelectionChange event: " + event);
     this.uiModel.alternativeSelected(event.value);
   }
+
+  // protected async onInitImpl() {
+  //   this.logger.debug("AlternativeSelectionComponent.onInitImpl");
+  //   this.uiModel.getAlternatives().then((alternatives) => {
+  //     this.logger.debug("AlternativeSelectionComponent.onInitImpl alternatives: " + alternatives);
+  //     this.alternatives = alternatives;
+  //     this.logger.debug("Event types: " + this.alternatives);
+  //     this.selectedAlternative = this.alternatives[0];
+  //   });
+  // }
 }

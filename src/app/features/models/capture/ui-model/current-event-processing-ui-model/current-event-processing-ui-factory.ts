@@ -20,9 +20,9 @@ export class CurrentEventProcessingUIFactory {
         return CurrentEventProcessingUIFactory.instance;
     }
 
-    static getCurrentEventChangingNotificator(logger: Logger): ICurrentEventChangingNotificator {
-        return CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
-    }
+    // static getCurrentEventChangingNotificator(logger: Logger): ICurrentEventChangingNotificator {
+    //     return CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
+    // }
 
     private static workflowTypeSettingUIModel: IAlternativeSelectionUIModel | undefined = undefined;
     static getWorkflowTypeSettingUIModel(logger: Logger): IAlternativeSelectionUIModel {
@@ -37,20 +37,20 @@ export class CurrentEventProcessingUIFactory {
     static getEventTypeSettingUIModel(logger: Logger): ITreeSelectorUIModel {
         if (!CurrentEventProcessingUIFactory.eventTypeSettingUIModel) {
             const currentEventProcessingUIModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
-            CurrentEventProcessingUIFactory.eventTypeSettingUIModel = new EventTypeSettingUIModel(logger, currentEventProcessingUIModel);
+            CurrentEventProcessingUIFactory.eventTypeSettingUIModel = new EventTypeSettingUIModel(logger);
         }
         return CurrentEventProcessingUIFactory.eventTypeSettingUIModel;
 
     }
 
-    private static beginningTypeSettingUIModel: IAlternativeSelectionUIModel | undefined = undefined;
-    static getBeginningTypeSettingUIModel(logger: Logger): IAlternativeSelectionUIModel {
-        if (!CurrentEventProcessingUIFactory.beginningTypeSettingUIModel) {
-            const currentEventProcessingUIModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
-            CurrentEventProcessingUIFactory.beginningTypeSettingUIModel = new BeginningTypeSettingUIModel(logger, currentEventProcessingUIModel);
-        }
-        return CurrentEventProcessingUIFactory.beginningTypeSettingUIModel;
+    // private static beginningTypeSettingUIModel: IAlternativeSelectionUIModel | undefined = undefined;
+    // static getBeginningTypeSettingUIModel(logger: Logger): IAlternativeSelectionUIModel {
+    //     if (!CurrentEventProcessingUIFactory.beginningTypeSettingUIModel) {
+    //         const currentEventProcessingUIModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
+    //         CurrentEventProcessingUIFactory.beginningTypeSettingUIModel = new BeginningTypeSettingUIModel(logger, currentEventProcessingUIModel);
+    //     }
+    //     return CurrentEventProcessingUIFactory.beginningTypeSettingUIModel;
 
-    }
+    // }
 
 }

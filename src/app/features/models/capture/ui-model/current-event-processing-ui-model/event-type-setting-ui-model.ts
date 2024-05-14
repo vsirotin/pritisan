@@ -15,8 +15,7 @@ export class EventTypeSettingUIModel implements ITreeSelectorUIModel{
   private businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
  
   constructor(
-    private logger: Logger, 
-    private currentEventNotificationService: ICurrentEventChangingNotificator = CurrentEventProcessingUIFactory.getCurrentEventChangingNotificator(logger)) {
+    private logger: Logger ) {
     this.logger.debug("ActivitySelectingUIModel.constructor");
     this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getCurrentEventBusinessLogicModel();
   }
@@ -31,7 +30,7 @@ export class EventTypeSettingUIModel implements ITreeSelectorUIModel{
     onTreeNodeSelected(node: ITreeNode) {
       this.logger.debug("ActivitySelectingUIModel.onActivityTypeSelected node: " + node);
       const message: IEventChange = {localizedName: node.name }; 
-      this.currentEventNotificationService.notifyEventChange(message); 
+  //    this.currentEventNotificationService.notifyEventChange(message); 
     }
 
 }

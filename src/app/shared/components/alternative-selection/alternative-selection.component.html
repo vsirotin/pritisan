@@ -1,7 +1,7 @@
 <mat-radio-group
   aria-labelledby="radio-buttons-group-label"
   class="radio-buttons-group"
-  [(ngModel)]="selectedAlternative.name"  (change)="onSelectionChange($event)">
+  [(ngModel)]="selectedAlternative"  (change)="onSelectionChange($event)">
   @for (alternative of alternatives; track alternative) {
     <mat-radio-button class="radio-button" [value]="alternative">{{alternative.name}}...</mat-radio-button>
   }

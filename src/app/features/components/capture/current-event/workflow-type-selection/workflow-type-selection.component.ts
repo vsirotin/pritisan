@@ -16,10 +16,13 @@ import { AlternativeSelectionComponent } from '../../../../../shared/components/
   templateUrl: '../../../../../shared/components/alternative-selection/alternative-selection.component.html',
   styleUrl: '../../../../../shared/components/alternative-selection/alternative-selection.component.scss'
 })
-export class WorkflowTypeSelectionComponent extends AlternativeSelectionComponent{
+export class WorkflowTypeSelectionComponent extends AlternativeSelectionComponent {
 
   constructor(logger: Logger) { 
     super(logger, CurrentEventProcessingUIFactory.getWorkflowTypeSettingUIModel(logger));
   }
+  // async ngOnInit() {
+  //   await super.onInitImpl();
+  // }
   
 }

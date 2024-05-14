@@ -17,10 +17,9 @@ export class MasterDataPersistence implements IMasterDataPersistence {
     async readEventTypes(): Promise<IAlternative[]> {
         this.logger.warn("MasterDataPersistence.readEventTypes. Temporary implementation.");
         return [
-            {id:  1, name: 'Начало (события, деятедьности...)'}, 
-            {id: 2, name: 'Окончание (события, деятедьности...)'}, 
-            {id: 3, name: 'Произошло в прошлом (событие, деятельность...)'}, 
-            {id: 4, name: 'Израсходовано (денег, материалов...)'}, 
+            {id:  1, name: 'Событие, деятельность (началось, закончилось...)'}, 
+            {id: 2, name: 'Деньги, ресурсы использованы...'}, 
+            {id: 3, name: 'Наблюдение сделано...'}, 
         ];
     }
 

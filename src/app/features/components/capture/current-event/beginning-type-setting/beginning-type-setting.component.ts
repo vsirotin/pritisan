@@ -22,7 +22,7 @@ export class BeginningTypeSettingComponent implements OnInit{
   beginTypes!: IAlternative[];
   selectedEventType!: IAlternative;
   constructor(private logger: Logger) { 
-    this.uiModel = CurrentEventProcessingUIFactory.getBeginningTypeSettingUIModel(this.logger);
+   // this.uiModel = CurrentEventProcessingUIFactory.getBeginningTypeSettingUIModel(this.logger);
   }
   
   async ngOnInit() {

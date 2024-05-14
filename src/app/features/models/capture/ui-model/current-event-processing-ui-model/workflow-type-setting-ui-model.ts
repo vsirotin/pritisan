@@ -1,8 +1,8 @@
 import { Logger } from "../../../../../shared/services/logging/logger";
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
-import { IAlternative, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
-import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
+import { IAlternative } from "../../business-logic-model/current-event-business-logic-model/event-commons";
+import { ICurrentEventChangingNotificator, IEventChange, IWorkflowTypeSelection } from './current-event-processing-ui-model';
 
 export interface IAlternativeSelectionUIModel {
     getAlternatives(): Promise<IAlternative[]>;
@@ -15,7 +15,7 @@ export class WorkflowTypeSettingUIModel implements IAlternativeSelectionUIModel{
 
     businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
 
-    constructor(private logger: Logger, private currentEventNotificationService: ICurrentEventChangingNotificator) {
+    constructor(private logger: Logger, private workflowSelectionReceiver: IWorkflowTypeSelection) {
         this.logger.debug("WorkflowTypeSelectionUIModel.constructor");
         this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getCurrentEventBusinessLogicModel();
         this.loadFromBusinessLogicModel();
@@ -32,13 +32,7 @@ export class WorkflowTypeSettingUIModel implements IAlternativeSelectionUIModel{
 
     alternativeSelected(selection: IAlternative) {
         this.logger.debug("WorkflowTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName: " + selection);
-        //const workflowType = this.workflowTypes.find((workflowType: IAlternative) => this.evntType2workflowName(workflowType) === workflowTypeName);
-        if(selection === undefined) {
-            this.logger.error("WorkflowTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName is unknown");
-            return;
-        }
-        const changingInfo: IEventChange = {signalId: "" + selection.id, localizedName:  selection.name }; 
-        this.currentEventNotificationService.notifyEventChange(changingInfo); 
+        this.workflowSelectionReceiver.workflowTypeSelected(selection); 
     }
 
     private async loadFromBusinessLogicModel(): Promise<IAlternative[]> {
