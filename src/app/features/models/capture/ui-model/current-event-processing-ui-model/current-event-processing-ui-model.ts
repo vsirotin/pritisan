@@ -58,8 +58,6 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
 
     private stateChangeSubject = new Subject<string>();
     stateChange$: Observable<string> = this.stateChangeSubject.asObservable();
-
-    private subscriptionCurrentEventNotificationService!: Subscription;
  
     private currentEvent = new CurrentEvent();
 
@@ -87,12 +85,9 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
     }
 
     doDestroy() {
-        this.subscriptionCurrentEventNotificationService.unsubscribe();
+
     }
 }
-
-
-
 
 class CurrentEvent {
 }
