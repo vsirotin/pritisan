@@ -22,6 +22,12 @@ export interface IAlternative {
    id: number;
 }
 
+export interface IAlternativeList {
+    alternatives: IAlternative[];
+    currentAlternativeId: number;
+    titleForAlternativeSelection: string; // title for the alternative selection presented for the user
+ }
+
 
 
 

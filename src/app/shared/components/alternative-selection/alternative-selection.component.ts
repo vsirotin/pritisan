@@ -8,16 +8,21 @@ export class AlternativeSelectionComponent {
   isExpanded = true; 
   alternatives!: IAlternative[];
   selectedAlternative!: IAlternative;
-  title = "Select an alternative";
+  nameSelectedAlternative = "";
+  title? : string;
   constructor(private logger: Logger,
     private uiModel:  IAlternativeSelectionUIModel) { 
     this.logger.debug("AlternativeSelectionComponent.constructor");
-    this.uiModel.getAlternatives().then((alternatives) => {
-      this.logger.debug("AlternativeSelectionComponent.onInitImpl alternatives: " + alternatives);
-      this.alternatives = alternatives;
-      this.logger.debug("Event types: " + this.alternatives);
-      this.selectedAlternative = this.alternatives[0];
-      this.title = this.alternatives[0].name;
+    this.uiModel.getAlternatives().then((alternativeList) => {
+      this.logger.debug("AlternativeSelectionComponent.onInitImpl alternatives: " + alternativeList);
+
+      this.title = alternativeList.titleForAlternativeSelection;
+      this.alternatives = alternativeList.alternatives;
+      const index = alternativeList.alternatives.findIndex(a => a.id == alternativeList.currentAlternativeId);
+      if(index >= 0){
+        this.selectedAlternative = this.alternatives[index];
+        this.nameSelectedAlternative = this.selectedAlternative.name;
+      }
     });
   }
 
@@ -26,7 +31,12 @@ export class AlternativeSelectionComponent {
     this.isExpanded = false; // collapse the panel after a selection is made
     // other code...
     this.uiModel.alternativeSelected(event.value);
-    this.title = event.value.name;
+    const id = event.value.id;
+    const index = this.alternatives.findIndex(a => a.id == id);
+      if(index >= 0){
+        this.selectedAlternative = this.alternatives[index];
+        this.nameSelectedAlternative = this.selectedAlternative.name;
+      }
   }
 
 }

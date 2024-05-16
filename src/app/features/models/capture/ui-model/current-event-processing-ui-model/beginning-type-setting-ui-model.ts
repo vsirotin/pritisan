@@ -1,7 +1,7 @@
 import { Logger } from "../../../../../shared/services/logging/logger";
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
-import { IAlternative, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
+import { IAlternative, IAlternativeList, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
 import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
 import { IAlternativeSelectionUIModel } from "./workflow-type-setting-ui-model";
 
@@ -9,7 +9,7 @@ import { IAlternativeSelectionUIModel } from "./workflow-type-setting-ui-model";
 
 export class BeginningTypeSettingUIModel implements IAlternativeSelectionUIModel{
 
-    private beginningType!: IAlternative[];
+    private beginningType!: IAlternativeList;
 
     businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
 
@@ -19,7 +19,7 @@ export class BeginningTypeSettingUIModel implements IAlternativeSelectionUIModel
         this.loadFromBusinessLogicModel();
     }
 
-    async getAlternatives(): Promise<IAlternative[]> {
+    async getAlternatives(): Promise<IAlternativeList> {
         if (this.beginningType !== undefined) {
             this.logger.debug("BeginningTypeSelectionUIModel.getEventTypes 1 eventTypes: " + this.beginningType);
             return this.beginningType;         
@@ -39,10 +39,10 @@ export class BeginningTypeSettingUIModel implements IAlternativeSelectionUIModel
         this.currentEventNotificationService.notifyEventChange(changingInfo); 
     }
 
-    private async loadFromBusinessLogicModel(): Promise<IAlternative[]> {
-        await this.businessLogicModel.getBeginningTypes().then((alternatives) => {
-            this.logger.debug("BeginningTypeSelectionUIModel.loadFromBusinessLogicModel eventTypes: " + alternatives);
-            this.beginningType = alternatives;
+    private async loadFromBusinessLogicModel(): Promise<IAlternativeList> {
+        await this.businessLogicModel.getBeginningTypes().then((alternativeList) => {
+            this.logger.debug("BeginningTypeSelectionUIModel.loadFromBusinessLogicModel eventTypes: " + alternativeList);
+            this.beginningType = alternativeList;
         });
         return this.beginningType;
     }

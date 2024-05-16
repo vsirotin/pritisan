@@ -1,10 +1,10 @@
-import { IAlternative } from "../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
+import { IAlternative, IAlternativeList } from "../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
 import { ITreeNode } from "../../../features/models/capture/capture-common-interfaces";
 import { Logger } from "../../services/logging/logger";
 
 export interface IMasterDataPersistence {
-    readBeginningTypes(): Promise<IAlternative[]>;
-    readEventTypes(): Promise<IAlternative[]>;
+    readBeginningTypes(): Promise<IAlternativeList>;
+    readEventTypes(): Promise<IAlternativeList>;
     readActivityTypes(): Promise<ITreeNode[]>;
     saveOrUpdateActivityTypes(activityTypes: ITreeNode[]): Promise<void>;
 }
@@ -14,21 +14,30 @@ export class MasterDataPersistence implements IMasterDataPersistence {
     constructor(private logger: Logger) {}
 
     
-    async readEventTypes(): Promise<IAlternative[]> {
+    async readEventTypes(): Promise<IAlternativeList> {
         this.logger.warn("MasterDataPersistence.readEventTypes. Temporary implementation.");
-        return [
-            {id:  1, name: 'Событие, деятельность (началось, закончилось...)'}, 
-            {id: 2, name: 'Деньги, ресурсы использованы...'}, 
-            {id: 3, name: 'Наблюдение сделано...'}, 
-        ];
+        return {
+            currentAlternativeId: 0,
+            titleForAlternativeSelection: 'Событие:',
+
+            alternatives: [
+                {id:  1, name: 'Событие, деятельность (началось, закончилось...)'}, 
+                {id: 2, name: 'Деньги, ресурсы использованы...'}, 
+                {id: 3, name: 'Наблюдение сделано...'}, 
+            ],
+        };
     }
 
-    async readBeginningTypes(): Promise<IAlternative[]> {
+    async readBeginningTypes(): Promise<IAlternativeList> {
         this.logger.warn("MasterDataPersistence.readBeginningTypes. Temporary implementation.");
-        return [
-            {id:  1, name: 'с началом в(время)'}, 
-            {id: 2, name: 'начато назад (минут, часов, дней...)'}, 
-        ];
+        return {
+            currentAlternativeId: 0,
+            titleForAlternativeSelection: 'Выберите начало события',
+            alternatives:[
+                {id:  1, name: 'с началом в(время)'}, 
+                {id: 2, name: 'начато назад (минут, часов, дней...)'}, 
+            ],
+        };
     }
 
     async readActivityTypes(): Promise<ITreeNode[]> {

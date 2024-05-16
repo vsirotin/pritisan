@@ -28,9 +28,9 @@ export class BeginningTypeSettingComponent implements OnInit{
   async ngOnInit() {
     this.uiModel.getAlternatives().then((beginTypes) => {
       this.logger.debug("BeginningTypeSettingComponent.ngOnInit Event types: " + beginTypes);
-      this.beginTypes = beginTypes;
-      this.logger.debug("Event types: " + this.beginTypes);
-      this.selectedEventType = this.beginTypes[0];
+      // this.beginTypes = beginTypes;
+      // this.logger.debug("Event types: " + this.beginTypes);
+      // this.selectedEventType = this.beginTypes[0];
     });
   }
 
