@@ -1,0 +1,30 @@
+@startuml "Use Cases"
+scale 2
+left to right direction
+skinparam packageStyle rect
+skinparam defaultFontName "Arial"
+rectangle "Use Cases" {
+  actor User
+  actor "Language service"
+
+    package Cature {
+      
+        User -> (Add new event)
+        User -> (Edit event)
+        User -> (Delete event)
+        "Language service" -> (Change Current Language)
+        (Add new event).-> (Extend Master Data)
+        (Add new event).-> (Cancel editing)
+        (Add new event).-> (Initial loading)
+        (Add new event).-> (Events part changed)
+        (Edit event).-> (Extend Master Data)
+        (Edit event).-> (Cancel editing)
+        (Edit event).-> (Load event)
+        (Edit event).-> (Events part changed)
+
+        note right of (Delete event)
+          This use case has as a precondition, that either usecase "Add new event" 
+          or "Edit event" has been started before.
+        end note
+    }
+@enduml

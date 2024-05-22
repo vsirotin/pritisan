@@ -1,0 +1,49 @@
+@startuml "Use Cases"
+scale 2
+skinparam packageStyle rect
+skinparam defaultFontName "Arial"
+top to bottom direction
+
+class MainComponent implements IMainComponent
+class SubComponent implements ISubComponent
+class MainUIModel
+class SubUIModel implements ISubUIModel 
+class Event
+class EventPart implements IEventPart
+class EventPartMasterData
+Class BLModel
+class FabricUIModel {
+    +getUiModel(type: Class): ISubUIModel
+}
+
+class PercistenceModel implements IPersistenceModel
+class FabricPercistenceModel{
+    +getPersistenceModel(type: Class)
+}
+
+interface IMainComponent<Event>
+interface ISubComponent<EventPart EventPartMasterData>
+interface ISubUIModel<EventPart EventPartMasterData>
+interface IFabricUIModel
+interface IEventPart
+interface IPersistenceModel<EventPart>{
+    +getMasterData(type: Type): EventPartMasterData
+    +getUILanguageData(componentName: string, language: string): T extends IUILanguageData
+}
+interface IUILanguageData
+    
+
+
+interface ISubUIModel<EventPartMasterData, T extends IUILanguageData> {
+    +getUiModel(): ISubUIModel
+    +getUILanguageData(): T
+    +getMasterData(): EventPartMasterData
+}
+
+MainComponent "1" *-- "many" SubComponent
+MainUIModel "1" *-- "many" SubUIModel
+FabricUIModel *-- MainUIModel
+Event "1" *-- "many" EventPart
+
+
+@enduml

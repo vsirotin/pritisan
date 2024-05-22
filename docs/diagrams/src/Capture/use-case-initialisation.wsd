@@ -1,0 +1,55 @@
+@startuml "Sub-Use Case Initialisation"
+
+scale 2
+skinparam defaultFontName "Arial"
+hide footbox
+
+
+control Angular as A
+participant SubComponent as S
+participant FabricUIModel  as F
+participant FabricPercistenceModel as PF
+
+A -> S : constructor
+activate S #LightGray
+
+S->F : getUiModel(...)
+activate F #LightYellow
+
+create SubUIModel as SU
+F->SU : new
+return ISubUIModel
+
+S->SU : getUILanguageData()
+activate SU #LightSkyBlue
+
+SU->PF : getPersistenceModel()
+activate PF #LightSalmon
+
+create SubPersistenceModel as SP
+PF->SP : new
+return IPersistenceModel
+
+SU->SP : getLanguageData(...)
+activate SP #LightSeaGreen
+return IUILanguageData
+
+return IUILanguageData
+
+S->S: set language sata
+activate S #Grey
+deactivate S
+
+S->SU: getMasterData()
+activate SU #LightSkyBlue
+SU->SP : getMasterData(...)
+activate SP #LightSeaGreen
+
+return IMasterData
+return IMasterData
+
+S->S: set master sata
+activate S #Grey
+deactivate S
+
+@enduml
