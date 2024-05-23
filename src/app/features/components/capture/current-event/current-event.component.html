@@ -1,74 +1,25 @@
 <h1>Add Event: {{currentEventDescription}}</h1>
 <div class="container2">
-    
+
+    <app-workflow-type-selection></app-workflow-type-selection>
+
     @switch (currentSubCommponent) { 
 
-      @case ("workflow-type-selection") {
-        <app-workflow-type-selection></app-workflow-type-selection>
+
+      
+      @case ("workflow-event-processing") {
+        <app-workflow-event-processing></app-workflow-event-processing>
+      }  
+
+      @case ("workflow-ressource-processing") {
+        <app-workflow-ressource-processing></app-workflow-ressource-processing>
+      }  
+
+      @case ("workflow-observation-processing") {
+        <app-workflow-observation-processing></app-workflow-observation-processing>
+      }  
+      
     }
-        
-        @case ("event-type-setting") {
-            <app-event-type-setting></app-event-type-setting>
-        } 
-
-        @case ("beginning-type-setting") {
-            <app-beginning-type-setting></app-beginning-type-setting>
-        }
-
-        @case ("ressource-type-setting") {
-            <app-ressource-type-setting></app-ressource-type-setting>
-        }
-
-        @case ("time-point-setting") {
-            <app-time-point-setting></app-time-point-setting>
-        }
-
-        @case ("time-interval-setting") {
-            <app-time-interval-setting></app-time-interval-setting>
-        }
-
-        @case ("amount-setting") {
-            <app-amount-setting></app-amount-setting>
-        }
-
-        @case ("number-of-times-setting") {
-            <app-number-of-times-setting></app-number-of-times-setting>
-        }
-
-        @case ("comment-setting") {
-            <app-comment-setting></app-comment-setting>
-        }
-
-        @case ("tag-setting") {
-            <app-tag-setting></app-tag-setting>
-        }
-
-        @case ("interval-type-setting") {
-            <app-interval-type-setting></app-interval-type-setting>
-        }
-
-
-       @case ("period-type-setting") {
-           <app-period-type-setting></app-period-type-setting>
-        }
-
-        @case ("event-saving") {
-            <app-event-saving></app-event-saving>
-        }
-
-        @case ("parameters-setting") {
-            <app-parameters-setting></app-parameters-setting>
-        }
-
-        @case ("parameters-setting") {
-          <app-parameters-setting></app-parameters-setting>
-        } 
-
-        @default {
-            <!--equal "workflow-type-selection" -->
-            <app-workflow-type-selection></app-workflow-type-selection>
-        } 
-      }
 </div>
 <div class="container3">
   <mat-toolbar class="toolbar-add-edit">

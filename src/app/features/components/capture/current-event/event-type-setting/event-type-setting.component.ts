@@ -1,82 +1,31 @@
 import { Component } from '@angular/core';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeModule } from '@angular/material/tree';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import {MatTreeModule} from '@angular/material/tree';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Logger } from '../../../../../shared/services/logging/logger';
-import { EventTypeSettingUIModel, IEventTypeSettingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/event-type-setting-ui-model';
-import { ICurrentEventProcessingNavigation } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
-
-interface EventTypeNode {
-  name: string;
-  children?: EventTypeNode[];
-}
-
-
-/** Flat node with expandable and level information */
-interface EventType {
-  expandable: boolean;
-  name: string;
-  level: number;
-}
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { TreeSelectorComponent } from '../../../../../shared/components/tree-selector/tree-selector.component';
 
 @Component({
   selector: 'app-event-type-setting',
   standalone: true,
   imports: [
-    MatTreeModule, 
-    MatButtonModule, 
-    MatIconModule
+     MatTreeModule, 
+     MatButtonModule, 
+     MatIconModule,
+     MatCheckboxModule
   ],
-  templateUrl: './event-type-setting.component.html',
-  styleUrl: './event-type-setting.component.scss'
+  templateUrl: '../../../../../shared/components/tree-selector/tree-selector.component.html',
+  styleUrl: '../../../../../shared/components//tree-selector/tree-selector.component.scss'
 })
-export class EventTypeSettingComponent {
 
-  uiModel!: IEventTypeSettingUIModel;
-
-  private _transformer = (node: EventTypeNode, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      name: node.name,
-      level: level,
-    };
-  };
-
-  treeControl = new FlatTreeControl<EventType>(
-    node => node.level,
-    node => node.expandable,
-  );
-
-  treeFlattener = new MatTreeFlattener(
-    this._transformer,
-    node => node.level,
-    node => node.expandable,
-    node => node.children,
-  );
-
-  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-
-  hasChild = (_: number, node: EventType) => node.expandable;
+export class EventTypeSettingComponent  extends TreeSelectorComponent{
 
   constructor(
-    private logger: Logger) {
-    this.uiModel = CurrentEventProcessingUIFactory.getEventTypeSettingUIModel(this.logger);
-    this.uiModel.getEventTypes().then(data => {
-      this.logger.debug("ActivityTypeSelectingComponent: Data loaded: " + JSON.stringify(data));
-      this.dataSource.data = data;
-    });
-   
+  logger: Logger) {
+    super(logger, CurrentEventProcessingUIFactory.getEventTypeSettingUIModel(logger));  
+    logger.debug("EventTypeSettingComponent.constructor");
   }
-
-  onNodeClick(node: EventType) {
-    this.logger.debug("ActivityTypeSelectingComponent: Node clicked: " + JSON.stringify(node));
-    this.uiModel.onEventTypeSelected(node);
-  }
-
-
 }
 

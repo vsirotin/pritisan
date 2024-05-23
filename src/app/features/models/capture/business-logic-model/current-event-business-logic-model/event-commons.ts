@@ -17,11 +17,16 @@ export interface IReceiverEventPartUpdates {
     addEventPart(eventPart: IEventChange): void;
 }
 
-//Defines generic alternative for user selection by event setting
-export interface IAlternative extends IEventChange{
-    alternativeId: string;
-    suffix: string;
-};
+export interface IAlternative {
+   name: string;
+   id: number;
+}
+
+export interface IAlternativeList {
+    alternatives: IAlternative[];
+    currentAlternativeId: number;
+    titleForAlternativeSelection: string; // title for the alternative selection presented for the user
+ }
 
 
 

@@ -1,8 +1,8 @@
 import { Logger } from "../../../../../shared/services/logging/logger";
-import { IWorkflowTypeSettingUIModel, WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
-import { EventTypeSettingUIModel, IEventTypeSettingUIModel } from './event-type-setting-ui-model';
+import { IAlternativeSelectionUIModel, WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
+import { EventTypeSettingUIModel, ITreeSelectorUIModel } from './event-type-setting-ui-model';
 import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel, ICurrentEventChangingNotificator } from './current-event-processing-ui-model';
-import { BeginningTypeSettingUIModel, IBeginningTypeSettingUIModel } from "./beginning-type-setting-ui-model";
+import { BeginningTypeSettingUIModel} from "./beginning-type-setting-ui-model";
 
 
 export class CurrentEventProcessingUIFactory {
@@ -20,12 +20,12 @@ export class CurrentEventProcessingUIFactory {
         return CurrentEventProcessingUIFactory.instance;
     }
 
-    static getCurrentEventChangingNotificator(logger: Logger): ICurrentEventChangingNotificator {
-        return CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
-    }
+    // static getCurrentEventChangingNotificator(logger: Logger): ICurrentEventChangingNotificator {
+    //     return CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
+    // }
 
-    private static workflowTypeSettingUIModel: IWorkflowTypeSettingUIModel | undefined = undefined;
-    static getWorkflowTypeSettingUIModel(logger: Logger): IWorkflowTypeSettingUIModel {
+    private static workflowTypeSettingUIModel: IAlternativeSelectionUIModel | undefined = undefined;
+    static getWorkflowTypeSettingUIModel(logger: Logger): IAlternativeSelectionUIModel {
         if (!CurrentEventProcessingUIFactory.workflowTypeSettingUIModel) {
             const currentEventProcessingUIModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
             CurrentEventProcessingUIFactory.workflowTypeSettingUIModel = new WorkflowTypeSettingUIModel(logger, currentEventProcessingUIModel);
@@ -33,24 +33,24 @@ export class CurrentEventProcessingUIFactory {
         return CurrentEventProcessingUIFactory.workflowTypeSettingUIModel;
     }
 
-    private static eventTypeSettingUIModel: IEventTypeSettingUIModel | undefined = undefined;
-    static getEventTypeSettingUIModel(logger: Logger): IEventTypeSettingUIModel {
+    private static eventTypeSettingUIModel: ITreeSelectorUIModel | undefined = undefined;
+    static getEventTypeSettingUIModel(logger: Logger): ITreeSelectorUIModel {
         if (!CurrentEventProcessingUIFactory.eventTypeSettingUIModel) {
             const currentEventProcessingUIModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
-            CurrentEventProcessingUIFactory.eventTypeSettingUIModel = new EventTypeSettingUIModel(logger, currentEventProcessingUIModel);
+            CurrentEventProcessingUIFactory.eventTypeSettingUIModel = new EventTypeSettingUIModel(logger);
         }
         return CurrentEventProcessingUIFactory.eventTypeSettingUIModel;
 
     }
 
-    private static beginningTypeSettingUIModel: IBeginningTypeSettingUIModel | undefined = undefined;
-    static getBeginningTypeSettingUIModel(logger: Logger): IBeginningTypeSettingUIModel {
-        if (!CurrentEventProcessingUIFactory.beginningTypeSettingUIModel) {
-            const currentEventProcessingUIModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
-            CurrentEventProcessingUIFactory.beginningTypeSettingUIModel = new BeginningTypeSettingUIModel(logger, currentEventProcessingUIModel);
-        }
-        return CurrentEventProcessingUIFactory.beginningTypeSettingUIModel;
+    // private static beginningTypeSettingUIModel: IAlternativeSelectionUIModel | undefined = undefined;
+    // static getBeginningTypeSettingUIModel(logger: Logger): IAlternativeSelectionUIModel {
+    //     if (!CurrentEventProcessingUIFactory.beginningTypeSettingUIModel) {
+    //         const currentEventProcessingUIModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(logger);
+    //         CurrentEventProcessingUIFactory.beginningTypeSettingUIModel = new BeginningTypeSettingUIModel(logger, currentEventProcessingUIModel);
+    //     }
+    //     return CurrentEventProcessingUIFactory.beginningTypeSettingUIModel;
 
-    }
+    // }
 
 }

@@ -1,17 +1,15 @@
 import { Logger } from "../../../../../shared/services/logging/logger";
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
-import { IAlternative, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
+import { IAlternative, IAlternativeList, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
 import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
+import { IAlternativeSelectionUIModel } from "./workflow-type-setting-ui-model";
 
-export interface IBeginningTypeSettingUIModel {
-    getAlternativeNames(): Promise<string[]>;
-    changeSelectedAlternative(alternative: string): void;
-}
 
-export class BeginningTypeSettingUIModel implements IBeginningTypeSettingUIModel{
 
-    private beginningType!: IAlternative[];
+export class BeginningTypeSettingUIModel implements IAlternativeSelectionUIModel{
+
+    private beginningType!: IAlternativeList;
 
     businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
 
@@ -21,36 +19,35 @@ export class BeginningTypeSettingUIModel implements IBeginningTypeSettingUIModel
         this.loadFromBusinessLogicModel();
     }
 
-    async getAlternativeNames(): Promise<string[]> {
+    async getAlternatives(): Promise<IAlternativeList> {
         if (this.beginningType !== undefined) {
             this.logger.debug("BeginningTypeSelectionUIModel.getEventTypes 1 eventTypes: " + this.beginningType);
-            return this.beginningType.map((eventType: IAlternative) => this.evntType2AlternativeName(eventType));         
+            return this.beginningType;         
         }
-        return (await this.loadFromBusinessLogicModel()).map((eventType: IAlternative) => this.evntType2AlternativeName(eventType)) ;      
+        return await this.loadFromBusinessLogicModel() ;      
     }
 
-    private evntType2AlternativeName(eventType: IAlternative): string {
-        return eventType.localizedName + " " + eventType.suffix;
-    }
 
-    changeSelectedAlternative(workflowTypeName: string) {
+    alternativeSelected(workflowTypeName: IAlternative) {
         this.logger.debug("BeginningTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName: " + workflowTypeName);
-        const workflowType = this.beginningType.find((workflowType: IAlternative) => this.evntType2AlternativeName(workflowType) === workflowTypeName);
-        if(workflowType === undefined) {
+        
+        if(workflowTypeName === undefined) {
             this.logger.error("BeginningTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName is unknown");
             return;
         }
-        const changingInfo: IEventChange = {signalId: workflowType!.signalId, localizedName:  workflowType!.localizedName }; 
+        const changingInfo: IEventChange = {signalId: "" + workflowTypeName.id, localizedName:  workflowTypeName.name }; 
         this.currentEventNotificationService.notifyEventChange(changingInfo); 
     }
 
-    private async loadFromBusinessLogicModel(): Promise<IAlternative[]> {
-        await this.businessLogicModel.getBeginningTypes().then((alternatives) => {
-            this.logger.debug("BeginningTypeSelectionUIModel.loadFromBusinessLogicModel eventTypes: " + alternatives);
-            this.beginningType = alternatives;
+    private async loadFromBusinessLogicModel(): Promise<IAlternativeList> {
+        await this.businessLogicModel.getBeginningTypes().then((alternativeList) => {
+            this.logger.debug("BeginningTypeSelectionUIModel.loadFromBusinessLogicModel eventTypes: " + alternativeList);
+            this.beginningType = alternativeList;
         });
         return this.beginningType;
     }
 
 }
+
+export { IAlternativeSelectionUIModel };
 

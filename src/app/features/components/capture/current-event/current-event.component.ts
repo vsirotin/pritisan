@@ -1,18 +1,10 @@
 import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-
 import { WorkflowTypeSelectionComponent } from './workflow-type-selection/workflow-type-selection.component';
 import { EventTypeSettingComponent } from './event-type-setting/event-type-setting.component';
-import { TimePointSettingComponent } from './time-point-setting/time-point-setting.component';
+import { WorkflowEventProcessingComponent } from './workflow-event-processing/workflow-event-processing.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
-import { RessourceTypeSettingComponent } from './ressource-type-setting/ressource-type-setting.component';
-import { TimeIntervalSettingComponent } from './time-interval-setting/time-interval-setting.component';
-import { AmountSettingComponent } from './amount-setting/amount-setting.component';
-import { BeginningTypeSettingComponent } from './beginning-type-setting/beginning-type-setting.component';
-import { CommentSettingComponent } from './comment-setting/comment-setting.component';
-import { TagSettingComponent } from './tag-setting/tag-setting.component';
-import { NumberOfTimesSettingComponent } from './number-of-times-setting/number-of-times-setting.component';
-import { IntervalTypeSettingComponent } from './interval-type-setting/interval-type-setting.component';
-import { PeriodTypeSettingComponent } from './period-type-setting/period-type-setting.component';
+import { WorkflowObservationProcessingComponent } from './workflow-observation-processing/workflow-observation-processing.component';
+import { WorkflowRessourceProcessingComponent } from './workflow-ressource-processing/workflow-ressource-processing.component';
 import { EventSavingComponent } from './event-saving/event-saving.component';
 import { ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { CurrentEventProcessingUIFactory } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
@@ -32,18 +24,9 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [
     WorkflowTypeSelectionComponent,
-    EventTypeSettingComponent,
-    TimePointSettingComponent,
-    TimeIntervalSettingComponent,
-    AmountSettingComponent,
-    ParametersSettingComponent,
-    RessourceTypeSettingComponent,
-    BeginningTypeSettingComponent,
-    CommentSettingComponent,
-    TagSettingComponent,
-    NumberOfTimesSettingComponent,
-    IntervalTypeSettingComponent,
-    PeriodTypeSettingComponent,
+    WorkflowEventProcessingComponent,
+    WorkflowObservationProcessingComponent,
+    WorkflowRessourceProcessingComponent,
     EventSavingComponent,
     MatToolbarModule, 
     MatButtonModule, 
@@ -53,7 +36,7 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './current-event.component.html',
   styleUrl: './current-event.component.scss'
 })
-export class CurrentEventComponent implements AfterViewInit, OnDestroy {
+export class CurrentEventComponent implements OnDestroy {
 
   currentSubCommponent: string = 'workflow-type-selection';
 
@@ -86,12 +69,6 @@ export class CurrentEventComponent implements AfterViewInit, OnDestroy {
     this.currentEventDescription += notification.localizedName + " ";
   }
 
-  ngAfterViewInit() {
-   // this.uiModel.eventSelectionUIModel = this.eventSelectionComponent.uiModel;
-   // this.uiModel.activityTypeSelectingUIModel = this.activityTypeSelectingComponent.uiModel
-   // this.timeSettingComponent.uiModel = this.uiModel.timeSettingUIModel;
-   // this.parametersSettingComponent.uiModel = this.uiModel.parametersSettingUIModel; 
-  }
 
   ngOnDestroy() {
     this.subscriptionEventDescription.unsubscribe();

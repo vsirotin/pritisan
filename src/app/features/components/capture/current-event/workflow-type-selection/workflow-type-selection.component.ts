@@ -1,42 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-
-import {FormsModule} from '@angular/forms';
-import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatExpansionModule} from '@angular/material/expansion';
 import { Logger } from '../../../../../shared/services/logging/logger';
-import { IWorkflowTypeSettingUIModel } from "../../../../models/capture/ui-model/current-event-processing-ui-model/workflow-type-setting-ui-model";
 import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
+import { AlternativeSelectionComponent } from '../../../../../shared/components/alternative-selection/alternative-selection.component';
 
 
 @Component({
   selector: 'app-workflow-type-selection',
   standalone: true,
   imports: [ 
+    MatExpansionModule,
     MatRadioModule, 
     FormsModule
   ],
-  templateUrl: './workflow-type-selection.component.html',
-  styleUrl: './workflow-type-selection.component.scss'
+  templateUrl: '../../../../../shared/components/alternative-selection/alternative-selection.component.html',
+  styleUrl: '../../../../../shared/components/alternative-selection/alternative-selection.component.scss'
 })
-export class WorkflowTypeSelectionComponent implements OnInit{
+export class WorkflowTypeSelectionComponent extends AlternativeSelectionComponent {
 
-  uiModel!:  IWorkflowTypeSettingUIModel;
-
-  eventTypes!: string[];
-  selectedEventType!: string;
-  constructor(private logger: Logger) { 
-    this.uiModel = CurrentEventProcessingUIFactory.getWorkflowTypeSettingUIModel(this.logger);
+  constructor(logger: Logger) { 
+    super(logger, CurrentEventProcessingUIFactory.getWorkflowTypeSettingUIModel(logger));
   }
   
-  async ngOnInit() {
-    this.uiModel.getWorkflowNames().then((eventTypes) => {
-      this.logger.debug("WorkflowTypeSelectionComponent.ngOnInit Event types: " + eventTypes);
-      this.eventTypes = eventTypes;
-      this.logger.debug("Event types: " + this.eventTypes);
-      this.selectedEventType = this.eventTypes[0];
-    });
-  }
-
-  onSelectionChange(event: MatRadioChange) {
-    this.uiModel.changeSelectedWorkflowType(event.value);
-  }
 }

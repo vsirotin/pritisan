@@ -1,0 +1,22 @@
+<div class="content-container">
+  <mat-expansion-panel [expanded]="isExpanded">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{title}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <span width = "5px"></span>
+        {{nameSelectedAlternative}}      
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+      <mat-radio-group
+        aria-labelledby="radio-buttons-group-label"
+        class="radio-buttons-group"
+        [(ngModel)]="selectedAlternative"  (change)="onSelectionChange($event)">
+        @for (alternative of alternatives; track alternative) {
+          <mat-radio-button class="radio-button" [value]="alternative">{{alternative.name}}...</mat-radio-button>
+        }
+      </mat-radio-group>
+  </mat-expansion-panel>
+</div>

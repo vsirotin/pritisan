@@ -1,55 +1,46 @@
 import { Logger } from "../../../../../shared/services/logging/logger";
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
-import { IAlternative, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
-import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
+import { IAlternative, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
+import { IWorkflowTypeSelection } from './current-event-processing-ui-model';
 
-export interface IWorkflowTypeSettingUIModel {
-    getWorkflowNames(): Promise<string[]>;
-    changeSelectedWorkflowType(workflowTypeName: string): void;
+export interface IAlternativeSelectionUIModel {
+    getAlternatives(): Promise<IAlternativeList>;
+    alternativeSelected(selection: IAlternative): void;
 }
 
-export class WorkflowTypeSettingUIModel implements IWorkflowTypeSettingUIModel{
+export class WorkflowTypeSettingUIModel implements IAlternativeSelectionUIModel{
 
-    private workflowTypes!: IAlternative[];
+    private alternatives!: IAlternativeList;
 
     businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
 
-    constructor(private logger: Logger, private currentEventNotificationService: ICurrentEventChangingNotificator) {
+    constructor(private logger: Logger, private workflowSelectionReceiver: IWorkflowTypeSelection) {
         this.logger.debug("WorkflowTypeSelectionUIModel.constructor");
         this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getCurrentEventBusinessLogicModel();
         this.loadFromBusinessLogicModel();
     }
 
-    async getWorkflowNames(): Promise<string[]> {
-        if (this.workflowTypes !== undefined) {
-            this.logger.debug("WorkflowTypeSelectionUIModel.getEventTypes 1 eventTypes: " + this.workflowTypes);
-            return this.workflowTypes.map((eventType: IAlternative) => this.evntType2workflowName(eventType));         
+    async getAlternatives(): Promise<IAlternativeList> {
+        if (this.alternatives !== undefined) {
+            this.logger.debug("WorkflowTypeSelectionUIModel.getEventTypes 1 eventTypes: " + this.alternatives);
+            return this.alternatives;         
         }
-        return (await this.loadFromBusinessLogicModel()).map((eventType: IAlternative) => this.evntType2workflowName(eventType)) ;      
+        return  this.loadFromBusinessLogicModel() ;      
     }
 
-    private evntType2workflowName(eventType: IAlternative): string {
-        return eventType.localizedName + " " + eventType.suffix;
+
+    alternativeSelected(selection: IAlternative) {
+        this.logger.debug("WorkflowTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName: " + selection);
+        this.workflowSelectionReceiver.workflowTypeSelected(selection); 
     }
 
-    changeSelectedWorkflowType(workflowTypeName: string) {
-        this.logger.debug("WorkflowTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName: " + workflowTypeName);
-        const workflowType = this.workflowTypes.find((workflowType: IAlternative) => this.evntType2workflowName(workflowType) === workflowTypeName);
-        if(workflowType === undefined) {
-            this.logger.error("WorkflowTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName is unknown");
-            return;
-        }
-        const changingInfo: IEventChange = {signalId: workflowType!.signalId, localizedName:  workflowType!.localizedName }; 
-        this.currentEventNotificationService.notifyEventChange(changingInfo); 
-    }
-
-    private async loadFromBusinessLogicModel(): Promise<IAlternative[]> {
-        await this.businessLogicModel.getEventTypes().then((eventTypes) => {
-            this.logger.debug("WorkflowTypeSelectionUIModel.loadFromBusinessLogicModel eventTypes: " + eventTypes);
-            this.workflowTypes = eventTypes;
+    private async loadFromBusinessLogicModel(): Promise<IAlternativeList> {
+        await this.businessLogicModel.getEventTypes().then((alternatives) => {
+            this.logger.debug("WorkflowTypeSelectionUIModel.loadFromBusinessLogicModel eventTypes: " + alternatives);
+            this.alternatives = alternatives;
         });
-        return this.workflowTypes;
+        return this.alternatives;
     }
 
 }

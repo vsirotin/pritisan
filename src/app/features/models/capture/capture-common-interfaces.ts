@@ -26,8 +26,10 @@ export interface ICaptureBusinessLogicModel {
     getRunningEventsBusinessLogicModel(): IRunningEventsBusinessLogicModel;
     getCurrentEventBusinessLogicModel(): ICurrentEventProcessingBusinessLogicModel;
 }
-export interface IEventTypeNode {
+
+export interface ITreeNode {
   name: string;
-  children?: IEventTypeNode[];
+  children?: ITreeNode[];
+  id: number;
 }
 
