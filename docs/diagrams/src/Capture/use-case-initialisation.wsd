@@ -6,32 +6,35 @@ hide footbox
 
 
 control Angular as A
-participant SubComponent as S
+participant SubComponentX as S
 participant FabricUIModel  as F
-participant FabricPercistenceModel as PF
+
 
 A -> S : constructor
 activate S #LightGray
 
-S->F : getUiModel(...)
+S->F : getUiModelX(...)
 activate F #LightYellow
 
-create SubUIModel as SU
-F->SU : new
-return ISubUIModel
+create UIModelX as U
+F->U : new
+activate U #LightSkyBlue
+create langInfoKeeper as L
+U->L : new
+create masterDataKeeper as M
+U->M : new
+return IUIModel
+return IUIModel
+deactivate U
+deactivate F
 
-S->SU : getUILanguageData()
-activate SU #LightSkyBlue
 
-SU->PF : getPersistenceModel()
-activate PF #LightSalmon
+S->U : getUILanguageData()
+activate U #LightSkyBlue
 
-create SubPersistenceModel as SP
-PF->SP : new
-return IPersistenceModel
 
-SU->SP : getLanguageData(...)
-activate SP #LightSeaGreen
+U->L : getLanguageData(...)
+activate L #LightSeaGreen
 return IUILanguageData
 
 return IUILanguageData
@@ -40,10 +43,10 @@ S->S: set language sata
 activate S #Grey
 deactivate S
 
-S->SU: getMasterData()
-activate SU #LightSkyBlue
-SU->SP : getMasterData(...)
-activate SP #LightSeaGreen
+S->U: getMasterData()
+activate U #LightSkyBlue
+U->M : getMasterData(...)
+activate M #LightGoldenRodYellow
 
 return IMasterData
 return IMasterData

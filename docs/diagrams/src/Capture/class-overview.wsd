@@ -1,8 +1,10 @@
-@startuml "Use Cases"
+@startuml "Use-Cases"
 scale 2
 skinparam packageStyle rect
 skinparam defaultFontName "Arial"
 top to bottom direction
+
+'Page 1
 
 class MainComponent implements IMainComponent
 class SubComponent implements ISubComponent
@@ -15,6 +17,9 @@ Class BLModel
 class FabricUIModel {
     +getUiModel(type: Class): ISubUIModel
 }
+
+newpage
+'Page 2
 
 class PercistenceModel implements IPersistenceModel
 class FabricPercistenceModel{
@@ -34,10 +39,14 @@ interface IUILanguageData
     
 
 
-interface ISubUIModel<EventPartMasterData, T extends IUILanguageData> {
-    +getUiModel(): ISubUIModel
-    +getUILanguageData(): T
-    +getMasterData(): EventPartMasterData
+interface IUIModel<M extends EventPartMasterData, L extends ILanguageData> {
+    +getLanguageData(): T
+    +getMasterData(): M
+}
+
+abstract class UIModel <EventPartMasterData, T extends IUILanguageData> implements IUIModel{
+    -masterDataKeeper: IMasterDataKeeper
+    -languageDataKeeper: ILanguageDataKeeper
 }
 
 MainComponent "1" *-- "many" SubComponent
