@@ -1,0 +1,94 @@
+@startuml "architecture-overview"
+
+left to right direction
+
+title
+  Overview of component architecture in project. 
+  Some of componnets persented as interfaces (starts with I) 
+  because they should implemented these interfaces.
+
+end title
+
+component "IComponent<T, M, MI>" as C
+note top of C
+  Generic types:
+  T - type of processed data
+  M - type of used metadata
+  MI - type of eventueal metadata item updating.
+end note
+
+note bottom of C
+  Using of some interfaces can be optional, e.g:
+  ILogger, IDataKeeper, IUserNotificator.
+end note
+
+component "IUIModelProcessor<T>" as MP
+interface "IUIModelProvider<T>" as IMP
+interface "IUIModeUpdateReceiver<T>" as IMUR
+
+MP - IMP
+C-->IMP : use
+
+MP - IMUR
+C-->IMUR : use
+
+component "IKeeperMetaData<M, MI>" as KMD
+interface "IMetaDatalProvider<M>" as IMDP
+interface "IMetaDatalUpdateReceiver<MI>" as IMDUR
+KMD - IMDP
+KMD - IMDUR
+C --> IMDP : use
+C --> IMDUR: use
+
+component Localizer as LZ
+note top of LZ
+  Separate instance for each interface user.
+end note
+
+interface ILocalizer as ILZ
+LZ - ILZ
+C --> ILZ : use
+
+interface ILocalizationNotificationReceiver as ILNR
+C - ILNR
+LZ --> ILNR : use
+
+component LocalizationService as LS
+interface ILanguageChangeNotificator as ILN
+LS - ILN
+LZ -->ILN : use
+
+component Logger as LO
+note top of LO
+  Separate instance for each interface user.
+end note
+
+interface ILogger as ILO
+LO - ILO
+C --> ILO : use
+MP --> ILO : use
+KMD --> ILO : use
+
+interface ILoggerConfig as ILC
+component LoggerConfiguration as LC
+LO - ILC
+LC --> ILC : use
+
+component IUserNotificator as UN
+interface IUserNotificator as IUN
+UN - IUN
+C --> IUN : use
+
+component "BusinessLogic<T>" as BL
+interface "IBusinessLogic<T>" as IBL
+BL - IBL
+MP --> IBL : use
+
+component "DataKeeper<T>" as DK
+interface "IDataKeeper<T>" as IDK
+DK - IDK
+MP --> IDK : use
+C --> IDK : use
+
+
+@enduml

@@ -2,7 +2,7 @@
 
 bla-bla
 
-
+![Use Cases Diagram page 1](./diagrams/out/component-architecture/architecture-overview.png)
 
 
 ![Use Cases Diagram page 1](./diagrams/out/class-overview/Use-Cases-page1.svg)
