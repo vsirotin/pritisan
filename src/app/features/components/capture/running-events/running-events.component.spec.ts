@@ -21,7 +21,7 @@ describe('RunningActionsComponent', () => {
       imports: [RunningEventsComponent, BrowserAnimationsModule]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(RunningEventsComponent);
     component = fixture.componentInstance;
 
@@ -42,7 +42,7 @@ describe('RunningActionsComponent', () => {
     }
 
     beforeEach(async () => {
- 
+
       businessLogicModel.runningEventsDB = new RunningEventsPersistenceExtend1(logger);
       component.uiModel.setBusinessLogicModel(businessLogicModel);
       await businessLogicModel.readRunninfEventsFromDB();
@@ -85,13 +85,13 @@ describe('RunningActionsComponent', () => {
           {id: 23, start: this.getTimeBeforeNow(3, 4, 45), fin: null, typeId: "3", details: "event 23"},
           {id: 24, start: this.getTimeBeforeNow(0, 0, 0), fin: null, typeId: "2", details: "event 24"},
         ]
-    
+
         return TEST_EVENTS;
       }
     }
 
     beforeEach(async () => {
- 
+
       businessLogicModel.runningEventsDB = new RunningEventsPersistenceExtend2(logger);
       component.uiModel.setBusinessLogicModel(businessLogicModel);
       await businessLogicModel.readRunninfEventsFromDB();
@@ -106,19 +106,19 @@ describe('RunningActionsComponent', () => {
       expect(component.countRunningEvents).toEqual(4);
     });
 
-    it('it presented oppened with header with corresponded number of running events (4) ', () => {
+    it('it presented opened with header with corresponded number of running events (4) ', () => {
       let  counter = fixture.debugElement.query(By.css('mat-panel-description'));
       expect(counter.nativeElement.textContent.trim()).toBe("4");
     });
 
-    it('it containts 3 buttons ', () => {
+    it('it contains 3 buttons ', () => {
       let  buttons = fixture.debugElement.queryAll(By.css('button'));
       expect(buttons.length).toBe(3);
     });
 
-    it('it containts 3 buttons and they are disabled', () => {
+    it('it contains 3 buttons and they are disabled', () => {
         let  buttons = fixture.debugElement.queryAll(By.css('button'));
-        buttons.forEach(button => {    
+        buttons.forEach(button => {
         expect(button.nativeElement.disabled).toBeTrue();
       });
     });
@@ -132,7 +132,7 @@ describe('RunningActionsComponent', () => {
     it('accordion can be closed and in closed state its header contains corresponded text ', () => {
       // Get the accordion panel
       let panel = fixture.debugElement.query(By.css('mat-expansion-panel'));
-      
+
       // Close the panel
       panel.componentInstance.expanded = false;
       fixture.detectChanges();
@@ -176,14 +176,14 @@ describe('RunningActionsComponent', () => {
       });
     });
 
-   
+
     for (let i = 0; i < 3; i++) {
       it(`after selection of first row and click on button ${i} all buttons will be disabled  `, async () => {
-        await testProcessinSelectionAndClickOnButton(i);
+        await testProcessingSelectionAndClickOnButton(i);
       });
     }
 
-    async function testProcessinSelectionAndClickOnButton(buttonNumber: number) {
+    async function testProcessingSelectionAndClickOnButton(buttonNumber: number) {
 
       // Simulate checking the checkbox to select the first row
       component.selection.select(component.dataSource.data[0]);
@@ -382,7 +382,7 @@ describe('RunningActionsComponent', () => {
         expect(updatedIds.includes(selectedObject.id)).toBeTrue();
       });
     });
-  
+
 
     it('by single selection the notification happens ', (done) => {
 
@@ -402,7 +402,7 @@ describe('RunningActionsComponent', () => {
 
       // Trigger change detection
       fixture.detectChanges();
-      
+
     });
 
     it('by multiple selection the notification happens for each selected item', (done) => {
