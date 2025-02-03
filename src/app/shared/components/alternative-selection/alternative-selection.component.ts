@@ -1,8 +1,7 @@
 import {MatRadioChange} from '@angular/material/radio';
 import { IAlternative } from '../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons';
-import { Logger } from '../../services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IAlternativeSelectionUIModel } from '../../../features/models/capture/ui-model/current-event-processing-ui-model/workflow-type-setting-ui-model';
-
 
 export class AlternativeSelectionComponent {
   isExpanded = true; 
@@ -10,8 +9,8 @@ export class AlternativeSelectionComponent {
   selectedAlternative!: IAlternative;
   nameSelectedAlternative = "";
   title? : string;
-  constructor(private logger: Logger,
-    private uiModel:  IAlternativeSelectionUIModel) { 
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.AlternativeSelectionComponent");
+  constructor(private uiModel:  IAlternativeSelectionUIModel) { 
     this.logger.debug("AlternativeSelectionComponent.constructor");
     this.uiModel.getAlternatives().then((alternativeList) => {
       this.logger.debug("AlternativeSelectionComponent.onInitImpl alternatives: " + alternativeList);

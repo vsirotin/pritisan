@@ -1,5 +1,6 @@
-import { Logger } from "../../services/logging/logger";
+
 import { Data } from "@angular/router";
+import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
 
 export interface IPersistedEvent{
   id: number
@@ -17,7 +18,8 @@ export interface IEventsPersistence {
 }
 
 export class EventsPersistence implements IEventsPersistence{
-  constructor(private logger: Logger){
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.EventsPersistence");
+  constructor(){
     this.logger.log("EventsPersistence created");
   }
 

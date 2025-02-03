@@ -5,7 +5,7 @@ import { RunningEventsComponent } from './running-events/running-events.componen
 import { RepositoryNavigationComponent } from './repository-navigation/repository-navigation.component';
 import { CaptureUIModel, ICaptureUIModel } from '../../models/capture/ui-model/capture-ui-model';
 import { CurrentEventComponent } from './current-event/current-event.component';
-import { Logger } from '../../../shared/services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 
 
 @Component({
@@ -28,8 +28,10 @@ export class CaptureComponent implements AfterViewInit {
 
   uiModel! : ICaptureUIModel;
 
-  constructor(private logger: Logger) { 
-    this.uiModel = new CaptureUIModel(this.logger);
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CaptureComponent");
+
+  constructor() { 
+    this.uiModel = new CaptureUIModel();
   }
 
   ngAfterViewInit() {

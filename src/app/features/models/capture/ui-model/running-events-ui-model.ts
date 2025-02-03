@@ -1,6 +1,6 @@
 import { IRunningEventsBusinessLogicModel, RunningEventsBusinessLogicModel } from '../business-logic-model/running-events-business-logic-model';
 import { IEvent } from "../capture-common-interfaces";
-import { Logger } from '../../../../shared/services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { CaptureBusinessLogicModelFactory } from '../business-logic-model/capture-business-logic-model';
 
@@ -44,13 +44,15 @@ export class RunningEventsUIModel implements IRunningEventsUIModel{
 
     private subjectCurrentEvent = new Subject<IRunningEvent>();
 
-    constructor(private logger: Logger) {
+    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.RunningEventsUIModel");
+
+    constructor() {
         this.logger.debug("RunningEventsUIModel.constructor");
         
         this.runningEventsPresentationChanged$ = this.subjectRunningEvents.asObservable();
         this.currentEventChanged$ = this.subjectCurrentEvent.asObservable();
 
-        this.setBusinessLogicModel(CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getRunningEventsBusinessLogicModel());
+        this.setBusinessLogicModel(CaptureBusinessLogicModelFactory.createOrGetModel().getRunningEventsBusinessLogicModel());
     }
 
     selectRunningEvent(event: IRunningEvent): void {

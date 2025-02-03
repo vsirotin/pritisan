@@ -4,7 +4,7 @@ import { LanguageData, Localizer } from './localizer';
 import { Observable, Subscription } from 'rxjs';
 import { ILanguageChangeNotificator } from './language-change-notificator';
 import { DEFAULT_LANG_TAG, ILanguageDescription } from './language-description';
-import { Logger } from '../../services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 
 const TEST_SOURCE_DIR = "assets/languages/features/components/settings/lang/";
 

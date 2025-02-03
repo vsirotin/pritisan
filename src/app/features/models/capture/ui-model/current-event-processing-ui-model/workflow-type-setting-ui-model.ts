@@ -1,4 +1,5 @@
-import { Logger } from "../../../../../shared/services/logging/logger";
+
+import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
 import { IAlternative, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
@@ -14,10 +15,11 @@ export class WorkflowTypeSettingUIModel implements IAlternativeSelectionUIModel{
     private alternatives!: IAlternativeList;
 
     businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
-
-    constructor(private logger: Logger, private workflowSelectionReceiver: IWorkflowTypeSelection) {
+    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.WorkflowTypeSettingUIModel");  
+    
+    constructor(private workflowSelectionReceiver: IWorkflowTypeSelection) {
         this.logger.debug("WorkflowTypeSelectionUIModel.constructor");
-        this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getCurrentEventBusinessLogicModel();
+        this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel().getCurrentEventBusinessLogicModel();
         this.loadFromBusinessLogicModel();
     }
 

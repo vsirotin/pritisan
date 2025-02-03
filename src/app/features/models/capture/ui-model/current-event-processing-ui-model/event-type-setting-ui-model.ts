@@ -1,4 +1,4 @@
-import { Logger } from "../../../../../shared/services/logging/logger";
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
 import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
@@ -13,11 +13,13 @@ export interface ITreeSelectorUIModel {
 export class EventTypeSettingUIModel implements ITreeSelectorUIModel{
 
   private businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
+
+
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.EventTypeSettingUIModel");
  
-  constructor(
-    private logger: Logger ) {
+  constructor() {
     this.logger.debug("ActivitySelectingUIModel.constructor");
-    this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getCurrentEventBusinessLogicModel();
+    this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel().getCurrentEventBusinessLogicModel();
   }
 
 

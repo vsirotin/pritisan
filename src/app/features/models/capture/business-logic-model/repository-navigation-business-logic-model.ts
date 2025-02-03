@@ -2,7 +2,7 @@ import { ICaptureBusinessLogicModel, IEvent } from "../capture-common-interfaces
 import { Observable, Subject } from "rxjs";
 import { IPersistedEvent } from "../../../../shared/classes/db/time-series-db";
 import { IMetaDataPersistence, MetaDataPersistence } from "../../../../shared/classes/db/metadata-db";
-import { Logger } from "../../../../shared/services/logging/logger";
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IRepositoryMetaDataExt } from "../capture-common-interfaces";
 import { encodePersistedEvent } from "./current-event-business-logic-model/event-commons";
 
@@ -34,9 +34,10 @@ export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicMod
     private subjectCurrentEventId = new Subject<IEvent>();
     currentEventIdChanged$!: Observable<IEvent>;
 
+    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.RepositoryBusinessLogicModel");
 
-    constructor(private logger: Logger, private parent: ICaptureBusinessLogicModel) {
-        this.metaDataDB = new MetaDataPersistence(logger);
+    constructor(private parent: ICaptureBusinessLogicModel) {
+        this.metaDataDB = new MetaDataPersistence();
         this.currentEventIdChanged$ = this.subjectCurrentEventId.asObservable();
     }
 

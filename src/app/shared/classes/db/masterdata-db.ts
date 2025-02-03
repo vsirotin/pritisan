@@ -1,6 +1,6 @@
 import { IAlternative, IAlternativeList } from "../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
 import { ITreeNode } from "../../../features/models/capture/capture-common-interfaces";
-import { Logger } from "../../services/logging/logger";
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 
 export interface IMasterDataPersistence {
     readBeginningTypes(): Promise<IAlternativeList>;
@@ -11,7 +11,9 @@ export interface IMasterDataPersistence {
 
 export class MasterDataPersistence implements IMasterDataPersistence {
 
-    constructor(private logger: Logger) {}
+    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.MasterDataPersistence");
+
+    constructor() {}
 
     
     async readEventTypes(): Promise<IAlternativeList> {

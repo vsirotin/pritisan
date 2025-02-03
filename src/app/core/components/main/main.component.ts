@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 import { CommunicatorService } from '../toolbar/service/communicator.service'
 import { Subscription } from 'rxjs';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
-import { Logger } from '../../../shared/services/logging/logger';
+
 import { Localizer } from '../../../shared/classes/localization/localizer';
 import { ILanguageChangeNotificator } from '../../../shared/classes/localization/language-change-notificator';
 import { ILanguageDescription } from '../../../shared/classes/localization/language-description';
@@ -19,6 +19,7 @@ import { ImportExportComponent } from '../../../features/components/import-expor
 import { SettingsComponent } from '../../../features/components/settings/settings.component'
 import { InfoComponent } from '../../../features/components/info/info.component'
 import { AnalysisComponent } from '../../../features/components/analysis/analysis.component'
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 
 export const MAIN_SOURCE_DIR = "assets/languages/core/components/main/lang/";
 
@@ -66,14 +67,15 @@ export class MainComponent implements OnInit, OnDestroy {
   ];
 
   private _mobileQueryListener!: () => void;
-  localizer: Localizer = new Localizer(MAIN_SOURCE_DIR, 1, new Logger());
+  localizer: Localizer = new Localizer(MAIN_SOURCE_DIR, 1);
   languageChangeNotificator: ILanguageChangeNotificator = Localizer.languageChangeNotificator;
+
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.MainComponent");
 
   constructor(private communicatorService: CommunicatorService,
    changeDetectorRef: ChangeDetectorRef, 
    media: MediaMatcher, 
-   private cdr: ChangeDetectorRef,
-   private logger: Logger) {
+   private cdr: ChangeDetectorRef) {
     this.logger.debug("Start of MainComponent.constructor");
 
     this.subscriptionBtnClicked = this.communicatorService.buttonClicked$.subscribe(() => {

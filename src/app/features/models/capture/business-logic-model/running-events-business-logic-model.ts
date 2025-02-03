@@ -2,7 +2,7 @@
 
 import { Observable, Subject } from "rxjs";
 import { ICaptureBusinessLogicModel, IEvent } from "../capture-common-interfaces";
-import { Logger } from "../../../../shared/services/logging/logger";
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IPersistedRunningEvents, RunningEventsPersistence } from "../../../../shared/classes/db/running-events-db";
 import { encodePersistedEvent } from "./current-event-business-logic-model/event-commons";
 
@@ -22,12 +22,14 @@ export class RunningEventsBusinessLogicModel implements IRunningEventsBusinessLo
     runningEvents!: IEvent[];
     private subjectRunningEventsChanged = new Subject<IEvent[]>();
 
-    constructor(private logger: Logger, private parent: ICaptureBusinessLogicModel) {
+    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.RunningEventsBusinessLogicModel"); 
+
+    constructor(private parent: ICaptureBusinessLogicModel) {
         this.logger.debug("RunningEventsBusinessLogicModel.constructor");
         
         this.runningEventsChanged$ = this.subjectRunningEventsChanged.asObservable();
 
-        this.runningEventsDB = new RunningEventsPersistence(logger);
+        this.runningEventsDB = new RunningEventsPersistence();
 
         this.readRunninfEventsFromDB();
 

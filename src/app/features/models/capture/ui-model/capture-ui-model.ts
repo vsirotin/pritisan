@@ -1,5 +1,5 @@
 
-import { Logger } from '../../../../shared/services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { CaptureBusinessLogicModelFactory} from '../business-logic-model/capture-business-logic-model';
 import { ICaptureBusinessLogicModel } from "../capture-common-interfaces";
 import { IRepositoryNavigationUIModel } from './repository-navigation-ui-model';
@@ -27,8 +27,10 @@ export class CaptureUIModel implements ICaptureUIModel {
     private runningEventsUIModel!:  IRunningEventsUIModel;
     private currentEventUIModel!: ICurrentEventProcessingUIModel;
 
-    constructor(private logger: Logger) {
-        this.captureBusinessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger)
+    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CaptureUIModel");
+    
+    constructor() {
+        this.captureBusinessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel()
     }
 
     setCaptureBusinessLogicModel(captureBusinessLogicModel: ICaptureBusinessLogicModel): void {

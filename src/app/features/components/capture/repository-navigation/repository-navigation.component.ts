@@ -7,7 +7,8 @@ import { RepositoryNavigationUIModel } from '../../../models/capture/ui-model/re
 import { IRepositoryNavigationUIModel } from '../../../models/capture/ui-model/repository-navigation-ui-model';
 import { IRepositoryNavigationPresenter } from '../../../models/capture/ui-model/repository-navigation-ui-model';
 import { RepositoryNavigationAction } from "../../../models/capture/business-logic-model/repository-navigation-business-logic-model";
-import { Logger } from '../../../../shared/services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
+
 
 @Component({
   selector: 'app-repository-navigation',
@@ -26,10 +27,11 @@ export class RepositoryNavigationComponent implements IRepositoryNavigationPrese
   uiModel!: IRepositoryNavigationUIModel;
   countEvents!: number;
   currentEvent!: string;
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.RepositoryNavigationComponent");
 
-  constructor(private logger: Logger) {
+  constructor() {
     this.logger.debug("RepositoryNavigationComponent.constructor");
-    this.uiModel = new RepositoryNavigationUIModel(logger);
+    this.uiModel = new RepositoryNavigationUIModel();
     this.uiModel.setPresenter(this);
   }
 

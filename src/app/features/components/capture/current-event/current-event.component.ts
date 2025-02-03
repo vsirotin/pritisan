@@ -8,7 +8,7 @@ import { WorkflowRessourceProcessingComponent } from './workflow-ressource-proce
 import { EventSavingComponent } from './event-saving/event-saving.component';
 import { ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { CurrentEventProcessingUIFactory } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
-import { Logger } from '../../../../shared/services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IEventChange } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { Subscription } from 'rxjs';
 import { CurrentEventActions } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
@@ -53,8 +53,10 @@ export class CurrentEventComponent implements OnDestroy {
 
   CEA = CurrentEventActions;
 
-  constructor(private logger: Logger) { 
-    this.uiModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel(this.logger);
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventComponent");
+
+  constructor() { 
+    this.uiModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel();
     this.subscriptionEventDescription = this.uiModel.eventDescriptionChange$.subscribe((notification) => {
       this.logger.debug("CurrentEventComponent.uiModel.eventDescriptionChange$.subscribe notification: " + notification);
       this.updateCurrentEventDescription(notification);

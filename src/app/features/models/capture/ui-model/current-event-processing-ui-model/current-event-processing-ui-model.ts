@@ -1,6 +1,6 @@
 import { TimeSettingUIModel, ParametersSettingUIModel } from '../capture-ui-model';
 import { Observable, Subject, Subscription } from "rxjs";
-import { Logger } from "../../../../../shared/services/logging/logger";
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
 import { WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
 import { ITreeSelectorUIModel } from './event-type-setting-ui-model';
@@ -60,8 +60,8 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
     stateChange$: Observable<string> = this.stateChangeSubject.asObservable();
  
     private currentEvent = new CurrentEvent();
-
-    constructor(private logger: Logger) { }
+    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventProcessingUIModel"); 
+    constructor() { }
     workflowTypeSelected(selection: IAlternative): void {
 
         let newState = "workflow-event-processing";

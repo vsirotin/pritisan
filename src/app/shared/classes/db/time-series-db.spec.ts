@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { MetaDataPersistence } from "./metadata-db";
-import { Logger } from '../../services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 
 describe('Time Series Db', () => {
   let timeSeriesDB: MetaDataPersistence;
