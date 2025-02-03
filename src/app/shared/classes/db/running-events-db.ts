@@ -1,4 +1,4 @@
-import { Logger } from "../../services/logging/logger";
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IPersistedEvent } from "./time-series-db";
 
 
@@ -10,7 +10,8 @@ export interface IPersistedRunningEvents {
 }
 
 export class RunningEventsPersistence implements IPersistedRunningEvents {
-  constructor(private logger: Logger) {
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.RunningEventsPersistence");
+  constructor() {
     this.logger.log("RunningEventsPersistence created");
   }
   async deleteEventsWithIds(eventIDs: number[]): Promise<void> {

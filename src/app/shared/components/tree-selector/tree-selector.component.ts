@@ -1,7 +1,7 @@
 import { NestedTreeControl } from "@angular/cdk/tree";
 import { MatTreeNestedDataSource } from "@angular/material/tree";
 
-import { Logger } from '../../services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { ITreeSelectorUIModel } from '../../../features/models/capture/ui-model/current-event-processing-ui-model/event-type-setting-ui-model';
 
 
@@ -17,9 +17,9 @@ export class TreeSelectorComponent {
 
   treeControl = new NestedTreeControl<TreeNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<TreeNode>();
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.TreeSelectorComponent");
 
   constructor(
-    private logger: Logger,
     private uiModel: ITreeSelectorUIModel) {
     this.uiModel.getTreeNodes().then(data => {
       this.logger.debug("TreeSelectorComponent: Data loaded: " + JSON.stringify(data));

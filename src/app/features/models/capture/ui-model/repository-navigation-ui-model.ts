@@ -2,7 +2,7 @@
 //------------Repository Navigation model----------------
 // Presentation model for the presenting data in UI
 
-import { Logger } from "../../../../shared/services/logging/logger";
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { CaptureBusinessLogicModelFactory } from "../business-logic-model/capture-business-logic-model";
 import { RepositoryNavigationAction } from "../business-logic-model/repository-navigation-business-logic-model";
 import { NEW_EVENT_POSITION } from "../business-logic-model/repository-navigation-business-logic-model";
@@ -55,10 +55,12 @@ export class RepositoryNavigationUIModel implements IRepositoryNavigationUIModel
     //Page size by navigation
     private pageSize!: number;
 
-    constructor(private logger: Logger) {
+    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.RepositoryNavigationUIModel");
+
+    constructor() {
         this.logger.debug("RepositoryNavigationUIModel.constructor");
         this.repositoryNavigationBusinessLogicModel = CaptureBusinessLogicModelFactory
-            .createOrGetModel(this.logger).getRepositoryBusinessLogicModel();
+            .createOrGetModel().getRepositoryBusinessLogicModel();
     }
 
     async setRepositoryNavigationBusinessLogicModel(repositoryNavigationBusinessLogicModel: IRepositoryBusinessLogicModel): Promise<void> {

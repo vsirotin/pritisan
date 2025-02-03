@@ -1,8 +1,9 @@
 import { Observable, Subject, Subscription } from "rxjs";
 import { ILanguageDescription, inSupportedLanguages, DEFAULT_LANG_TAG } from './language-description';
-import { Logger } from "../../services/logging/logger";
+
 import { DbAgent, IKeyValueDB } from "../db/db-agent";
 import { ILanguageChangeNotificator, LanguageChangeNotificator } from "./language-change-notificator";
+import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
 
 
 const KEY_SAVING_LANGUAGE = "currentLanguage";
@@ -20,10 +21,10 @@ export class Localizer implements ILocalizer {
 
   private subscription: Subscription;
   private languageChange$: Observable<ILanguageDescription> = Localizer.languageChangeNotificator.selectionChanged$;
+  private logger: ILogger = LoggerFactory.getLogger("Localizer");
 
   constructor(private componentCooordinate: string,
-    private componentVersion : number,
-    private logger: Logger) { 
+    private componentVersion : number) { 
     this.logger.debug("Start of Localizer.constructor"); 
 
     this.subscription = this

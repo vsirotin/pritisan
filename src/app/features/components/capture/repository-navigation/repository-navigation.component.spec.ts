@@ -7,7 +7,7 @@ import { RepositoryNavigationAction } from "../../../models/capture/business-log
 import { NEW_EVENT_POSITION } from "../../../models/capture/business-logic-model/repository-navigation-business-logic-model";
 import { RepositoryBusinessLogicModel } from "../../../models/capture/business-logic-model/repository-navigation-business-logic-model";
 import { IRepositoryBusinessLogicModel } from "../../../models/capture/business-logic-model/repository-navigation-business-logic-model";
-import { Logger } from '../../../../shared/services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IMetaDataPersistence, MetaDataPersistence } from "../../../../shared/classes/db/metadata-db";
 import { IRepositoryMetaDataExt } from "../../../models/capture/capture-common-interfaces";
 import { DebugElement } from '@angular/core';

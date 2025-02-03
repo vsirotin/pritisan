@@ -1,4 +1,4 @@
-import { Logger } from "../../../../../shared/services/logging/logger";
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
 import { IAlternative, IAlternativeList, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";

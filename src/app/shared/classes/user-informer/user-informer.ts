@@ -1,5 +1,5 @@
 import { ILocalizer, Localizer } from '../localization/localizer';
-import { Logger } from '../../services/logging/logger';
+
 import { Subject } from 'rxjs';
 import { Warning, Error } from '../problems/problems';
 

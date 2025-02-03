@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule} from '@angular/material/expansion';
-import { Logger } from '../../../../../shared/services/logging/logger';
-import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
 import { AlternativeSelectionComponent } from '../../../../../shared/components/alternative-selection/alternative-selection.component';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
+import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
 
 
 @Component({
@@ -20,8 +20,9 @@ import { AlternativeSelectionComponent } from '../../../../../shared/components/
 })
 export class WorkflowTypeSelectionComponent extends AlternativeSelectionComponent {
 
-  constructor(logger: Logger) { 
-    super(logger, CurrentEventProcessingUIFactory.getWorkflowTypeSettingUIModel(logger));
+  private logger1: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.WorkflowTypeSelectionComponent"); 
+  constructor() { 
+    super(CurrentEventProcessingUIFactory.getWorkflowTypeSettingUIModel());
   }
   
 }

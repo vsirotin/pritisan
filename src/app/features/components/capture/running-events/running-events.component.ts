@@ -15,7 +15,8 @@ import { MatSort, Sort, MatSortModule}  from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { IRunningEvent, IRunningEventsUIModel, RunningEventsUIModel } from '../../../models/capture/ui-model/running-events-ui-model';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Logger } from '../../../../shared/services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
+
 
 
 const ELEMENT_DATA: IRunningEvent[] = [];
@@ -47,10 +48,11 @@ export class RunningEventsComponent implements  AfterViewInit {
   uiModel! : IRunningEventsUIModel;
 
   selection = new SelectionModel<IRunningEvent>(true, []);
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.RunningEventsComponent");
 
-  constructor(private logger: Logger, private _liveAnnouncer: LiveAnnouncer) {
+  constructor(private _liveAnnouncer: LiveAnnouncer) {
     this.logger.debug("RunningEventsComponent.constructor");
-    this.uiModel = new RunningEventsUIModel(logger);
+    this.uiModel = new RunningEventsUIModel();
     this.uiModel.runningEventsPresentationChanged$.subscribe((events) => {
       this.logger.debug("RunningEventsComponent.constructor. Running events: " + JSON.stringify(events));
       this.dataSource.data = events;

@@ -1,4 +1,4 @@
-import { Logger } from "../../../../shared/services/logging/logger";
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IMetaDataPersistence } from "../../../../shared/classes/db/metadata-db";
 import { IRepositoryBusinessLogicModel } from "./repository-navigation-business-logic-model";
 import { RepositoryBusinessLogicModel } from "./repository-navigation-business-logic-model";
@@ -13,27 +13,28 @@ class CaptureBusinessLogicModel implements ICaptureBusinessLogicModel{
     private runningEventsBusinessLogicModel!: IRunningEventsBusinessLogicModel;
     private currentEventBusinessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
     private timeSeriesDB!: IMetaDataPersistence;
+    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CaptureBusinessLogicModel");
     
-    constructor(private logger: Logger) {
+    constructor() {
         this.logger.debug("CaptureBusinessLogicModel.constructor");
     }
     getRepositoryBusinessLogicModel(): IRepositoryBusinessLogicModel {
         if(!this.repositoryBusinessLogicModel) {
-            this.repositoryBusinessLogicModel = new RepositoryBusinessLogicModel(this.logger, this);
+            this.repositoryBusinessLogicModel = new RepositoryBusinessLogicModel(this);
         }
         return this.repositoryBusinessLogicModel;
     }
     
     getRunningEventsBusinessLogicModel(): IRunningEventsBusinessLogicModel {
         if(!this.runningEventsBusinessLogicModel) {
-            this.runningEventsBusinessLogicModel = new RunningEventsBusinessLogicModel(this.logger, this);
+            this.runningEventsBusinessLogicModel = new RunningEventsBusinessLogicModel(this);
         }
         return this.runningEventsBusinessLogicModel;
     }
     
     getCurrentEventBusinessLogicModel(): ICurrentEventProcessingBusinessLogicModel {
         if(!this.currentEventBusinessLogicModel) {
-            this.currentEventBusinessLogicModel = new CurrentEventProcessingBusinessLogicModel(this.logger, this);
+            this.currentEventBusinessLogicModel = new CurrentEventProcessingBusinessLogicModel(this);
         }
         return this.currentEventBusinessLogicModel;
     }
@@ -42,9 +43,9 @@ class CaptureBusinessLogicModel implements ICaptureBusinessLogicModel{
 
 export class CaptureBusinessLogicModelFactory {
     private static instance: ICaptureBusinessLogicModel
-    static createOrGetModel(logger: Logger): ICaptureBusinessLogicModel {
+    static createOrGetModel(): ICaptureBusinessLogicModel {
         if(!CaptureBusinessLogicModelFactory.instance) {
-            CaptureBusinessLogicModelFactory.instance = new CaptureBusinessLogicModel(logger);
+            CaptureBusinessLogicModelFactory.instance = new CaptureBusinessLogicModel();
         }
         return CaptureBusinessLogicModelFactory.instance;
     }

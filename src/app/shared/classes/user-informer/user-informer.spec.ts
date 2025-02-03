@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { UserInformer } from './user-informer';
 import { Warning, Error } from '../problems/problems';
 import { Subject } from 'rxjs';
-import { Logger } from '../../services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { ILocalizer } from '../localization/localizer';
 
 describe('UserInformerService', () => {

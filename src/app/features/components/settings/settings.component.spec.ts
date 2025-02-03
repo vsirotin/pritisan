@@ -4,7 +4,7 @@ import { BrowserModule, By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from "@angular/router/testing";
 import { LanguageData, Localizer } from '../../../shared/classes/localization/localizer';
-import { Logger } from '../../../shared/services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { Observable, Subscription } from 'rxjs';
 import { ILanguageDescription } from '../../../shared/classes/localization/language-description';
 import { ILanguageChangeNotificator } from '../../../shared/classes/localization/language-change-notificator';

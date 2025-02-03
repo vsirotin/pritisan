@@ -13,7 +13,8 @@ import { ILanguageChangeNotificator } from '../../../shared/classes/localization
 import { ILanguageDescription, SupportedLanguages } from '../../../shared/classes/localization/language-description';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Localizer } from '../../../shared/classes/localization/localizer';
-import { Logger } from '../../../shared/services/logging/logger';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
+
 
 export const SETTINGS_SOURCE_DIR = "assets/languages/features/components/settings/lang/";
 /**
@@ -48,10 +49,12 @@ export class SettingsComponent implements OnInit, OnDestroy  {
   langEn: string = ""
   langEtfTag: string = "" 
 
-  constructor(private logger: Logger ) {
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.SettingsComponent");
+
+  constructor() {
     this.logger.debug("Start of SettingsComponent.constructor");  
 
-    this.localizer =  new Localizer(SETTINGS_SOURCE_DIR, 1, logger);
+    this.localizer =  new Localizer(SETTINGS_SOURCE_DIR, 1);
 
     this.setLanguageRelatedElements(this.localizer.currentLanguage as ILanguageDescription);
 

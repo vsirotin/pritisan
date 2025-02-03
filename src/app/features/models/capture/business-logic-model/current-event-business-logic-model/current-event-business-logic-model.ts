@@ -1,7 +1,8 @@
-import { IMasterDataPersistence, MasterDataPersistence } from "../../../../../shared/classes/db/masterdata-db";
-import { Logger } from "../../../../../shared/services/logging/logger";
+
 import { ITreeNode, ICaptureBusinessLogicModel } from "../../capture-common-interfaces";
 import { IAlternative, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
+import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
+import { IMasterDataPersistence, MasterDataPersistence } from "../../../../../shared/classes/db/masterdata-db";
 
 export interface ICurrentEventProcessingBusinessLogicModel{
     getBeginningTypes(): Promise<IAlternativeList>;
@@ -12,10 +13,11 @@ export interface ICurrentEventProcessingBusinessLogicModel{
 export class CurrentEventProcessingBusinessLogicModel implements ICurrentEventProcessingBusinessLogicModel{
 
     private masterDataDB!: IMasterDataPersistence;
+    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventProcessingBusinessLogicModel");
     
-    constructor(private logger: Logger, private parent: ICaptureBusinessLogicModel) {
+    constructor(private parent: ICaptureBusinessLogicModel) {
         this.logger.debug("CurrentEventBusinessLogicModel.constructor");
-        this.masterDataDB = new MasterDataPersistence(logger);
+        this.masterDataDB = new MasterDataPersistence();
     }
     async getActivityTypes(): Promise<ITreeNode[]> {
         return this.masterDataDB.readActivityTypes();
