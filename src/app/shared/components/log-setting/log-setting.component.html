@@ -1,0 +1,31 @@
+<mat-divider></mat-divider>
+<p>
+  {{ui.templateFieldName}}:
+</p>
+<p>  
+  <mat-form-field>
+    <mat-label>{{ui.templateHelpText}}</mat-label>
+    <input matInput [(ngModel)]="fileNameTemplate" maxlength="30" placeholder="Ex. Nougat" (input)="onInput($event)"  class="custom-height"  >
+  </mat-form-field>
+</p>
+<label id="logging-radio-group-label">{{ui.logLevelSetInvitation}} </label>
+<mat-radio-group
+  aria-labelledby="logging-radio-group-label"
+  class="logging-radio-group"
+  [(ngModel)]="selectedLogLevel ">
+  @for (logLevel  of logLevels; track logLevel)  {
+    <mat-radio-button class="radio-button" [value]="logLevel.key" (change)="onDebugLevelChange($event)">
+      {{logLevel.value}}
+    </mat-radio-button>
+  }
+</mat-radio-group>
+<div class="align-right">
+  <button id="bt-update" mat-raised-button [disabled]="isUpdateDisabled" disabledInteractive (click)="onUpdate()">
+    {{ui.labelUpdate}}
+  </button>
+  <span class="spacer"></span>
+    
+  <button id="bt-reset" mat-raised-button [disabled]="isResetDisabled" disabledInteractive (click)="onReset()">
+    {{ui.labelReset}}
+  </button>
+</div>
