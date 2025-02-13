@@ -10,9 +10,7 @@ import { CommunicatorService } from '../toolbar/service/communicator.service'
 import { Subscription } from 'rxjs';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 
-import { Localizer } from '../../../shared/classes/localization/localizer';
-import { ILanguageChangeNotificator } from '../../../shared/classes/localization/language-change-notificator';
-import { ILanguageDescription } from '../../../shared/classes/localization/language-description';
+
 import { CaptureComponent } from '../../../features/components/capture/capture.component'
 import { EditComponent } from '../../../features/components/edit/edit.component'
 import { ImportExportComponent } from '../../../features/components/import-export/import-export.component'
@@ -20,6 +18,7 @@ import { SettingsComponent } from '../../../features/components/settings/setting
 import { InfoComponent } from '../../../features/components/info/info.component'
 import { AnalysisComponent } from '../../../features/components/analysis/analysis.component'
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
+import { ILocalizationClient, LocalizerFactory } from '@vsirotin/localizer';
 
 export const MAIN_SOURCE_DIR = "assets/languages/core/components/main/lang/";
 
@@ -43,11 +42,10 @@ export const MAIN_SOURCE_DIR = "assets/languages/core/components/main/lang/";
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
-export class MainComponent implements OnInit, OnDestroy {
+export class MainComponent implements  OnDestroy, ILocalizationClient<IUIMainComponent> {
   @ViewChild('snav') snav!: MatSidenavModule;
 
   private subscriptionBtnClicked: Subscription;
-  private subscriptionLangChanged: Subscription;
 
   showFiller = false;
 
@@ -57,18 +55,22 @@ export class MainComponent implements OnInit, OnDestroy {
 
   mobileQuery!: MediaQueryList;
 
-  readonly navItemsDefault: Array<INavigationEntry> = [
-    {id: "capture", label: "Capture", icon: "feed"},
-    {id: "edit", label: "Edit", icon: "edit_square"},
-    {id: "analysis", label: "Analysis", icon: "area_chart"},
-    {id: "import_export", label: "Import/Export", icon: "app_shortcut"},
-    {id: "settings", label: "Settings", icon: "settings"},
-    {id: "info", label: "Info", icon: "help"}
-  ];
+  ui: IUIMainComponent = {
+    navigationLabeles: [
+      {id: "capture", label: "Capture"},
+      {id: "edit", label: "Edit"},
+      {id: "analysis", label: "Analysis"},
+      {id: "import_export", label: "Import/Export"},
+      {id: "settings", label: "Settings"},
+      {id: "info", label: "Info"}
+    ]
+  }
+
+  mapId2Icons = new Map<string, string>;
 
   private _mobileQueryListener!: () => void;
-  localizer: Localizer = new Localizer(MAIN_SOURCE_DIR, 1);
-  languageChangeNotificator: ILanguageChangeNotificator = Localizer.languageChangeNotificator;
+
+  private localizer  =  LocalizerFactory.createLocalizer<IUIMainComponent>(MAIN_SOURCE_DIR, 1, this.ui, this);
 
   private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.MainComponent");
 
@@ -81,15 +83,6 @@ export class MainComponent implements OnInit, OnDestroy {
     this.subscriptionBtnClicked = this.communicatorService.buttonClicked$.subscribe(() => {
       this.logger.debug("Start of MainComponent.subscriptionBtnClicked");
       this.toggleMenu();
-    });
-
-    this.subscriptionLangChanged = this
-    .languageChangeNotificator.selectionChanged$
-    .subscribe((selectedLanguage: ILanguageDescription) => {
-      this.logger.debug("Start of MainComponent.subscriptionLangChanged selectedLanguage=" + JSON.stringify(selectedLanguage));
-      this.logger.debug("MainComponent.subscriptionLangChanged after resetNavItems");
-      this.cdr.detectChanges();
-      this.logger.debug("MainComponent.subscriptionLangChanged completed");
     }); 
 
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -97,17 +90,10 @@ export class MainComponent implements OnInit, OnDestroy {
     this.mobileQuery.addListener(this._mobileQueryListener);
     this.logger.debug("End of MainComponent.constructor"); 
   }
-
-  async ngOnInit() {
-    this.logger.debug("Start of MainComponent.ngOnInit");
-    await this.localizer.initializeLanguage();
-    this.logger.debug("End of MainComponent.ngOnInit");
+  updateLocalization(data: IUIMainComponent): void {
+    throw new Error('Method not implemented.');
   }
 
-  t(id: string) {
-    const defaultLabel = this.navItemsDefault.find(item => item.id === id)?.label || id;
-    return this.localizer.getTranslation(id, defaultLabel);
-  }
 
   selectMenuItem(id: string) {
     this.logger.debug("Start of MainComponent.selectMenuItem id=" + id);
@@ -122,7 +108,6 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // Always unsubscribe to prevent memory leaks
     this.subscriptionBtnClicked.unsubscribe();
-    this.subscriptionLangChanged.unsubscribe();
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
@@ -131,7 +116,10 @@ export class MainComponent implements OnInit, OnDestroy {
 interface INavigationEntry {
   id: string;
   label: string;
-  icon: string;
+}
+
+interface IUIMainComponent {
+  navigationLabeles : INavigationEntry[];
 }
 
 function deepCopyArray<T>(arr: Array<T>): Array<T> {

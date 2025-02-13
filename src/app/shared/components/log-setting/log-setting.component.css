@@ -1,0 +1,19 @@
+.logging-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+    align-items: flex-start;
+  }
+
+  .spacer {
+    width: 15px;
+    display: inline-block;
+  }
+
+  .align-right {
+    text-align: right;
+  }
+
+  .custom-height {
+    height: 120%;
+  }

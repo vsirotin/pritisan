@@ -1,23 +1,18 @@
 <mat-card class="settings-card">
   <mat-card-header>
-    <mat-card-title>{{t('settings', 'Settings')}}</mat-card-title>
+    <mat-card-title>{{ui.settings}}</mat-card-title>
   </mat-card-header>
-<div class="settings-action-buttons">
-    <button mat-button (click)="accordion?.openAll()">{{t('expand_all', 'Expand All')}}</button>
-    <button mat-button (click)="accordion?.closeAll()">{{t('collapse_all', 'Collapse All')}}</button>
-  </div>
   <mat-accordion class="settings-headers-align" multi>
     <mat-expansion-panel>
-      <mat-expansion-panel-header>
+      <mat-expansion-panel-header #languagePanel>
         <mat-panel-title>
           <mat-icon>language</mat-icon>
-          {{t('language', 'Language:')}}
+          {{ui.language}}:
           </mat-panel-title>
         <mat-panel-description>
           <span width = "5px"></span>
+          {{langEn}}   
           {{langOrigin}}
-          <span width = "5px"></span>
-          {{langEn}}       
         </mat-panel-description>
         </mat-expansion-panel-header>
       <app-language-selection></app-language-selection>
@@ -25,39 +20,18 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <mat-icon>palette</mat-icon>
-            {{t('appearance', 'Appearance')}}
+            <mat-icon>list</mat-icon>
+             {{ui.logging}}:
             </mat-panel-title>
           <mat-panel-description>
-            {{t('set_options_for_appearance', 'Set appearance options')}}
+            ({{ui.loggingExplanation}})
         </mat-panel-description>
       </mat-expansion-panel-header>
-  
-      <mat-form-field>
-        <mat-label>Country</mat-label>
-        <input matInput>
-      </mat-form-field>
-    </mat-expansion-panel>
-  
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <mat-icon>rule_folder</mat-icon>
-          {{t('rules', 'Rules')}}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{t('set_rules', 'Set rules for automatic data deletion, etc.')}}      
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-  
-      <mat-form-field>
-        <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly>
-      </mat-form-field>
-      <mat-datepicker #picker></mat-datepicker>
+      <app-log-setting></app-log-setting>     
     </mat-expansion-panel>
   </mat-accordion>
   <mat-card-footer>
+    <p class="version">{{version}}</p>
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </mat-card-footer>
 </mat-card>

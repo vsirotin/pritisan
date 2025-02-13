@@ -7,10 +7,10 @@
       <mat-sidenav #snav [opened]="isShowing"[mode]="mobileQuery.matches ? 'over' : 'side'"
                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
           <mat-nav-list>
-            @for (nav of navItemsDefault; track nav.id) {
+            @for (nav of ui.navigationLabeles; track nav.id) {
               <a mat-list-item (click)="selectMenuItem(nav.id)">
-                  <button mat-icon-button class="custom-button mat-body-1">{{t(nav.id)}}
-                    <mat-icon color="primary" iconPosition="after">{{nav.icon}}</mat-icon>
+                  <button mat-icon-button class="custom-button mat-body-1">{{nav.label}}
+                    <mat-icon color="primary" iconPosition="after">{{mapId2Icons.get(nav.id)}}</mat-icon>
                   </button>
               </a>
             }
