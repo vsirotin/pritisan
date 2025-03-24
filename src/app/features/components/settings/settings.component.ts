@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 import * as uiItems from '../../../../assets/languages/features/components/settings/lang/1/en-US.json';
 //import * as versionInfo from '../../../version.json'
 
-export const SETTINGS_SOURCE_DIR = "assets/languages/features/components/settings/lang/1";
+const SETTINGS_SOURCE_DIR = "assets/languages/features/components/settings/lang/1";
 
 interface UIItems {
   settings: string;

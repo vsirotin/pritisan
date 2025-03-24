@@ -15,17 +15,17 @@ export interface IRepositoryNavigationPresenter {
     setRepositoryMetaData(count: number, currentEventPosition: number): void;
 }// Input model for the navigation for processing the user actions
 
-export interface IRepositoryNavigationInputModel {
+interface IRepositoryNavigationInputModel {
     navigateTo(element: RepositoryNavigationAction): void;
 }
 // Query model for the providing data to the UI
 
-export interface IRepositoryNavigationUIQueryModell {
+interface IRepositoryNavigationUIQueryModell {
     getRepositoryMetaData(): Promise<IRepositoryMetaData>
 }
 //Model for update data from the business logic model
 
-export interface IRepositoryNavigationUpdateModel {
+interface IRepositoryNavigationUpdateModel {
     updateRepositoryData(countEventsInRepository: number, currentEventPosition: number): void;
     updatePageSize(pageSize: number): void;
 }

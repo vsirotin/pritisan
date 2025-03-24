@@ -6,14 +6,14 @@ import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IRepositoryMetaDataExt } from "../capture-common-interfaces";
 import { encodePersistedEvent } from "./current-event-business-logic-model/event-commons";
 
-export interface IRepositoryBusinessLogicModelInput {
+interface IRepositoryBusinessLogicModelInput {
     navigateTo(element: RepositoryNavigationAction): void;
 }
-export interface IRepositoryBusinessLogicModelQuery {
+interface IRepositoryBusinessLogicModelQuery {
     getMetaData(): Promise<IRepositoryMetaDataExt>;
 }
 
-export interface IRepositoryBusinessLogicModelNotificator {
+interface IRepositoryBusinessLogicModelNotificator {
     currentEventIdChanged$: Observable<IEvent>;
 }
 

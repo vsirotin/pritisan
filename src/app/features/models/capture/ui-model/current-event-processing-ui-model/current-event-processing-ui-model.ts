@@ -32,7 +32,7 @@ export enum CurrentEventActions {
 
 //------------Current event ui model -----------------
 
-export interface ICurrentEventProcessingNavigation {
+interface ICurrentEventProcessingNavigation {
     navigateTo(action: CurrentEventActions): string; 
 }
 

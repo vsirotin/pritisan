@@ -6,14 +6,15 @@ import { ICurrentEventChangingNotificator, IEventChange } from './current-event-
 import { IAlternativeSelectionUIModel } from "./workflow-type-setting-ui-model";
 
 
-
+//TODO: NOT USED
 export class BeginningTypeSettingUIModel implements IAlternativeSelectionUIModel{
 
     private beginningType!: IAlternativeList;
 
     businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
+    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.BeginningTypeSettingUIModel");
 
-    constructor(private logger: Logger, private currentEventNotificationService: ICurrentEventChangingNotificator) {
+    constructor(private currentEventNotificationService: ICurrentEventChangingNotificator) {
         this.logger.debug("BeginningTypeSelectionUIModel.constructor");
         this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getCurrentEventBusinessLogicModel();
         this.loadFromBusinessLogicModel();

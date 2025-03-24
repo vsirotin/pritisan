@@ -56,7 +56,7 @@ export class TimeSettingUIModel {
     finishTime?: TimePointSettingUIModel;
 }  
 
-export class TimePointSettingUIModel {
+class TimePointSettingUIModel {
     time: Date = new Date();
     role!: string;
     error?: string;

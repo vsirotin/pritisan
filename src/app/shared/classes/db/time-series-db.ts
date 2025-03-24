@@ -10,7 +10,7 @@ export interface IPersistedEvent{
   details: string|null;
 }
 
-export interface IEventsPersistence {
+interface IEventsPersistence {
   saveEvent(event: IPersistedEvent): number;
   updateEvents(events: IPersistedEvent[]): void;
   deleteEvents(eventIds: number[]): void;

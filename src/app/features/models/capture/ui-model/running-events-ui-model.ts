@@ -12,7 +12,7 @@ export interface IRunningEvent {
     description: string;
   }
 
-export interface IRunningEventsUIInputModel {
+interface IRunningEventsUIInputModel {
 
     runningEventsPresentationChanged$: Observable<IRunningEvent[]>;
 
