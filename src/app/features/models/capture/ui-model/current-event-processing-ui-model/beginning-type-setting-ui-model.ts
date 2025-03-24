@@ -1,7 +1,7 @@
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
-import { IAlternative, IAlternativeList, IReceiverEventPartUpdates } from "../../business-logic-model/current-event-business-logic-model/event-commons";
+import { IAlternative, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
 import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
 import { IAlternativeSelectionUIModel } from "./workflow-type-setting-ui-model";
 
@@ -16,7 +16,7 @@ export class BeginningTypeSettingUIModel implements IAlternativeSelectionUIModel
 
     constructor(private currentEventNotificationService: ICurrentEventChangingNotificator) {
         this.logger.debug("BeginningTypeSelectionUIModel.constructor");
-        this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getCurrentEventBusinessLogicModel();
+//        this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(this.logger).getCurrentEventBusinessLogicModel();
         this.loadFromBusinessLogicModel();
     }
 

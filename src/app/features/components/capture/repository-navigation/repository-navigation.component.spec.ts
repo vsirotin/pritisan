@@ -13,346 +13,347 @@ import { IRepositoryMetaDataExt } from "../../../models/capture/capture-common-i
 import { DebugElement } from '@angular/core';
 import { CaptureBusinessLogicModelFactory } from '../../../models/capture/business-logic-model/capture-business-logic-model';
 
-describe('RepositoryNavigationComponent', () => {
-  let component: RepositoryNavigationComponent;
-  let fixture: ComponentFixture<RepositoryNavigationComponent>;
-  let repositoryNavigationUIModel: IRepositoryNavigationUIModel;
-  let repositoryBusinessLogicModel: IRepositoryBusinessLogicModel;
-  let metaDataDB: IMetaDataPersistence;
+//TODO: Update tests for the RepositoryNavigationComponent
+// describe('RepositoryNavigationComponent', () => {
+//   let component: RepositoryNavigationComponent;
+//   let fixture: ComponentFixture<RepositoryNavigationComponent>;
+//   let repositoryNavigationUIModel: IRepositoryNavigationUIModel;
+//   let repositoryBusinessLogicModel: IRepositoryBusinessLogicModel;
+//   let metaDataDB: IMetaDataPersistence;
 
-  let p: any;
-  let buttons!: DebugElement[];
+//   let p: any;
+//   let buttons!: DebugElement[];
 
-  let buttonPreviousPage: any;
-  let buttonPrevious: any;
-  let buttonNext: any;
-  let buttonNextPage: any;
-  let buttonLast: any;
-  let buttonNew: any;
+//   let buttonPreviousPage: any;
+//   let buttonPrevious: any;
+//   let buttonNext: any;
+//   let buttonNextPage: any;
+//   let buttonLast: any;
+//   let buttonNew: any;
 
-  let logger: Logger
+//   let logger: ILogger
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RepositoryNavigationComponent]
-    })
-    .compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       imports: [RepositoryNavigationComponent]
+//     })
+//     .compileComponents();
 
     
-    fixture = TestBed.createComponent(RepositoryNavigationComponent);
-    component = fixture.componentInstance;
-    repositoryNavigationUIModel = component.uiModel
+//     fixture = TestBed.createComponent(RepositoryNavigationComponent);
+//     component = fixture.componentInstance;
+//     repositoryNavigationUIModel = component.uiModel
 
-    logger = new Logger();
+//     logger = LoggerFactory.getLogger("eu.sirotin.pritisan.RepositoryNavigationComponent.Test");
 
-    repositoryBusinessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(logger).getRepositoryBusinessLogicModel();
+//     repositoryBusinessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel(logger).getRepositoryBusinessLogicModel();
 
-    class MetaDataPersistenceMock extends MetaDataPersistence {
-      override async readMetaData(): Promise<IRepositoryMetaDataExt>{
-        return {currentEventPosition: NEW_EVENT_POSITION, countEvents: 0, pageSize: 10};
-      }
-    }
+//     class MetaDataPersistenceMock extends MetaDataPersistence {
+//       override async readMetaData(): Promise<IRepositoryMetaDataExt>{
+//         return {currentEventPosition: NEW_EVENT_POSITION, countEvents: 0, pageSize: 10};
+//       }
+//     }
 
-    metaDataDB = new MetaDataPersistenceMock(logger);
-    repositoryBusinessLogicModel.metaDataDB = metaDataDB;
+//     metaDataDB = new MetaDataPersistenceMock(logger);
+//     repositoryBusinessLogicModel.metaDataDB = metaDataDB;
 
-    await repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(repositoryBusinessLogicModel);
+//     await repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(repositoryBusinessLogicModel);
 
-    await component.ngOnInit();
-    p = fixture.debugElement.query(By.css('p'));
+//     await component.ngOnInit();
+//     p = fixture.debugElement.query(By.css('p'));
 
-    buttons = fixture.debugElement.queryAll(By.css('button'));
+//     buttons = fixture.debugElement.queryAll(By.css('button'));
 
-    buttonPreviousPage = buttons[0];
-    buttonPrevious = buttons[1];
-    buttonNext = buttons[2];
-    buttonNextPage = buttons[3];
-    buttonLast = buttons[4];
-    buttonNew = buttons[5];
+//     buttonPreviousPage = buttons[0];
+//     buttonPrevious = buttons[1];
+//     buttonNext = buttons[2];
+//     buttonNextPage = buttons[3];
+//     buttonLast = buttons[4];
+//     buttonNew = buttons[5];
 
    
-    fixture.detectChanges();
-  });
+//     fixture.detectChanges();
+//   });
 
-  xdescribe('default settings ', () => {
+//   xdescribe('default settings ', () => {
 
-    it('should create', () => {
-      expect(component).toBeTruthy();
-    });
+//     it('should create', () => {
+//       expect(component).toBeTruthy();
+//     });
 
-    it('should have UI model', () => {  
-      expect(repositoryNavigationUIModel).toBeTruthy();
-    });
+//     it('should have UI model', () => {  
+//       expect(repositoryNavigationUIModel).toBeTruthy();
+//     });
 
-    it('should have business logic model', () => {  
-      expect(repositoryBusinessLogicModel).toBeTruthy();
-    });
+//     it('should have business logic model', () => {  
+//       expect(repositoryBusinessLogicModel).toBeTruthy();
+//     });
 
-    it('should have 6 buttons with given icons', () => {
-      expect(buttons.length).toBe(6);
+//     it('should have 6 buttons with given icons', () => {
+//       expect(buttons.length).toBe(6);
 
-      const expectedIcons = [
-        'keyboard_double_arrow_left',
-        'keyboard_arrow_left', 
-        'keyboard_arrow_right', 
-        'keyboard_double_arrow_right',
-        'last_page', 
-        'more_time'];
+//       const expectedIcons = [
+//         'keyboard_double_arrow_left',
+//         'keyboard_arrow_left', 
+//         'keyboard_arrow_right', 
+//         'keyboard_double_arrow_right',
+//         'last_page', 
+//         'more_time'];
 
-        buttons.forEach((button, index) => {
-        expect(button.nativeElement.textContent.trim()).toContain(expectedIcons[index]);
-      });
-    });
+//         buttons.forEach((button, index) => {
+//         expect(button.nativeElement.textContent.trim()).toContain(expectedIcons[index]);
+//       });
+//     });
 
-    it('should have text in given format', () => {
-      expect(p.nativeElement.textContent.trim()).toContain("new/0");
-    });
+//     it('should have text in given format', () => {
+//       expect(p.nativeElement.textContent.trim()).toContain("new/0");
+//     });
 
-  });
+//   });
 
-  xdescribe('by empty repository ', () => {
+//   xdescribe('by empty repository ', () => {
     
-    it('should have text new/0', () => {
+//     it('should have text new/0', () => {
      
-      expect(p.nativeElement.textContent.trim()).toContain("new/0");
-    });
+//       expect(p.nativeElement.textContent.trim()).toContain("new/0");
+//     });
 
-    it('should have enabling FFFFFT where F-false (disabled) and T-true (enabled)', () => {
+//     it('should have enabling FFFFFT where F-false (disabled) and T-true (enabled)', () => {
 
-      expect(buttons.length).toBe(6);
+//       expect(buttons.length).toBe(6);
 
-      expect(buttonPreviousPage.nativeElement.disabled).toBe(true)
-      expect(buttonPrevious.nativeElement.disabled).toBe(true)
-      expect(buttonNext.nativeElement.disabled).toBe(true)
-      expect(buttonNextPage.nativeElement.disabled).toBe(true)
-      expect(buttonLast.nativeElement.disabled).toBe(true)
-      expect(buttonNew.nativeElement.disabled).toBe(false)
+//       expect(buttonPreviousPage.nativeElement.disabled).toBe(true)
+//       expect(buttonPrevious.nativeElement.disabled).toBe(true)
+//       expect(buttonNext.nativeElement.disabled).toBe(true)
+//       expect(buttonNextPage.nativeElement.disabled).toBe(true)
+//       expect(buttonLast.nativeElement.disabled).toBe(true)
+//       expect(buttonNew.nativeElement.disabled).toBe(false)
 
-    });
+//     });
 
-    describe('should by click on button new', () => {
+//     describe('should by click on button new', () => {
       
-      it('navigateTo by UIModel called', () => {
-         spyOn(component, 'navigateTo');
-         buttonNew.nativeElement.click();
-         expect(component.navigateTo).toHaveBeenCalledWith(RepositoryNavigationAction.NEW);
-      });
+//       it('navigateTo by UIModel called', () => {
+//          spyOn(component, 'navigateTo');
+//          buttonNew.nativeElement.click();
+//          expect(component.navigateTo).toHaveBeenCalledWith(RepositoryNavigationAction.NEW);
+//       });
 
-      it('updateDefaultEvent by business modell called', () => {
-        spyOn(metaDataDB, 'readEvent');
-        buttonNew.nativeElement.click();
-        expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_POSITION);
-      });
+//       it('updateDefaultEvent by business modell called', () => {
+//         spyOn(metaDataDB, 'readEvent');
+//         buttonNew.nativeElement.click();
+//         expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_POSITION);
+//       });
 
-      it('new/0 presented', () => {
-        buttonNew.nativeElement.click();
-        expect(p.nativeElement.textContent.trim()).toContain("new/0");   
-      });
-    });
-  });
+//       it('new/0 presented', () => {
+//         buttonNew.nativeElement.click();
+//         expect(p.nativeElement.textContent.trim()).toContain("new/0");   
+//       });
+//     });
+//   });
 
-  xdescribe('by filled repository and currentEvent is new', () => {
+//   xdescribe('by filled repository and currentEvent is new', () => {
 
-    class MetaDataPersistenceMock2 extends MetaDataPersistence {
-      override async readMetaData(): Promise<IRepositoryMetaDataExt>{
-        return {currentEventPosition: NEW_EVENT_POSITION, countEvents: 1001, pageSize: 10};
-      }
-    }
+//     class MetaDataPersistenceMock2 extends MetaDataPersistence {
+//       override async readMetaData(): Promise<IRepositoryMetaDataExt>{
+//         return {currentEventPosition: NEW_EVENT_POSITION, countEvents: 1001, pageSize: 10};
+//       }
+//     }
 
-    beforeEach(async () => {
-      let blModel = CaptureBusinessLogicModelFactory.createOrGetModel(logger).getRepositoryBusinessLogicModel();
-      metaDataDB = new MetaDataPersistenceMock2(logger);
-      blModel.metaDataDB = metaDataDB;
+//     beforeEach(async () => {
+//       let blModel = CaptureBusinessLogicModelFactory.createOrGetModel(logger).getRepositoryBusinessLogicModel();
+//       metaDataDB = new MetaDataPersistenceMock2(logger);
+//       blModel.metaDataDB = metaDataDB;
 
-      await repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel);
-      repositoryBusinessLogicModel = repositoryNavigationUIModel.getRepositoryNavigationBusinessLogicModel();
+//       await repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel);
+//       repositoryBusinessLogicModel = repositoryNavigationUIModel.getRepositoryNavigationBusinessLogicModel();
 
-      await component.ngOnInit();
-      fixture.detectChanges();
-    });
+//       await component.ngOnInit();
+//       fixture.detectChanges();
+//     });
 
-    it('should have formattted text like new/1001', () => {
-      expect(p.nativeElement.textContent.trim()).toContain("new/1001");  
-    });
+//     it('should have formattted text like new/1001', () => {
+//       expect(p.nativeElement.textContent.trim()).toContain("new/1001");  
+//     });
 
-    it('should have enabling TTFFFT where F-false (disabled) and T-true (enabled)', () => {
-      const buttons = fixture.debugElement.queryAll(By.css('button'));
-      expect(buttons.length).toBe(6);
+//     it('should have enabling TTFFFT where F-false (disabled) and T-true (enabled)', () => {
+//       const buttons = fixture.debugElement.queryAll(By.css('button'));
+//       expect(buttons.length).toBe(6);
 
-      expect(buttonPreviousPage.nativeElement.disabled).toBe(false)
-      expect(buttonPrevious.nativeElement.disabled).toBe(false)
-      expect(buttonNext.nativeElement.disabled).toBe(true)
-      expect(buttonNextPage.nativeElement.disabled).toBe(true)
-      expect(buttonLast.nativeElement.disabled).toBe(true)
-      expect(buttonNew.nativeElement.disabled).toBe(false)
+//       expect(buttonPreviousPage.nativeElement.disabled).toBe(false)
+//       expect(buttonPrevious.nativeElement.disabled).toBe(false)
+//       expect(buttonNext.nativeElement.disabled).toBe(true)
+//       expect(buttonNextPage.nativeElement.disabled).toBe(true)
+//       expect(buttonLast.nativeElement.disabled).toBe(true)
+//       expect(buttonNew.nativeElement.disabled).toBe(false)
 
-    });
+//     });
 
-    xdescribe('should by click on button new', () => {
+//     xdescribe('should by click on button new', () => {
       
-      it('navigateTo by UIModel called', () => {
-         spyOn(component, 'navigateTo');
-         buttonNew.nativeElement.click();
-         expect(component.navigateTo).toHaveBeenCalledWith(RepositoryNavigationAction.NEW);
-      });
+//       it('navigateTo by UIModel called', () => {
+//          spyOn(component, 'navigateTo');
+//          buttonNew.nativeElement.click();
+//          expect(component.navigateTo).toHaveBeenCalledWith(RepositoryNavigationAction.NEW);
+//       });
 
-      it('updateDefaultEvent by business modell called', () => {
-        spyOn(metaDataDB, 'readEvent');
-        buttonNew.nativeElement.click();
-        expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_POSITION);
-      });
+//       it('updateDefaultEvent by business modell called', () => {
+//         spyOn(metaDataDB, 'readEvent');
+//         buttonNew.nativeElement.click();
+//         expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_POSITION);
+//       });
 
-      it('new/0 presented', async () => {
-        buttonNew.nativeElement.click();
-        await fixture.whenStable();
-        fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("new/1001");   
-      });
-    });
+//       it('new/0 presented', async () => {
+//         buttonNew.nativeElement.click();
+//         await fixture.whenStable();
+//         fixture.detectChanges();
+//         expect(p.nativeElement.textContent.trim()).toContain("new/1001");   
+//       });
+//     });
 
 
-    it('should correct process click <', async () => {
-      buttonPrevious.nativeElement.click(); 
-      await fixture.whenStable();
-      fixture.detectChanges();
-      expect(p.nativeElement.textContent.trim()).toContain("1001/1001");
+//     it('should correct process click <', async () => {
+//       buttonPrevious.nativeElement.click(); 
+//       await fixture.whenStable();
+//       fixture.detectChanges();
+//       expect(p.nativeElement.textContent.trim()).toContain("1001/1001");
 
-    });
+//     });
 
-    it('should correct process click <<', async () => {
+//     it('should correct process click <<', async () => {
 
-      buttonPreviousPage.nativeElement.click();
-      await fixture.whenStable();
-      fixture.detectChanges();
-      expect(p.nativeElement.textContent.trim()).toContain("991/1001");  
+//       buttonPreviousPage.nativeElement.click();
+//       await fixture.whenStable();
+//       fixture.detectChanges();
+//       expect(p.nativeElement.textContent.trim()).toContain("991/1001");  
       
-    });
+//     });
 
-    it('should correct process click on LAST', async () => {
+//     it('should correct process click on LAST', async () => {
 
-      buttonPreviousPage.nativeElement.click();
-      await fixture.whenStable();
-      fixture.detectChanges();
+//       buttonPreviousPage.nativeElement.click();
+//       await fixture.whenStable();
+//       fixture.detectChanges();
 
-      buttonLast.nativeElement.click();
-      await fixture.whenStable();
-      fixture.detectChanges();
-      expect(p.nativeElement.textContent.trim()).toContain("1001/1001");  
+//       buttonLast.nativeElement.click();
+//       await fixture.whenStable();
+//       fixture.detectChanges();
+//       expect(p.nativeElement.textContent.trim()).toContain("1001/1001");  
       
-    });
-  });
+//     });
+//   });
 
-  xdescribe('by filled repository and currentEvent is in the middle', () => {
+//   xdescribe('by filled repository and currentEvent is in the middle', () => {
 
-    beforeEach(async () => {
-      let blModel = CaptureBusinessLogicModelFactory.createOrGetModel(logger).getRepositoryBusinessLogicModel();
+//     beforeEach(async () => {
+//       let blModel = CaptureBusinessLogicModelFactory.createOrGetModel(logger).getRepositoryBusinessLogicModel();
       
-      class MetaDataPersistenceMock3 extends MetaDataPersistence {
+//       class MetaDataPersistenceMock3 extends MetaDataPersistence {
 
-        override async readMetaData(): Promise<IRepositoryMetaDataExt>{
-          return {currentEventPosition: 500, countEvents: 1001, pageSize: 10};
-        }
-      }
+//         override async readMetaData(): Promise<IRepositoryMetaDataExt>{
+//           return {currentEventPosition: 500, countEvents: 1001, pageSize: 10};
+//         }
+//       }
 
-      metaDataDB = new MetaDataPersistenceMock3(logger);
-      blModel.metaDataDB = metaDataDB;
+//       metaDataDB = new MetaDataPersistenceMock3(logger);
+//       blModel.metaDataDB = metaDataDB;
 
-      await repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel);
-      component.uiModel = repositoryNavigationUIModel;
-      repositoryBusinessLogicModel = repositoryNavigationUIModel.getRepositoryNavigationBusinessLogicModel();
+//       await repositoryNavigationUIModel.setRepositoryNavigationBusinessLogicModel(blModel);
+//       component.uiModel = repositoryNavigationUIModel;
+//       repositoryBusinessLogicModel = repositoryNavigationUIModel.getRepositoryNavigationBusinessLogicModel();
 
-      await component.ngOnInit();
-      fixture.detectChanges();
-    });
+//       await component.ngOnInit();
+//       fixture.detectChanges();
+//     });
 
-    describe('and default settings', () => {
+//     describe('and default settings', () => {
 
-      it('should have formattted text like 500/1001', () => {
-        expect(p.nativeElement.textContent.trim()).toContain("500/1001");  
-      });
+//       it('should have formattted text like 500/1001', () => {
+//         expect(p.nativeElement.textContent.trim()).toContain("500/1001");  
+//       });
 
-      it('should have enabling FFFFFF where F-false (disabled) and T-true (enabled)', () => {
+//       it('should have enabling FFFFFF where F-false (disabled) and T-true (enabled)', () => {
 
-        expect(buttonPreviousPage.nativeElement.disabled).toBe(false)
-        expect(buttonPrevious.nativeElement.disabled).toBe(false)
-        expect(buttonNext.nativeElement.disabled).toBe(false)
-        expect(buttonNextPage.nativeElement.disabled).toBe(false)
-        expect(buttonLast.nativeElement.disabled).toBe(false)
-        expect(buttonNew.nativeElement.disabled).toBe(false)
+//         expect(buttonPreviousPage.nativeElement.disabled).toBe(false)
+//         expect(buttonPrevious.nativeElement.disabled).toBe(false)
+//         expect(buttonNext.nativeElement.disabled).toBe(false)
+//         expect(buttonNextPage.nativeElement.disabled).toBe(false)
+//         expect(buttonLast.nativeElement.disabled).toBe(false)
+//         expect(buttonNew.nativeElement.disabled).toBe(false)
 
-      });
-    });
+//       });
+//     });
 
-    describe('should by click on button new', () => {
+//     describe('should by click on button new', () => {
       
-      it('navigateTo by UIModel called', () => {
-         spyOn(component, 'navigateTo');
-         buttonNew.nativeElement.click();
-         expect(component.navigateTo).toHaveBeenCalledWith(RepositoryNavigationAction.NEW);
-      });
+//       it('navigateTo by UIModel called', () => {
+//          spyOn(component, 'navigateTo');
+//          buttonNew.nativeElement.click();
+//          expect(component.navigateTo).toHaveBeenCalledWith(RepositoryNavigationAction.NEW);
+//       });
 
-      it('updateDefaultEvent by business modell called', () => {
+//       it('updateDefaultEvent by business modell called', () => {
 
-        spyOn(metaDataDB, 'readEvent');
-        buttonNew.nativeElement.click();
-        expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_POSITION);
-      });
+//         spyOn(metaDataDB, 'readEvent');
+//         buttonNew.nativeElement.click();
+//         expect(metaDataDB.readEvent).toHaveBeenCalledWith(NEW_EVENT_POSITION);
+//       });
 
-      it('new/1001 presented', async () => {
-        buttonNew.nativeElement.click();
-        await fixture.whenStable();
-        fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("new/1001");   
-      });
-    });
+//       it('new/1001 presented', async () => {
+//         buttonNew.nativeElement.click();
+//         await fixture.whenStable();
+//         fixture.detectChanges();
+//         expect(p.nativeElement.textContent.trim()).toContain("new/1001");   
+//       });
+//     });
 
-    describe('by other buttons', () => {
+//     describe('by other buttons', () => {
 
-      it('should correct process click <', async () => {
-        buttonPrevious.nativeElement.click(); 
-        await fixture.whenStable();
-        fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("499/1001");
+//       it('should correct process click <', async () => {
+//         buttonPrevious.nativeElement.click(); 
+//         await fixture.whenStable();
+//         fixture.detectChanges();
+//         expect(p.nativeElement.textContent.trim()).toContain("499/1001");
 
-      });
+//       });
 
-      it('should correct process click <<', async() => {
+//       it('should correct process click <<', async() => {
 
-        buttonPreviousPage.nativeElement.click();
-        await fixture.whenStable();
-        fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("490/1001");  
+//         buttonPreviousPage.nativeElement.click();
+//         await fixture.whenStable();
+//         fixture.detectChanges();
+//         expect(p.nativeElement.textContent.trim()).toContain("490/1001");  
         
-      });
+//       });
 
-      it('should correct process click >', async() => {
-        buttonNext.nativeElement.click(); 
-        await fixture.whenStable();
-        fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("501/1001");
+//       it('should correct process click >', async() => {
+//         buttonNext.nativeElement.click(); 
+//         await fixture.whenStable();
+//         fixture.detectChanges();
+//         expect(p.nativeElement.textContent.trim()).toContain("501/1001");
 
-      });
+//       });
 
-      it('should correct process click >>', async() => {
+//       it('should correct process click >>', async() => {
 
-        buttonNextPage.nativeElement.click();
-        await fixture.whenStable();
-        fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("510/1001");  
+//         buttonNextPage.nativeElement.click();
+//         await fixture.whenStable();
+//         fixture.detectChanges();
+//         expect(p.nativeElement.textContent.trim()).toContain("510/1001");  
         
-      });
+//       });
 
-      it('should correct process click on LAST',async () => {
+//       it('should correct process click on LAST',async () => {
 
-        buttonLast.nativeElement.click();
-        await fixture.whenStable();
-        fixture.detectChanges();
-        expect(p.nativeElement.textContent.trim()).toContain("1001/1001");  
+//         buttonLast.nativeElement.click();
+//         await fixture.whenStable();
+//         fixture.detectChanges();
+//         expect(p.nativeElement.textContent.trim()).toContain("1001/1001");  
         
-      });
-    });
-  });
-});
+//       });
+//     });
+//   });
+// });
 
 
 

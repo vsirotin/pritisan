@@ -1,7 +1,8 @@
-import { ILocalizer, Localizer } from '../localization/localizer';
+//import { ILocalizer, Localizer } from '../localization/localizer';
 
 import { Subject } from 'rxjs';
 import { Warning, Error } from '../problems/problems';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 
 /**
  * Provides methods to inform the user about various logging events.
@@ -9,9 +10,10 @@ import { Warning, Error } from '../problems/problems';
 
 export class UserInformer {
 
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.UserInformer");
+
 //TODO
-  constructor(private callrerCodeCoordinate: string,  
-    private logger: Logger, 
+  constructor(private callrerCodeCoordinate: string, 
     private callee: Subject<Warning|Error>) { }
 
   /**

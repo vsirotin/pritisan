@@ -5,6 +5,7 @@ import { IAlternative } from '../../../../models/capture/business-logic-model/cu
 
 import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
 import { IAlternativeSelectionUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/workflow-type-setting-ui-model';
+import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 
 @Component({
   selector: 'app-period-type-setting',
@@ -21,7 +22,8 @@ export class PeriodTypeSettingComponent implements OnInit{
 
   eventTypes!: IAlternative[];
   selectedEventType!: IAlternative;
-  constructor(private logger: Logger) { 
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.PeriodTypeSettingComponent");
+  constructor() { 
     //this.uiModel = CurrentEventProcessingUIFactory.getBeginningTypeSettingUIModel(this.logger);
   }
   
