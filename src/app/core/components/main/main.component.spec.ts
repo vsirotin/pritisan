@@ -5,11 +5,11 @@ import { BrowserModule, By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from "@angular/router/testing";
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
-import { LanguageData, Localizer } from '../../../shared/classes/localization/localizer';
+//import { LanguageData, Localizer } from '../../../shared/classes/localization/localizer';
 import { MAIN_SOURCE_DIR } from './main.component';
-import { ILanguageChangeNotificator } from '../../../shared/classes/localization/language-change-notificator';
+//import { ILanguageChangeNotificator } from '../../../shared/classes/localization/language-change-notificator';
 import { Observable, Subscription } from 'rxjs';
-import { ILanguageDescription } from '../../../shared/classes/localization/language-description';
+//import { ILanguageDescription } from '../../../shared/classes/localization/language-description';
 
 //TODO: Update tests for MainComponent
 // xdescribe('MainComponent', () => {
