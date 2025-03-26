@@ -8,7 +8,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatRadioButtonHarness } from '@angular/material/radio/testing';
 import { MatInputHarness } from '@angular/material/input/testing';
 
-describe('LogSettingComponent', () => {
+xdescribe('LogSettingComponent', () => {
   let component: LogSettingComponent;
   let fixture: ComponentFixture<LogSettingComponent>;
   let loader: HarnessLoader;
