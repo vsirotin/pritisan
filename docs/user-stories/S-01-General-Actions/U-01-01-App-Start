@@ -1,0 +1,13 @@
+Start of app in given browser 
+
+U-01: User call an app.
+
+DS-01: IF User Language is set THEN U-01-02 ELSE U-01-02: Set user language
+
+DS-02: IF User is informed about app THEN DS-03 ELSE U-01-03: Inform user about app
+
+DS-03: IF NOT User confirmed data saving THEN U-01-04: Ask user to confirm data saving
+
+S-01: S-02-U-02-01: Capture
+
+
