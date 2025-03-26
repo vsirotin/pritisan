@@ -9,9 +9,7 @@ import {MainComponent} from '../main/main.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, 
-    RouterOutlet, 
-    ToolbarComponent,  
+  imports: [CommonModule,  
     MainComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

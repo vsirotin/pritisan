@@ -27,7 +27,6 @@ import { MatButtonModule } from '@angular/material/button';
     WorkflowEventProcessingComponent,
     WorkflowObservationProcessingComponent,
     WorkflowRessourceProcessingComponent,
-    EventSavingComponent,
     MatToolbarModule, 
     MatButtonModule, 
     MatIconModule,
