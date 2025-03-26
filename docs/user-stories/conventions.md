@@ -35,9 +35,7 @@ A decision contains a name and list of rules.
 
 Each rule has structure like if statemts in programming languages: 
 
-```
-IF(condition) THEN action or decsion ELSE action or decision
-```
+
 
 
 
