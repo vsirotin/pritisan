@@ -122,7 +122,4 @@ interface IUIMainComponent {
   navigationLabeles : INavigationEntry[];
 }
 
-function deepCopyArray<T>(arr: Array<T>): Array<T> {
-  return arr.map(item => Object.assign({}, item));
-}
 
