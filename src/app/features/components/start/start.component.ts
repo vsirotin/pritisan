@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IStartProcessNotificationReceiver, StartDispatcher } from '../../classes/start-dispatcher';
+import { IStartProcessNotificationReceiver, AppStarter } from '../../classes/app-starter';
 import { LanguageSetComponent } from "./language-set/language-set.component";
 import { SavingConfirmationComponent } from "./saving-confirmation/saving-confirmation.component";
 import { WelcomeComponent } from "./welcome/welcome.component";
@@ -20,7 +20,7 @@ export class StartComponent implements OnInit, IStartProcessNotificationReceiver
 
   ngOnInit(): void {
     this.logger.debug("Start of StartComponent initialization.");
-    StartDispatcher.setStartProcessNotificationReceiver(this);
+    AppStarter.setStartProcessNotificationReceiverAndStart(this);
   }
 
 

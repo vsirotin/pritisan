@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MainComponent} from '../main/main.component';
 import { StartComponent } from "../../../features/components/start/start.component";
-import { IStartCompletionReceiver, StartDispatcher } from '../../../features/classes/start-dispatcher';
+import { IStartCompletionReceiver, AppStarter } from '../../../features/classes/app-starter';
 import { LoggerFactory } from '@vsirotin/log4ts';
 
 
@@ -24,7 +24,7 @@ export class AppComponent implements IStartCompletionReceiver, OnInit {
   ngOnInit(): void {
     LoggerFactory.setAllLevelsByAllLoggers();
     this.logger.debug("Start of AppComponent initialization.");
-    StartDispatcher.setStartCompletionReceiver(this);
+    AppStarter.setStartCompletionReceiver(this);
   }
   
 
