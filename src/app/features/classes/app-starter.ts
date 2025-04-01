@@ -108,7 +108,7 @@ export class AppStarter implements ILanguageSetter, IWelcomeInformer, ISavingDat
     
     private isLanguageSet(): boolean {
         this.logger.debug("In isLanguageSet");
-        return true;
+        return false;
     }
 
     setLanguage(language: string): void {
