@@ -2,33 +2,34 @@
 
 <div class="gallery-container" >
 
-    @if (currentImage) {
-    <!-- Image Display Area -->
+  
+    <!-- Image Display Area   -->
     <div class="image-wrapper">
         <img
-           [src]="currentImage.src"
+           [src]="[currentImage.src]"
            [alt]="currentImage.alt"
            class="gallery-image">
-      <!-- Optional: Add loading indicator or fade transitions -->
+     
     
     </div>
-  
+
     <!-- Label Display -->
     <div class="label-container" >
       <p class="image-label">{{ currentImage.label }}</p>
     </div>
-    }
+    
   
     <!-- Navigation Dots -->
     <div class="dots-container">
-      @let i = 1;  
-      <span 
+      @for (i of indexes; track i) {
+       <span 
             class="dot"
             [class.active]="i === currentIndex"
             (click)="goToSlide(i)"
             role="button"
-            [attr.aria-label]="'Go to image ' + (i + 1)">
-      </span>
+            [attr.aria-label]="'Go to image ' + (i + 1)"></span>  
+         
+      }
     
     </div>
   

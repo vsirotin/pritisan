@@ -32,12 +32,15 @@ interface UIItems {
 export class WelcomeComponent implements OnDestroy, ILocalizationClient<UIItems>{
 
   images: GalleryImage[] = [
-    { src: 'assets/images/image1.jpg', alt: 'Description for image 1', label: 'Scenic Mountain View' },
-    { src: 'assets/images/image2.png', alt: 'Description for image 2', label: 'Abstract Colors' },
-    { src: 'assets/images/image3.gif', alt: 'Description for image 3', label: 'Funny Cat Animation' }
+    { src: 'assets/images/img1.jpg', alt: 'Description for image 1', label: 'Scenic Mountain View' },
+    { src: 'assets/images/img2.jpg', alt: 'Description for image 2', label: 'Abstract Colors' },
+    { src: 'assets/images/img3.jpg', alt: 'Description for image 3', label: 'Funny Cat Animation' }
     // Add more images as needed
   ];
+
+  indexes: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   currentIndex: number = 0;
+  currentImage: GalleryImage;
 
   logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.WelcomeComponent");
 
@@ -49,6 +52,7 @@ export class WelcomeComponent implements OnDestroy, ILocalizationClient<UIItems>
       this.logger.debug("Start of constructor");  
   
       this.localizer  =  LocalizerFactory.createLocalizer<UIItems>(MY_DIR, 1, this.ui, this);
+      this.currentImage = this.images[this.currentIndex];
     
     }
 
@@ -86,8 +90,10 @@ export class WelcomeComponent implements OnDestroy, ILocalizationClient<UIItems>
    * @param index The index of the image to navigate to.
    */
   goToSlide(index: number): void {
+    this.logger.debug("Start of goToSlide index=" + index);
     if (index >= 0 && index < this.images.length) {
       this.currentIndex = index;
+      this.currentImage = this.images[this.currentIndex];
     }
   }
 
@@ -101,8 +107,10 @@ export class WelcomeComponent implements OnDestroy, ILocalizationClient<UIItems>
   }
 
   // Helper to get the current image object safely
-  get currentImage(): GalleryImage | null {
-    return this.images && this.images.length > 0 ? this.images[this.currentIndex] : null;
-  }
+  // get currentImage(): GalleryImage | null {
+  //   return this.images && this.images.length > 0 ? this.images[this.currentIndex] : null;
+  // }
+
+ 
 
 }
