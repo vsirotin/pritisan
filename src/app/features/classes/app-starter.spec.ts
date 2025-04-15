@@ -17,10 +17,6 @@ describe('AppStarter', () => {
     ]);
 
     AppStarter.setStartCompletionReceiver(mockStartCompletionReceiver);
-
-    //appStarter = AppStarter.getLanguageSetter() as AppStarter;
-    //AppStarter.setStartCompletionReceiver(mockStartCompletionReceiver);
-    //AppStarter.setStartProcessNotificationReceiver(mockStartProcessNotificationReceiver);
   });
 
   it('should create', () => {

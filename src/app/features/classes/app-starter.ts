@@ -1,4 +1,10 @@
+import { LocalizerFactory } from "@vsirotin/localizer";
 import { LoggerFactory } from "@vsirotin/log4ts";
+
+export const KEY_USER_LANGUAGE_SET = "user-language-is-set";
+export const KEY_USER_IS_INFORMED = "user-is-informed";
+export const KEY_DATA_SAVING_CONFIRMED = "data-saving-confirmed";
+
 
 /*
     Manages start process of app. 
@@ -96,34 +102,41 @@ export class AppStarter implements ILanguageSetter, IWelcomeInformer, ISavingDat
         this.startProcessNotificationReceiver!!.startDataSavingConfirmationProcess();
     }
     
-    private isDataSavingConfirmed(): boolean {
-        this.logger.debug("In isDataSavingConfirmed");
-        return true;
-    }
-    
-    private isUserInformed(): boolean {
-        this.logger.debug("In isUserInformed");
-        return true;
-    }
     
     private isLanguageSet(): boolean {
-        this.logger.debug("In isLanguageSet");
-        return false;
+        const userlangIsSet = localStorage.getItem(KEY_USER_LANGUAGE_SET);
+        this.logger.debug("In isLanguageSet userlangIsSet=" + userlangIsSet);
+        return !!userlangIsSet;
     }
 
-    setLanguage(language: string): void {
-        this.logger.debug("In setLanguage");
-        throw new Error("Method not implemented.");
+    languageIsSet(): void {
+        this.logger.debug("In languageIsSet");
+        localStorage.setItem(KEY_USER_LANGUAGE_SET, "true");
+        this.tryProcessUserFirstInformation();
+    }
+  
+    private isUserInformed(): boolean {
+        const userInformed = localStorage.getItem(KEY_USER_IS_INFORMED);
+        this.logger.debug("In isLanguageSet isUserInformed=" + userInformed);
+        return !!userInformed;
     }
 
     setInformCompletion(): void {
         this.logger.debug("In setInformCompletion");
-        throw new Error("Method not implemented.");
+        localStorage.setItem(KEY_USER_IS_INFORMED, "true");
+        this.tryProcessDataSavingConfirmation();
     }
 
-    setConfirmation(): void {
+    private isDataSavingConfirmed(): boolean {
+        const isDataSavingConfirmed = localStorage.getItem(KEY_DATA_SAVING_CONFIRMED);
+        this.logger.debug("In isDataSavingConfirmed isDataSavingConfirmed=" + isDataSavingConfirmed);
+        return !!isDataSavingConfirmed;
+    }
+
+    setDataSavingConfirmation(): void {
         this.logger.debug("In setConfirmation");
-        throw new Error("Method not implemented.");
+        localStorage.setItem(KEY_DATA_SAVING_CONFIRMED, "true");
+        this.startCompletionReceiver!!.completeStartProcess();
     }
 
 }
@@ -146,10 +159,10 @@ export interface IStartProcessNotificationReceiver {
 }
 
 /**
- * Check and set app's (user's) language and initiates next workflow step.
+ * Notifies, that app's (user's) language is setand initiates next workflow step.
  */
 export interface ILanguageSetter {
-    setLanguage(language: string): void;
+    languageIsSet(): void;
 }
 
 /**
@@ -163,6 +176,6 @@ export interface IWelcomeInformer {
  * Checks and sets information, that user confirmed a data saving.
  */
 export interface ISavingDataConfirmation {
-    setConfirmation(): void;
+    setDataSavingConfirmation(): void;
 }
 

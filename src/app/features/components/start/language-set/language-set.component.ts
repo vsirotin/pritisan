@@ -8,6 +8,7 @@ import * as uiItems from '../../../../../assets/languages/features/components/st
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { ILanguageDescription, ILocalizer, ILocalizationClient, LocalizerFactory } from '@vsirotin/localizer';
 import { Subscription } from 'rxjs';
+import { AppStarter } from '../../../classes/app-starter';
 
 const MY_DIR = "assets/languages/features/components/start/language-set/lang";
 
@@ -30,6 +31,7 @@ interface UIItems {
   styleUrl: './language-set.component.scss'
 })
 export class LanguageSetComponent implements OnDestroy, ILocalizationClient<UIItems>{
+
   @ViewChild(MatAccordion) accordion?: MatAccordion;
 
   logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.LanguageSetComponent");
@@ -65,6 +67,11 @@ export class LanguageSetComponent implements OnDestroy, ILocalizationClient<UIIt
     this.logger.debug("Start of ngDestroy");
     this.localizer.dispose();
     this.subscription.unsubscribe();
+  }
+
+  onNextClick() {
+    this.logger.debug("Start of onNextClick");
+    AppStarter.getLanguageSetter().languageIsSet();
   }
 
 }
