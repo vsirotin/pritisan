@@ -1,0 +1,63 @@
+.gallery-container {
+    position: relative; // Needed for absolute positioning of nav buttons if added
+    max-width: 600px; // Adjust as needed
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    overflow: hidden; // Hide parts of images if they overflow
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
+  
+  .image-wrapper {
+    text-align: center; // Center the image if its width is less than the container
+    min-height: 300px; // Example minimum height, adjust as needed
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee; // Placeholder background
+  }
+  
+  .gallery-image {
+    max-width: 100%;
+    max-height: 400px; // Example max height
+    height: auto; // Maintain aspect ratio
+    display: block; // Remove extra space below image
+    margin: 0 auto; // Center block image
+  }
+  
+  .label-container {
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.05); // Subtle background for label area
+  }
+  
+  .image-label {
+    margin: 0;
+    font-size: 1em;
+    color: #333;
+  }
+  
+  .dots-container {
+    text-align: center;
+    padding: 15px 0;
+  }
+  
+  .dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: #888;
+    }
+  
+    &.active {
+      background-color: #555;
+    }
+  }
+  

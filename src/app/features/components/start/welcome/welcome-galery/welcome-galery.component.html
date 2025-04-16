@@ -1,0 +1,49 @@
+<div class="gallery-container" >
+
+  
+    <!-- Image Display Area   -->
+    <div class="image-wrapper">
+        <img
+           [src]="[currentImageSrc]"
+           [alt]="[currentLabel]"
+           class="gallery-image">
+     
+    
+    </div>
+
+    <!-- Label Display -->
+    <div class="label-container" >
+      <p class="image-label">{{ currentLabel }}</p>
+    </div>
+    
+  
+    <!-- Navigation Dots -->
+    <div class="dots-container">
+      @for (i of indexes; track i) {
+       <span 
+            class="dot"
+            [class.active]="i === currentIndex"
+            (click)="goToSlide(i)"
+            role="button">
+      </span>  
+         
+      }
+    
+    </div>
+  
+    <!-- Optional: Previous/Next Buttons -->
+    <!--
+    <button class="nav-button prev" (click)="prevSlide()" aria-label="Previous image">&#10094;</button>
+    <button class="nav-button next" (click)="nextSlide()" aria-label="Next image">&#10095;</button>
+    -->
+  
+  </div>
+  
+  <!-- Message when no images are provided 
+  <div *ngIf="!images || images.length === 0">
+    <p>No images to display in the gallery.</p>
+  </div>
+  -->
+
+
+
