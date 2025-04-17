@@ -1,7 +1,6 @@
-import { Component, OnDestroy, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { ILocalizer, ILocalizationClient, LocalizerFactory } from '@vsirotin/localizer';
 import { AppStarter } from '../../../classes/app-starter';
@@ -10,11 +9,7 @@ import * as uiItems from '../../../../../assets/languages/features/components/st
 import { WelcomeComponentGalery } from "./welcome-galery/welcome-galery.component";
 
 const MY_DIR = "assets/languages/features/components/start/welcome/lang";
-// export interface GalleryImage {
-//   src: string;
-//   alt: string; // Alt text for accessibility
-//   label: string;
-// };
+
 interface UIItems {
   title: string;
   btn_next: string;
@@ -22,7 +17,6 @@ interface UIItems {
 @Component({
   selector: 'app-welcome',
   imports: [
-    ScrollingModule,
     MatIconModule,
     MatButtonModule,
     WelcomeComponentGalery

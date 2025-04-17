@@ -86,7 +86,7 @@ export class AppStarter implements ILanguageSetter, IWelcomeInformer, ISavingDat
         }
 
         this.logger.debug("In tryProcessUserFirstInformation: The user has not yet received the initial welcome.");
-        this.startProcessNotificationReceiver!!.startWelcomeProcess();
+        this.startProcessNotificationReceiver!!.startDataSavingConfirmationProcess();
     }
     /**
      * Implements DS-03: IF the user has NOT confirmed data saving THEN proceed to U-01-04: Ask user to confirm data saving.
