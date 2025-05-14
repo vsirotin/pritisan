@@ -2,12 +2,12 @@
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
-import { IAlternative, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
+import { IEventType, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
 import { IWorkflowTypeSelection } from './current-event-processing-ui-model';
 
 export interface IAlternativeSelectionUIModel {
     getAlternatives(): Promise<IAlternativeList>;
-    alternativeSelected(selection: IAlternative): void;
+    alternativeSelected(selection: IEventType): void;
 }
 
 export class WorkflowTypeSettingUIModel implements IAlternativeSelectionUIModel{
@@ -32,7 +32,7 @@ export class WorkflowTypeSettingUIModel implements IAlternativeSelectionUIModel{
     }
 
 
-    alternativeSelected(selection: IAlternative) {
+    alternativeSelected(selection: IEventType) {
         this.logger.debug("WorkflowTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName: " + selection);
         this.workflowSelectionReceiver.workflowTypeSelected(selection); 
     }

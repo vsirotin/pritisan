@@ -1,7 +1,7 @@
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
-import { IAlternative, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
+import { IEventType, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
 import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
 import { IAlternativeSelectionUIModel } from "./workflow-type-setting-ui-model";
 
@@ -29,7 +29,7 @@ export class BeginningTypeSettingUIModel implements IAlternativeSelectionUIModel
     }
 
 
-    alternativeSelected(workflowTypeName: IAlternative) {
+    alternativeSelected(workflowTypeName: IEventType) {
         this.logger.debug("BeginningTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName: " + workflowTypeName);
         
         if(workflowTypeName === undefined) {

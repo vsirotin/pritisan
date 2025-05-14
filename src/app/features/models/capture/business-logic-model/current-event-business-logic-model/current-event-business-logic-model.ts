@@ -1,6 +1,6 @@
 
 import { ITreeNode, ICaptureBusinessLogicModel } from "../../capture-common-interfaces";
-import { IAlternative, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
+import { IEventType, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
 import { IMasterDataPersistence, MasterDataPersistence } from "../../../../../shared/classes/db/masterdata-db";
 

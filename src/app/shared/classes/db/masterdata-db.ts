@@ -1,4 +1,5 @@
-import { IAlternative, IAlternativeList } from "../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
+import { ILocalizationClient } from "@vsirotin/localizer";
+import { IEventType, IAlternativeList } from "../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
 import { ITreeNode } from "../../../features/models/capture/capture-common-interfaces";
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 
@@ -9,11 +10,17 @@ export interface IMasterDataPersistence {
     saveOrUpdateActivityTypes(activityTypes: ITreeNode[]): Promise<void>;
 }
 
-export class MasterDataPersistence implements IMasterDataPersistence {
+interface IEventsOntology {
+    eventsOntology: IEventType;
+}
+
+export class MasterDataPersistence implements IMasterDataPersistence{
 
     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.MasterDataPersistence");
 
     constructor() {}
+    
+  
 
     
     async readEventTypes(): Promise<IAlternativeList> {

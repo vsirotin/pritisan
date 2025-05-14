@@ -21,6 +21,7 @@ import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-m
   styleUrl: '../../../../../shared/components//tree-selector/tree-selector.component.scss'
 })
 
+//TODO Move logic into the special class
 export class EventTypeSettingComponent  extends TreeSelectorComponent{
 
 

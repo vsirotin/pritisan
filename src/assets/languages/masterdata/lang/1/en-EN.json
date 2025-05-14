@@ -1,0 +1,58 @@
+[
+            {
+                "name": "Sleep", "id": 123,
+                "children": [
+                    { "name": "Preparing for sleep", "id": 123 }, 
+                    { "name": "Drowsiness", "id": 123}, 
+                    { "name": "Deep sleep", "id": 123},
+                    { "name": "Woke up briefly", "id": 123},
+                    { "name": "Woke up and couldn't fall back asleep for a long time", "id": 233 }
+                ]
+            },
+            {
+                "name": "Rest", "id": 123,
+                "children": [
+                    {
+                        "name": "Sport", "id": 233,
+                        "children": [
+                            { "name": "Jogging", "id": 233 }, 
+                            { "name": "Cycling", "id": 233 },
+                            { "name": "Swimming", "id": 233 },
+                            { "name": "Gym", "id": 233 },
+                            { "name": "Home workout", "id": 233 },
+                            { "name": "Walk", "id": 233 }
+                        ]
+                    },
+                    {
+                        "name": "Household chores", "id": 123,
+                        "children": [
+                            { "name": "Cleaning", "id": 233 }, 
+                            { "name": "Gardening", "id": 233},
+                            { "name": "Cooking", "id": 233 },
+                            { "name": "Repairs", "id": 233 },
+                            { "name": "Construction", "id": 233 }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Work", "id": 123,
+                "children": [
+                    {
+                        "name": "Commute to work", "id": 233,
+                        "children": [
+                            { "name": "By train", "id": 233 }, 
+                            { "name": "By car", "id": 233 },
+                            { "name": "By bus", "id": 233 },
+                            { "name": "On foot", "id": 233 }
+                        ]
+                    },
+                    {
+                        "name": "Office work", "id": 123,
+                        "children": [
+                            { "name": "Meeting", "id": 233 }, 
+                            { "name": "Computer work", "id": 233 }]
+                    }
+                ]
+            }
+        ]

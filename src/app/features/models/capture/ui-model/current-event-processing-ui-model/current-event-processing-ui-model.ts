@@ -6,7 +6,7 @@ import { WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
 import { ITreeSelectorUIModel } from './event-type-setting-ui-model';
 
 import { State, Transition, DetermenisticFiniteAutomatation } from '../../../../../shared/classes/finite-automation/finite-automation';
-import { IAlternative } from '../../business-logic-model/current-event-business-logic-model/event-commons';
+import { IEventType } from '../../business-logic-model/current-event-business-logic-model/event-commons';
 
 export interface IEventChange {
     //represent Id of signal in finity automation to process this changing
@@ -37,7 +37,7 @@ interface ICurrentEventProcessingNavigation {
 }
 
 export interface IWorkflowTypeSelection {
-    workflowTypeSelected(selection: IAlternative): void;
+    workflowTypeSelected(selection: IEventType): void;
 }
 
 export interface ICurrentEventProcessingUIModel extends ICurrentEventProcessingNavigation, IWorkflowTypeSelection {
@@ -62,7 +62,7 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
     private currentEvent = new CurrentEvent();
     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventProcessingUIModel"); 
     constructor() { }
-    workflowTypeSelected(selection: IAlternative): void {
+    workflowTypeSelected(selection: IEventType): void {
 
         let newState = "workflow-event-processing";
         switch (selection.id) {

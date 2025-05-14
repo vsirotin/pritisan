@@ -17,13 +17,13 @@ export interface IReceiverEventPartUpdates {
     addEventPart(eventPart: IEventChange): void;
 }
 
-export interface IAlternative {
+export interface IEventType {
    name: string;
    id: number;
 }
 
 export interface IAlternativeList {
-    alternatives: IAlternative[];
+    alternatives: IEventType[];
     currentAlternativeId: number;
     titleForAlternativeSelection: string; // title for the alternative selection presented for the user
  }
