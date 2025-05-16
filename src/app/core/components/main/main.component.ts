@@ -109,6 +109,7 @@ export class MainComponent implements  OnDestroy, ILocalizationClient<IUIMainCom
     // Always unsubscribe to prevent memory leaks
     this.subscriptionBtnClicked.unsubscribe();
     this.mobileQuery.removeListener(this._mobileQueryListener);
+    this.localizer.dispose();
   }
 
 };
