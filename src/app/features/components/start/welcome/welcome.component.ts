@@ -49,7 +49,7 @@ export class WelcomeComponent implements OnDestroy, ILocalizationClient<UIItems>
 
   onNextClick() {
     this.logger.debug("Start of onNextClick");
-    AppStarter.getLanguageSetter().languageIsSet();
+    AppStarter.getWelcomeInformer().setInformCompletion();
   }
 
   updateLocalization(data: UIItems): void {
