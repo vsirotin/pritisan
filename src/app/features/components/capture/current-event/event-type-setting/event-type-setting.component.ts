@@ -52,7 +52,7 @@ export class EventTypeSettingComponent  implements  OnDestroy, ILocalizationClie
 
   onNodeClick(node: any) {
     this.logger.debug("EventTypeSettingComponent.onNodeClick node: " + JSON.stringify(node));
-  alert("TreeSelectorComponent: Node clicked: " + JSON.stringify(node));
+  alert("EventTypeSettingComponent: Node clicked: " + JSON.stringify(node));
 }
 
   ngOnDestroy() {

@@ -7,7 +7,7 @@ import { AppStarter } from '../../../classes/app-starter';
 
 import * as uiItems from '../../../../../assets/languages/features/components/start/saving-confirmation/lang/1/en-US.json';
 
-const MY_DIR = "assets/languages/features/components/start/welcome/lang";
+const MY_DIR = "assets/languages/features/components/start/saving-confirmation/lang";
 
 interface UIItems {
   title: string;
