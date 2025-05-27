@@ -20,7 +20,7 @@ import { AnalysisComponent } from '../../../features/components/analysis/analysi
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { ILocalizationClient, LocalizerFactory } from '@vsirotin/localizer';
 
-export const MAIN_SOURCE_DIR = "assets/languages/core/components/main/lang/";
+export const MAIN_SOURCE_DIR = "assets/languages/core/components/main/lang";
 
 @Component({
   selector: 'app-main',
@@ -91,7 +91,8 @@ export class MainComponent implements  OnDestroy, ILocalizationClient<IUIMainCom
     this.logger.debug("End of MainComponent.constructor"); 
   }
   updateLocalization(data: IUIMainComponent): void {
-    throw new Error('Method not implemented.');
+    this.logger.debug("In updateLocalization data=" + JSON.stringify(data));
+    this.ui = data;
   }
 
 
