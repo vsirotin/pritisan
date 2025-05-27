@@ -11,7 +11,6 @@ import { LogSettingComponent } from "../../../shared/components/log-setting/log-
 import { LocalizerFactory, ILocalizer, ILocalizationClient, ILanguageDescription } from '@vsirotin/localizer';
 import { Subscription } from 'rxjs';
 import * as uiItems from '../../../../assets/languages/features/components/settings/lang/1/en-US.json';
-//import * as versionInfo from '../../../version.json'
 
 const SETTINGS_SOURCE_DIR = "assets/languages/features/components/settings/lang/1";
 

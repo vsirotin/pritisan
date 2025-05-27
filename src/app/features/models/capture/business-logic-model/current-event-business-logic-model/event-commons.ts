@@ -25,7 +25,7 @@ export interface IEventType {
 export interface IAlternativeList {
     alternatives: IEventType[];
     currentAlternativeId: number;
-    titleForAlternativeSelection: string; // title for the alternative selection presented for the user
+    groupLabel: string; 
  }
 
 

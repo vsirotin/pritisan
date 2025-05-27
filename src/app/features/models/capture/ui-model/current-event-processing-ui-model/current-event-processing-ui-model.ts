@@ -2,10 +2,7 @@ import { TimeSettingUIModel, ParametersSettingUIModel } from '../capture-ui-mode
 import { Observable, Subject, Subscription } from "rxjs";
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
-import { WorkflowTypeSettingUIModel } from "./workflow-type-setting-ui-model";
 import { ITreeSelectorUIModel } from './event-type-setting-ui-model';
-
-import { State, Transition, DetermenisticFiniteAutomatation } from '../../../../../shared/classes/finite-automation/finite-automation';
 import { IEventType } from '../../business-logic-model/current-event-business-logic-model/event-commons';
 
 export interface IEventChange {
@@ -48,7 +45,7 @@ export interface ICurrentEventProcessingUIModel extends ICurrentEventProcessingN
 
 export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIModel{
 
-    eventSelectionUIModel!: WorkflowTypeSettingUIModel;
+  //  eventSelectionUIModel!: WorkflowTypeSettingUIModel;
     activityTypeSelectingUIModel!: ITreeSelectorUIModel;
     timeSettingUIModel!: TimeSettingUIModel;
     parametersSettingUIModel!: ParametersSettingUIModel;

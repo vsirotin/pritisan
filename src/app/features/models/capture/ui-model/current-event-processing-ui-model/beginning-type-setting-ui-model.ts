@@ -3,11 +3,11 @@ import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/cap
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
 import { IEventType, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
 import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';
-import { IAlternativeSelectionUIModel } from "./workflow-type-setting-ui-model";
+
 
 
 //TODO: NOT USED
-export class BeginningTypeSettingUIModel implements IAlternativeSelectionUIModel{
+export class BeginningTypeSettingUIModel {
 
     private beginningType!: IAlternativeList;
 
@@ -50,5 +50,4 @@ export class BeginningTypeSettingUIModel implements IAlternativeSelectionUIModel
 
 }
 
-export { IAlternativeSelectionUIModel };
 

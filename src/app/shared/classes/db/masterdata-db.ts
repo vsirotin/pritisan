@@ -27,7 +27,7 @@ export class MasterDataPersistence implements IMasterDataPersistence{
         this.logger.warn("MasterDataPersistence.readEventTypes. Temporary implementation.");
         return {
             currentAlternativeId: 0,
-            titleForAlternativeSelection: 'Событие:',
+            groupLabel: 'Событие:',
 
             alternatives: [
                 {id:  1, name: 'Событие, деятельность (началось, закончилось...)'}, 
@@ -41,7 +41,7 @@ export class MasterDataPersistence implements IMasterDataPersistence{
         this.logger.warn("MasterDataPersistence.readBeginningTypes. Temporary implementation.");
         return {
             currentAlternativeId: 0,
-            titleForAlternativeSelection: 'Выберите начало события',
+            groupLabel: 'Выберите начало события',
             alternatives:[
                 {id:  1, name: 'с началом в(время)'}, 
                 {id: 2, name: 'начато назад (минут, часов, дней...)'}, 

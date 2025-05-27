@@ -46,22 +46,22 @@ export class EventTypeSettingComponent  implements  OnDestroy, ILocalizationClie
   hasChild = (_: number, node: INestedOntologyNode) => !!node.children?.length;
 
   constructor() {
-    this.logger.debug("EventTypeSettingComponent.constructor");
+    this.logger.debug("constructor");
 
   }
 
   onNodeClick(node: any) {
-    this.logger.debug("EventTypeSettingComponent.onNodeClick node: " + JSON.stringify(node));
+    this.logger.debug("onNodeClick node: " + JSON.stringify(node));
   alert("EventTypeSettingComponent: Node clicked: " + JSON.stringify(node));
 }
 
   ngOnDestroy() {
-    this.logger.debug("EventTypeSettingComponent.ngOnDestroy");
+    this.logger.debug("ngOnDestroy");
     this.localizer.dispose();
   }
 
   updateLocalization(data: INestedOntologyNode[]): void {
-    this.logger.debug("EventTypeSettingComponent.updateLocalization data: " + JSON.stringify(data));
+    this.logger.debug("updateLocalization data: " + JSON.stringify(data));
     this.ui = data;
   }
 

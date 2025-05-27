@@ -5,45 +5,44 @@ import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-
 import { IEventType, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
 import { IWorkflowTypeSelection } from './current-event-processing-ui-model';
 
-export interface IAlternativeSelectionUIModel {
-    getAlternatives(): Promise<IAlternativeList>;
+export interface IAlternativeSelectionProcessor {
     alternativeSelected(selection: IEventType): void;
 }
+//TODO: NOT USED
+// export class WorkflowTypeSettingUIModel implements IAlternativeSelectionUIModel{
 
-export class WorkflowTypeSettingUIModel implements IAlternativeSelectionUIModel{
+//     private alternatives!: IAlternativeList;
 
-    private alternatives!: IAlternativeList;
-
-    businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
-    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.WorkflowTypeSettingUIModel");  
+//     businessLogicModel!: ICurrentEventProcessingBusinessLogicModel;
+//     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.WorkflowTypeSettingUIModel");  
     
-    constructor(private workflowSelectionReceiver: IWorkflowTypeSelection) {
-        this.logger.debug("WorkflowTypeSelectionUIModel.constructor");
-        this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel().getCurrentEventBusinessLogicModel();
-        this.loadFromBusinessLogicModel();
-    }
+//     constructor(private workflowSelectionReceiver: IWorkflowTypeSelection) {
+//         this.logger.debug("WorkflowTypeSelectionUIModel.constructor");
+//         this.businessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel().getCurrentEventBusinessLogicModel();
+//         this.loadFromBusinessLogicModel();
+//     }
 
-    async getAlternatives(): Promise<IAlternativeList> {
-        if (this.alternatives !== undefined) {
-            this.logger.debug("WorkflowTypeSelectionUIModel.getEventTypes 1 eventTypes: " + this.alternatives);
-            return this.alternatives;         
-        }
-        return  this.loadFromBusinessLogicModel() ;      
-    }
+//     async getAlternatives(): Promise<IAlternativeList> {
+//         if (this.alternatives !== undefined) {
+//             this.logger.debug("WorkflowTypeSelectionUIModel.getEventTypes 1 eventTypes: " + this.alternatives);
+//             return this.alternatives;         
+//         }
+//         return  this.loadFromBusinessLogicModel() ;      
+//     }
 
 
-    alternativeSelected(selection: IEventType) {
-        this.logger.debug("WorkflowTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName: " + selection);
-        this.workflowSelectionReceiver.workflowTypeSelected(selection); 
-    }
+//     alternativeSelected(selection: IEventType) {
+//         this.logger.debug("WorkflowTypeSelectionUIModel.changeSelectedWorkflowType workflowTypeName: " + selection);
+//         this.workflowSelectionReceiver.workflowTypeSelected(selection); 
+//     }
 
-    private async loadFromBusinessLogicModel(): Promise<IAlternativeList> {
-        await this.businessLogicModel.getEventTypes().then((alternatives) => {
-            this.logger.debug("WorkflowTypeSelectionUIModel.loadFromBusinessLogicModel eventTypes: " + alternatives);
-            this.alternatives = alternatives;
-        });
-        return this.alternatives;
-    }
+//     private async loadFromBusinessLogicModel(): Promise<IAlternativeList> {
+//         await this.businessLogicModel.getEventTypes().then((alternatives) => {
+//             this.logger.debug("WorkflowTypeSelectionUIModel.loadFromBusinessLogicModel eventTypes: " + alternatives);
+//             this.alternatives = alternatives;
+//         });
+//         return this.alternatives;
+//     }
 
-}
+// }
 
