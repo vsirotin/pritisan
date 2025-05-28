@@ -33,16 +33,47 @@ export enum CurrentEventActions {
 //     navigateTo(action: CurrentEventActions): string; 
 // }
 
+export interface  ICurrentEvent{
+  setEventType(eventTypeId: string): unknown;
+  setWorkflowType(workflowTypeId: number): void;
+}
+
+
 export interface IWorkflowTypeSelection {
     workflowTypeSelected(selection: IEventType): void;
 }
 
 export interface ICurrentEventProcessingUIModel extends  IWorkflowTypeSelection {
-  eventDescriptionChange$: Observable<IEventChange>;
-  stateChange$: Observable<string>;
+    getCurrentEvent(): ICurrentEvent;
+    saveCurrentEvent(): void
+    eventDescriptionChange$: Observable<IEventChange>;
+    stateChange$: Observable<string>;
 }
 
+class CurrentEvent implements ICurrentEvent {
+
+    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEvent"); 
+
+    workflowTypeId : number = 0;
+    eventTypeId: string = "";
+    
+
+    setWorkflowType(workflowTypeId: number): void {
+        this.logger.debug('setWorkflowType id: ' + workflowTypeId);
+        this.workflowTypeId = workflowTypeId;
+    }
+
+    setEventType(eventTypeId: string): void {
+        this.logger.debug('setEventType id: ' + eventTypeId);
+        this.eventTypeId = eventTypeId;
+    }
+}
+
+
 export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIModel{
+
+
+   
 
     private static instance:  ICurrentEventProcessingUIModel = new CurrentEventProcessingUIModel();
 
@@ -62,6 +93,12 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
 
     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventProcessingUIModel"); 
 
+    private currentEvent: ICurrentEvent = new CurrentEvent();
+
+    getCurrentEvent(): ICurrentEvent {
+        return this.currentEvent;
+    }
+
     workflowTypeSelected(selection: IEventType): void {
 
         let newState = "workflow-event-processing";
@@ -74,15 +111,20 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
                 break;    
 
         }
-        this.stateChangeSubject.next(newState); //TODO start here!
+        this.stateChangeSubject.next(newState); 
     }
     
-    //loadFrom(currentEventModel: IRunningEventsBusinessLogicModel) { }
 
     navigateTo(action: CurrentEventActions): string {  
         this.logger.debug('CurrentEventProcessingUIModel navigateTo action: ' + action);
         return "workflow-event-processing";
     }
+
+    saveCurrentEvent(): void {
+        this.logger.error('NOT IMPLEMENTED saveCurrentEvent currentEvent: ' + JSON.stringify(this.currentEvent));
+    }
+
+
 }
 
 

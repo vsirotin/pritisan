@@ -5,9 +5,7 @@ import { WorkflowEventProcessingComponent } from './workflow-event-processing/wo
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
 import { WorkflowObservationProcessingComponent } from './workflow-observation-processing/workflow-observation-processing.component';
 import { WorkflowRessourceProcessingComponent } from './workflow-ressource-processing/workflow-ressource-processing.component';
-import { EventSavingComponent } from './event-saving/event-saving.component';
-import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
-//import { CurrentEventProcessingUIFactory } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
+import { CurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IEventChange } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { Subscription } from 'rxjs';
@@ -54,6 +52,8 @@ export class CurrentEventComponent implements OnDestroy {
 
   private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventComponent");
 
+  private readonly currentEventProcessingUIModel = CurrentEventProcessingUIModel.getInstance();
+
    constructor() { 
   //   this.uiModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel();
   //   this.subscriptionEventDescription = this.uiModel.eventDescriptionChange$.subscribe((notification) => {
@@ -61,7 +61,7 @@ export class CurrentEventComponent implements OnDestroy {
   //     this.updateCurrentEventDescription(notification);
   //   });
 
-    this.subscriptionState = CurrentEventProcessingUIModel.getInstance().stateChange$.subscribe((state) => {
+    this.subscriptionState = this.currentEventProcessingUIModel.stateChange$.subscribe((state) => {
       this.logger.debug("CurrentEventComponent.state$ state: " + state);
       this.currentSubCommponent = state;
     });
@@ -80,8 +80,17 @@ export class CurrentEventComponent implements OnDestroy {
 
   navigateTo(action: CurrentEventActions) {
 //    const result = this.uiModel.navigateTo(action);
-  //  this.logger.debug("CurrentEventComponent.navigateTo action: " + JSON.stringify(action) + " result: " + result);
+    this.logger.debug("In navigateTo action: " + JSON.stringify(action));
   //  this.currentSubCommponent = result;
+
+    switch (action) {
+      case CurrentEventActions.SAVE:
+        this.logger.debug("In navigateTo action: SAVE");
+        this.currentEventProcessingUIModel.saveCurrentEvent();
+        break;
+      default:
+        this.logger.error("In navigateTo action NOT implememted: " + action);
+    }
   }
   
   isDisabled(action: CurrentEventActions): boolean {
