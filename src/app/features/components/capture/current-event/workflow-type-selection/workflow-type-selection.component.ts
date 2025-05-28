@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
@@ -6,6 +6,7 @@ import { MatExpansionModule} from '@angular/material/expansion';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IAlternativeList, IEventType } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 import * as uiItems from '../../../../../../assets/languages/features/components/capture/current-event/workflow-type-selection/lang/1/en-EN.json';
+import { ILocalizationClient, ILocalizer, LocalizerFactory } from '@vsirotin/localizer';
 
 const WF_TYPE_SELECTION_DIR = "assets/languages/features/components/capture/current-event/workflow-type-selection/lang";
 
@@ -20,7 +21,7 @@ const WF_TYPE_SELECTION_DIR = "assets/languages/features/components/capture/curr
   templateUrl: './workflow-type-selection.component.html',
   styleUrl: './workflow-type-selection.component.scss'
 })
-export class WorkflowTypeSelectionComponent  {
+export class WorkflowTypeSelectionComponent  implements OnDestroy, ILocalizationClient<IAlternativeList>{
 
   isExpanded = true; 
 
@@ -29,27 +30,20 @@ export class WorkflowTypeSelectionComponent  {
   title? : string;
 
   private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.WorkflowTypeSelectionComponent"); 
-  private  alternativeList: IAlternativeList = (uiItems as any).default;
+  private  ui: IAlternativeList = (uiItems as any).default;
 
-  // private  alternativeList : IAlternativeList = 
-  // {
-  //           currentAlternativeId: 0,
-  //           groupLabel: 'Событие:',
-
-  //           alternatives: [
-  //               {id:  1, name: 'Событие, деятельность (началось, закончилось...)'}, 
-  //               {id: 2, name: 'Деньги, ресурсы использованы...'}, 
-  //               {id: 3, name: 'Наблюдение сделано...'}, 
-  //           ],
-  //       };
+   private localizer: ILocalizer;
 
   alternatives: IEventType[];      
 
   constructor() { 
-   this.logger.debug("In constructor alternativeList: " + JSON.stringify(this.alternativeList));
-      this.title = this.alternativeList.groupLabel;
-      this.alternatives = this.alternativeList.alternatives;
-      const index = this.alternativeList.alternatives.findIndex(a => a.id == this.alternativeList.currentAlternativeId);
+   this.logger.debug("In constructor alternativeList: " + JSON.stringify(this.ui));
+
+    this.localizer  =  LocalizerFactory.createLocalizer<IAlternativeList>(WF_TYPE_SELECTION_DIR, 1, this.ui, this);
+    
+      this.title = this.ui.groupLabel;
+      this.alternatives = this.ui.alternatives;
+      const index = this.ui.alternatives.findIndex(a => a.id == this.ui.currentAlternativeId);
       if(index >= 0){
         this.selectedAlternative = this.alternatives[index];
         this.nameSelectedAlternative = this.selectedAlternative.name;
@@ -67,6 +61,17 @@ export class WorkflowTypeSelectionComponent  {
         this.selectedAlternative = this.alternatives[index];
         this.nameSelectedAlternative = this.selectedAlternative.name;
       }
+  }
+
+   updateLocalization(data: IAlternativeList): void {
+    this.logger.debug("Start of updateLocalization data=" + JSON.stringify(data));
+    this.ui = data;
+  }
+
+
+  ngOnDestroy() {
+    this.logger.debug("Start of ngDestroy");
+    this.localizer.dispose();
   }
   
   

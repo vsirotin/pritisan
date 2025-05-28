@@ -36,7 +36,7 @@ export class LanguageSetComponent implements OnDestroy, ILocalizationClient<UIIt
 
   logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.LanguageSetComponent");
 
-  private localizer: ILocalizer
+  private localizer: ILocalizer;
 
   langOrigin: string = ""
   langEn: string = ""

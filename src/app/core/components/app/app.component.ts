@@ -33,11 +33,6 @@ export class AppComponent implements IStartCompletionReceiver, OnInit {
     this.logger.debug("completeStartProcess called.");
     setTimeout(() => {
       this.startProcessRunning = false;
-      // Zone.js (used by Angular) typically patches setTimeout,
-      // so Angular should detect this change and re-render.
-      // However, if you face further issues, explicitly telling Angular
-      // to check for changes can be done like this:
-      // this.cdr.detectChanges();
       this.logger.debug("startProcessRunning set to false asynchronously.");
     }, 0);
   }
