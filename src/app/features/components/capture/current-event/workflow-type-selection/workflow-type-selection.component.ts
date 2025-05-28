@@ -7,6 +7,7 @@ import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IAlternativeList, IEventType } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 import * as uiItems from '../../../../../../assets/languages/features/components/capture/current-event/workflow-type-selection/lang/1/en-EN.json';
 import { ILocalizationClient, ILocalizer, LocalizerFactory } from '@vsirotin/localizer';
+import { CurrentEventProcessingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 
 const WF_TYPE_SELECTION_DIR = "assets/languages/features/components/capture/current-event/workflow-type-selection/lang";
 
@@ -54,6 +55,7 @@ export class WorkflowTypeSelectionComponent  implements OnDestroy, ILocalization
     this.logger.debug("onSelectionChange event: " + event);
     this.isExpanded = false; // collapse the panel after a selection is made
     // other code...
+    CurrentEventProcessingUIModel.getInstance().workflowTypeSelected(event.value);
  //TODO   this.selectionProcessor.alternativeSelected(event.value);
     const id = event.value.id;
     const index = this.alternatives.findIndex(a => a.id == id);

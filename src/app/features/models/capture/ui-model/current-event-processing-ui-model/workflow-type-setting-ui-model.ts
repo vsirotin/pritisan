@@ -1,15 +1,15 @@
 
-import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
-import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
-import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
-import { IEventType, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
-import { IWorkflowTypeSelection } from './current-event-processing-ui-model';
+// import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
+// import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
+// import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
+// import { IEventType, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
+// import { IWorkflowTypeSelection } from './current-event-processing-ui-model';
 
-export interface IAlternativeSelectionProcessor {
-    alternativeSelected(selection: IEventType): void;
-}
+// export interface IAlternativeSelectionProcessor {
+//     alternativeSelected(selection: IEventType): void;
+// }
 //TODO: NOT USED
-// export class WorkflowTypeSettingUIModel implements IAlternativeSelectionUIModel{
+//export class WorkflowTypeSettingUIModel implements IAlternativeSelectionUIModel{
 
 //     private alternatives!: IAlternativeList;
 
@@ -44,5 +44,5 @@ export interface IAlternativeSelectionProcessor {
 //         return this.alternatives;
 //     }
 
-// }
+ //}
 

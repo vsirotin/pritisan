@@ -6,8 +6,8 @@ import { ParametersSettingComponent } from './parameters-setting/parameters-sett
 import { WorkflowObservationProcessingComponent } from './workflow-observation-processing/workflow-observation-processing.component';
 import { WorkflowRessourceProcessingComponent } from './workflow-ressource-processing/workflow-ressource-processing.component';
 import { EventSavingComponent } from './event-saving/event-saving.component';
-import { ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
-import { CurrentEventProcessingUIFactory } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
+import { CurrentEventProcessingUIModel, ICurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
+//import { CurrentEventProcessingUIFactory } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IEventChange } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { Subscription } from 'rxjs';
@@ -43,29 +43,30 @@ export class CurrentEventComponent implements OnDestroy {
   @ViewChild(EventTypeSettingComponent) activityTypeSelectingComponent!: EventTypeSettingComponent;
   @ViewChild(ParametersSettingComponent) parametersSettingComponent!: ParametersSettingComponent;
 
-  uiModel! : ICurrentEventProcessingUIModel; 
+  //uiModel! : ICurrentEventProcessingUIModel; 
 
   currentEventDescription: string = "";
 
   private subscriptionEventDescription!: Subscription; 
-  private subscriptionState!: Subscription;
+  private subscriptionState: Subscription 
 
   CEA = CurrentEventActions;
 
   private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventComponent");
 
-  constructor() { 
-    this.uiModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel();
-    this.subscriptionEventDescription = this.uiModel.eventDescriptionChange$.subscribe((notification) => {
-      this.logger.debug("CurrentEventComponent.uiModel.eventDescriptionChange$.subscribe notification: " + notification);
-      this.updateCurrentEventDescription(notification);
-    });
+   constructor() { 
+  //   this.uiModel = CurrentEventProcessingUIFactory.getCurrentEventProcessingUIModel();
+  //   this.subscriptionEventDescription = this.uiModel.eventDescriptionChange$.subscribe((notification) => {
+  //     this.logger.debug("CurrentEventComponent.uiModel.eventDescriptionChange$.subscribe notification: " + notification);
+  //     this.updateCurrentEventDescription(notification);
+  //   });
 
-    this.subscriptionState = this.uiModel.stateChange$.subscribe((state) => {
+    this.subscriptionState = CurrentEventProcessingUIModel.getInstance().stateChange$.subscribe((state) => {
       this.logger.debug("CurrentEventComponent.state$ state: " + state);
       this.currentSubCommponent = state;
     });
   }
+
   private updateCurrentEventDescription(notification: IEventChange) {
     this.currentEventDescription += notification.localizedName + " ";
   }
@@ -74,13 +75,13 @@ export class CurrentEventComponent implements OnDestroy {
   ngOnDestroy() {
     this.subscriptionEventDescription.unsubscribe();
     this.subscriptionState.unsubscribe();
-    this.uiModel.doDestroy();
+ //   this.uiModel.doDestroy();
   }
 
   navigateTo(action: CurrentEventActions) {
-    const result = this.uiModel.navigateTo(action);
-    this.logger.debug("CurrentEventComponent.navigateTo action: " + JSON.stringify(action) + " result: " + result);
-    this.currentSubCommponent = result;
+//    const result = this.uiModel.navigateTo(action);
+  //  this.logger.debug("CurrentEventComponent.navigateTo action: " + JSON.stringify(action) + " result: " + result);
+  //  this.currentSubCommponent = result;
   }
   
   isDisabled(action: CurrentEventActions): boolean {

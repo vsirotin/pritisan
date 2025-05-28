@@ -2,7 +2,7 @@ import { TimeSettingUIModel, ParametersSettingUIModel } from '../capture-ui-mode
 import { Observable, Subject, Subscription } from "rxjs";
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
-import { ITreeSelectorUIModel } from './event-type-setting-ui-model';
+//import { ITreeSelectorUIModel } from './event-type-setting-ui-model';
 import { IEventType } from '../../business-logic-model/current-event-business-logic-model/event-commons';
 
 export interface IEventChange {
@@ -29,24 +29,27 @@ export enum CurrentEventActions {
 
 //------------Current event ui model -----------------
 
-interface ICurrentEventProcessingNavigation {
-    navigateTo(action: CurrentEventActions): string; 
-}
+// interface ICurrentEventProcessingNavigation {
+//     navigateTo(action: CurrentEventActions): string; 
+// }
 
 export interface IWorkflowTypeSelection {
     workflowTypeSelected(selection: IEventType): void;
 }
 
-export interface ICurrentEventProcessingUIModel extends ICurrentEventProcessingNavigation, IWorkflowTypeSelection {
-  doDestroy(): unknown;
+export interface ICurrentEventProcessingUIModel extends  IWorkflowTypeSelection {
   eventDescriptionChange$: Observable<IEventChange>;
   stateChange$: Observable<string>;
 }
 
 export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIModel{
 
-  //  eventSelectionUIModel!: WorkflowTypeSettingUIModel;
-    activityTypeSelectingUIModel!: ITreeSelectorUIModel;
+    private static instance:  ICurrentEventProcessingUIModel = new CurrentEventProcessingUIModel();
+
+    static getInstance(): ICurrentEventProcessingUIModel {
+        return this.instance;
+    }
+
     timeSettingUIModel!: TimeSettingUIModel;
     parametersSettingUIModel!: ParametersSettingUIModel;
 
@@ -56,9 +59,9 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
     private stateChangeSubject = new Subject<string>();
     stateChange$: Observable<string> = this.stateChangeSubject.asObservable();
  
-    private currentEvent = new CurrentEvent();
+
     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventProcessingUIModel"); 
-    constructor() { }
+
     workflowTypeSelected(selection: IEventType): void {
 
         let newState = "workflow-event-processing";
@@ -71,22 +74,15 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
                 break;    
 
         }
-        this.stateChangeSubject.next(newState);
+        this.stateChangeSubject.next(newState); //TODO start here!
     }
     
-    loadFrom(currentEventModel: IRunningEventsBusinessLogicModel) { }
+    //loadFrom(currentEventModel: IRunningEventsBusinessLogicModel) { }
 
     navigateTo(action: CurrentEventActions): string {  
         this.logger.debug('CurrentEventProcessingUIModel navigateTo action: ' + action);
         return "workflow-event-processing";
     }
-
-    doDestroy() {
-
-    }
-}
-
-class CurrentEvent {
 }
 
 

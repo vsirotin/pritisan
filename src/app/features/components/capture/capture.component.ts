@@ -37,7 +37,7 @@ export class CaptureComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.uiModel.setNavigationUIModel(this.repositoryNavigationComponent.uiModel);
     this.uiModel.setRunningEventsUIModel(this.runningEventsComponent.uiModel);
-    this.uiModel.setCurrentEventUIModel(this.currentEventComponent.uiModel);
+   // this.uiModel.setCurrentEventUIModel(this.currentEventComponent.uiModel);
   }
 
 }
