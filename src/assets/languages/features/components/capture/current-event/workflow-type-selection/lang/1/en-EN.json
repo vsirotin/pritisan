@@ -1,6 +1,6 @@
 {
     "currentAlternativeId": 0,
-    "groupLabel": "Event:",
+    "groupLabel": "Event type:",
 
     "alternatives": [
         {"id":  1, "name": "Event, activity (started, finished...)"},

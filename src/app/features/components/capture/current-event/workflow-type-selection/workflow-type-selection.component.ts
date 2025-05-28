@@ -27,7 +27,7 @@ export class WorkflowTypeSelectionComponent  implements OnDestroy, ILocalization
 
   selectedAlternative!: IEventType;
   nameSelectedAlternative = "";
-  title? : string;
+  title : string;
 
   private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.WorkflowTypeSelectionComponent"); 
   private  ui: IAlternativeList = (uiItems as any).default;
