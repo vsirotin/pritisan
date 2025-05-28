@@ -5,7 +5,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule} from '@angular/material/expansion';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IAlternativeList, IEventType } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
-import * as uiItems from '../../../../../../assets/languages/features/components/capture/current-event/workflow-type-selection/lang/1/en-EN.json';
+import * as uiItems from '../../../../../../assets/languages/features/components/capture/current-event/workflow-type-selection/lang/1/en-US.json';
 import { ILocalizationClient, ILocalizer, LocalizerFactory } from '@vsirotin/localizer';
 import { CurrentEventProcessingUIModel, ICurrentEvent, IWorkflowTypeSelection } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 

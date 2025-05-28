@@ -5,7 +5,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, ViewChild} from '@angular
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { ILocalizationClient, LocalizerFactory } from '@vsirotin/localizer';
-import * as uiItems from '../../../../../../assets/languages/masterdata/lang/1/en-EN.json';
+import * as uiItems from '../../../../../../assets/languages/masterdata/lang/1/en-US.json';
 import { CurrentEventProcessingUIModel, ICurrentEvent } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 
 const MY_DIR = "assets/languages/masterdata/lang";
