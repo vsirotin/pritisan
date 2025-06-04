@@ -42,7 +42,7 @@ export class RepositoryNavigationComponent implements IRepositoryNavigationPrese
     this.logger.debug("RepositoryNavigationComponent.ngOnInit result: " + JSON.stringify(result) 
           + " countEvents: " + result.countEvents + " currentEventPosition: " + result.currentEventPosition);
         this.countEvents = result.countEvents;
-        this.currentEvent = this.currentEventToString(result.currentEventPosition);
+ //       this.currentEvent = this.currentEventToString(result.currentEventPosition);
 
   }
 

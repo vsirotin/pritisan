@@ -34,7 +34,7 @@ export class TimePointSettingComponent {
 
   hours = Array.from({length: 24}, (_, i) => i); // [0, 1, 2, ..., 23]
   minutes = Array.from({length: 60}, (_, i) => i); // [0, 1, 2, ..., 59]
-  selectedHour = this.hours[0];
+  selectedHour = this.hours[2];
   selectedMinute = this.minutes[0];
 
 

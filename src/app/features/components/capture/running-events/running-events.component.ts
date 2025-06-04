@@ -16,6 +16,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { IRunningEvent, IRunningEventsUIModel, RunningEventsUIModel } from '../../../models/capture/ui-model/running-events-ui-model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
+import { IPersistedRunningEvents, RunningEventsPersistence } from '../../../../shared/classes/db/running-events-db';
 
 
 
@@ -49,17 +50,32 @@ export class RunningEventsComponent implements  AfterViewInit {
 
   selection = new SelectionModel<IRunningEvent>(true, []);
   private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.RunningEventsComponent");
+  
+  //TODO: Temporary solution. It should be replaced by real data from DB. 
+  
+  events: IRunningEvent[] = [
+        { id: 11, duration: "22", start: "21", description: "aaa" }
+        // { id: 12, start: this.getTimeBeforeNow(0, 12, 34), fin: null, typeId: "2", details: "b" },
+        // { id: 13, start: this.getTimeBeforeNow(2, 4, 44), fin: null, typeId: "3", details: "c" },
+        // { id: 14, start: this.getTimeBeforeNow(0, 0, 0), fin: null, typeId: "3", details: "c" }
+      ];
 
   constructor(private _liveAnnouncer: LiveAnnouncer) {
     this.logger.debug("RunningEventsComponent.constructor");
     this.uiModel = new RunningEventsUIModel();
-    this.uiModel.runningEventsPresentationChanged$.subscribe((events) => {
-      this.logger.debug("RunningEventsComponent.constructor. Running events: " + JSON.stringify(events));
-      this.dataSource.data = events;
-      this.countRunningEvents = events.length;
-      this.isExpanded = (this.countRunningEvents > 0);
-      this.selection.clear();
-    });
+
+    
+    this.logger.debug("In Constructor Running events: " + JSON.stringify(this.events));
+    this.dataSource.data = this.events;
+
+
+    // this.uiModel.runningEventsPresentationChanged$.subscribe((events) => {
+    //   this.logger.debug("In constructor.subscribe Running events: " + JSON.stringify(events));
+    //   this.dataSource.data = events;
+    //   this.countRunningEvents = events.length;
+    //   this.isExpanded = (this.countRunningEvents > 0);
+    //   this.selection.clear();
+    // });
 
     this.selection.changed.subscribe((event) => {
       this.updateButtonsState();     
@@ -72,7 +88,7 @@ export class RunningEventsComponent implements  AfterViewInit {
     this.logger.debug("RunningEventsComponent.updateButtonsState this.selection.selected.length: " + JSON.stringify(this.selection.selected));
     if (this.selection.selected.length > 0) {
       this.areButtonsDisabled = false;
-      this.uiModel.selectRunningEvent(this.selection.selected[0]);
+   //   this.uiModel.selectRunningEvent(this.selection.selected[0]);
     } else {
       this.areButtonsDisabled = true;
     }
@@ -123,13 +139,13 @@ export class RunningEventsComponent implements  AfterViewInit {
   onComplete() {
     const selectedIds = this.selection.selected.map((event) => event.id);
     this.logger.debug("RunningEventsComponent.onComplete onCompleteSelected: " + selectedIds);
-    this.uiModel.completeEventsWithIds(selectedIds);
+   // this.uiModel.completeEventsWithIds(selectedIds);
   }
 
   onDelete() {
     const selectedIds = this.selection.selected.map((event) => event.id);
     this.logger.debug("RunningEventsComponent.onDelete selectedIds: " + selectedIds);
-    this.uiModel.deleteEventsWithIds(selectedIds);
+   // this.uiModel.deleteEventsWithIds(selectedIds);
   }
 
   onCancel() {

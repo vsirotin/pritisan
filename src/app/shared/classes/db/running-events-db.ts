@@ -1,10 +1,10 @@
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
-import { IPersistedEvent } from "./time-series-db";
+import { IPersistedEvent } from "./time-series-db/time-series-db";
 
 
 export interface IPersistedRunningEvents {
 
-  readRunningEvents(): Promise<IPersistedEvent[]>;
+  readRunningEvents(): IPersistedEvent[];
   deleteEventsWithIds(eventIDs: number[]): Promise<void>;
   updateEvents(events: IPersistedEvent[]): Promise<void>;
 }
@@ -25,7 +25,7 @@ export class RunningEventsPersistence implements IPersistedRunningEvents {
     return Promise.resolve();
   }
 
-  async readRunningEvents(): Promise<IPersistedEvent[]> {
+  readRunningEvents(): IPersistedEvent[] {
 
     const TMP_PERSISTED_EVENTS: IPersistedEvent[] = [
       { id: 11, start: this.getTimeBeforeNow(0, 1, 4), fin: null, typeId: "1", details: "a" },

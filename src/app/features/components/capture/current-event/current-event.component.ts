@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { CurrentEventProcessingBusinessLogicModel } from '../../../models/capture/business-logic-model/current-event-business-logic-model/current-event-business-logic-model';
 
 
 @Component({
@@ -86,7 +87,7 @@ export class CurrentEventComponent implements OnDestroy {
     switch (action) {
       case CurrentEventActions.SAVE:
         this.logger.debug("In navigateTo action: SAVE");
-        this.currentEventProcessingUIModel.saveCurrentEvent();
+        CurrentEventProcessingBusinessLogicModel.saveCurrentEvent();
         break;
       default:
         this.logger.error("In navigateTo action NOT implememted: " + action);

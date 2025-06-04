@@ -17,7 +17,7 @@ interface IEventsPersistence {
   readRunningEvents(): IPersistedEvent[];
 }
 
-//TODO NOT USED
+
 export class EventsPersistence implements IEventsPersistence{
   private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.EventsPersistence");
   constructor(){

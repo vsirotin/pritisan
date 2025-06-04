@@ -6,7 +6,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { ILocalizationClient, LocalizerFactory } from '@vsirotin/localizer';
 import * as uiItems from '../../../../../../assets/languages/masterdata/lang/1/en-US.json';
-import { CurrentEventProcessingUIModel, ICurrentEvent } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
+import { CurrentEventProcessingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
+import { CurrentEventProcessingBusinessLogicModel } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/current-event-business-logic-model';
 
 const MY_DIR = "assets/languages/masterdata/lang";
 
@@ -46,11 +47,10 @@ export class EventTypeSettingComponent  implements  OnDestroy, ILocalizationClie
 
   hasChild = (_: number, node: INestedOntologyNode) => !!node.children?.length;
 
-  private currentEvent: ICurrentEvent = CurrentEventProcessingUIModel.getInstance().getCurrentEvent();
 
   onNodeClick(node: any) {
     this.logger.debug("onNodeClick node: " + JSON.stringify(node));
-    this.currentEvent.setEventType(node.id as string);
+    CurrentEventProcessingBusinessLogicModel.getCurrentEvent().setEventType(node.id as string);
 }
 
   ngOnDestroy() {

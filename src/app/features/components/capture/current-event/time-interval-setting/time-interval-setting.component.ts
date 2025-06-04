@@ -1,6 +1,6 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { TimePointSettingComponent } from '../time-point-setting/time-point-setting.component';
-import { TimeSettingUIModel } from '../../../../models/capture/ui-model/capture-ui-model';
+//import { TimeSettingUIModel } from '../../../../models/capture/ui-model/capture-ui-model';
 
 @Component({
   selector: 'app-time-interval-setting',
@@ -12,7 +12,7 @@ import { TimeSettingUIModel } from '../../../../models/capture/ui-model/capture-
 export class TimeIntervalSettingComponent {
   @ViewChildren(TimePointSettingComponent) timePoitnsSettingComponents!: QueryList<TimePointSettingComponent>;
 
-  uiModel?: TimeSettingUIModel;
+ // uiModel?: TimeSettingUIModel;
 
   ngAfterViewInit() {
 

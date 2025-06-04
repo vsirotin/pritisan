@@ -1,6 +1,6 @@
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IRepositoryMetaDataExt } from "../../../features/models/capture/capture-common-interfaces";
-import { IPersistedEvent } from "./time-series-db";
+import { IPersistedEvent } from "./time-series-db/time-series-db";
 
 
 export interface IMetaDataPersistence {

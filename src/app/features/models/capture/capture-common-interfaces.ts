@@ -14,6 +14,8 @@ export interface IRepositoryMetaDataExt extends IRepositoryMetaData{
 }
 
 export interface IEvent {
+    setWorkflowType(workflowType: number): void;
+    setEventType(eventType: string): void;
     id: number
     start: Data;
     fin: Data|null;

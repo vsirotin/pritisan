@@ -3,7 +3,7 @@
 // Presentation model for the presenting data in UI
 
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
-import { CaptureBusinessLogicModelFactory } from "../business-logic-model/capture-business-logic-model";
+//import { CaptureBusinessLogicModelFactory } from "../business-logic-model/capture-business-logic-model";
 import { RepositoryNavigationAction } from "../business-logic-model/repository-navigation-business-logic-model";
 import { NEW_EVENT_POSITION } from "../business-logic-model/repository-navigation-business-logic-model";
 import { RepositoryBusinessLogicModel } from "../business-logic-model/repository-navigation-business-logic-model";
@@ -59,8 +59,8 @@ export class RepositoryNavigationUIModel implements IRepositoryNavigationUIModel
 
     constructor() {
         this.logger.debug("RepositoryNavigationUIModel.constructor");
-        this.repositoryNavigationBusinessLogicModel = CaptureBusinessLogicModelFactory
-            .createOrGetModel().getRepositoryBusinessLogicModel();
+        // this.repositoryNavigationBusinessLogicModel = CaptureBusinessLogicModelFactory
+        //     .createOrGetModel().getRepositoryBusinessLogicModel();
     }
 
     async setRepositoryNavigationBusinessLogicModel(repositoryNavigationBusinessLogicModel: IRepositoryBusinessLogicModel): Promise<void> {
@@ -150,15 +150,15 @@ export class RepositoryNavigationUIModel implements IRepositoryNavigationUIModel
         this.logger.debug("RepositoryNavigationUIModel.getRepositoryMetaData countEventsInRepository: " + this.countEventsInRepository 
             + " currentEventPosition: " + this.currentEventPosition);
         
-        if (this.countEventsInRepository == undefined || this.currentEventPosition == undefined) {
-                const result = await this.repositoryNavigationBusinessLogicModel.getMetaData()
-                this.countEventsInRepository = result.countEvents;
-                this.currentEventPosition = result.currentEventPosition;
-                this.pageSize = result.pageSize;
-                this.logger.debug("RepositoryNavigationUIModel.getRepositoryMetaData in then() countEvents: "
-                + this.countEventsInRepository + " currentEventPosition: " + this.currentEventPosition + " pageSize: " + this.pageSize);
+        // if (this.countEventsInRepository == undefined || this.currentEventPosition == undefined) {
+        //         const result = await this.repositoryNavigationBusinessLogicModel.getMetaData()
+        //         this.countEventsInRepository = result.countEvents;
+        //         this.currentEventPosition = result.currentEventPosition;
+        //         this.pageSize = result.pageSize;
+        //         this.logger.debug("RepositoryNavigationUIModel.getRepositoryMetaData in then() countEvents: "
+        //         + this.countEventsInRepository + " currentEventPosition: " + this.currentEventPosition + " pageSize: " + this.pageSize);
 
-        }
+        // }
 
         this.logger.debug("RepositoryNavigationUIModel.getRepositoryMetaData 2 countEvents: "
                 + this.countEventsInRepository + " currentEventPosition: " + this.currentEventPosition + " pageSize: " + this.pageSize);

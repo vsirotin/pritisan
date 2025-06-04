@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RunningEventsComponent } from './running-events.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IRunningEventsBusinessLogicModel, RunningEventsBusinessLogicModel } from '../../../models/capture/business-logic-model/running-events-business-logic-model';
-import { IPersistedEvent } from '../../../../shared/classes/db/time-series-db';
+import { IPersistedEvent } from '../../../../shared/classes/db/time-series-db/time-series-db';
 import { RunningEventsPersistence } from "../../../../shared/classes/db/running-events-db";
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { By } from '@angular/platform-browser';

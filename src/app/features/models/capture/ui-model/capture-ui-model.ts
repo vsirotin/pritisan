@@ -1,6 +1,6 @@
 
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
-import { CaptureBusinessLogicModelFactory} from '../business-logic-model/capture-business-logic-model';
+//import { CaptureBusinessLogicModelFactory} from '../business-logic-model/capture-business-logic-model';
 import { ICaptureBusinessLogicModel } from "../capture-common-interfaces";
 import { IRepositoryNavigationUIModel } from './repository-navigation-ui-model';
 import { IRunningEventsUIModel } from './running-events-ui-model';
@@ -30,7 +30,7 @@ export class CaptureUIModel implements ICaptureUIModel {
     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CaptureUIModel");
     
     constructor() {
-        this.captureBusinessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel()
+ //       this.captureBusinessLogicModel = CaptureBusinessLogicModelFactory.createOrGetModel()
     }
 
     setCaptureBusinessLogicModel(captureBusinessLogicModel: ICaptureBusinessLogicModel): void {
@@ -51,10 +51,10 @@ export class CaptureUIModel implements ICaptureUIModel {
 
 }
 
-export class TimeSettingUIModel {
-    startTime: TimePointSettingUIModel = new TimePointSettingUIModel();
-    finishTime?: TimePointSettingUIModel;
-}  
+// export class TimeSettingUIModel {
+//     startTime: TimePointSettingUIModel = new TimePointSettingUIModel();
+//     finishTime?: TimePointSettingUIModel;
+// }  
 
 class TimePointSettingUIModel {
     time: Date = new Date();

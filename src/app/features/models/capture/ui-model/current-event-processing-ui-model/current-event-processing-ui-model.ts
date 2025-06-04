@@ -1,4 +1,4 @@
-import { TimeSettingUIModel, ParametersSettingUIModel } from '../capture-ui-model';
+//import { TimeSettingUIModel, ParametersSettingUIModel } from '../capture-ui-model';
 import { Observable, Subject, Subscription } from "rxjs";
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
@@ -33,10 +33,7 @@ export enum CurrentEventActions {
 //     navigateTo(action: CurrentEventActions): string; 
 // }
 
-export interface  ICurrentEvent{
-  setEventType(eventTypeId: string): unknown;
-  setWorkflowType(workflowTypeId: number): void;
-}
+
 
 
 export interface IWorkflowTypeSelection {
@@ -44,36 +41,17 @@ export interface IWorkflowTypeSelection {
 }
 
 export interface ICurrentEventProcessingUIModel extends  IWorkflowTypeSelection {
-    getCurrentEvent(): ICurrentEvent;
-    saveCurrentEvent(): void
-    eventDescriptionChange$: Observable<IEventChange>;
+//     getCurrentEvent(): IClosedEvent;
+//     saveCurrentEvent(): void
+//     eventDescriptionChange$: Observable<IEventChange>;
     stateChange$: Observable<string>;
-}
+ }
 
-class CurrentEvent implements ICurrentEvent {
 
-    private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEvent"); 
-
-    workflowTypeId : number = 0;
-    eventTypeId: string = "";
-    
-
-    setWorkflowType(workflowTypeId: number): void {
-        this.logger.debug('setWorkflowType id: ' + workflowTypeId);
-        this.workflowTypeId = workflowTypeId;
-    }
-
-    setEventType(eventTypeId: string): void {
-        this.logger.debug('setEventType id: ' + eventTypeId);
-        this.eventTypeId = eventTypeId;
-    }
-}
 
 
 export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIModel{
 
-
-   
 
     private static instance:  ICurrentEventProcessingUIModel = new CurrentEventProcessingUIModel();
 
@@ -81,8 +59,8 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
         return this.instance;
     }
 
-    timeSettingUIModel!: TimeSettingUIModel;
-    parametersSettingUIModel!: ParametersSettingUIModel;
+    // timeSettingUIModel!: TimeSettingUIModel;
+    //parametersSettingUIModel!: ParametersSettingUIModel;
 
     private eventDescriprionSubject = new Subject<IEventChange>();
     eventDescriptionChange$: Observable<IEventChange> = this.eventDescriprionSubject.asObservable();
@@ -93,11 +71,11 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
 
     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventProcessingUIModel"); 
 
-    private currentEvent: ICurrentEvent = new CurrentEvent();
+    // private currentEvent: IClosedEvent = new CurrentEvent();
 
-    getCurrentEvent(): ICurrentEvent {
-        return this.currentEvent;
-    }
+    // getCurrentEvent(): IClosedEvent {
+    //     return this.currentEvent;
+    // }
 
     workflowTypeSelected(selection: IEventType): void {
 
@@ -120,9 +98,9 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
         return "workflow-event-processing";
     }
 
-    saveCurrentEvent(): void {
-        this.logger.error('NOT IMPLEMENTED saveCurrentEvent currentEvent: ' + JSON.stringify(this.currentEvent));
-    }
+    // saveCurrentEvent(): void {
+    //     this.logger.error('NOT IMPLEMENTED saveCurrentEvent currentEvent: ' + JSON.stringify(this.currentEvent));
+    // }
 
 
 }

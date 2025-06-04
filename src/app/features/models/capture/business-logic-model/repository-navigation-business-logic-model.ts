@@ -1,10 +1,10 @@
 import { ICaptureBusinessLogicModel, IEvent } from "../capture-common-interfaces";
 import { Observable, Subject } from "rxjs";
-import { IPersistedEvent } from "../../../../shared/classes/db/time-series-db";
+import { IPersistedEvent } from "../../../../shared/classes/db/time-series-db/time-series-db";
 import { IMetaDataPersistence, MetaDataPersistence } from "../../../../shared/classes/db/metadata-db";
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IRepositoryMetaDataExt } from "../capture-common-interfaces";
-import { encodePersistedEvent } from "./current-event-business-logic-model/event-commons";
+//import { encodePersistedEvent } from "./current-event-business-logic-model/event-commons";
 
 interface IRepositoryBusinessLogicModelInput {
     navigateTo(element: RepositoryNavigationAction): void;
@@ -84,17 +84,17 @@ export class RepositoryBusinessLogicModel implements IRepositoryBusinessLogicMod
 
         //Inform about change of current event
         let savedEvent = this.metaDataDB.readEvent(this.currentEventPosition);
-        let event: IEvent = this.convertToEvent(savedEvent);
+   //     let event: IEvent = this.convertToEvent(savedEvent);
         this.logger.debug("RepositoryBusinessLogicModel.navigateTo new current event: " + JSON.stringify(event));
-        this.subjectCurrentEventId.next(event);
+    //    this.subjectCurrentEventId.next(event);
 
     }
 
-    convertToEvent(savedEvent: IPersistedEvent): IEvent {
-        this.logger.debug("RepositoryBusinessLogicModel.convertToEvent savedEvent: " + JSON.stringify(savedEvent));
-        this.logger.warn("RepositoryBusinessLogicModel.convertToEvent. Temporary solution. It should be replaced by real data from DB ");
-        return encodePersistedEvent(savedEvent);
-    }
+    // convertToEvent(savedEvent: IPersistedEvent): IEvent {
+    //     this.logger.debug("RepositoryBusinessLogicModel.convertToEvent savedEvent: " + JSON.stringify(savedEvent));
+    //     this.logger.warn("RepositoryBusinessLogicModel.convertToEvent. Temporary solution. It should be replaced by real data from DB ");
+    //     return  encodePersistedEvent(savedEvent);
+    // }
 
     async getMetaData(): Promise<IRepositoryMetaDataExt> {
         this.logger.debug("RepositoryBusinessLogicModel.getMetaData start this.repositoryMetaDataDB currentEventPosition: "

@@ -4,7 +4,7 @@ import { Observable, Subject } from "rxjs";
 import { ICaptureBusinessLogicModel, IEvent } from "../capture-common-interfaces";
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IPersistedRunningEvents, RunningEventsPersistence } from "../../../../shared/classes/db/running-events-db";
-import { encodePersistedEvent } from "./current-event-business-logic-model/event-commons";
+//import { encodePersistedEvent } from "./current-event-business-logic-model/event-commons";
 
 export interface IRunningEventsBusinessLogicModel {
     readRunninfEventsFromDB(): unknown;
@@ -15,11 +15,11 @@ export interface IRunningEventsBusinessLogicModel {
     deleteEventsWithIds(eventIDs: number[]): void;
 }
 
-export class RunningEventsBusinessLogicModel implements IRunningEventsBusinessLogicModel {
+export class RunningEventsBusinessLogicModel { //implements IRunningEventsBusinessLogicModel {
     runningEventsChanged$: Observable<IEvent[]>;
     runningEventsDB! : IPersistedRunningEvents;
 
-    runningEvents!: IEvent[];
+ //   runningEvents!: IEvent[];
     private subjectRunningEventsChanged = new Subject<IEvent[]>();
 
     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.RunningEventsBusinessLogicModel"); 
@@ -31,36 +31,36 @@ export class RunningEventsBusinessLogicModel implements IRunningEventsBusinessLo
 
         this.runningEventsDB = new RunningEventsPersistence();
 
-        this.readRunninfEventsFromDB();
+ //       this.readRunninfEventsFromDB();
 
     }
-    async readRunninfEventsFromDB() {
-        this.runningEventsDB.readRunningEvents().then((events) => {
-            this.runningEvents = events.map((event) => encodePersistedEvent(event));
-            this.logger.debug("RunningEventsBusinessLogicModel.constructor. Running events: " + this.runningEvents.length);
-            this.subjectRunningEventsChanged.next(this.runningEvents);
-        });
-    }
+    // async readRunninfEventsFromDB() {
+    //     this.runningEventsDB.readRunningEvents().then((events) => {
+    //         this.runningEvents = events.map((event) => encodePersistedEvent(event));
+    //         this.logger.debug("RunningEventsBusinessLogicModel.constructor. Running events: " + this.runningEvents.length);
+    //         this.subjectRunningEventsChanged.next(this.runningEvents);
+    //     });
+    // }
 
-    completeEventsWithIds(eventIDs: number[]): void {
-        this.updateEventList(eventIDs);
-        this.logger.debug("RunningEventsBusinessLogicModel.completeEventsWithIds. completed eventIDs: " + eventIDs
-        + " runningEvents: " + JSON.stringify(this.runningEvents));
-    }
+    // completeEventsWithIds(eventIDs: number[]): void {
+    //     this.updateEventList(eventIDs);
+    //     this.logger.debug("RunningEventsBusinessLogicModel.completeEventsWithIds. completed eventIDs: " + eventIDs
+    //     + " runningEvents: " + JSON.stringify(this.runningEvents));
+    // }
 
-    deleteEventsWithIds(eventIDs: number[]): void {
-        this.updateEventList(eventIDs);
-        this.logger.debug("RunningEventsBusinessLogicModel.deleteEventsWithIds. deleted eventIDs: " + eventIDs
-        + " runningEvents: " + JSON.stringify(this.runningEvents));
-    }
+    // deleteEventsWithIds(eventIDs: number[]): void {
+    //     this.updateEventList(eventIDs);
+    //     this.logger.debug("RunningEventsBusinessLogicModel.deleteEventsWithIds. deleted eventIDs: " + eventIDs
+    //     + " runningEvents: " + JSON.stringify(this.runningEvents));
+    // }
 
 
-    private updateEventList(eventIDs: number[]) {
-        this.runningEventsDB.deleteEventsWithIds(eventIDs).then(() => {
-            this.runningEvents = this.runningEvents.filter((event) => !eventIDs.includes(event.id));
-            this.subjectRunningEventsChanged.next(this.runningEvents);
-        });
-    }
+    // private updateEventList(eventIDs: number[]) {
+    //     this.runningEventsDB.deleteEventsWithIds(eventIDs).then(() => {
+    //         this.runningEvents = this.runningEvents.filter((event) => !eventIDs.includes(event.id));
+    //         this.subjectRunningEventsChanged.next(this.runningEvents);
+    //     });
+    // }
 
    
 }
