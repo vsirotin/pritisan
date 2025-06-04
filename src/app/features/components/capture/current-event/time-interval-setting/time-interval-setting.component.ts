@@ -1,5 +1,6 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { TimePointSettingComponent } from '../time-point-setting/time-point-setting.component';
+import { LoggerFactory } from '@vsirotin/log4ts';
 //import { TimeSettingUIModel } from '../../../../models/capture/ui-model/capture-ui-model';
 
 @Component({
@@ -12,14 +13,31 @@ import { TimePointSettingComponent } from '../time-point-setting/time-point-sett
 export class TimeIntervalSettingComponent {
   @ViewChildren(TimePointSettingComponent) timePoitnsSettingComponents!: QueryList<TimePointSettingComponent>;
 
+  private logger = LoggerFactory.getLogger('TimeIntervalSettingComponent');
  // uiModel?: TimeSettingUIModel;
 
   ngAfterViewInit() {
 
-      console.log(this.timePoitnsSettingComponents.toArray()[0].hours);
+    this.getTimePoints();
 
+     
   }
-                      
-  onClick() {
-  } 
+
+  getTimePoints(): ITimePoint[] {
+    const timePoints: ITimePoint[] = [];
+    this.timePoitnsSettingComponents.forEach((child) => {
+      const date = child.form.get('date')?.value as Date;
+      const hour = child.selectedHour;
+      const minute = child.selectedMinute;
+      timePoints.push({ date, hour, minute });
+    });
+    this.logger.debug("getTimePoints: ", timePoints);
+    return timePoints;
+  }
+}
+
+export interface ITimePoint {
+  date: Date;
+  hour: number;
+  minute: number;
 }
