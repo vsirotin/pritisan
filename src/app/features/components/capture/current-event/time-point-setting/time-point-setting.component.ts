@@ -42,6 +42,12 @@ export const MY_FORMATS = {
     MatNativeDateModule,
     ReactiveFormsModule
   ],
+  providers: [
+    // Moment can be provided globally to your app by adding `provideMomentDateAdapter`
+    // to your app config. We provide it at the component level here, due to limitations
+    // of our example generation script.
+    provideMomentDateAdapter(MY_FORMATS),
+  ],
   templateUrl: './time-point-setting.component.html',
   styleUrl: './time-point-setting.component.scss'
 })
