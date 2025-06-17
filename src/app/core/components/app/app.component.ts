@@ -19,7 +19,7 @@ export class AppComponent implements IStartCompletionReceiver, OnInit {
 
   startProcessRunning = true;
 
-  private logger = LoggerFactory.getLogger("AppComponent");
+  private logger = LoggerFactory.getLogger("eu.sirotin.pritisan.AppComponent");
 
   ngOnInit(): void {
     LoggerFactory.setAllLevelsByAllLoggers();

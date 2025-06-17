@@ -16,7 +16,7 @@ export class StartComponent implements OnInit, IStartProcessNotificationReceiver
 
   currentCommponent: string = '';
 
-  private logger = LoggerFactory.getLogger("StartComponent");
+  private logger = LoggerFactory.getLogger("eu.sirotin.pritisan.StartComponent");
 
   ngOnInit(): void {
     this.logger.debug("Start of StartComponent initialization.");

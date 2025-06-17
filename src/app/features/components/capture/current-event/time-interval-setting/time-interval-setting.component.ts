@@ -1,7 +1,7 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { TimePointSettingComponent } from '../time-point-setting/time-point-setting.component';
 import { LoggerFactory } from '@vsirotin/log4ts';
-//import { TimeSettingUIModel } from '../../../../models/capture/ui-model/capture-ui-model';
+import { Capturer, ITimeIntervalProvider, ITimePoint } from '../../../../models/capture/capturer';
 
 @Component({
   selector: 'app-time-interval-setting',
@@ -10,34 +10,24 @@ import { LoggerFactory } from '@vsirotin/log4ts';
   templateUrl: './time-interval-setting.component.html',
   styleUrl: './time-interval-setting.component.scss'
 })
-export class TimeIntervalSettingComponent {
-  @ViewChildren(TimePointSettingComponent) timePoitnsSettingComponents!: QueryList<TimePointSettingComponent>;
+export class TimeIntervalSettingComponent implements ITimeIntervalProvider {
+
+  @ViewChild('startTime') startTimeComponent!: TimePointSettingComponent;
+  @ViewChild('endTime') endTimeComponent!: TimePointSettingComponent;
 
   private logger = LoggerFactory.getLogger('TimeIntervalSettingComponent');
- // uiModel?: TimeSettingUIModel;
+
+
+  getStartTimePoint(): ITimePoint {
+    return this.startTimeComponent.getTimePoint();
+  }
+  getEndTimePoint(): ITimePoint {
+    return this.endTimeComponent.getTimePoint();
+  }
 
   ngAfterViewInit() {
-
-    this.getTimePoints();
-
-     
-  }
-
-  getTimePoints(): ITimePoint[] {
-    const timePoints: ITimePoint[] = [];
-    this.timePoitnsSettingComponents.forEach((child) => {
-      const date = child.form.get('date')?.value as Date;
-      const hour = child.selectedHour;
-      const minute = child.selectedMinute;
-      timePoints.push({ date, hour, minute });
-    });
-    this.logger.debug("getTimePoints: ", timePoints);
-    return timePoints;
+    Capturer.setTimeIntervalProvider(this);
   }
 }
 
-export interface ITimePoint {
-  date: Date;
-  hour: number;
-  minute: number;
-}
+

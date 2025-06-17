@@ -47,7 +47,7 @@ export class AppStarter implements ILanguageSetter, IWelcomeInformer, ISavingDat
         return AppStarter.instance;
     }
 
-    private logger = LoggerFactory.getLogger("AppStarter");
+    private logger = LoggerFactory.getLogger("eu.sirotin.pritisan.AppStarter");
 
     private constructor() {
         this.logger.debug("AppStarter is created.");

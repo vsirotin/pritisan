@@ -8,6 +8,7 @@ import { ILocalizationClient, LocalizerFactory } from '@vsirotin/localizer';
 import * as uiItems from '../../../../../../assets/languages/masterdata/lang/1/en-US.json';
 import { CurrentEventProcessingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { CurrentEventProcessingBusinessLogicModel } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/current-event-business-logic-model';
+import { Capturer, IActivityType, IActityTypeProvider } from '../../../../models/capture/capturer';
 
 const MY_DIR = "assets/languages/masterdata/lang";
 
@@ -30,7 +31,9 @@ interface INestedOntologyNode {
 })
 
 
-export class EventTypeSettingComponent  implements  OnDestroy, ILocalizationClient<INestedOntologyNode[]>{
+export class EventTypeSettingComponent  implements  OnDestroy, 
+  IActityTypeProvider, ILocalizationClient<INestedOntologyNode[]>{
+
 
   @ViewChild(CdkTree)
 
@@ -46,12 +49,24 @@ export class EventTypeSettingComponent  implements  OnDestroy, ILocalizationClie
   dataSource = new ArrayDataSource(this.ui);
 
   hasChild = (_: number, node: INestedOntologyNode) => !!node.children?.length;
+  selectedEventTypeId: string = "";
+  selectedEventTypeName: string = "";
+
+  ngAfterViewInit() {
+    this.logger.debug("ngAfterViewInit");
+    Capturer.setActivityTypeProvider(this);
+  }
 
 
   onNodeClick(node: any) {
     this.logger.debug("onNodeClick node: " + JSON.stringify(node));
-    CurrentEventProcessingBusinessLogicModel.getCurrentEvent().setEventType(node.id as string);
-}
+    this.selectedEventTypeId = node.id as string;
+    this. selectedEventTypeName = node.name as string;
+  }
+
+  getActivityType(): IActivityType {
+    return {activityTypeId: this.selectedEventTypeId, activityName: this.selectedEventTypeName};
+  }
 
   ngOnDestroy() {
     this.logger.debug("ngOnDestroy");

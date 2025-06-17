@@ -15,6 +15,7 @@ import {provideMomentDateAdapter} from '@angular/material-moment-adapter'
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import {default as _rollupMoment} from 'moment';
+import { ITimePoint } from '../../../../models/capture/capturer';
 
 const moment = _rollupMoment || _moment;
 
@@ -73,6 +74,13 @@ export class TimePointSettingComponent {
     this.form.valueChanges.subscribe(val => {
       console.warn("val=" + JSON.stringify(val));
     });
+  }
+
+  getTimePoint() : ITimePoint {
+    return { 
+      date:  this.form.get('date')?.value as Date, 
+      hour: this.selectedHour, 
+      minute: this.selectedMinute } as ITimePoint;
   }
   
 }

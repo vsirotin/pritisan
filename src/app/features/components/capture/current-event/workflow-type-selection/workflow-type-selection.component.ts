@@ -10,6 +10,7 @@ import { ILocalizationClient, ILocalizer, LocalizerFactory } from '@vsirotin/loc
 import { CurrentEventProcessingUIModel, IWorkflowTypeSelection } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { IEvent } from '../../../../models/capture/capture-common-interfaces';
 import { CurrentEventProcessingBusinessLogicModel } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/current-event-business-logic-model';
+import { Capturer, IEventTypeProvider } from '../../../../models/capture/capturer';
 
 const WF_TYPE_SELECTION_DIR = "assets/languages/features/components/capture/current-event/workflow-type-selection/lang";
 
@@ -24,7 +25,10 @@ const WF_TYPE_SELECTION_DIR = "assets/languages/features/components/capture/curr
   templateUrl: './workflow-type-selection.component.html',
   styleUrl: './workflow-type-selection.component.scss'
 })
-export class WorkflowTypeSelectionComponent  implements OnDestroy, ILocalizationClient<IAlternativeList>{
+export class WorkflowTypeSelectionComponent  implements 
+  OnDestroy, 
+  IEventTypeProvider,
+  ILocalizationClient<IAlternativeList>{
 
   isExpanded = true; 
 
@@ -53,6 +57,12 @@ export class WorkflowTypeSelectionComponent  implements OnDestroy, ILocalization
         this.selectedAlternative = this.alternatives[index];
         this.nameSelectedAlternative = this.selectedAlternative.name;
       }
+
+      Capturer.setEventTypeProvider(this);
+  }
+  
+  getEventType(): IEventType {
+    return {id: this.selectedAlternative.id, name: this.selectedAlternative.name};
   }
 
   onSelectionChange(event: MatRadioChange) {
