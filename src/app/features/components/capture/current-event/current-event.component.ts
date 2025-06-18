@@ -1,6 +1,6 @@
 import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { WorkflowTypeSelectionComponent } from './workflow-type-selection/workflow-type-selection.component';
-import { EventTypeSettingComponent } from './event-type-setting/event-type-setting.component';
+import { ActivityTypeSettingComponent } from './activity-type-setting/activity-type-setting';
 import { WorkflowEventProcessingComponent } from './workflow-event-processing/workflow-event-processing.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
 import { WorkflowObservationProcessingComponent } from './workflow-observation-processing/workflow-observation-processing.component';
@@ -40,7 +40,7 @@ export class CurrentEventComponent implements OnDestroy {
   currentSubCommponent: string = 'workflow-type-selection';
 
   @ViewChild(WorkflowTypeSelectionComponent) eventSelectionComponent!: WorkflowTypeSelectionComponent;
-  @ViewChild(EventTypeSettingComponent) activityTypeSelectingComponent!: EventTypeSettingComponent;
+  @ViewChild(ActivityTypeSettingComponent) activityTypeSelectingComponent!: ActivityTypeSettingComponent;
   @ViewChild(ParametersSettingComponent) parametersSettingComponent!: ParametersSettingComponent;
 
   //uiModel! : ICurrentEventProcessingUIModel; 

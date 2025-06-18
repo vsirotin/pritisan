@@ -26,12 +26,12 @@ interface INestedOntologyNode {
      CdkTreeModule, MatButtonModule, MatIconModule
   ],
    changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './event-type-setting.component.html',
-  styleUrl: './event-type-setting.component.scss'
+  templateUrl: './activity-type-setting.html',
+  styleUrl: './activity-type-setting.scss'
 })
 
 
-export class EventTypeSettingComponent  implements  OnDestroy, 
+export class ActivityTypeSettingComponent  implements  OnDestroy, 
   IActityTypeProvider, ILocalizationClient<INestedOntologyNode[]>{
 
 

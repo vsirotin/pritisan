@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { EventTypeSettingComponent } from '../event-type-setting/event-type-setting.component';
+import { ActivityTypeSettingComponent } from '../activity-type-setting/activity-type-setting';
 import {  TimeIntervalSettingComponent } from '../time-interval-setting/time-interval-setting.component';
 import { LoggerFactory } from '@vsirotin/log4ts';
 
 @Component({
   selector: 'app-workflow-event-processing',
   standalone: true,
-  imports: [EventTypeSettingComponent, TimeIntervalSettingComponent],
+  imports: [ActivityTypeSettingComponent, TimeIntervalSettingComponent],
   templateUrl: './workflow-event-processing.component.html',
   styleUrl: './workflow-event-processing.component.scss'
 })
