@@ -1,5 +1,5 @@
 import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { WorkflowTypeSelectionComponent } from './workflow-type-selection/workflow-type-selection.component';
+import { WorkflowTypeSelectionComponent } from './event-type-setting/workflow-type-selection.component';
 import { ActivityTypeSettingComponent } from './activity-type-setting/activity-type-setting';
 import { WorkflowEventProcessingComponent } from './workflow-event-processing/workflow-event-processing.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';

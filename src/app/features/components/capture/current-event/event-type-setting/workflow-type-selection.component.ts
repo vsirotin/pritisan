@@ -22,8 +22,8 @@ const WF_TYPE_SELECTION_DIR = "assets/languages/features/components/capture/curr
     MatRadioModule, 
     FormsModule
   ],
-  templateUrl: './workflow-type-selection.component.html',
-  styleUrl: './workflow-type-selection.component.scss'
+  templateUrl: './event-type-setting.html',
+  styleUrl: './event-type-setting.scss'
 })
 export class WorkflowTypeSelectionComponent  implements 
   OnDestroy, 
@@ -69,8 +69,8 @@ export class WorkflowTypeSelectionComponent  implements
     this.logger.debug("onSelectionChange event: " + event);
     this.isExpanded = false; // collapse the panel after a selection is made
     
-    CurrentEventProcessingBusinessLogicModel.getCurrentEvent().setWorkflowType(event.value.id);
-    this.workflow.workflowTypeSelected(event.value);
+//    CurrentEventProcessingBusinessLogicModel.getCurrentEvent().setWorkflowType(event.value.id);
+    this.workflow.workflowTypeSelected(event.value); //TODO
  //TODO   this.selectionProcessor.alternativeSelected(event.value);
     const id = event.value.id;
     const index = this.alternatives.findIndex(a => a.id == id);
