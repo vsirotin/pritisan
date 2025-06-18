@@ -3,7 +3,7 @@
     "groupLabel": "Event type:",
 
     "alternatives": [
-        {"id":  1, "name": "Event, activity (started, finished...)"},
+        {"id":  1, "name": "Activity started or/and finished..."},
         {"id": 2, "name": "Money, resources used..."},
         {"id": 3, "name": "Observation made..."}
     ]
