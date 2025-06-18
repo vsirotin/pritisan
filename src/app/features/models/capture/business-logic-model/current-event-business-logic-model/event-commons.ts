@@ -1,4 +1,4 @@
-import { IPersistedEvent } from "../../../../../shared/classes/db/time-series-db/time-series-db";
+import { Data } from "@angular/router";
 import { IEvent } from "../../capture-common-interfaces";
 import { IEventChange } from '../../ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 
@@ -28,6 +28,14 @@ export interface IAlternativeList {
     currentAlternativeId: number;
     groupLabel: string; 
  }
+
+ export interface IPersistedEvent{
+  id: number
+  start: Data;
+  fin: Data|null;
+  typeId: string;
+  details: string|null;
+}
 
 
 

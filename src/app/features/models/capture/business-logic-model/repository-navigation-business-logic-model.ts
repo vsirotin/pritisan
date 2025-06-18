@@ -1,6 +1,5 @@
 import { ICaptureBusinessLogicModel, IEvent } from "../capture-common-interfaces";
 import { Observable, Subject } from "rxjs";
-import { IPersistedEvent } from "../../../../shared/classes/db/time-series-db/time-series-db";
 import { IMetaDataPersistence, MetaDataPersistence } from "../../../../shared/classes/db/metadata-db";
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IRepositoryMetaDataExt } from "../capture-common-interfaces";

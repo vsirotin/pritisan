@@ -1,5 +1,6 @@
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
-import { IPersistedEvent } from "./time-series-db/time-series-db";
+import { IPersistedEvent } from '../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons';
+
 
 
 export interface IPersistedRunningEvents {

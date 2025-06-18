@@ -1,41 +1,31 @@
 
 import { Data } from "@angular/router";
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
-
-export interface IPersistedEvent{
-  id: number
-  start: Data;
-  fin: Data|null;
-  typeId: string;
-  details: string|null;
-}
-
-interface IEventsPersistence {
-  saveEvent(event: IPersistedEvent): number;
-  updateEvents(events: IPersistedEvent[]): void;
-  deleteEvents(eventIds: number[]): void;
-  readRunningEvents(): IPersistedEvent[];
-}
+import { IClosedEvent } from "../../../../features/models/capture/capturer";
 
 
-export class EventsPersistence implements IEventsPersistence{
-  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.EventsPersistence");
-  constructor(){
-    this.logger.log("EventsPersistence created");
+export class TimeSeriesDB {
+
+   private static instance: TimeSeriesDB = new TimeSeriesDB();
+  
+  static saveClosedEvent(closedEvent: IClosedEvent) {
+      TimeSeriesDB.instance.saveClosedEventImpl(closedEvent);
   }
 
-  saveEvent(event: IPersistedEvent): number{
-    throw new Error("Method not implemented.");
+
+
+ 
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.TimeSeriesDB");
+
+  constructor() {
+    this.logger.log("TimeSeriesDB created");
   }
-  updateEvents(events: IPersistedEvent[]): void{
-    throw new Error("Method not implemented.");
+
+  private saveClosedEventImpl(closedEvent: IClosedEvent) {
+    this.logger.debug("saveClosedEventImpl: ", closedEvent);  
   }
-  deleteEvents(eventIds: number[]): void{
-    throw new Error("Method not implemented.");
-  }
-  readRunningEvents(): IPersistedEvent[]{
-    throw new Error("Method not implemented.");
-  }
+
+ 
 }
 
 
