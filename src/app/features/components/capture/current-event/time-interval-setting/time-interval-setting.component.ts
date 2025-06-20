@@ -1,7 +1,8 @@
 import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { TimePointSettingComponent } from '../time-point-setting/time-point-setting.component';
 import { LoggerFactory } from '@vsirotin/log4ts';
-import { Capturer, ITimeIntervalProvider, ITimePoint } from '../../../../models/capture/capturer';
+import { Capturer } from '../../../../models/capture/capturer';
+import { ITimeIntervalProvider, ITimePoint } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 
 @Component({
   selector: 'app-time-interval-setting',

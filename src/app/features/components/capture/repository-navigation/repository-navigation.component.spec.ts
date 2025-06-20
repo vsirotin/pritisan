@@ -11,7 +11,7 @@ import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IMetaDataPersistence, MetaDataPersistence } from "../../../../shared/classes/db/metadata-db";
 import { IRepositoryMetaDataExt } from "../../../models/capture/capture-common-interfaces";
 import { DebugElement } from '@angular/core';
-import { CaptureBusinessLogicModelFactory } from '../../../models/capture/business-logic-model/capture-business-logic-model';
+//import { CaptureBusinessLogicModelFactory } from '../../../models/capture/business-logic-model/capture-business-logic-model';
 
 //TODO: Update tests for the RepositoryNavigationComponent
 // describe('RepositoryNavigationComponent', () => {

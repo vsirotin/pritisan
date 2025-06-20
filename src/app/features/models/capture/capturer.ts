@@ -1,5 +1,5 @@
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
-import { IEventType } from "./business-logic-model/current-event-business-logic-model/event-commons";
+import { IActityTypeProvider, IClosedEvent, IEventType, IEventTypeProvider, ITimeIntervalProvider, ITimePoint } from "./business-logic-model/current-event-business-logic-model/event-commons";
 import { TimeSeriesDB } from "../../../shared/classes/db/time-series-db/time-series-db";
 
 export class Capturer  {
@@ -79,41 +79,6 @@ export class Capturer  {
         };
         TimeSeriesDB.saveClosedEvent(closedEvent);
     }
-
-}
-
-export interface ITimePoint {
-  date: Date;
-  hour: number;
-  minute: number;
-}
-
-export interface IClosedEvent {
-  eventTypeId: number;
-  eventTypeName: string;  
-  startTime: ITimePoint;
-  endTime: ITimePoint;
-  activityTypeId: string;
-  activityTypeName: string;
-}
-
-
-export interface ITimeIntervalProvider {
-    getStartTimePoint(): ITimePoint
-    getEndTimePoint(): ITimePoint
-}
-
-export interface IActivityType {
-    activityTypeId: string
-    activityName: string
-}
-
-export interface IActityTypeProvider {
-    getActivityType() : IActivityType;
-}
-
-
-export interface IEventTypeProvider {
-    getEventType() : IEventType;
+    
 }
 

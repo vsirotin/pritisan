@@ -3,8 +3,8 @@ import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { IEventType } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 
-import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
-import { IAlternativeSelectionUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/workflow-type-setting-ui-model';
+//import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
+//import { IAlternativeSelectionUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/workflow-type-setting-ui-model';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 
 @Component({
@@ -18,7 +18,7 @@ import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 })
 export class PeriodTypeSettingComponent implements OnInit{
 
-  uiModel!:  IAlternativeSelectionUIModel;
+ // uiModel!:  IAlternativeSelectionUIModel;
 
   eventTypes!: IEventType[];
   selectedEventType!: IEventType;
@@ -27,16 +27,16 @@ export class PeriodTypeSettingComponent implements OnInit{
     //this.uiModel = CurrentEventProcessingUIFactory.getBeginningTypeSettingUIModel(this.logger);
   }
   
-  async ngOnInit() {
-    this.uiModel.getAlternatives().then((eventTypes) => {
-      this.logger.debug("WorkflowTypeSelectionComponent.ngOnInit Event types: " + eventTypes);
-      // this.eventTypes = eventTypes;
-      // this.logger.debug("Event types: " + this.eventTypes);
-      // this.selectedEventType = this.eventTypes[0];
-    });
-  }
+   async ngOnInit() {
+  //   this.uiModel.getAlternatives().then((eventTypes) => {
+  //     this.logger.debug("WorkflowTypeSelectionComponent.ngOnInit Event types: " + eventTypes);
+  //     // this.eventTypes = eventTypes;
+  //     // this.logger.debug("Event types: " + this.eventTypes);
+  //     // this.selectedEventType = this.eventTypes[0];
+  //   });
+   }
 
   onSelectionChange(event: MatRadioChange) {
-    this.uiModel.alternativeSelected(event.value);
+ //   this.uiModel.alternativeSelected(event.value);
   }
 }

@@ -37,6 +37,46 @@ export interface IAlternativeList {
   details: string|null;
 }
 
+export interface ITimePoint {
+  date: Date;
+  hour: number;
+  minute: number;
+}
+
+export interface ITimeInterval {
+    startTime: ITimePoint;
+    endTime: ITimePoint;
+}
+
+export interface IClosedEvent extends ITimeInterval {
+  eventTypeId: number;
+  eventTypeName: string;  
+  activityTypeId: string;
+  activityTypeName: string;
+  eventData?: any;
+}
+
+
+export interface ITimeIntervalProvider {
+    getStartTimePoint(): ITimePoint
+    getEndTimePoint(): ITimePoint
+}
+
+export interface IActivityType {
+    activityTypeId: string
+    activityName: string
+}
+
+export interface IActityTypeProvider {
+    getActivityType() : IActivityType;
+}
+
+
+export interface IEventTypeProvider {
+    getEventType() : IEventType;
+}
+
+
 
 
 

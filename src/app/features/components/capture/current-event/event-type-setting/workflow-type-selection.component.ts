@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule} from '@angular/material/expansion';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
-import { IAlternativeList, IEventType } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
+import { IAlternativeList, IEventType, IEventTypeProvider } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 import * as uiItems from '../../../../../../assets/languages/features/components/capture/current-event/workflow-type-selection/lang/1/en-US.json';
 import { ILocalizationClient, ILocalizer, LocalizerFactory } from '@vsirotin/localizer';
 import { CurrentEventProcessingUIModel, IWorkflowTypeSelection } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 import { IEvent } from '../../../../models/capture/capture-common-interfaces';
 import { CurrentEventProcessingBusinessLogicModel } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/current-event-business-logic-model';
-import { Capturer, IEventTypeProvider } from '../../../../models/capture/capturer';
+import { Capturer } from '../../../../models/capture/capturer';
 
 const WF_TYPE_SELECTION_DIR = "assets/languages/features/components/capture/current-event/workflow-type-selection/lang";
 

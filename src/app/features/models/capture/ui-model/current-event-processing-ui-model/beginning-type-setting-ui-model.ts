@@ -1,5 +1,5 @@
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
-import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
+//import { CaptureBusinessLogicModelFactory } from "../../business-logic-model/capture-business-logic-model";
 import { ICurrentEventProcessingBusinessLogicModel } from "../../business-logic-model/current-event-business-logic-model/current-event-business-logic-model";
 import { IEventType, IAlternativeList } from "../../business-logic-model/current-event-business-logic-model/event-commons";
 import { ICurrentEventChangingNotificator, IEventChange } from './current-event-processing-ui-model';

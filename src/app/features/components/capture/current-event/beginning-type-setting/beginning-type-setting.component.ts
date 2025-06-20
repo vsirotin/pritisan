@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
-import { IAlternativeSelectionUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/beginning-type-setting-ui-model';
+//import { IAlternativeSelectionUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/beginning-type-setting-ui-model';
 import { IEventType } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 
@@ -16,7 +16,7 @@ import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 })
 export class BeginningTypeSettingComponent implements OnInit{
 
-  uiModel!:  IAlternativeSelectionUIModel;
+  //uiModel!:  IAlternativeSelectionUIModel;
 
   beginTypes!: IEventType[];
   private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.BeginningTypeSettingComponent");
@@ -26,15 +26,15 @@ export class BeginningTypeSettingComponent implements OnInit{
   }
   
   async ngOnInit() {
-    this.uiModel.getAlternatives().then((beginTypes) => {
-      this.logger.debug("BeginningTypeSettingComponent.ngOnInit Event types: " + beginTypes);
+    // this.uiModel.getAlternatives().then((beginTypes) => {
+    //   this.logger.debug("BeginningTypeSettingComponent.ngOnInit Event types: " + beginTypes);
       // this.beginTypes = beginTypes;
       // this.logger.debug("Event types: " + this.beginTypes);
       // this.selectedEventType = this.beginTypes[0];
-    });
+   // });
   }
 
   onSelectionChange(event: MatRadioChange) {
-    this.uiModel.alternativeSelected(event.value);
+   // this.uiModel.alternativeSelected(event.value);
   }
 }
