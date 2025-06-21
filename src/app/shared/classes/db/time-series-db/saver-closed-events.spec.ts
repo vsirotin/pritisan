@@ -10,6 +10,16 @@ describe('SaverClosedEvent', () => {
     spyOn(localStorage, 'getItem').and.callFake(() => null);
   });
 
+   afterEach(() => {
+    // Remove all localStorage keys that start with "2025-01" directly
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('2025-01')) {
+        localStorage.removeItem(key);
+      }
+    }
+  });
+
   it('should throw error if startTime > endTime', () => {
     const event: IClosedEvent = {
       startTime: { date: new Date('2025-01-03'), hour: 10, minute: 0 },
