@@ -48,7 +48,7 @@ export interface ITimeInterval {
     endTime: ITimePoint;
 }
 
-export interface IClosedEvent extends ITimeInterval {
+export interface IEventBody {
   eventTypeId: number;
   eventTypeName: string;  
   activityTypeId: string;
@@ -56,6 +56,32 @@ export interface IClosedEvent extends ITimeInterval {
   eventData?: any;
 }
 
+export interface IClosedEvent extends ITimeInterval, IEventBody {
+}
+
+export interface IRunningEvent extends IEventBody {
+    startTime: ITimePoint;
+}
+
+export interface ITimePointEvent extends IEventBody {
+    eventTimePoint: ITimePoint;
+}
+
+export interface IEventTimeDetailsProvider {
+    /**
+     * Returns true if the event is running, false otherwise.
+     * This is used to determine if the event is currently active or not.
+     * @returns {boolean} - true if the event is running, false otherwise.
+     */
+    getIsRunningEvent(): boolean;
+
+    /**
+     * Returns true if the event is a time point event, false otherwise.
+     * This is used to determine if the event is a single point in time or a time interval.
+     * @returns {boolean} - true if the event is a time point event, false otherwise.
+     */
+    getIsTimePointEvent(): boolean;
+}
 
 export interface ITimeIntervalProvider {
     getStartTimePoint(): ITimePoint

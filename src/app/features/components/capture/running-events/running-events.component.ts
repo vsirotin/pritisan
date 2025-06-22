@@ -13,14 +13,14 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 import { MatSort, Sort, MatSortModule}  from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { IRunningEvent, IRunningEventsUIModel, RunningEventsUIModel } from '../../../models/capture/ui-model/running-events-ui-model';
+import { IRunningEventPresentation, IRunningEventsUIModel, RunningEventsUIModel } from '../../../models/capture/ui-model/running-events-ui-model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IPersistedRunningEvents, RunningEventsPersistence } from '../../../../shared/classes/db/running-events-db';
 
 
 
-const ELEMENT_DATA: IRunningEvent[] = [];
+const ELEMENT_DATA: IRunningEventPresentation[] = [];
 
 @Component({
   selector: 'app-running-events',
@@ -48,12 +48,12 @@ export class RunningEventsComponent implements  AfterViewInit {
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   uiModel! : IRunningEventsUIModel;
 
-  selection = new SelectionModel<IRunningEvent>(true, []);
+  selection = new SelectionModel<IRunningEventPresentation>(true, []);
   private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.RunningEventsComponent");
   
   //TODO: Temporary solution. It should be replaced by real data from DB. 
   
-  events: IRunningEvent[] = [
+  events: IRunningEventPresentation[] = [
         { id: 11, duration: "22", start: "21", description: "aaa" }
         // { id: 12, start: this.getTimeBeforeNow(0, 12, 34), fin: null, typeId: "2", details: "b" },
         // { id: 13, start: this.getTimeBeforeNow(2, 4, 44), fin: null, typeId: "3", details: "c" },
@@ -129,7 +129,7 @@ export class RunningEventsComponent implements  AfterViewInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: IRunningEvent): string {
+  checkboxLabel(row?: IRunningEventPresentation): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }

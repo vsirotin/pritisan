@@ -55,10 +55,6 @@ export const MY_FORMATS = {
 })
 export class TimePointSettingComponent {
 
-  label = 'Start time';
-
-  //date = new FormControl(new Date());
-
   form = new FormGroup({
     date: new FormControl(new Date()),
   });
@@ -67,8 +63,8 @@ export class TimePointSettingComponent {
 
   hours = Array.from({length: 24}, (_, i) => i); // [0, 1, 2, ..., 23]
   minutes = Array.from({length: 60}, (_, i) => i); // [0, 1, 2, ..., 59]
-  selectedHour = this.hours[2];
-  selectedMinute = this.minutes[6];
+  selectedHour = this.hours[2]; //TODO: make it configurable
+  selectedMinute = this.minutes[6]; //TODO: make it configurable
 
 
   constructor() {

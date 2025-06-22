@@ -1,8 +1,8 @@
 
 import { Data } from "@angular/router";
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
-import { IClosedEvent } from "../../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
-import { SaverClosedEvent } from "./saver-closed-events";
+import { IClosedEvent, IRunningEvent, ITimePointEvent } from "../../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
+import { EventsSaver } from "./events-saver";
 
 
 
@@ -11,24 +11,20 @@ export class TimeSeriesDB {
   private static instance: TimeSeriesDB = new TimeSeriesDB();
   
   static saveClosedEvent(closedEvent: IClosedEvent) {
-      TimeSeriesDB.instance.saveClosedEventImpl(closedEvent);
+      TimeSeriesDB.eventsSaver.saveClosedEvent(closedEvent);
   }
 
-
-
- 
-  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.TimeSeriesDB");
-
-  private saverClosedEvents = new SaverClosedEvent();
-
-  constructor() {
-    this.logger.log("TimeSeriesDB created");
+  static saveTimePointEvent(timePointEvent: ITimePointEvent) {
+      TimeSeriesDB.eventsSaver.saveTimePointEvent(timePointEvent);
+  }
+  
+  static saveRunningEvent(runningEvent: IRunningEvent) {
+     TimeSeriesDB.eventsSaver.saveRunningEvent(runningEvent);
   }
 
-  private saveClosedEventImpl(closedEvent: IClosedEvent) {
-    this.logger.debug("saveClosedEventImpl: ", closedEvent);  
-    this.saverClosedEvents.saveClosedEventImpi(closedEvent)
-  }
+  private static eventsSaver = new EventsSaver();
+
+
 
  
 }

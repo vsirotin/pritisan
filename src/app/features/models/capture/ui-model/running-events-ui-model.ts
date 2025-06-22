@@ -5,7 +5,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 //import { CaptureBusinessLogicModelFactory } from '../business-logic-model/capture-business-logic-model';
 
 
-export interface IRunningEvent {
+export interface IRunningEventPresentation {
     id: number
     duration: string;
     start: string;
@@ -14,7 +14,7 @@ export interface IRunningEvent {
 
 interface IRunningEventsUIInputModel {
 
-    runningEventsPresentationChanged$: Observable<IRunningEvent[]>;
+    runningEventsPresentationChanged$: Observable<IRunningEventPresentation[]>;
 
 }
 
@@ -23,26 +23,26 @@ export interface IRunningEventsUIModel extends IRunningEventsUIInputModel {
     // setBusinessLogicModel(runningEventsBusinessLogicModel: IRunningEventsBusinessLogicModel): void;
     // completeEventsWithIds(eventIDs: number[]): void;
     // deleteEventsWithIds(eventIDs: number[]): void;
-    currentEventChanged$: Observable<IRunningEvent>;
+    currentEventChanged$: Observable<IRunningEventPresentation>;
 }
 
 
  export class RunningEventsUIModel implements IRunningEventsUIModel{
 
-     runningEventsPresentationChanged$!: Observable<IRunningEvent[]>;
-     currentEventChanged$!: Observable<IRunningEvent>;
+     runningEventsPresentationChanged$!: Observable<IRunningEventPresentation[]>;
+     currentEventChanged$!: Observable<IRunningEventPresentation>;
 
 // //    private runningEvents!: IEvent[];
 
 //     private runningEventsBusinessLogicModel!: IRunningEventsBusinessLogicModel;
 
-     private subjectRunningEvents = new Subject<IRunningEvent[]>();
+     private subjectRunningEvents = new Subject<IRunningEventPresentation[]>();
 
 //     private subscriptionRunningEvents$!: Subscription
 
 //     private intervalId! : any;
 
-     private subjectCurrentEvent = new Subject<IRunningEvent>();
+     private subjectCurrentEvent = new Subject<IRunningEventPresentation>();
 
      private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.RunningEventsUIModel");
 

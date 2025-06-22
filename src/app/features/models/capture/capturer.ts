@@ -1,5 +1,5 @@
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
-import { IActityTypeProvider, IClosedEvent, IEventType, IEventTypeProvider, ITimeIntervalProvider, ITimePoint } from "./business-logic-model/current-event-business-logic-model/event-commons";
+import { IActityTypeProvider, IClosedEvent, IEventTimeDetailsProvider, IEventType, IEventTypeProvider, IRunningEvent, ITimeIntervalProvider, ITimePoint, ITimePointEvent } from "./business-logic-model/current-event-business-logic-model/event-commons";
 import { TimeSeriesDB } from "../../../shared/classes/db/time-series-db/time-series-db";
 
 export class Capturer  {
@@ -16,6 +16,11 @@ export class Capturer  {
         Capturer.instance.timeIntervalProvider = provider;
     }
 
+    static setEventTimeDetailsProvider(provider: IEventTimeDetailsProvider): void {
+        Capturer.instance.eventTimeDetailsProvider = provider;
+    }
+
+
     static setActivityTypeProvider(provider: IActityTypeProvider): void {
         Capturer.instance.activitTypeProvider = provider;
     }
@@ -25,6 +30,7 @@ export class Capturer  {
     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.Capturer");
     
     private eventTypeProvider!: IEventTypeProvider;
+    private eventTimeDetailsProvider!: IEventTimeDetailsProvider;
     private timeIntervalProvider!: ITimeIntervalProvider;
     private activitTypeProvider!: IActityTypeProvider;
 
@@ -53,21 +59,54 @@ export class Capturer  {
         const eventTypeId = eventType.id;
         const eventTypeName = eventType.name;
         
+        const isTimePoitnEvent = this.eventTimeDetailsProvider.getIsTimePointEvent();
 
+        if (isTimePoitnEvent) {
+            this.saveTimePointEvent(eventTypeId, eventTypeName);
+            return
+        } 
+
+
+        const isRunningEvent = this.eventTimeDetailsProvider.getIsRunningEvent();
+
+        if(isRunningEvent){
+             this.saveRunningEvent(eventTypeId, eventTypeName);
+             return;
+        } 
+        
+        this.saveClosedEvent(eventTypeId, eventTypeName);
+    }
+    saveRunningEvent(eventTypeId: number, eventTypeName: string) {
+        const runningEvent: IRunningEvent = {
+            eventTypeId: eventTypeId,
+            eventTypeName: eventTypeName,
+            startTime: this.timeIntervalProvider.getStartTimePoint(),
+            activityTypeId: this.activitTypeProvider.getActivityType().activityTypeId,
+            activityTypeName: this.activitTypeProvider.getActivityType().activityName
+        };
+        this.logger.debug("saveRunningEvent: ", runningEvent);
+        TimeSeriesDB.saveRunningEvent(runningEvent);
+    }
+    
+    saveTimePointEvent(eventTypeId: number, eventTypeName: string) {
+        const timePointEvent : ITimePointEvent = {
+            eventTypeId: eventTypeId,
+            eventTypeName: eventTypeName,
+            eventTimePoint: this.timeIntervalProvider.getStartTimePoint(),
+            activityTypeId: this.activitTypeProvider.getActivityType().activityTypeId,
+            activityTypeName: this.activitTypeProvider.getActivityType().activityName
+        };
+        this.logger.debug("saveTimePointEvent: ", timePointEvent);
+        TimeSeriesDB.saveTimePointEvent(timePointEvent);
+    }
+
+    private saveClosedEvent(eventTypeId: number, eventTypeName: string) {
         const activityType = this.activitTypeProvider.getActivityType();
         const activityTypeId = activityType.activityTypeId;
         const activityTypeName = activityType.activityName;
 
         const startTimePoint = this.timeIntervalProvider.getStartTimePoint();
-        const endTimePoint = this.timeIntervalProvider.getEndTimePoint();
-
-        if(endTimePoint){
-             this.saveClosedEvent(eventTypeId, eventTypeName, startTimePoint, endTimePoint, activityTypeId, activityTypeName);
-        }       
-    }
-
-    private saveClosedEvent(eventTypeId: number, eventTypeName: string, startTimePoint: ITimePoint, endTimePoint: ITimePoint, activityTypeId: string, activityTypeName: string) {
-        this.logger.debug("processClosedEvent: ", eventTypeId, eventTypeName, startTimePoint, endTimePoint, activityTypeId, activityTypeName);
+         const endTimePoint = this.timeIntervalProvider.getEndTimePoint();
         
         const closedEvent: IClosedEvent = {
             eventTypeId: eventTypeId,
@@ -77,6 +116,7 @@ export class Capturer  {
             activityTypeId: activityTypeId,
             activityTypeName: activityTypeName
         };
+        this.logger.debug("saveClosedEvent: ", closedEvent);
         TimeSeriesDB.saveClosedEvent(closedEvent);
     }
     

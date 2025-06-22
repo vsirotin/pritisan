@@ -1,3 +1,9 @@
 <h2>Interval event, occurred and finished in the past TODO Localization</h2> 
+
+<h3>{{labelStartTime}}</h3> 
 <app-time-point-setting #startTime></app-time-point-setting>
+<mat-slide-toggle labelPosition="before" [(ngModel)]="isTimePointEvent">{{labelTimePointEvent}}</mat-slide-toggle>
+<p></p>
+<mat-slide-toggle labelPosition="before" [(ngModel)]="isRunningEvent">{{labeToggleRunninigEvent}}</mat-slide-toggle>
+<h3>{{labeFinishTime}}</h3> 
 <app-time-point-setting #endTime></app-time-point-setting>
