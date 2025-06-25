@@ -5,8 +5,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
-
 import {provideMomentDateAdapter} from '@angular/material-moment-adapter'
+
+// This component allows the user to set a time point, which consists of a date, hour, and minute.
+// this cmponent follows special structure convention because it don't communicate with the controller.
+
+//--- Start of special section that needed because technical specialities of Moment.js and rollup ---
 
 // Depending on whether rollup is used, moment needs to be imported differently.
 // Since Moment.js doesn't have a default export, we normally need to import using the `* as`
@@ -22,6 +26,8 @@ const moment = _rollupMoment || _moment;
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
+
+// -- End of special section that needed because technical specialities of Moment.js and rollup ---
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -55,11 +61,13 @@ export const MY_FORMATS = {
 })
 export class TimePointSettingComponent {
 
+  //-- Objects and values presented in UI ---
+  // The form group that contains the date control
+  // It is used to manage the state of the date input field.
+  // The date control is initialized with the current date.
   form = new FormGroup({
     date: new FormControl(new Date()),
   });
-
-
 
   hours = Array.from({length: 24}, (_, i) => i); // [0, 1, 2, ..., 23]
   minutes = Array.from({length: 60}, (_, i) => i); // [0, 1, 2, ..., 59]
@@ -73,6 +81,8 @@ export class TimePointSettingComponent {
     });
   }
 
+  // This method will be called by parent object to get the time point
+  // It returns an object of type ITimePoint which contains the date, hour, and
   getTimePoint() : ITimePoint {
     return { 
       date:  this.form.get('date')?.value as Date, 
