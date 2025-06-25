@@ -15,7 +15,7 @@ import {provideMomentDateAdapter} from '@angular/material-moment-adapter'
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import {default as _rollupMoment} from 'moment';
-import { ITimePoint } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
+import { ITimePoint } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 
 
 const moment = _rollupMoment || _moment;

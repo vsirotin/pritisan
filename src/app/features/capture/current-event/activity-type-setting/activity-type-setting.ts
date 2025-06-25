@@ -5,11 +5,11 @@ import {ChangeDetectionStrategy, Component, OnDestroy, ViewChild} from '@angular
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { ILocalizationClient, LocalizerFactory } from '@vsirotin/localizer';
-import * as uiItems from '../../../../../../assets/languages/masterdata/lang/1/en-US.json';
-import { CurrentEventProcessingUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
-import { CurrentEventProcessingBusinessLogicModel } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/current-event-business-logic-model';
-import { Capturer } from '../../../../models/capture/capturer';
-import { IActityTypeProvider, IActivityType } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
+import * as uiItems from '../../../../../assets/languages/masterdata/lang/1/en-US.json';
+import { CurrentEventProcessingUIModel } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
+import { CurrentEventProcessingBusinessLogicModel } from '../../../models/capture/business-logic-model/current-event-business-logic-model/current-event-business-logic-model';
+import { CaptureController } from '../../controller/capture-controller';
+import { IActityTypeProvider, IActivityType } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 
 const MY_DIR = "assets/languages/masterdata/lang";
 
@@ -55,7 +55,7 @@ export class ActivityTypeSettingComponent  implements  OnDestroy,
 
   ngAfterViewInit() {
     this.logger.debug("ngAfterViewInit");
-    Capturer.setActivityTypeProvider(this);
+    CaptureController.setActivityTypeProvider(this);
   }
 
 

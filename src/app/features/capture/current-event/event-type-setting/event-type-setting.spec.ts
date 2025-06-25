@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { WorkflowTypeSelectionComponent } from './workflow-type-selection.component';
+import { WorkflowTypeSelectionComponent } from './event-type-setting';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 xdescribe('ActivitySelectionComponent', () => {

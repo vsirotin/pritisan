@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule} from '@angular/material/expansion';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
-import { IAlternativeList, IEventType, IEventTypeProvider } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
-import * as uiItems from '../../../../../../assets/languages/features/components/capture/current-event/workflow-type-selection/lang/1/en-US.json';
+import { IAlternativeList, IEventType, IEventTypeProvider } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
+import * as uiItems from '../../../../../assets/languages/features/components/capture/current-event/workflow-type-selection/lang/1/en-US.json';
 import { ILocalizationClient, ILocalizer, LocalizerFactory } from '@vsirotin/localizer';
-import { CurrentEventProcessingUIModel, IWorkflowTypeSelection } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
-import { IEvent } from '../../../../models/capture/capture-common-interfaces';
-import { CurrentEventProcessingBusinessLogicModel } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/current-event-business-logic-model';
-import { Capturer } from '../../../../models/capture/capturer';
+import { CurrentEventProcessingUIModel, IWorkflowTypeSelection } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
+import { IEvent } from '../../../models/capture/capture-common-interfaces';
+import { CurrentEventProcessingBusinessLogicModel } from '../../../models/capture/business-logic-model/current-event-business-logic-model/current-event-business-logic-model';
+import { CaptureController, IEventTypeUpdateReceiver } from '../../controller/capture-controller';
 
 const WF_TYPE_SELECTION_DIR = "assets/languages/features/components/capture/current-event/workflow-type-selection/lang";
 
@@ -43,12 +43,16 @@ export class WorkflowTypeSelectionComponent  implements
 
   alternatives: IEventType[];      
 
-  private readonly workflow: IWorkflowTypeSelection = CurrentEventProcessingUIModel.getInstance();
+  //private readonly workflow: IWorkflowTypeSelection = CurrentEventProcessingUIModel.getInstance();
+
+  private userActivityReceiver: IEventTypeUpdateReceiver;
 
   constructor() { 
    this.logger.debug("In constructor alternativeList: " + JSON.stringify(this.ui));
 
     this.localizer  =  LocalizerFactory.createLocalizer<IAlternativeList>(WF_TYPE_SELECTION_DIR, 1, this.ui, this);
+
+    this.userActivityReceiver = CaptureController.getEventTypeUpdateReceiver();
     
       this.title = this.ui.groupLabel;
       this.alternatives = this.ui.alternatives;
@@ -58,7 +62,7 @@ export class WorkflowTypeSelectionComponent  implements
         this.nameSelectedAlternative = this.selectedAlternative.name;
       }
 
-      Capturer.setEventTypeProvider(this);
+      CaptureController.setEventTypeProvider(this);
   }
   
   getEventType(): IEventType {
@@ -70,7 +74,8 @@ export class WorkflowTypeSelectionComponent  implements
     this.isExpanded = false; // collapse the panel after a selection is made
     
 //    CurrentEventProcessingBusinessLogicModel.getCurrentEvent().setWorkflowType(event.value.id);
-    this.workflow.workflowTypeSelected(event.value); //TODO
+//    this.workflow.workflowTypeSelected(event.value); //TODO
+    this.userActivityReceiver.eventTypeUpdated(event.value); // Notify the controller about the change
  //TODO   this.selectionProcessor.alternativeSelected(event.value);
     const id = event.value.id;
     const index = this.alternatives.findIndex(a => a.id == id);
@@ -80,12 +85,20 @@ export class WorkflowTypeSelectionComponent  implements
       }
   }
 
-   updateLocalization(data: IAlternativeList): void {
+  // --- Implementation of interfaces ---
+  //Implememntation of Interface ILOcalizationClient<IAlternativeList>
+
+  updateLocalization(data: IAlternativeList): void {
     this.logger.debug("Start of updateLocalization data=" + JSON.stringify(data));
     this.ui = data;
   }
 
 
+  // This method is called when the component is destroyed
+  // It is used to clean up resources and unsubscribe from observables
+  // It is important to avoid memory leaks in Angular applications
+  // It is called automatically by Angular when the component is destroyed
+  // It is not called manually 
   ngOnDestroy() {
     this.logger.debug("Start of ngDestroy");
     this.localizer.dispose();

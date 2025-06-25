@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {CaptureComponent} from '../../../features/components/capture/capture.component'
+import {CaptureComponent} from '../../../features/capture/capture.component'
 import {EditComponent} from '../../../features/components/edit/edit.component'
 import {ImportExportComponent} from '../../../features/components/import-export/import-export.component'
 import {SettingsComponent} from '../../../features/components/settings/settings.component'

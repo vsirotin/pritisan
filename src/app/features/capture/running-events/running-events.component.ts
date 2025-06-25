@@ -13,10 +13,10 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 import { MatSort, Sort, MatSortModule}  from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { IRunningEventPresentation, IRunningEventsUIModel, RunningEventsUIModel } from '../../../models/capture/ui-model/running-events-ui-model';
+import { IRunningEventPresentation, IRunningEventsUIModel, RunningEventsUIModel } from '../../models/capture/ui-model/running-events-ui-model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
-import { IPersistedRunningEvents, RunningEventsPersistence } from '../../../../shared/classes/db/running-events-db';
+import { IPersistedRunningEvents, RunningEventsPersistence } from '../../../shared/classes/db/running-events-db';
 
 
 

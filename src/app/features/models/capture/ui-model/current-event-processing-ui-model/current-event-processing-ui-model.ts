@@ -49,24 +49,24 @@ export interface ICurrentEventProcessingUIModel extends  IWorkflowTypeSelection 
 
 
 
+//TODO NOT USED
+export class CurrentEventProcessingUIModel { //implements ICurrentEventProcessingUIModel{
 
-export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIModel{
 
+  //  private static instance:  ICurrentEventProcessingUIModel = new CurrentEventProcessingUIModel();
 
-    private static instance:  ICurrentEventProcessingUIModel = new CurrentEventProcessingUIModel();
-
-    static getInstance(): ICurrentEventProcessingUIModel {
-        return this.instance;
-    }
+    // static getInstance(): ICurrentEventProcessingUIModel {
+    //     return this.instance;
+    // }
 
     // timeSettingUIModel!: TimeSettingUIModel;
     //parametersSettingUIModel!: ParametersSettingUIModel;
 
-    private eventDescriprionSubject = new Subject<IEventChange>();
-    eventDescriptionChange$: Observable<IEventChange> = this.eventDescriprionSubject.asObservable();
+    // private eventDescriprionSubject = new Subject<IEventChange>();
+    // eventDescriptionChange$: Observable<IEventChange> = this.eventDescriprionSubject.asObservable();
 
-    private stateChangeSubject = new Subject<string>();
-    stateChange$: Observable<string> = this.stateChangeSubject.asObservable();
+    // private stateChangeSubject = new Subject<string>();
+    // stateChange$: Observable<string> = this.stateChangeSubject.asObservable();
  
 
     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventProcessingUIModel"); 
@@ -89,7 +89,7 @@ export class CurrentEventProcessingUIModel implements ICurrentEventProcessingUIM
                 break;    
 
         }
-        this.stateChangeSubject.next(newState); 
+//       this.stateChangeSubject.next(newState); 
     }
     
 

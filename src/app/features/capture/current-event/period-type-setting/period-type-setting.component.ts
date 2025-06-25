@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
-import { IEventType } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
+import { IEventType } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 
 //import { CurrentEventProcessingUIFactory } from '../../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-factory';
 //import { IAlternativeSelectionUIModel } from '../../../../models/capture/ui-model/current-event-processing-ui-model/workflow-type-setting-ui-model';

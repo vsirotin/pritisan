@@ -1,31 +1,91 @@
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
-import { IActityTypeProvider, IClosedEvent, IEventTimeDetailsProvider, IEventType, IEventTypeProvider, IRunningEvent, ITimeIntervalProvider, ITimePoint, ITimePointEvent } from "./business-logic-model/current-event-business-logic-model/event-commons";
+import { IActityTypeProvider, IClosedEvent, IEventTimeDetailsProvider, IEventType, IEventTypeProvider, IRunningEvent, ITimeIntervalProvider, ITimePoint, ITimePointEvent } from "../../models/capture/business-logic-model/current-event-business-logic-model/event-commons";
 import { TimeSeriesDB } from "../../../shared/classes/db/time-series-db/time-series-db";
+import { Observable, Subject } from "rxjs";
 
-export class Capturer  {
+export interface ICurrentEventController {
+    getCurrentEventDataGetter(): ICurrentEventDataGetter;
+}
+
+export interface ICurreentEventDataSetter{}
+
+export interface ICurrentEventDataGetter {
+    stateChange$: Observable<string>;
+}
+
+export interface IEventTypeUpdateReceiver {
+    eventTypeUpdated(eventType: IEventType): void;
+}
+
+export class CurrentEventController implements ICurrentEventController, ICurrentEventDataGetter, IEventTypeUpdateReceiver {
+   
+    logger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventController");
+
+    private stateChangeSubject = new Subject<string>();
+    stateChange$: Observable<string> = this.stateChangeSubject.asObservable();
+
+    constructor( ) {
+        this.logger.debug("CurrentEventController created");
+    }
+
+
+    getCurrentEventDataGetter(): ICurrentEventDataGetter {
+        return this;
+    }
+
+    eventTypeUpdated(eventType: IEventType): void {
+        let newState = "workflow-event-processing";
+        switch (eventType.id) {
+            case 2:
+                newState = "workflow-ressource-processing";
+                break;
+            case 3:
+                newState = "workflow-observation-processing";
+                break;    
+
+        }
+        this.stateChangeSubject.next(newState); 
+    }
+
+}
+
+export class CaptureController   {
+
+    private static readonly currentEventController = new CurrentEventController();
+   
+
+    private static ICurrentEventController: ICurrentEventController;   
+    
+    static getCurrentEventController(): ICurrentEventController {
+        return CaptureController.currentEventController;
+    }
+
+    static getEventTypeUpdateReceiver(): IEventTypeUpdateReceiver {
+      return CaptureController.currentEventController;
+    }
     
     static saveCurrentEvent() {
-      Capturer.instance.saveCurrentEvent();
+      CaptureController.instance.saveCurrentEvent();
     }
 
     static setEventTypeProvider(provider: IEventTypeProvider): void {
-        Capturer.instance.eventTypeProvider = provider;
+        CaptureController.instance.eventTypeProvider = provider;
     }
 
     static setTimeIntervalProvider(provider: ITimeIntervalProvider): void {
-        Capturer.instance.timeIntervalProvider = provider;
+        CaptureController.instance.timeIntervalProvider = provider;
     }
 
     static setEventTimeDetailsProvider(provider: IEventTimeDetailsProvider): void {
-        Capturer.instance.eventTimeDetailsProvider = provider;
+        CaptureController.instance.eventTimeDetailsProvider = provider;
     }
 
 
     static setActivityTypeProvider(provider: IActityTypeProvider): void {
-        Capturer.instance.activitTypeProvider = provider;
+        CaptureController.instance.activitTypeProvider = provider;
     }
 
-    private static instance: Capturer = new Capturer();
+    private static instance: CaptureController = new CaptureController();
 
     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.Capturer");
     
@@ -33,6 +93,8 @@ export class Capturer  {
     private eventTimeDetailsProvider!: IEventTimeDetailsProvider;
     private timeIntervalProvider!: ITimeIntervalProvider;
     private activitTypeProvider!: IActityTypeProvider;
+
+    
 
 
 

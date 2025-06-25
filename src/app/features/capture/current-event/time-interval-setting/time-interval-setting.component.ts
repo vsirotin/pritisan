@@ -3,8 +3,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { TimePointSettingComponent } from '../time-point-setting/time-point-setting.component';
 import { LoggerFactory } from '@vsirotin/log4ts';
-import { Capturer } from '../../../../models/capture/capturer';
-import { IEventTimeDetailsProvider, ITimeIntervalProvider, ITimePoint } from '../../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
+import { CaptureController } from '../../controller/capture-controller';
+import { IEventTimeDetailsProvider, ITimeIntervalProvider, ITimePoint } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 
 @Component({
   selector: 'app-time-interval-setting',
@@ -48,8 +48,8 @@ export class TimeIntervalSettingComponent implements ITimeIntervalProvider, IEve
   }
 
   ngAfterViewInit() {
-    Capturer.setTimeIntervalProvider(this);
-    Capturer.setEventTimeDetailsProvider(this);
+    CaptureController.setTimeIntervalProvider(this);
+    CaptureController.setEventTimeDetailsProvider(this);
   }
 }
 
