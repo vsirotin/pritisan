@@ -8,6 +8,8 @@ import { ILocalizationClient, LocalizerFactory } from '@vsirotin/localizer';
 import * as uiItems from '../../../../../assets/languages/masterdata/lang/1/en-US.json';
 import { CaptureController, IUpdateActityTypeReceiver } from '../../controller/capture-controller';
 import { IActityTypeProvider, IActivityType } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { CommonModule } from '@angular/common';
 
 // Interface for nested ontology of activity types
 interface INestedOntologyNode {
@@ -28,7 +30,11 @@ const ACTIVITY_TYPES_LANG_DIR = "assets/languages/masterdata/lang";
   selector: 'app-event-type-setting',
   standalone: true,
   imports: [
-     CdkTreeModule, MatButtonModule, MatIconModule
+    CommonModule,
+     CdkTreeModule, 
+     MatButtonModule, 
+     MatIconModule,
+     MatExpansionModule
   ],
    changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './activity-type-setting.html',
@@ -41,16 +47,26 @@ export class ActivityTypeSettingComponent  implements  IActityTypeProvider, ILoc
   // --- Variables presented in UI ---
   @ViewChild(CdkTree)
 
-  ui: INestedOntologyNode[] = (uiItems as any).default;
-    tree!: CdkTree<INestedOntologyNode>;
+  isExpanded: boolean = true; // Controls the expansion state of the tree
+  title: string = "Activity Type: TODO"; // Title of the component
+  nameSelectedAlternative: string = ""; // Name of the selected activity type
 
+  // The tree structure representing the activity types
+  ui: INestedOntologyNode[] = (uiItems as any).default;
+  tree!: CdkTree<INestedOntologyNode>;
+
+  // The accessor functions for the tree structure
   childrenAccessor = (dataNode: INestedOntologyNode) => dataNode.children ?? [];
 
+  // The data source for the tree structure
   dataSource = new ArrayDataSource(this.ui);
 
+  // Function to check if a node has children
   hasChild = (_: number, node: INestedOntologyNode) => !!node.children?.length;
-  selectedEventTypeId: string = "";
-  selectedEventTypeName: string = "";
+  
+  // Selected activity type ID and name
+  selectedActivityTypeId: string = "";
+  selectedActivityTypeName: string = "";
 
   //--- Common services ---
   private localizer  =  LocalizerFactory.createLocalizer<INestedOntologyNode[]>(ACTIVITY_TYPES_LANG_DIR, 1, this.ui, this);
@@ -73,9 +89,17 @@ export class ActivityTypeSettingComponent  implements  IActityTypeProvider, ILoc
   // It updates the selected activity type .
   onNodeClick(node: any) {
     this.logger.debug("onNodeClick node: " + JSON.stringify(node));
-    this.selectedEventTypeId = node.id as string;
-    this. selectedEventTypeName = node.name as string;
+    this.selectedActivityTypeId = node.id as string;
+    this. selectedActivityTypeName = node.name as string;
+    this.isExpanded = false; // collapse the panel after a selection is made
   }
+
+  // -- UI-relevant functions 
+
+  isSelected(node: INestedOntologyNode): boolean {
+    return this.selectedActivityTypeId === node.id;
+  }
+
 
   //-- Implemention of interfaces for providing selected activity type to the controller ---
 
@@ -84,7 +108,7 @@ export class ActivityTypeSettingComponent  implements  IActityTypeProvider, ILoc
   // This method is called to get the currently selected activity type.
   // It returns an object containing the selected activity type ID and name.
   getActivityType(): IActivityType {
-    return {activityTypeId: this.selectedEventTypeId, activityName: this.selectedEventTypeName};
+    return {activityTypeId: this.selectedActivityTypeId, activityName: this.selectedActivityTypeName};
   }
 
   // Implementation of ILocalizationClient interface

@@ -1,28 +1,42 @@
-Activity Type TODO Localization
-<cdk-tree #tree [dataSource]="dataSource" [childrenAccessor]="childrenAccessor">
-  <!-- This is the tree node template for leaf nodes -->
-  <cdk-tree-node *cdkTreeNodeDef="let node" cdkTreeNodePadding
-                [style.display]='"flex"'
-                 [isDisabled]="false"
-                 class="ontology-tree-node"
-                 (click)="onNodeClick(node)">
-    <!-- use a disabled button to provide padding for tree leaf -->
-    <button mat-icon-button disabled></button>
-    {{node.name}}
-  </cdk-tree-node>
-  <!-- This is the tree node template for expandable nodes -->
-  <cdk-tree-node *cdkTreeNodeDef="let node; when: hasChild" cdkTreeNodePadding
-                 cdkTreeNodeToggle
-                 [cdkTreeNodeTypeaheadLabel]="node.name"
-                 [style.display]='"flex"'
-                 [isDisabled]="false"
-                 [isExpandable]="true"
-                 class="ontology-tree-node">
-    <button mat-icon-button cdkTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
-      <mat-icon class="mat-icon-rtl-mirror">
-        {{tree.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-      </mat-icon>
-    </button>
-    {{node.name}}
-  </cdk-tree-node>
-</cdk-tree>
+<div class="content-container">
+  <mat-expansion-panel [expanded]="isExpanded">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{title}}
+        </mat-panel-title>
+        <mat-panel-description>
+          <span width = "5px"></span>
+          {{selectedActivityTypeName}}      
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <cdk-tree #tree [dataSource]="dataSource" [childrenAccessor]="childrenAccessor">
+        <!-- This is the tree node template for leaf nodes -->
+        <cdk-tree-node *cdkTreeNodeDef="let node" cdkTreeNodePadding
+                      [style.display]='"flex"'
+                      [isDisabled]="false"
+                      class="ontology-tree-node"
+                      (click)="onNodeClick(node)">
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+          <span [ngStyle]="{'font-weight': isSelected(node) ? 'bold' : 'normal'}">
+            {{node.name}}
+          </span>
+        </cdk-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <cdk-tree-node *cdkTreeNodeDef="let node; when: hasChild" cdkTreeNodePadding
+                      cdkTreeNodeToggle
+                      [cdkTreeNodeTypeaheadLabel]="node.name"
+                      [style.display]='"flex"'
+                      [isDisabled]="false"
+                      [isExpandable]="true"
+                      class="ontology-tree-node">
+          <button mat-icon-button cdkTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{tree.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          {{node.name}}
+        </cdk-tree-node>
+      </cdk-tree>
+  </mat-expansion-panel>
+ </div> 

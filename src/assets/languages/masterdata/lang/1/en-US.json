@@ -1,19 +1,19 @@
 [
             {
-                "name": "Sleep", "id": "123",
+                "name": "Sleep", "id": "100",
                 "children": [
-                    { "name": "Preparing for sleep", "id": "123" }, 
-                    { "name": "Drowsiness", "id": "123"}, 
-                    { "name": "Deep sleep", "id": "123"},
-                    { "name": "Woke up briefly", "id": "123"},
-                    { "name": "Woke up and couldn't fall back asleep for a long time", "id": "233" }
+                    { "name": "Preparing for sleep", "id": "101" }, 
+                    { "name": "Drowsiness", "id": "102"}, 
+                    { "name": "Deep sleep", "id": "103"},
+                    { "name": "Woke up briefly", "id": "104"},
+                    { "name": "Woke up and couldn't fall back asleep for a long time", "id": "105" }
                 ]
             },
             {
-                "name": "Rest", "id": "123",
+                "name": "Rest", "id": "2000",
                 "children": [
                     {
-                        "name": "Sport", "id": "233",
+                        "name": "Sport", "id": "2100",
                         "children": [
                             { "name": "Jogging", "id": "233" }, 
                             { "name": "Cycling", "id": "233" },
