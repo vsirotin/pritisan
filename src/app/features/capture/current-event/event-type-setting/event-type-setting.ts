@@ -5,14 +5,18 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule} from '@angular/material/expansion';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IAlternativeList, IEventType, IEventTypeProvider } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
-import * as uiItems from '../../../../../assets/languages/features/components/capture/current-event/workflow-type-selection/lang/1/en-US.json';
+import * as uiItems from '../../../../../assets/languages/features/capture/current-event/event-type-setting/lang/1/en-US.json';
 import { ILocalizationClient, ILocalizer, LocalizerFactory } from '@vsirotin/localizer';
-import { CurrentEventProcessingUIModel, IWorkflowTypeSelection } from '../../../models/capture/ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
-import { IEvent } from '../../../models/capture/capture-common-interfaces';
-import { CurrentEventProcessingBusinessLogicModel } from '../../../models/capture/business-logic-model/current-event-business-logic-model/current-event-business-logic-model';
 import { CaptureController, IEventTypeUpdateReceiver } from '../../controller/capture-controller';
 
-const WF_TYPE_SELECTION_DIR = "assets/languages/features/components/capture/current-event/workflow-type-selection/lang";
+// This component allows the user to select the type of event they want to process.
+// It displays a list of available event types and allows the user to select one.
+// The selected event type is then used to determine the workflow for processing the event.
+// It is part of the current event processing feature in the application.
+
+
+// Directory with localization files
+const EVENT_TYPE_LANG_DIR = "assets/languages/features/capture/current-event/event-type-setting/lang";
 
 @Component({
   selector: 'app-workflow-type-selection',
@@ -25,32 +29,27 @@ const WF_TYPE_SELECTION_DIR = "assets/languages/features/components/capture/curr
   templateUrl: './event-type-setting.html',
   styleUrl: './event-type-setting.scss'
 })
-export class WorkflowTypeSelectionComponent  implements 
-  OnDestroy, 
-  IEventTypeProvider,
-  ILocalizationClient<IAlternativeList>{
+export class EventTypeSettingComponent  implements IEventTypeProvider, ILocalizationClient<IAlternativeList>, OnDestroy {
 
+  // --- Variables presented in UI --- 
   isExpanded = true; 
-
   selectedAlternative!: IEventType;
   nameSelectedAlternative = "";
   title : string;
-
-  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.WorkflowTypeSelectionComponent"); 
+  alternatives: IEventType[];   
   private  ui: IAlternativeList = (uiItems as any).default;
 
-   private localizer: ILocalizer;
+  //--- Common services ---
+  private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.WorkflowTypeSelectionComponent"); 
+  private localizer: ILocalizer;
 
-  alternatives: IEventType[];      
-
-  //private readonly workflow: IWorkflowTypeSelection = CurrentEventProcessingUIModel.getInstance();
-
+  // ---- Controller for processing selected event type ---
   private userActivityReceiver: IEventTypeUpdateReceiver;
 
   constructor() { 
    this.logger.debug("In constructor alternativeList: " + JSON.stringify(this.ui));
 
-    this.localizer  =  LocalizerFactory.createLocalizer<IAlternativeList>(WF_TYPE_SELECTION_DIR, 1, this.ui, this);
+    this.localizer  =  LocalizerFactory.createLocalizer<IAlternativeList>(EVENT_TYPE_LANG_DIR, 1, this.ui, this);
 
     this.userActivityReceiver = CaptureController.getEventTypeUpdateReceiver();
     
@@ -65,18 +64,16 @@ export class WorkflowTypeSelectionComponent  implements
       CaptureController.setEventTypeProvider(this);
   }
   
-  getEventType(): IEventType {
-    return {id: this.selectedAlternative.id, name: this.selectedAlternative.name};
-  }
+  // --- Processing of user actions ---
 
+  // This method is called when the user selects an alternative from the list
+  // It updates the selected alternative and notifies the controller about the change
   onSelectionChange(event: MatRadioChange) {
     this.logger.debug("onSelectionChange event: " + event);
     this.isExpanded = false; // collapse the panel after a selection is made
     
-//    CurrentEventProcessingBusinessLogicModel.getCurrentEvent().setWorkflowType(event.value.id);
-//    this.workflow.workflowTypeSelected(event.value); //TODO
     this.userActivityReceiver.eventTypeUpdated(event.value); // Notify the controller about the change
- //TODO   this.selectionProcessor.alternativeSelected(event.value);
+
     const id = event.value.id;
     const index = this.alternatives.findIndex(a => a.id == id);
       if(index >= 0){
@@ -87,12 +84,20 @@ export class WorkflowTypeSelectionComponent  implements
 
   // --- Implementation of interfaces ---
   //Implememntation of Interface ILOcalizationClient<IAlternativeList>
-
+  // This method is called by the Localizer when the localization data is updated
+  // It updates the UI with the new localization data
   updateLocalization(data: IAlternativeList): void {
     this.logger.debug("Start of updateLocalization data=" + JSON.stringify(data));
     this.ui = data;
   }
 
+  //Implememntation of Interface IEventTypeProvider
+  // This method returns the current event type
+  getEventType(): IEventType {
+    return {id: this.selectedAlternative.id, name: this.selectedAlternative.name};
+  }
+
+  // --- Lifecycle hooks ---
 
   // This method is called when the component is destroyed
   // It is used to clean up resources and unsubscribe from observables

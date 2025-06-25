@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { WorkflowTypeSelectionComponent } from './event-type-setting';
+import { EventTypeSettingComponent } from './event-type-setting';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 xdescribe('ActivitySelectionComponent', () => {
-  let component: WorkflowTypeSelectionComponent;
-  let fixture: ComponentFixture<WorkflowTypeSelectionComponent>;
+  let component: EventTypeSettingComponent;
+  let fixture: ComponentFixture<EventTypeSettingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WorkflowTypeSelectionComponent, BrowserAnimationsModule]
+      imports: [EventTypeSettingComponent, BrowserAnimationsModule]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(WorkflowTypeSelectionComponent);
+    fixture = TestBed.createComponent(EventTypeSettingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

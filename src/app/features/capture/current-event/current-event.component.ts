@@ -1,5 +1,5 @@
 import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { WorkflowTypeSelectionComponent } from './event-type-setting/event-type-setting';
+import { EventTypeSettingComponent } from './event-type-setting/event-type-setting';
 import { ActivityTypeSettingComponent } from './activity-type-setting/activity-type-setting';
 import { WorkflowEventProcessingComponent } from './workflow-event-processing/workflow-event-processing.component';
 import { ParametersSettingComponent } from './parameters-setting/parameters-setting.component';
@@ -23,7 +23,7 @@ import { CaptureController, ICurrentEventController, ICurrentEventDataGetter } f
   selector: 'app-current-event',
   standalone: true,
   imports: [
-    WorkflowTypeSelectionComponent,
+    EventTypeSettingComponent,
     WorkflowEventProcessingComponent,
     WorkflowObservationProcessingComponent,
     WorkflowRessourceProcessingComponent,
