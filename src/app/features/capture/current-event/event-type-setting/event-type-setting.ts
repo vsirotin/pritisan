@@ -44,14 +44,14 @@ export class EventTypeSettingComponent  implements IEventTypeProvider, ILocaliza
   private localizer: ILocalizer;
 
   // ---- Controller for processing selected event type ---
-  private userActivityReceiver: IEventTypeUpdateReceiver;
+  private eventTypeUpdateReceiver: IEventTypeUpdateReceiver;
 
   constructor() { 
    this.logger.debug("In constructor alternativeList: " + JSON.stringify(this.ui));
 
     this.localizer  =  LocalizerFactory.createLocalizer<IAlternativeList>(EVENT_TYPE_LANG_DIR, 1, this.ui, this);
 
-    this.userActivityReceiver = CaptureController.getEventTypeUpdateReceiver();
+    this.eventTypeUpdateReceiver = CaptureController.getEventTypeUpdateReceiver();
     
       this.title = this.ui.groupLabel;
       this.alternatives = this.ui.alternatives;
@@ -72,7 +72,7 @@ export class EventTypeSettingComponent  implements IEventTypeProvider, ILocaliza
     this.logger.debug("onSelectionChange event: " + event);
     this.isExpanded = false; // collapse the panel after a selection is made
     
-    this.userActivityReceiver.eventTypeUpdated(event.value); // Notify the controller about the change
+    this.eventTypeUpdateReceiver.eventTypeUpdated(event.value); // Notify the controller about the change
 
     const id = event.value.id;
     const index = this.alternatives.findIndex(a => a.id == id);

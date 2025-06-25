@@ -1,5 +1,5 @@
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
-import { IActityTypeProvider, IClosedEvent, IEventTimeDetailsProvider, IEventType, IEventTypeProvider, IRunningEvent, ITimeIntervalProvider, ITimePoint, ITimePointEvent } from "../../models/capture/business-logic-model/current-event-business-logic-model/event-commons";
+import { IActityTypeProvider, IActivityType, IClosedEvent, IEventTimeDetailsProvider, IEventType, IEventTypeProvider, IRunningEvent, ITimeIntervalProvider, ITimePoint, ITimePointEvent } from "../../models/capture/business-logic-model/current-event-business-logic-model/event-commons";
 import { TimeSeriesDB } from "../../../shared/classes/db/time-series-db/time-series-db";
 import { Observable, Subject } from "rxjs";
 
@@ -17,7 +17,11 @@ export interface IEventTypeUpdateReceiver {
     eventTypeUpdated(eventType: IEventType): void;
 }
 
-export class CurrentEventController implements ICurrentEventController, ICurrentEventDataGetter, IEventTypeUpdateReceiver {
+export interface IUpdateActityTypeReceiver {
+    activityTypeUpdated(activityType: IActivityType): void;
+}
+
+export class CurrentEventController implements ICurrentEventController, ICurrentEventDataGetter, IEventTypeUpdateReceiver, IUpdateActityTypeReceiver {
    
     logger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventController");
 
@@ -29,9 +33,12 @@ export class CurrentEventController implements ICurrentEventController, ICurrent
     }
 
 
+
     getCurrentEventDataGetter(): ICurrentEventDataGetter {
         return this;
     }
+
+    //--- Implementation of IEventTypeUpdateReceiver ---
 
     eventTypeUpdated(eventType: IEventType): void {
         let newState = "workflow-event-processing";
@@ -45,6 +52,12 @@ export class CurrentEventController implements ICurrentEventController, ICurrent
 
         }
         this.stateChangeSubject.next(newState); 
+    }
+
+    //--- Implementation of IUpdateActityTypeReceiver ---
+
+    activityTypeUpdated(activityType: IActivityType): void {
+        throw new Error("Method not implemented.");
     }
 
 }
@@ -61,6 +74,10 @@ export class CaptureController   {
     }
 
     static getEventTypeUpdateReceiver(): IEventTypeUpdateReceiver {
+      return CaptureController.currentEventController;
+    }
+
+    static getUpdateActityTypeReceiver(): IUpdateActityTypeReceiver {
       return CaptureController.currentEventController;
     }
     
