@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule} from '@angular/material/expansion';
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
-import { IAlternativeList, IEventType, IEventTypeProvider } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 import * as uiItems from '../../../../../assets/languages/features/capture/current-event/event-type-setting/lang/1/en-US.json';
 import { ILocalizationClient, ILocalizer, LocalizerFactory } from '@vsirotin/localizer';
 import { CaptureController, IEventTypeUpdateReceiver } from '../../controller/capture-controller';
+import { IAlternativeList, IEventType, IEventTypeProvider } from '../../commons/event-commons';
 
 // This component allows the user to select the type of event they want to process.
 // It displays a list of available event types and allows the user to select one.

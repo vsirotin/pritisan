@@ -1,9 +1,6 @@
-//import { TimeSettingUIModel, ParametersSettingUIModel } from '../capture-ui-model';
-import { Observable, Subject, Subscription } from "rxjs";
+import { Observable } from "rxjs";
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
-import { IRunningEventsBusinessLogicModel } from "../../business-logic-model/running-events-business-logic-model";
-//import { ITreeSelectorUIModel } from './event-type-setting-ui-model';
-import { IEventType } from '../../business-logic-model/current-event-business-logic-model/event-commons';
+import { IEventType } from "../../../../capture/commons/event-commons";
 
 export interface IEventChange {
     //represent Id of signal in finity automation to process this changing

@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { TimePointSettingComponent } from '../time-point-setting/time-point-setting.component';
 import { LoggerFactory } from '@vsirotin/log4ts';
 import { CaptureController } from '../../controller/capture-controller';
-import { IEventTimeDetailsProvider, ITimeIntervalProvider, ITimePoint } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
+import { IEventTimeDetailsProvider, ITimeIntervalProvider, ITimePoint } from '../../commons/event-commons';
+
 
 @Component({
   selector: 'app-time-interval-setting',

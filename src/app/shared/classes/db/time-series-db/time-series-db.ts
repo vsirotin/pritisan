@@ -1,8 +1,8 @@
 
 import { Data } from "@angular/router";
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
-import { IClosedEvent, IRunningEvent, ITimePointEvent } from "../../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
 import { EventsSaver } from "./events-saver";
+import { IClosedEvent, IRunningEvent, ITimePointEvent } from "../../../../features/capture/commons/event-commons";
 
 
 

@@ -1,5 +1,4 @@
-import { ILocalizationClient } from "@vsirotin/localizer";
-import { IEventType, IAlternativeList } from "../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
+import { IAlternativeList, IEventType } from "../../../features/capture/commons/event-commons";
 import { ITreeNode } from "../../../features/models/capture/capture-common-interfaces";
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 

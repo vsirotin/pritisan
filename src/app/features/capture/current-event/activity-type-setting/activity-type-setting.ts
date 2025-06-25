@@ -7,9 +7,9 @@ import {MatIconModule} from '@angular/material/icon';
 import { ILocalizationClient, LocalizerFactory } from '@vsirotin/localizer';
 import * as uiItems from '../../../../../assets/languages/masterdata/lang/1/en-US.json';
 import { CaptureController, IUpdateActityTypeReceiver } from '../../controller/capture-controller';
-import { IActityTypeProvider, IActivityType } from '../../../models/capture/business-logic-model/current-event-business-logic-model/event-commons';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CommonModule } from '@angular/common';
+import { IActityTypeProvider, IActivityType } from '../../commons/event-commons';
 
 // Interface for nested ontology of activity types
 interface INestedOntologyNode {

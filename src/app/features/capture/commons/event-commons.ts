@@ -1,6 +1,4 @@
 import { Data } from "@angular/router";
-import { IEvent } from "../../capture-common-interfaces";
-import { IEventChange } from '../../ui-model/current-event-processing-ui-model/current-event-processing-ui-model';
 
 
 //TODO : Remove this interface when it is not used anymore

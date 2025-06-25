@@ -1,4 +1,5 @@
-import { IClosedEvent, IRunningEvent, ITimePoint, ITimePointEvent } from "../../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons";
+import { IClosedEvent, IRunningEvent, ITimePoint, ITimePointEvent } from "../../../../features/capture/commons/event-commons";
+
 
 
 export class EventsSaver {

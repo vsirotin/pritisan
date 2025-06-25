@@ -1,6 +1,7 @@
 import { ILogger, LoggerFactory } from '@vsirotin/log4ts';
 import { IRepositoryMetaDataExt } from "../../../features/models/capture/capture-common-interfaces";
-import { IPersistedEvent } from '../../../features/models/capture/business-logic-model/current-event-business-logic-model/event-commons';
+import { IPersistedEvent } from '../../../features/capture/commons/event-commons';
+
 
 
 export interface IMetaDataPersistence {

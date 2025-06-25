@@ -1,7 +1,7 @@
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
-import { IActityTypeProvider, IActivityType, IClosedEvent, IEventTimeDetailsProvider, IEventType, IEventTypeProvider, IRunningEvent, ITimeIntervalProvider, ITimePoint, ITimePointEvent } from "../../models/capture/business-logic-model/current-event-business-logic-model/event-commons";
 import { TimeSeriesDB } from "../../../shared/classes/db/time-series-db/time-series-db";
 import { Observable, Subject } from "rxjs";
+import { IActityTypeProvider, IActivityType, IClosedEvent, IEventTimeDetailsProvider, IEventType, IEventTypeProvider, IRunningEvent, ITimeIntervalProvider, ITimePointEvent } from "../commons/event-commons";
 
 export interface ICurrentEventController {
     getCurrentEventDataGetter(): ICurrentEventDataGetter;
