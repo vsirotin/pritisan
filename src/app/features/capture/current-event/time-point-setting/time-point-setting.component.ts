@@ -20,6 +20,8 @@ import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import {default as _rollupMoment} from 'moment';
 import { ITimePoint } from '../../commons/event-commons';
+import { LoggerFactory } from '@vsirotin/log4ts';
+import { DatePipe } from '@angular/common';
 
 
 const moment = _rollupMoment || _moment;
@@ -55,6 +57,8 @@ export const MY_FORMATS = {
     // to your app config. We provide it at the component level here, due to limitations
     // of our example generation script.
     provideMomentDateAdapter(MY_FORMATS),
+
+    DatePipe
   ],
   templateUrl: './time-point-setting.component.html',
   styleUrl: './time-point-setting.component.scss'
@@ -71,14 +75,23 @@ export class TimePointSettingComponent {
 
   hours = Array.from({length: 24}, (_, i) => i); // [0, 1, 2, ..., 23]
   minutes = Array.from({length: 60}, (_, i) => i); // [0, 1, 2, ..., 59]
-  selectedHour = this.hours[2]; //TODO: make it configurable
-  selectedMinute = this.minutes[6]; //TODO: make it configurable
+  selectedHour: number; 
+  selectedMinute: number; 
 
+  //--- Copmmon services
 
-  constructor() {
+  private logger = LoggerFactory.getLogger('eu.sirotin.pritisan.TimePointSettingComponent');
+
+  constructor(private datePipe: DatePipe) {
     this.form.valueChanges.subscribe(val => {
-      console.warn("val=" + JSON.stringify(val));
+      const localDate = this.datePipe.transform(val.date, 'yyyy-MM-dd');
+      this.logger.debug("selected local date: ", localDate);
+      // TODO inform controller abour changes
     });
+
+    const now = new Date();
+    this.selectedHour = this.hours[now.getHours()];
+    this.selectedMinute = this.minutes[now.getMinutes()];
   }
 
   // This method will be called by parent object to get the time point
