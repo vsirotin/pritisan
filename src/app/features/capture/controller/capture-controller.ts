@@ -1,7 +1,8 @@
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
-import { TimeSeriesDB } from "../../../shared/classes/db/time-series-db/time-series-db";
 import { Observable, Subject } from "rxjs";
 import { IActityTypeProvider, IActivityType, IClosedEvent, IEventTimeDetailsProvider, IEventType, IEventTypeProvider, IRunningEvent, ITimeIntervalProvider, ITimePointEvent } from "../commons/event-commons";
+import { TimeSeriesDB } from "../../../shared/classes/db/time-series-db/time-series-db";
+
 
 export interface ICurrentEventController {
     getCurrentEventDataGetter(): ICurrentEventDataGetter;
@@ -17,10 +18,21 @@ export interface IEventTypeUpdateReceiver {
     eventTypeUpdated(eventType: IEventType): void;
 }
 
+// This interface is used to receive and execute user actions with current event.
+export interface ICurrentEventUserActionsReceiver{
+    // This method is called when the user wants to save the current event.
+    saveCurrentEvent(): void;
+}
+
 export interface IUpdateActityTypeReceiver {
     activityTypeUpdated(activityType: IActivityType): void;
 }
 
+// This class is responsible for managing the current event state and notifying subscribers about changes.
+// It implements the ICurrentEventController interface and provides a way to get the current event data.
+// It also implements the IEventTypeUpdateReceiver and IUpdateActityTypeReceiver interfaces to handle updates to event types and activity types respectively.
+// The stateChangeSubject is used to emit state changes,
+// and the stateChange$ observable allows subscribers to listen for these changes.
 export class CurrentEventController implements ICurrentEventController, ICurrentEventDataGetter, IEventTypeUpdateReceiver, IUpdateActityTypeReceiver {
    
     logger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventController");
@@ -37,6 +49,8 @@ export class CurrentEventController implements ICurrentEventController, ICurrent
     getCurrentEventDataGetter(): ICurrentEventDataGetter {
         return this;
     }
+
+
 
     //--- Implementation of IEventTypeUpdateReceiver ---
 
@@ -62,61 +76,21 @@ export class CurrentEventController implements ICurrentEventController, ICurrent
 
 }
 
-export class CaptureController   {
-
-    private static readonly currentEventController = new CurrentEventController();
-   
-
-    private static ICurrentEventController: ICurrentEventController;   
-    
-    static getCurrentEventController(): ICurrentEventController {
-        return CaptureController.currentEventController;
-    }
-
-    static getEventTypeUpdateReceiver(): IEventTypeUpdateReceiver {
-      return CaptureController.currentEventController;
-    }
-
-    static getUpdateActityTypeReceiver(): IUpdateActityTypeReceiver {
-      return CaptureController.currentEventController;
-    }
-    
-    static saveCurrentEvent() {
-      CaptureController.instance.saveCurrentEvent();
-    }
-
-    static setEventTypeProvider(provider: IEventTypeProvider): void {
-        CaptureController.instance.eventTypeProvider = provider;
-    }
-
-    static setTimeIntervalProvider(provider: ITimeIntervalProvider): void {
-        CaptureController.instance.timeIntervalProvider = provider;
-    }
-
-    static setEventTimeDetailsProvider(provider: IEventTimeDetailsProvider): void {
-        CaptureController.instance.eventTimeDetailsProvider = provider;
-    }
-
-
-    static setActivityTypeProvider(provider: IActityTypeProvider): void {
-        CaptureController.instance.activitTypeProvider = provider;
-    }
-
-    private static instance: CaptureController = new CaptureController();
+// This class is responsible for saving the current event.
+export class CurrentEventSaver implements ICurrentEventUserActionsReceiver {
 
     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.Capturer");
-    
-    private eventTypeProvider!: IEventTypeProvider;
-    private eventTimeDetailsProvider!: IEventTimeDetailsProvider;
-    private timeIntervalProvider!: ITimeIntervalProvider;
-    private activitTypeProvider!: IActityTypeProvider;
 
-    
+    eventTypeProvider!: IEventTypeProvider;
+    eventTimeDetailsProvider!: IEventTimeDetailsProvider;
+    timeIntervalProvider!: ITimeIntervalProvider;
+    activitTypeProvider!: IActityTypeProvider;
 
+    //-- Implementation of ICurrentEventUserActionsReceiver ---
 
+    // This method is called when the user wants to save the current event.
+    saveCurrentEvent(): void {
 
-    private saveCurrentEvent() {   
-        
         const eventType = this.eventTypeProvider.getEventType();
         const eventTypeId = eventType.id;
 
@@ -131,31 +105,32 @@ export class CaptureController   {
                 this.logger.error("Unknown event type: " + eventTypeId);
                 return;
         }
-        
+
     }
 
     private saveActivity(eventType: IEventType) {
         const eventTypeId = eventType.id;
         const eventTypeName = eventType.name;
-        
+
         const isTimePoitnEvent = this.eventTimeDetailsProvider.getIsTimePointEvent();
 
         if (isTimePoitnEvent) {
             this.saveTimePointEvent(eventTypeId, eventTypeName);
-            return
-        } 
+            return;
+        }
 
 
         const isRunningEvent = this.eventTimeDetailsProvider.getIsRunningEvent();
 
-        if(isRunningEvent){
-             this.saveRunningEvent(eventTypeId, eventTypeName);
-             return;
-        } 
-        
+        if (isRunningEvent) {
+            this.saveRunningEvent(eventTypeId, eventTypeName);
+            return;
+        }
+
         this.saveClosedEvent(eventTypeId, eventTypeName);
     }
-    saveRunningEvent(eventTypeId: number, eventTypeName: string) {
+
+    private saveRunningEvent(eventTypeId: number, eventTypeName: string) {
         const runningEvent: IRunningEvent = {
             eventTypeId: eventTypeId,
             eventTypeName: eventTypeName,
@@ -166,9 +141,9 @@ export class CaptureController   {
         this.logger.debug("saveRunningEvent: ", runningEvent);
         TimeSeriesDB.saveRunningEvent(runningEvent);
     }
-    
-    saveTimePointEvent(eventTypeId: number, eventTypeName: string) {
-        const timePointEvent : ITimePointEvent = {
+
+    private saveTimePointEvent(eventTypeId: number, eventTypeName: string) {
+        const timePointEvent: ITimePointEvent = {
             eventTypeId: eventTypeId,
             eventTypeName: eventTypeName,
             eventTimePoint: this.timeIntervalProvider.getStartTimePoint(),
@@ -185,8 +160,8 @@ export class CaptureController   {
         const activityTypeName = activityType.activityName;
 
         const startTimePoint = this.timeIntervalProvider.getStartTimePoint();
-         const endTimePoint = this.timeIntervalProvider.getEndTimePoint();
-        
+        const endTimePoint = this.timeIntervalProvider.getEndTimePoint();
+
         const closedEvent: IClosedEvent = {
             eventTypeId: eventTypeId,
             eventTypeName: eventTypeName,
@@ -198,6 +173,55 @@ export class CaptureController   {
         this.logger.debug("saveClosedEvent: ", closedEvent);
         TimeSeriesDB.saveClosedEvent(closedEvent);
     }
+
+}
+
+// This claas is a facade for accessing the current event controller and its related functionalities.
+// It provides static methods to get the current event controller, event type update receiver, activity type receiver, and current event user actions receiver.
+// It also provides static methods to set the event type provider, time interval provider, event time details provider, and activity type provider.
+// This allows for easy access to the current event processing functionalities without needing to instantiate the controller directly.
+export class CaptureController  {
+
+    private static readonly currentEventController = new CurrentEventController();
+    private static currentEventSaver: CurrentEventSaver = new CurrentEventSaver();
+   
+
+    private static ICurrentEventController: ICurrentEventController;   
+    
+    static getCurrentEventController(): ICurrentEventController {
+        return CaptureController.currentEventController;
+    }
+
+    static getEventTypeUpdateReceiver(): IEventTypeUpdateReceiver {
+      return CaptureController.currentEventController;
+    }
+
+    static getUpdateActityTypeReceiver(): IUpdateActityTypeReceiver {
+      return CaptureController.currentEventController;
+    }
+
+    static getCurrentEventUserActionsReceiver(): ICurrentEventUserActionsReceiver {
+        return CaptureController.currentEventSaver;
+    }
+    
+
+    static setEventTypeProvider(provider: IEventTypeProvider): void {
+        CaptureController.currentEventSaver.eventTypeProvider = provider;
+    }
+
+    static setTimeIntervalProvider(provider: ITimeIntervalProvider): void {
+        CaptureController.currentEventSaver.timeIntervalProvider = provider;
+    }
+
+    static setEventTimeDetailsProvider(provider: IEventTimeDetailsProvider): void {
+        CaptureController.currentEventSaver.eventTimeDetailsProvider = provider;
+    }
+
+
+    static setActivityTypeProvider(provider: IActityTypeProvider): void {
+        CaptureController.currentEventSaver.activitTypeProvider = provider;
+    }
     
 }
+
 
