@@ -1,7 +1,7 @@
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
 import { Observable, Subject } from "rxjs";
 import { IActityTypeProvider, IActivityType, IClosedEvent, IEventTimeDetailsProvider, IEventType, IEventTypeProvider, IRunningEvent, ITimeIntervalProvider, ITimePointEvent } from "../commons/event-commons";
-import { TimeSeriesDB } from "../../../shared/classes/db/time-series-db/time-series-db";
+import { ICurrentEventPersistence, TimeSeriesDB } from "../db/time-series/time-series-db";
 
 
 export interface ICurrentEventController {
@@ -85,6 +85,7 @@ export class CurrentEventSaver implements ICurrentEventUserActionsReceiver {
     eventTimeDetailsProvider!: IEventTimeDetailsProvider;
     timeIntervalProvider!: ITimeIntervalProvider;
     activitTypeProvider!: IActityTypeProvider;
+    currentEventPersistence : ICurrentEventPersistence = TimeSeriesDB.getCurrentEventPersistence();
 
     //-- Implementation of ICurrentEventUserActionsReceiver ---
 
@@ -139,7 +140,7 @@ export class CurrentEventSaver implements ICurrentEventUserActionsReceiver {
             activityTypeName: this.activitTypeProvider.getActivityType().activityName
         };
         this.logger.debug("saveRunningEvent: ", runningEvent);
-        TimeSeriesDB.saveRunningEvent(runningEvent);
+        this.currentEventPersistence.saveRunningEvent(runningEvent);
     }
 
     private saveTimePointEvent(eventTypeId: number, eventTypeName: string) {
@@ -151,7 +152,7 @@ export class CurrentEventSaver implements ICurrentEventUserActionsReceiver {
             activityTypeName: this.activitTypeProvider.getActivityType().activityName
         };
         this.logger.debug("saveTimePointEvent: ", timePointEvent);
-        TimeSeriesDB.saveTimePointEvent(timePointEvent);
+        this.currentEventPersistence.saveTimePointEvent(timePointEvent);
     }
 
     private saveClosedEvent(eventTypeId: number, eventTypeName: string) {
@@ -171,7 +172,7 @@ export class CurrentEventSaver implements ICurrentEventUserActionsReceiver {
             activityTypeName: activityTypeName
         };
         this.logger.debug("saveClosedEvent: ", closedEvent);
-        TimeSeriesDB.saveClosedEvent(closedEvent);
+        this.currentEventPersistence.saveClosedEvent(closedEvent);
     }
 
 }

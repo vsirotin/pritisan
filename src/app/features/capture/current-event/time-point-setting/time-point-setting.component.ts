@@ -96,11 +96,28 @@ export class TimePointSettingComponent {
 
   // This method will be called by parent object to get the time point
   // It returns an object of type ITimePoint which contains the date, hour, and
-  getTimePoint() : ITimePoint {
-    return { 
-      date:  this.form.get('date')?.value as Date, 
-      hour: this.selectedHour, 
-      minute: this.selectedMinute } as ITimePoint;
+getTimePoint(): ITimePoint {
+  const dateControlValue = this.form.get('date')?.value;
+  let year: number, month: number, dayOfMonth: number;
+
+  if (moment.isMoment(dateControlValue)) {
+    year = dateControlValue.year();
+    month = dateControlValue.month() + 1; // Moment.js months are 0-based
+    dayOfMonth = dateControlValue.date();
+  } else if (dateControlValue instanceof Date) {
+    year = dateControlValue.getFullYear();
+    month = dateControlValue.getMonth() + 1;
+    dayOfMonth = dateControlValue.getDate();
+  } else {
+    throw new Error('Invalid date value');
   }
-  
+
+  return {
+    year,
+    month,
+    dayOfMonth,
+    hour: this.selectedHour,
+    minute: this.selectedMinute
+  } as ITimePoint;
+}
 }

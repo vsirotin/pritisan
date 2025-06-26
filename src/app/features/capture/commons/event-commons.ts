@@ -28,17 +28,19 @@ export interface IAlternativeList {
  }
 
  export interface IPersistedEvent{
-  id: number
-  start: Data;
-  fin: Data|null;
-  typeId: string;
-  details: string|null;
+    id: number
+    start: Data;
+    fin: Data|null;
+    typeId: string;
+    details: string|null;
 }
 
 export interface ITimePoint {
-  date: Date;
-  hour: number;
-  minute: number;
+    year: number;
+    month: number; // January is 1
+    dayOfMonth: number; // 1-31
+    hour: number;
+    minute: number;
 }
 
 export interface ITimeInterval {
