@@ -1,5 +1,11 @@
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
-import { IClosedEvent, IRunningEvent, ITimePoint, ITimePointEvent } from "../../commons/event-commons";
+import { IClosedEvent, IRunningEvent, ITimePointEvent } from "../../commons/event-commons";
+import { TimeUtils } from "../../commons/time-utils";
+
+
+  // Key used for storing running events in localStorage
+  // It is static because testing 
+export const RUNNING_EVENT_KEY = "RUNNINIG_EVENTS";
 
 export interface ICurrentEventPersistence {
   saveClosedEvent(closedEvent: IClosedEvent): void;
@@ -14,10 +20,6 @@ export interface ICurrentEventPersistence {
 // The events are stored in JSON format in localStorage, with keys formatted as 'YYYY-MM-DD' for closed and time point events, and
 class EventsSaver implements ICurrentEventPersistence {
 
-  // Key used for storing running events in localStorage
-  // It is static because testing 
-  static runningEventsKey = "RUNNINIG_EVENTS";
-
   //--- Common serviced
 
   private logger = LoggerFactory.getLogger("eu.sirotin.pritisan.EventsSaver");
@@ -26,7 +28,7 @@ class EventsSaver implements ICurrentEventPersistence {
 
     this.logger.debug("saveClosedEvent: ", closedEvent);
    
-    if (this.compareTimePoints(closedEvent.startTime, closedEvent.endTime) > 0) {
+    if (TimeUtils.compareTimePoints(closedEvent.startTime, closedEvent.endTime) > 0) {
       throw new Error('startTime must be before or equal to endTime');
     }
 
@@ -46,12 +48,12 @@ class EventsSaver implements ICurrentEventPersistence {
   saveRunningEvent(runningEvent: IRunningEvent): void {
 
     this.logger.debug("saveRunningEvent: ", runningEvent);
-    const key = EventsSaver.runningEventsKey; // Use a fixed key for running events
+    const key = RUNNING_EVENT_KEY; // Use a fixed key for running events
     const bucketStr = localStorage.getItem(key);
     let bucket: IRunningEvent[] = bucketStr ? JSON.parse(bucketStr) : [];
     bucket.push(runningEvent);
     // Sort by startTime
-    bucket.sort((a, b) => this.compareTimePoints(a.startTime, b.startTime));
+    bucket.sort((a, b) => TimeUtils.compareTimePoints(a.startTime, b.startTime));
     localStorage.setItem(key, JSON.stringify(bucket));
   }
 
@@ -65,7 +67,7 @@ class EventsSaver implements ICurrentEventPersistence {
     let bucket: ITimePointEvent[] = bucketStr ? JSON.parse(bucketStr) : [];
     bucket.push(timePointEvent);
     // Sort by eventTimePoint
-    bucket.sort((a, b) => this.compareTimePoints(a.eventTimePoint, b.eventTimePoint));
+    bucket.sort((a, b) => TimeUtils.compareTimePoints(a.eventTimePoint, b.eventTimePoint));
     localStorage.setItem(key, JSON.stringify(bucket));
   }
 
@@ -76,21 +78,15 @@ class EventsSaver implements ICurrentEventPersistence {
     return `${yyyy}-${mm}-${dd}`;
   }
 
-private compareEvents(a: IClosedEvent, b: IClosedEvent): number {
-  // Compare by startTime first
-  const startCmp = this.compareTimePoints(a.startTime, b.startTime);
-  if (startCmp !== 0) return startCmp;
-  // If startTime is equal, compare by endTime
-  return this.compareTimePoints(a.endTime, b.endTime);
-}
+  private compareEvents(a: IClosedEvent, b: IClosedEvent): number {
+    // Compare by startTime first
+    const startCmp = TimeUtils.compareTimePoints(a.startTime, b.startTime);
+    if (startCmp !== 0) return startCmp;
+    // If startTime is equal, compare by endTime
+    return TimeUtils.compareTimePoints(a.endTime, b.endTime);
+  }
 
-private compareTimePoints(a: ITimePoint, b: ITimePoint): number {
-  if (a.year !== b.year) return a.year - b.year;
-  if (a.month !== b.month) return a.month - b.month;
-  if (a.dayOfMonth !== b.dayOfMonth) return a.dayOfMonth - b.dayOfMonth;
-  if (a.hour !== b.hour) return a.hour - b.hour;
-  return a.minute - b.minute;
-}
+
 
   private *dateRange(start: Date, end: Date): Generator<Date> {
     let current = new Date(start);

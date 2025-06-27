@@ -10,7 +10,7 @@
     <mat-form-field class="time-control">
       <mat-label>Hour</mat-label>
       
-      <mat-select [(value)]="selectedHour">
+      <mat-select [(value)]="selectedHour" (selectionChange)="onTimeChanged()">
       
         @for (hour of hours; track hour) {
           <mat-option [value]="hour">{{hour}}</mat-option>
@@ -21,7 +21,7 @@
     <mat-form-field class="time-control">
       <mat-label>Minutes</mat-label>
       
-      <mat-select [(value)]="selectedMinute">
+      <mat-select [(value)]="selectedMinute" (selectionChange)="onTimeChanged()">
       
         @for (minute of minutes; track minute) {
           <mat-option [value]="minute">{{minute}}</mat-option>

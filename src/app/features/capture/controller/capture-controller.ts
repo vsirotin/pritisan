@@ -2,6 +2,7 @@ import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
 import { Observable, Subject } from "rxjs";
 import { IActityTypeProvider, IActivityType, IClosedEvent, IEventTimeDetailsProvider, IEventType, IEventTypeProvider, IRunningEvent, ITimeIntervalProvider, ITimePointEvent } from "../commons/event-commons";
 import { ICurrentEventPersistence, TimeSeriesDB } from "../db/time-series/time-series-db";
+import { TimeIntervalSettingComponent } from "../current-event/time-interval-setting/time-interval-setting.component";
 
 
 export interface ICurrentEventController {
@@ -28,29 +29,55 @@ export interface IUpdateActityTypeReceiver {
     activityTypeUpdated(activityType: IActivityType): void;
 }
 
+export interface IUpdateTimeIntervalReceiver {
+    timeIntervalUpdated(activityType: IActivityType): void;
+}
+
+// This interface is used to get the data about time interval validation.
+export interface ITimeIntervaValidationData {
+    //Is the time interval valid
+    hasErrors: boolean 
+
+    //Error code, if any
+    errorCode?: string;
+
+    //Error description, if any
+    errorDescription?: string;
+
+    //Explanation of the error, if any
+    errorExplonation?: string;
+}
+export interface ICurrentEventValidationDataReceiver {
+    setValidationData(validationData: ITimeIntervaValidationData): void;
+}
+
 // This class is responsible for managing the current event state and notifying subscribers about changes.
 // It implements the ICurrentEventController interface and provides a way to get the current event data.
 // It also implements the IEventTypeUpdateReceiver and IUpdateActityTypeReceiver interfaces to handle updates to event types and activity types respectively.
 // The stateChangeSubject is used to emit state changes,
 // and the stateChange$ observable allows subscribers to listen for these changes.
-export class CurrentEventController implements ICurrentEventController, ICurrentEventDataGetter, IEventTypeUpdateReceiver, IUpdateActityTypeReceiver {
+class CurrentEventController implements ICurrentEventController, 
+    ICurrentEventDataGetter, 
+    IEventTypeUpdateReceiver, 
+    IUpdateActityTypeReceiver,
+    IUpdateTimeIntervalReceiver {
    
     logger = LoggerFactory.getLogger("eu.sirotin.pritisan.CurrentEventController");
 
     private stateChangeSubject = new Subject<string>();
     stateChange$: Observable<string> = this.stateChangeSubject.asObservable();
+    validationDataReceiver!: ICurrentEventValidationDataReceiver
 
     constructor( ) {
         this.logger.debug("CurrentEventController created");
     }
-
-
+    timeIntervalUpdated(activityType: IActivityType): void {
+        throw new Error("Method not implemented.");
+    }
 
     getCurrentEventDataGetter(): ICurrentEventDataGetter {
         return this;
     }
-
-
 
     //--- Implementation of IEventTypeUpdateReceiver ---
 
@@ -71,13 +98,13 @@ export class CurrentEventController implements ICurrentEventController, ICurrent
     //--- Implementation of IUpdateActityTypeReceiver ---
 
     activityTypeUpdated(activityType: IActivityType): void {
-        throw new Error("Method not implemented.");
+        throw new Error("Method not implemented."); //TODO
     }
 
 }
 
 // This class is responsible for saving the current event.
-export class CurrentEventSaver implements ICurrentEventUserActionsReceiver {
+class CurrentEventSaver implements ICurrentEventUserActionsReceiver {
 
     private logger: ILogger = LoggerFactory.getLogger("eu.sirotin.pritisan.Capturer");
 
@@ -177,6 +204,8 @@ export class CurrentEventSaver implements ICurrentEventUserActionsReceiver {
 
 }
 
+
+
 // This claas is a facade for accessing the current event controller and its related functionalities.
 // It provides static methods to get the current event controller, event type update receiver, activity type receiver, and current event user actions receiver.
 // It also provides static methods to set the event type provider, time interval provider, event time details provider, and activity type provider.
@@ -204,6 +233,10 @@ export class CaptureController  {
     static getCurrentEventUserActionsReceiver(): ICurrentEventUserActionsReceiver {
         return CaptureController.currentEventSaver;
     }
+
+    static getIUpdateimeIntervalReceiver(): IUpdateTimeIntervalReceiver {
+        return CaptureController.currentEventController;
+    }
     
 
     static setEventTypeProvider(provider: IEventTypeProvider): void {
@@ -221,6 +254,10 @@ export class CaptureController  {
 
     static setActivityTypeProvider(provider: IActityTypeProvider): void {
         CaptureController.currentEventSaver.activitTypeProvider = provider;
+    }
+
+    static setCurrentEventValidationDataReceiver(validationDataReceiver: ICurrentEventValidationDataReceiver): void {
+       CaptureController.currentEventController.validationDataReceiver = validationDataReceiver;
     }
     
 }

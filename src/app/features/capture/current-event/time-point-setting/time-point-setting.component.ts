@@ -84,9 +84,7 @@ export class TimePointSettingComponent {
 
   constructor(private datePipe: DatePipe) {
     this.form.valueChanges.subscribe(val => {
-      const localDate = this.datePipe.transform(val.date, 'yyyy-MM-dd');
-      this.logger.debug("selected local date: ", localDate);
-      // TODO inform controller abour changes
+      this.onTimeChanged()
     });
 
     const now = new Date();
@@ -94,30 +92,40 @@ export class TimePointSettingComponent {
     this.selectedMinute = this.minutes[now.getMinutes()];
   }
 
-  // This method will be called by parent object to get the time point
-  // It returns an object of type ITimePoint which contains the date, hour, and
-getTimePoint(): ITimePoint {
-  const dateControlValue = this.form.get('date')?.value;
-  let year: number, month: number, dayOfMonth: number;
-
-  if (moment.isMoment(dateControlValue)) {
-    year = dateControlValue.year();
-    month = dateControlValue.month() + 1; // Moment.js months are 0-based
-    dayOfMonth = dateControlValue.date();
-  } else if (dateControlValue instanceof Date) {
-    year = dateControlValue.getFullYear();
-    month = dateControlValue.getMonth() + 1;
-    dayOfMonth = dateControlValue.getDate();
-  } else {
-    throw new Error('Invalid date value');
+  // This method is called directly from UI when the user changes the hour or minute selection.
+  // It will be called from subscription on day (indirectly).
+  onTimeChanged() {
+    this.logger.debug("selected hour:", this.selectedHour, "selected minute:", this.selectedMinute);
+    // TODO: inform controller about changes
   }
 
-  return {
-    year,
-    month,
-    dayOfMonth,
-    hour: this.selectedHour,
-    minute: this.selectedMinute
-  } as ITimePoint;
-}
+  // This method will be called by parent object to get the time point
+  // It returns an object of type ITimePoint which contains the date, hour, and
+  getTimePoint(): ITimePoint {
+    const dateControlValue = this.form.get('date')?.value;
+    let year: number, month: number, dayOfMonth: number;
+
+    if (moment.isMoment(dateControlValue)) {
+      year = dateControlValue.year();
+      month = dateControlValue.month() + 1; // Moment.js months are 0-based
+      dayOfMonth = dateControlValue.date();
+    } else if (dateControlValue instanceof Date) {
+      year = dateControlValue.getFullYear();
+      month = dateControlValue.getMonth() + 1;
+      dayOfMonth = dateControlValue.getDate();
+    } else {
+      throw new Error('Invalid date value');
+    }
+
+    const timePoint = {
+      year,
+      month,
+      dayOfMonth,
+      hour: this.selectedHour,
+      minute: this.selectedMinute
+    } as ITimePoint;
+
+    this.logger.debug("getTimePoint: ", timePoint);
+    return timePoint;
+  }
 }

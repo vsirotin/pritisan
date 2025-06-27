@@ -3,7 +3,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { TimePointSettingComponent } from '../time-point-setting/time-point-setting.component';
 import { LoggerFactory } from '@vsirotin/log4ts';
-import { CaptureController } from '../../controller/capture-controller';
+import { CaptureController, ICurrentEventValidationDataReceiver, ITimeIntervaValidationData } from '../../controller/capture-controller';
 import { IEventTimeDetailsProvider, ITimeIntervalProvider, ITimePoint } from '../../commons/event-commons';
 
 //This component allows to set the start and end time of an event, as well as whether the event is running or a time point event.
@@ -16,7 +16,7 @@ import { IEventTimeDetailsProvider, ITimeIntervalProvider, ITimePoint } from '..
   templateUrl: './time-interval-setting.component.html',
   styleUrl: './time-interval-setting.component.scss'
 })
-export class TimeIntervalSettingComponent implements ITimeIntervalProvider, IEventTimeDetailsProvider {
+export class TimeIntervalSettingComponent implements ITimeIntervalProvider, IEventTimeDetailsProvider, ICurrentEventValidationDataReceiver {
 
   // --- Objects and variables presented in UI ---
   @ViewChild('startTime') startTimeComponent!: TimePointSettingComponent;
@@ -30,6 +30,10 @@ export class TimeIntervalSettingComponent implements ITimeIntervalProvider, IEve
   isTimePointEvent = false;
   labelTimePointEvent = 'Start and end times are the same';
 
+  errorCode: string = "Code";
+  errorDescription: string = "Desr";
+  errorExplonation: string = "Explanation";
+
   // --- Common services ---
   private logger = LoggerFactory.getLogger('TimeIntervalSettingComponent');
 
@@ -37,6 +41,7 @@ export class TimeIntervalSettingComponent implements ITimeIntervalProvider, IEve
     this.logger.debug('TimeIntervalSettingComponent created');
     CaptureController.setTimeIntervalProvider(this);
     CaptureController.setEventTimeDetailsProvider(this);
+    CaptureController.setCurrentEventValidationDataReceiver(this);
   }
 
   //--- Implementation of interfaces
@@ -57,6 +62,20 @@ export class TimeIntervalSettingComponent implements ITimeIntervalProvider, IEve
   }
   getIsTimePointEvent(): boolean {
     return this.isTimePointEvent;
+  }
+
+  //--- Implementation of ICurrentEventValidationDataReceiver ---
+  setValidationData(validationData: ITimeIntervaValidationData): void {
+    this.logger.debug("setValidationData: ", validationData);
+    if (validationData.hasErrors) {
+      this.errorCode = validationData.errorCode ?? "Unknown error code";
+      this.errorDescription = validationData.errorDescription ?? "Unknown error description";
+      this.errorExplonation = validationData.errorExplonation ?? "Unknown error explanation";
+    } else {
+      this.errorCode = "";
+      this.errorDescription = "";
+      this.errorExplonation = "";
+    }
   }
 
 }

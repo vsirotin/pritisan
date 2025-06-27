@@ -3,7 +3,15 @@
 <h3>{{labelStartTime}}</h3> 
 <app-time-point-setting #startTime></app-time-point-setting>
 <mat-slide-toggle labelPosition="before" [(ngModel)]="isTimePointEvent">{{labelTimePointEvent}}</mat-slide-toggle>
-<p></p>
+<p>
+    {{errorCode}}
+</p>
+<p>
+    {{errorDescription}}
+</p>
+<p>
+    {{errorExplonation}}    
+</p>
 <mat-slide-toggle labelPosition="before" [(ngModel)]="isRunningEvent">{{labeToggleRunninigEvent}}</mat-slide-toggle>
 <h3>{{labeFinishTime}}</h3> 
 <app-time-point-setting #endTime></app-time-point-setting>
