@@ -1,5 +1,3 @@
-
-import { Data } from "@angular/router";
 import { ILogger, LoggerFactory } from "@vsirotin/log4ts";
 import { IClosedEvent, IRunningEvent, ITimePoint, ITimePointEvent } from "../../commons/event-commons";
 
