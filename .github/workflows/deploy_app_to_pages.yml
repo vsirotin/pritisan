@@ -48,7 +48,7 @@ jobs:
         run: npm run build -- --configuration production --base-href /pritisan/
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           # Upload entire repository
           path: '/home/runner/work/pritisan/pritisan/dist/pritisan/browser'   
